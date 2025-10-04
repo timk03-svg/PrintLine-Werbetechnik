@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Folientechnik - PrintLine Werbetechnik</title>
+<meta name="description" content="Hochwertige Sonnen- und Sicherheitsschutzfolien für Fenster.">
+  <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+
+</head>
+<body>
+  <header class="kategorie-header">
+    <h1>Folientechnik</h1>
+  </header>
+  <nav>
+    <a href="index.html">Startseite</a>
+    <a href="leistungen.html">Leistungen</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="ueber-uns.html">Über uns</a>
+    <a href="kontakt.html">Kontakt</a>
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="agb.html">AGB</a>
+    </nav>
+  <main>
+     <section class="info-section">
+      <div class="info-text">
+        
+        <p>
+  <strong>Folientechnik – Vielfalt, die begeistert</strong>
+</p>
+
+<p>
+  Ob glänzend, matt oder transparent – mit moderner Folientechnik eröffnen sich zahlreiche Möglichkeiten, Ihre Botschaft wirkungsvoll zu präsentieren. 
+  Wir gestalten, drucken und montieren Folien, die nicht nur optisch, sondern auch funktional überzeugen.
+</p>
+
+<p><strong>Unsere Leistungen für Sie:</strong></p>
+<ul>
+  <li>Werbefolien – ideal für Schaufenster, Türen, Fassaden und andere Flächen.</li>
+  <li>Sichtschutz- und Milchglasfolien – eleganter Blickschutz mit individuellem Design.</li>
+  <li>Dekor- und Designfolien – kreative Effekte für ein einzigartiges Erscheinungsbild.</li>
+  <li>Sicherheitsfolien – erhöhen den Schutz von Glasflächen und die Sicherheit vor Bruch.</li>
+  <li>Sonnenschutzfolien – mindern Hitze und UV-Strahlung, ohne die Sicht zu beeinträchtigen.</li>
+</ul>
+
+<p><strong>Ihre Vorteile:</strong></p>
+<ul>
+  <li>Individuelle Lösungen zugeschnitten auf Ihr Projekt</li>
+  <li>Hochwertige Materialien für langfristige Haltbarkeit</li>
+  <li>Professionelle Verarbeitung und Montage</li>
+  <li>Kreative Designs, die im Gedächtnis bleiben</li>
+</ul>
+
+<p>
+  Mit unserer Folientechnik verwandeln wir jede Fläche in einen Eyecatcher – funktional, dekorativ und exakt auf Ihre Anforderungen abgestimmt.
+</p>
+
+
+        <ul>
+        </ul>
+      </div>
+      <div class="info-bilder">
+       <img src="bilder-leistung-hintergrund/total.JPG" alt="Beschriftung Beispiel" class="zoom-img">
+        <img src="bilder-leistung-hintergrund/folientechnik.jpg" alt="Folientechnik Beispiel" class="zoom-img">
+         <img src="bilder-leistung-hintergrund/drkscheibesdl.jpg" alt="Beschriftung Beispiel" class="zoom-img">
+           <img src="bilder-leistung-hintergrund/schaufenster2010.jpg" alt="Beschriftung Beispiel" class="zoom-img">
+         <img src="bilder-leistung-hintergrund/fensterweiß.jpg" alt="Beschriftung Beispiel" class="zoom-img">
+      </div>
+    </section>
+    <!-- Inhalt und Bilder zu Beschriftungen -->
+    
+  </main>
+
+  <!-- Footer entfernt, stattdessen reiner Text am Seitenende -->
+  <div style="text-align:center; margin: 30px 0 10px 0; font-size: 1.1rem;">
+    <strong>© 2025 PrintLine Werbetechnik - Alle Rechte vorbehalten <br>
+      <span class="footer-link" data-href="impressum.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Impressum</span> |
+      <span class="footer-link" data-href="datenschutz.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Datenschutz</span> |
+      <span class="footer-link" data-cookie style="color:#004a80; text-decoration:underline; cursor:pointer;">Cookie-Einstellungen</span>
+    </strong>
+  </div>
+  <script src="cookie-banner.js"></script>
+<script>
+// Footer-Links klickbar machen ohne Dateipfad beim Hover
+document.querySelectorAll('.footer-link[data-href]').forEach(link => {
+  link.addEventListener('click', function() {
+    window.location.href = link.getAttribute('data-href');
+  });
+});
+document.querySelectorAll('.footer-link[data-cookie]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.showCookieSettings && window.showCookieSettings();
+  });
+});
+// Lightbox für Bilder
+function createLightbox(src, alt) {
+  let overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.background = 'rgba(0,0,0,0.85)';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.zIndex = 99999;
+  overlay.onclick = function() { document.body.removeChild(overlay); };
+  let img = document.createElement('img');
+  img.src = src;
+  img.alt = alt || '';
+  img.style.maxWidth = '90vw';
+  img.style.maxHeight = '90vh';
+  img.style.borderRadius = '16px';
+  img.style.boxShadow = '0 8px 32px rgba(0,0,0,0.25)';
+  overlay.appendChild(img);
+  document.body.appendChild(overlay);
+}
+document.querySelectorAll('.zoom-img').forEach(img => {
+  img.style.cursor = 'zoom-in';
+  img.addEventListener('click', function() {
+    createLightbox(img.src, img.alt);
+  });
+});
+</script>
+</body>
+</html>

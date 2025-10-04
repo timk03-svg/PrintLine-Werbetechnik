@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Zeitfracht - PrintLine Werbetechnik</title>
+<meta name="description" content="PrintLine Werbetechnik: Projekt zur Beschriftung von Zeitfracht LKW und Auflieger.">
+  <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+  <header class="kategorie-header">
+    <h1>Zeitfracht</h1>
+  </header>
+  <nav>
+    <a href="index.html">Startseite</a>
+    <a href="leistungen.html">Leistungen</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="ueber-uns.html">Über uns</a>
+    <a href="kontakt.html">Kontakt</a>
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="agb.html">AGB</a>
+    </nav>
+  <main>
+    <section id="projekt-zeitfracht" class="portfolio-projekt">
+<h2>Projekt: Fahrzeugbeschriftung für Zeitfracht</h2>
+
+<p>
+  Für unseren Kunden <strong>Zeitfracht</strong> durften wir eine umfangreiche Beschriftungsserie realisieren. 
+  Neben zahlreichen LKW-Aufliegern haben wir auch die Zugmaschinen professionell mit dem markanten Zeitfracht-Design ausgestattet.
+</p>
+
+<p>
+  Dabei kam es nicht nur auf eine <strong>präzise Umsetzung des Corporate Designs</strong> an, sondern auch auf die 
+  <strong>hohe Beständigkeit der Folien</strong>, da die Fahrzeuge täglich im nationalen und internationalen Einsatz sind.
+</p>
+
+<p><strong>Unsere Leistungen im Überblick</strong></p>
+<ul>
+  <li>Teilfolierungen an Aufliegern und Zugmaschinen</li>
+  <li>Einheitliche Logos und Schriftzüge in großem Maßstab umgesetzt</li>
+  <li>Langlebige, wetter- und UV-beständige Materialien verwendet</li>
+  <li>Termingerechte Abwicklung trotz großem Fahrzeugvolumen</li>
+</ul>
+
+<p>
+  Mit diesem Projekt haben wir gezeigt, dass wir auch <strong>große Fahrzeugflotten zuverlässig, detailgenau und effizient</strong> 
+  beschriften können. Die einheitliche Gestaltung sorgt für einen starken Unternehmensauftritt auf der Straße 
+  und unterstreicht die Professionalität unseres Kunden.
+</p>
+
+</section>
+
+      <div class="info-bilder">
+        <img src="bilder-leistung-hintergrund/zeitfrachtlkwfahrer.jpg" alt="Zeitfracht Beispiel" class="zoom-img">
+         <img src="bilder-leistung-hintergrund/zeitfracht1.JPG" alt="Beschriftung Beispiel" class="zoom-img">
+      </div>
+    </section>
+    <!-- Inhalt und Bilder zu Zeitfracht -->
+
+  </main>
+  <!-- Footer entfernt, stattdessen reiner Text am Seitenende -->
+  <div style="text-align:center; margin: 30px 0 10px 0; font-size: 1.1rem;"><strong>
+  © 2025 PrintLine Werbetechnik - Alle Rechte vorbehalten <br>
+  <span class="footer-link" data-href="impressum.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Impressum</span> |
+  <span class="footer-link" data-href="datenschutz.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Datenschutz</span> |
+  <span class="footer-link" data-cookie style="color:#004a80; text-decoration:underline; cursor:pointer;">Cookie-Einstellungen</span>
+  </strong></div>
+
+  <script src="cookie-banner.js" defer></script>
+<script>
+// Footer-Links klickbar machen ohne Dateipfad beim Hover
+document.querySelectorAll('.footer-link[data-href]').forEach(link => {
+  link.addEventListener('click', function() {
+    window.location.href = link.getAttribute('data-href');
+  });
+});
+document.querySelectorAll('.footer-link[data-cookie]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.showCookieSettings && window.showCookieSettings();
+  });
+});
+// Lightbox für Bilder
+function createLightbox(src, alt) {
+  let overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.background = 'rgba(0,0,0,0.85)';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.zIndex = 99999;
+  overlay.onclick = function() { document.body.removeChild(overlay); };
+  let img = document.createElement('img');
+  img.src = src;
+  img.alt = alt || '';
+  img.style.maxWidth = '90vw';
+  img.style.maxHeight = '90vh';
+  img.style.borderRadius = '16px';
+  img.style.boxShadow = '0 8px 32px rgba(0,0,0,0.25)';
+  overlay.appendChild(img);
+  document.body.appendChild(overlay);
+}
+document.querySelectorAll('.zoom-img').forEach(img => {
+  img.style.cursor = 'zoom-in';
+  img.addEventListener('click', function() {
+    createLightbox(img.src, img.alt);
+  });
+});
+</script>
+</body>
+</html>

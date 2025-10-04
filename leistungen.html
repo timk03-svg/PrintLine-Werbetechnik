@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leistungen - PrintLine Werbetechnik</title>
+<meta name="description" content="Entdecken Sie unsere Leistungen: Schilder, Fahrzeugbeschriftungen, Fassadenwerbung, Banner, Drucklösungen und mehr – alles aus einer Hand.">
+<link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+
+</head>
+  <body class="leistungen-seite">
+    <header class="kategorie-header">
+      <h1>Leistungen</h1>
+    </header>
+    <nav>
+      <a href="index.html">Startseite</a>
+      <a href="leistungen.html" class="active">Leistungen</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="ueber-uns.html">Über uns</a>
+      <a href="kontakt.html">Kontakt</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+      <a href="agb.html">AGB</a>
+    </nav>
+    <br>
+    <br>
+    <br>
+    <main>
+      <div class="leistungen-grid">
+  <div class="leistung-box beschriftungen" style="background-image:url('bilder-leistung-hintergrund/elektroliesecke1.JPG');" data-href="beschriftungen.html">
+      <h2>Beschriftungen</h2>
+      <p>Fahrzeuge, Fenster, Schaufenster und mehr – individuelle Beschriftungen für jeden Zweck.</p>
+      <div class="box-footer">Beschriftungen</div>
+    </div>
+  <div class="leistung-box druck" style="background-image:url('bilder-leistung-hintergrund/fenstervoll.JPG');" data-href="druck.html">
+      <h2>Druck</h2>
+      <p>Flyer, Plakate, Broschüren, Visitenkarten – alles aus einer Hand, hochwertig gedruckt.</p>
+      <div class="box-footer">Druck</div>
+    </div>
+  <div class="leistung-box schilder" style="background-image:url('bilder-leistung-hintergrund/elberadweg2.JPG');" data-href="schilder.html">
+      <h2>Schilder</h2>
+      <p>Praxisschilder, Firmenschilder, Bauschilder – robust und individuell gestaltet.</p>
+      <div class="box-footer">Schilder</div>
+    </div>
+  <div class="leistung-box fassaden" style="background-image:url('bilder-leistung-hintergrund/hansehotel.jpg');" data-href="fassaden.html">
+      <h2>Fassaden</h2>
+      <p>Werbefahnen, Bauzaunbanner, Planen – wetterfest und aufmerksamkeitsstark.</p>
+      <div class="box-footer">Fassaden</div>
+    </div>
+  <div class="leistung-box werbeartikel" style="background-image:url('bilder-leistung-hintergrund/jssec12.jpg');" data-href="werbeartikel.html">
+      <h2>Werbeartikel</h2>
+      <p>Kugelschreiber, Tassen, Textilien und mehr – mit Ihrem Logo bedruckt.</p>
+      <div class="box-footer">Werbeartikel</div>
+    </div>
+  <div class="leistung-box folientechnik" style="background-image:url('bilder-leistung-hintergrund/total.JPG');" data-href="folientechnik.html">
+      <h2>Folientechnik</h2>
+      <p>Hochwertige Folierungen für Fahrzeuge, Möbel, Glasflächen und mehr – kreativ und langlebig.</p>
+      <div class="box-footer">Folientechnik</div>
+    </div>
+  <div class="leistung-box neue textildruck" style="background-image:url('bilder-leistung-hintergrund/elbeshirts.JPG');" data-href="textildruck-flex-und-flock.html">
+      <h2>Textildruck (Flex und Flock)</h2>
+      <p>Hochwertiger Textildruck mit Flex- und Flockfolien für individuelle Designs.</p>
+      <div class="box-footer">Textildruck in Flex und Flockfolien</div>
+    </div>
+  <div class="leistung-box fahnen" style="background-image:url('bilder-leistung-hintergrund/maxauto1.jpg');" data-href="fahnen.html">
+      <h2>Fahnen</h2>
+      <p>Hochwertige Fahnen für Innen- und Außenbereiche – individuell bedruckt und langlebig.</p>
+      <div class="box-footer">Fahnen</div>
+    </div>
+  <div class="leistung-box aufsteller-pylonen" style="background-image:url('bilder-leistung-hintergrund/aufstellercafeneu123.jpg');" data-href="aufsteller-pylonen.html">
+      <h2>Aufsteller / Pylonen</h2>
+      <p>Individuelle Aufsteller und Pylonen für Innen- und Außenbereiche – robust und langlebig.</p>
+      <div class="box-footer">Aufsteller und Pylonen</div>
+    </div>
+  <div class="leistung-box  " style="background-image:url('bilder-leistung-hintergrund/planen.jpg');" data-href="werbebanner-planen.html">
+    <h2>Werbebanner und Planen</h2>
+      <p>Wetterfeste Gerüstplanen und Werbebanner – individuell bedruckt und vielseitig einsetzbar.</p>
+      <div class="box-footer">Werbebanner und Planen</div>
+  </div>
+      </div>
+    </main>
+
+<script>
+// Alle leistung-boxen klickbar machen
+document.querySelectorAll('.leistung-box[data-href]').forEach(box => {
+  box.style.cursor = 'pointer';
+  box.addEventListener('click', function(e) {
+    window.location.href = box.getAttribute('data-href');
+  });
+});
+</script>
+
+  <!-- Footer entfernt, stattdessen reiner Text am Seitenende -->
+  <div style="text-align:center; margin: 5px 0 10px 0; font-size: 1.1rem;">
+    <strong>© 2025 PrintLine Werbetechnik - Alle Rechte vorbehalten <br>
+      <span class="footer-link" data-href="impressum.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Impressum</span> |
+      <span class="footer-link" data-href="datenschutz.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Datenschutz</span> |
+  <span class="footer-link" data-cookie style="color:#004a80; text-decoration:underline; cursor:pointer;">Cookie-Einstellungen</span>
+    </strong>
+<script>
+// Footer-Links klickbar machen ohne Dateipfad beim Hover
+document.querySelectorAll('.footer-link[data-href]').forEach(link => {
+  link.addEventListener('click', function() {
+    window.location.href = link.getAttribute('data-href');
+  });
+});
+document.querySelectorAll('.footer-link[data-cookie]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.showCookieSettings && window.showCookieSettings();
+  });
+});
+
+</script>
+  </div>
+  <script src="cookie-banner.js" defer></script>
+  </body>
+  </html>

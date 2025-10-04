@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Textildruck, Flex und Flock - PrintLine Werbetechnik</title>
+ <meta name="description" content="Textildruck mit Flex- und Flockfolie: farbintensiv und individuell gestaltet für Kleidung, Teams & Events.">
+  <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+
+</head>
+<body>
+  <header class="kategorie-header">
+    <h1>Textildruck, Flex und Flock</h1>
+  </header>
+  <nav>
+    <a href="index.html">Startseite</a>
+    <a href="leistungen.html">Leistungen</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="ueber-uns.html">Über uns</a>
+    <a href="kontakt.html">Kontakt</a>
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="agb.html">AGB</a>
+    </nav>
+  <main>
+     <section class="info-section">
+      <div class="info-text">
+        
+        <p>
+         <p>
+<strong>Textildruck – Flex und Flock für spürbare Auftritte</strong>
+<br><br>
+
+Ob Arbeitskleidung, Vereins-Shirts oder Promotion-Artikel – mit unserem Textildruck in Flex- und Flockfolie setzen wir Ihr Logo, Ihren Slogan oder Design wirkungsvoll in Szene. Farbintensiv, angenehm zu tragen und langlebig.
+<br><br>
+
+<strong>Unsere Möglichkeiten:</strong>
+<ul>
+  <li>Flexdruck – glatte, elastische Folie für klare Motive, Schriftzüge und Logos in kräftigen Farben.<sup>1</sup></li>
+  <li>Flockdruck – samtige Oberfläche mit edler Haptik für einen hochwertigen Look und besondere Wirkung.<sup>2</sup></li>
+  <li>Textilien und Accessoires – von T-Shirts über Stoffbeutel bis hin zu Caps.</li>
+  <li>Individuelle Gestaltung – zahlreiche Farben und Kombinationen möglich.</li>
+  <li>Klein- und Großauflagen – vom Einzelstück bis zur kompletten Serie.</li>
+</ul>
+
+<strong>Ihre Vorteile:</strong>
+<ul>
+  <li>Hochwertige Verarbeitung für langlebige Ergebnisse</li>
+  <li>Leuchtende Farben und präzise Konturen</li>
+  <li>Vielseitig einsetzbar – für Textilien, Taschen und Arbeitskleidung</li>
+  <li>Persönliche Beratung und professionelle Umsetzung</li>
+</ul>
+
+<p>
+Mit Flex- und Flockdruck verwandeln wir Textilien in echte Hingucker – ideal für Unternehmen, Vereine, Events oder als individuelles Geschenk.
+</p>
+
+        <ul>
+        </ul>
+      </div>
+      <div class="info-bilder">
+         <img src="bilder-leistung-hintergrund/Trikot.jpg" alt="Weitere Beschriftung" class="zoom-img">
+        <img src="bilder-leistung-hintergrund/elbeshirts.JPG" alt="Weitere Beschriftung" class="zoom-img">
+        <img src="bilder-leistung-hintergrund/pullivorne.jpg" alt="Weitere Beschriftung" class="zoom-img">
+        <img src="bilder-leistung-hintergrund/pullihinten.jpg" alt="Weitere Beschriftung" class="zoom-img">
+        <img src="bilder-leistung-hintergrund/polohintennahe.jpg" alt="Weitere Beschriftung" class="zoom-img">
+        <img src="bilder-leistung-hintergrund/hosevorne.jpg" alt="Weitere Beschriftung" class="zoom-img">
+         <img src="bilder-leistung-hintergrund/werbeartikel.jpg" alt="Beispiel Beschriftung" class="zoom-img">
+      </div>
+    </section>
+    <!-- Inhalt und Bilder zu Beschriftungen -->
+     <hr>
+
+
+<p><sup>1</sup> Flexdruck ist eine glatte, elastische Folie, die mit Hitze auf Textilien gepresst wird – besonders für klare Konturen und intensive Farben geeignet.</p>
+<p><sup>2</sup> Flockdruck erzeugt eine samtige Oberfläche mit weicher Haptik, die Textilien einen hochwertigen Look verleiht.</p>
+  </main>
+
+  <!-- Footer entfernt, stattdessen reiner Text am Seitenende -->
+  <div style="text-align:center; margin: 30px 0 10px 0; font-size: 1.1rem;"><strong>
+  © 2025 PrintLine Werbetechnik - Alle Rechte vorbehalten <br>
+  <span class="footer-link" data-href="impressum.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Impressum</span> |
+  <span class="footer-link" data-href="datenschutz.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Datenschutz</span> |
+  <span class="footer-link" data-cookie style="color:#004a80; text-decoration:underline; cursor:pointer;">Cookie-Einstellungen</span>
+  </strong></div>
+  
+  <script src="cookie-banner.js" defer></script>
+<script>
+// Footer-Links klickbar machen ohne Dateipfad beim Hover
+document.querySelectorAll('.footer-link[data-href]').forEach(link => {
+  link.addEventListener('click', function() {
+    window.location.href = link.getAttribute('data-href');
+  });
+});
+document.querySelectorAll('.footer-link[data-cookie]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.showCookieSettings && window.showCookieSettings();
+  });
+});
+// Lightbox für Bilder
+function createLightbox(src, alt) {
+  let overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.background = 'rgba(0,0,0,0.85)';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.zIndex = 99999;
+  overlay.onclick = function() { document.body.removeChild(overlay); };
+  let img = document.createElement('img');
+  img.src = src;
+  img.alt = alt || '';
+  img.style.maxWidth = '90vw';
+  img.style.maxHeight = '90vh';
+  img.style.borderRadius = '16px';
+  img.style.boxShadow = '0 8px 32px rgba(0,0,0,0.25)';
+  overlay.appendChild(img);
+  document.body.appendChild(overlay);
+}
+document.querySelectorAll('.zoom-img').forEach(img => {
+  img.style.cursor = 'zoom-in';
+  img.addEventListener('click', function() {
+    createLightbox(img.src, img.alt);
+  });
+});
+</script>
+</body>
+</html>

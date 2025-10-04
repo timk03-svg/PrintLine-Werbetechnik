@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schilder - PrintLine Werbetechnik</title>
+   <meta name="description" content="Firmenschilder, Leitsysteme und Werbeschilder – Lösungen für Innen- und Außenbereiche.">
+  <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+
+</head>
+<body>
+  <header class="kategorie-header">
+    <h1>Schilder</h1>
+  </header>
+  <nav>
+    <a href="index.html">Startseite</a>
+    <a href="leistungen.html">Leistungen</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="ueber-uns.html">Über uns</a>
+    <a href="kontakt.html">Kontakt</a>
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="agb.html">AGB</a>
+    </nav>
+  <main>
+    <section class="info-section">
+      <div class="info-text">
+       
+        <p>
+  <strong>Schilder, die Eindruck hinterlassen</strong>
+</p>
+
+<p>
+  Ob Firmenschild außen, Orientierungstafel im Innenbereich oder Bauschild – mit unseren Schildern aus Aluverbund oder PVC setzen Sie klare und professionelle Akzente. 
+  Wir bieten sowohl hochwertige Folierungen als auch modernen Digitaldruck, damit Ihr Schild perfekt zu Ihrem Unternehmensauftritt passt.
+</p>
+
+<p><strong>Einsatzbereiche unserer Schilder:</strong></p>
+<ul>
+  <li>Firmenschilder – repräsentativ und optimal auf Ihren Unternehmensauftritt abgestimmt</li>
+  <li>Wegweiser und Orientierungsschilder – sorgen für klare Orientierung und leiten Besucher effizient</li>
+  <li>Bauschilder – großformatige Informationstafeln für Baustellen oder Projekte</li>
+  <li>Türschilder – funktional und stilvoll, passend für Innenräume</li>
+</ul>
+
+<p><strong>Ihre Vorteile:</strong></p>
+<ul>
+  <li>Hochwertige Materialien für dauerhafte Nutzung</li>
+  <li>Brillante Druckqualität oder präzise Folierung</li>
+  <li>Individuelle Größen, Formen und Designs</li>
+  <li>Montage vor Ort auf Wunsch möglich</li>
+</ul>
+
+<p><p>
+  Deutliche und stilvolle Beschilderungen vermitteln Kompetenz und hinterlassen einen starken ersten Eindruck bei Ihren Kunden.
+</p>
+
+
+
+
+
+        <ul>
+        </ul>
+      </div>
+      <div class="info-bilder">
+        <img src="bilder-leistung-hintergrund/elberadweg2.JPG" alt="Beschriftung Beispiel" class="zoom-img">
+        <img src="bilder-leistung-hintergrund/schilder.jpg" alt="Schilder Beispiel" class="zoom-img">
+        <img src="bilder-leistung-hintergrund/parkschild.JPG" alt="Beschriftung Beispiel" class="zoom-img">
+         <img src="bilder-leistung-hintergrund/SchildPC.JPG" alt="Beschriftung Beispiel" class="zoom-img">
+        <img src="bilder-leistung-hintergrund/feuerwehr.JPG" alt="Beschriftung Beispiel" class="zoom-img">
+      </div>
+    </section>
+    <!-- Inhalt und Bilder zu Beschriftungen -->
+
+
+  </main>
+
+  <!-- Footer entfernt, stattdessen reiner Text am Seitenende -->
+  <div style="text-align:center; margin: 30px 0 10px 0; font-size: 1.1rem;">
+    <strong>© 2025 PrintLine Werbetechnik - Alle Rechte vorbehalten <br>
+      <span class="footer-link" data-href="impressum.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Impressum</span> |
+      <span class="footer-link" data-href="datenschutz.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Datenschutz</span> |
+      <span class="footer-link" data-cookie style="color:#004a80; text-decoration:underline; cursor:pointer;">Cookie-Einstellungen</span>
+    </strong>
+<script>
+// Footer-Links klickbar machen ohne Dateipfad beim Hover
+document.querySelectorAll('.footer-link[data-href]').forEach(link => {
+  link.addEventListener('click', function() {
+    window.location.href = link.getAttribute('data-href');
+  });
+});
+document.querySelectorAll('.footer-link[data-cookie]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.showCookieSettings && window.showCookieSettings();
+  });
+});
+</script>
+  </div>
+  <script src="cookie-banner.js" defer></script>
+<script>
+// Lightbox für Bilder
+function createLightbox(src, alt) {
+  let overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.background = 'rgba(0,0,0,0.85)';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.zIndex = 99999;
+  overlay.onclick = function() { document.body.removeChild(overlay); };
+  let img = document.createElement('img');
+  img.src = src;
+  img.alt = alt || '';
+  img.style.maxWidth = '90vw';
+  img.style.maxHeight = '90vh';
+  img.style.borderRadius = '16px';
+  img.style.boxShadow = '0 8px 32px rgba(0,0,0,0.25)';
+  overlay.appendChild(img);
+  document.body.appendChild(overlay);
+}
+document.querySelectorAll('.zoom-img').forEach(img => {
+  img.style.cursor = 'zoom-in';
+  img.addEventListener('click', function() {
+    createLightbox(img.src, img.alt);
+  });
+});
+</script>
+</body>
+</html>

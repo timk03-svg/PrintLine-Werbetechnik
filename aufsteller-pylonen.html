@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aufsteller, Pylonen - PrintLine Werbetechnik</title>
+  <title>Aufsteller & Pylonen – PrintLine Werbetechnik</title>
+<meta name="description" content="Individuelle Aufsteller und Pylonen für Außenwerbung: robust, auffällig und nach Wunsch gestaltet – für maximale Sichtbarkeit Ihres Unternehmens.">
+
+  <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+
+</head>
+<body>
+  <header class="kategorie-header">
+    <h1>Aufsteller, Pylonen</h1>
+  </header>
+  <nav>
+    <a href="index.html">Startseite</a>
+    <a href="leistungen.html">Leistungen</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="ueber-uns.html">Über uns</a>
+    <a href="kontakt.html">Kontakt</a>
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="agb.html">AGB</a>
+    </nav>
+  <main>
+     <section class="info-section">
+      <div class="info-text">
+       
+        <p>
+  <strong>Aufsteller und Pylonen – Aufmerksamkeit auf den ersten Blick</strong>
+</p>
+
+<p>
+  Ob im Eingangsbereich, auf Messen oder bei Veranstaltungen – unsere Aufsteller und Pylonen sorgen dafür, dass Ihre Botschaft sofort ins Auge fällt. Flexibel, mobil und individuell gestaltbar, sind sie die perfekten Helfer für Marketing, Orientierung und Promotion.
+</p>
+
+<p><strong>Unsere Lösungen für Sie:</strong></p>
+<ul>
+  <li>
+    Aufsteller und Kundenstopper – ideal für Shops, Ausstellungen oder als Hinweisgeber im Innen- und Außenbereich.
+  </li>
+  <li>
+    Werbe- und Info-Pylonen – auffällig und stabil, optimal für Veranstaltungen oder Firmenhöfe.
+  </li>
+  <li>
+    Event- und Messeaufsteller – leicht transportierbar und schnell aufgestellt.
+  </li>
+  <li>
+    Individuelle Designs – bedruckt nach Ihrem Corporate Design, in allen Größen und Formen.
+  </li>
+  <li>
+    Spannrahmen für Wandmontage – praktisch und vielseitig einsetzbar.
+  </li>
+</ul>
+
+<p><strong>Ihre Vorteile:</strong></p>
+<ul>
+  <li>Sofortiger Blickfang – mobil und flexibel positionierbar</li>
+  <li>Langlebig und standfest – geeignet für Innen- und Außenbereich</li>
+  <li>Gestaltung nach Ihren Wünschen – passend zu Ihrem Corporate Design</li>
+  <li>Einfache Handhabung und schneller Auf- sowie Abbau</li>
+</ul>
+
+<p>
+  Mit unseren Aufstellern und Pylonen schaffen Sie ein professionelles Erscheinungsbild, das Ihre Botschaft klar vermittelt.
+</p>
+
+        <ul>
+        </ul>
+      </div>
+      <div class="info-bilder">
+        <img src="bilder-leistung-hintergrund/aufstellercafeneu1234.jpg" alt="Aufsteller Beispiel" class="zoom-img">
+        <img src="bilder-leistung-hintergrund/drkaußenschild.jpg" alt="Beispiel Beschriftung" class="zoom-img">
+      </div>
+    </section>
+    <!-- Inhalt und Bilder zu Beschriftungen -->
+  </main>
+
+  <!-- Footer entfernt, stattdessen reiner Text am Seitenende -->
+  <div style="text-align:center; margin: 30px 0 10px 0; font-size: 1.1rem;"><strong>
+  © 2025 PrintLine Werbetechnik - Alle Rechte vorbehalten <br>
+  <a href="impressum.html" style="color:#004a80;">Impressum</a> |
+  <a href="datenschutz.html" style="color:#004a80;">Datenschutz</a> |
+  <a href="#" style="color:#004a80;" onclick="event.preventDefault(); window.showCookieSettings && window.showCookieSettings(); return false;">Cookie-Einstellungen</a>
+  </strong></div>
+  
+  <script src="cookie-banner.js"></script>
+  <script>
+// Lightbox für Bilder
+function createLightbox(src, alt) {
+  let overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.background = 'rgba(0,0,0,0.85)';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.zIndex = 99999;
+  overlay.onclick = function() { document.body.removeChild(overlay); };
+  let img = document.createElement('img');
+  img.src = src;
+  img.alt = alt || '';
+  img.style.maxWidth = '90vw';
+  img.style.maxHeight = '90vh';
+  img.style.borderRadius = '16px';
+  img.style.boxShadow = '0 8px 32px rgba(0,0,0,0.25)';
+  overlay.appendChild(img);
+  document.body.appendChild(overlay);
+}
+document.querySelectorAll('.zoom-img').forEach(img => {
+  img.style.cursor = 'zoom-in';
+  img.addEventListener('click', function() {
+    createLightbox(img.src, img.alt);
+  });
+});
+</script>
+</body>
+</html>

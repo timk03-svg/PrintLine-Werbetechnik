@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>PrintLine Werbetechnik</title>
+<meta name="description" content="Ihre Werbefirma aus Stendal: Schilder, Fahrzeugbeschriftungen, Fassadenwerbung und individuelle Werbelösungen – kreativ, zuverlässig und .">
+
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+</head>
+<body>
+</div>
+<!-- Cookie-Banner-Logik wird jetzt komplett über cookie-banner.js gesteuert -->
+<body class="startseite">
+<header class="kategorie-header">
+  <h1>PrintLine Werbetechnik</h1>
+   
+</header>
+
+<nav>
+  <a href="index.html">Startseite</a>
+  <a href="leistungen.html">Leistungen</a>
+  <a href="portfolio.html">Portfolio</a>
+  <a href="ueber-uns.html">Über uns</a>
+  <a href="kontakt.html">Kontakt</a>
+  <a href="impressum.html">Impressum</a>
+  <a href="datenschutz.html">Datenschutz</a>
+  <a href="agb.html">AGB</a>
+    </nav>
+
+<!-- ...existing code... -->
+<main>
+  <h2>Ihr Projekt - Unser Handwerk</h2>
+  <p style="padding-bottom: 0.4em;">Individuelle Beschriftungslösungen für Betriebe, Einrichtungen und Organisationen von Werbeartikeln bis zum Fuhrpark und darüber hinaus.</p>
+  <div class="button-row">
+    <button onclick="location.href='leistungen.html'">Zu unseren Leistungen</button>
+    <button onclick="location.href='kontakt.html'">Jetzt Anfragen</button>
+  </div>
+</main>
+
+<div class="marquee-container">
+  <div class="marquee">
+  <div class="marquee-link" data-href="beschriftungen.html"><img src="bilder-leistung-hintergrund/elektroliesecke1.JPG" alt="beschriftungen" loading="lazy"></div>
+  <div class="marquee-link" data-href="druck.html"><img src="bilder-leistung-hintergrund/elberadweg2.JPG" alt="druck" loading="lazy"></div>
+  <div class="marquee-link" data-href="schilder.html"><img src="bilder-leistung-hintergrund/SchildPC.JPG" alt="schilder" loading="lazy"></div>
+  <div class="marquee-link" data-href="Werbebanner-planen.html"><img src="bilder-leistung-hintergrund/planen.jpg" alt="planen" loading="lazy"></div>
+  <div class="marquee-link" data-href="folientechnik.html"><img src="bilder-leistung-hintergrund/total.JPG" alt="folientechnik" loading="lazy"></div>
+  <div class="marquee-link" data-href="textildruck-flex-und-flock.html"><img src="bilder-leistung-hintergrund/Trikot.jpg" alt="textildruck-flex-und-flock" loading="lazy"></div>
+  <!-- Wiederhole die Links für den Endlos-Effekt -->
+  <div class="marquee-link" data-href="beschriftungen.html"><img src="bilder-leistung-hintergrund/drkautohaus.jpg" alt="beschriftungen" loading="lazy"></div>
+  <div class="marquee-link" data-href="druck.html"><img src="bilder-leistung-hintergrund/fenstervoll.JPG" alt="druck" loading="lazy"></div>
+  <div class="marquee-link" data-href="schilder.html"><img src="bilder-leistung-hintergrund/feuerwehr.JPG" alt="schilder" loading="lazy"></div>
+  <div class="marquee-link" data-href="Werbebanner-planen.html"><img src="bilder-leistung-hintergrund/planen.jpg" alt="planen" loading="lazy"></div>
+  <div class="marquee-link" data-href="folientechnik.html"><img src="bilder-leistung-hintergrund/folientechnik.jpg" alt="folientechnik" loading="lazy"></div>
+  <div class="marquee-link" data-href="textildruck-flex-und-flock.html"><img src="bilder-leistung-hintergrund/elbeshirts.JPG" alt="textildruck-flex-und-flock" loading="lazy"></div>
+<script>
+// Klickbare Marquee-Links ohne sichtbaren Dateipfad beim Hover
+document.querySelectorAll('.marquee-link[data-href]').forEach(box => {
+  box.style.cursor = 'pointer';
+  box.addEventListener('click', function(e) {
+    window.location.href = box.getAttribute('data-href');
+  });
+});
+</script>
+  </div>
+</div>
+<!-- ...existing code... -->
+
+  <!-- Footer entfernt, stattdessen reiner Text am Seitenende -->
+  <div style="text-align:center; margin: 10px 0 10px 0; font-size: 1.1rem;">
+    <strong>© 2025 PrintLine Werbetechnik - Alle Rechte vorbehalten <br>
+      <span class="footer-link" data-href="impressum.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Impressum</span> |
+      <span class="footer-link" data-href="datenschutz.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Datenschutz</span> |
+  <span class="footer-link" data-cookie style="color:#004a80; text-decoration:underline; cursor:pointer;">Cookie-Einstellungen</span>
+    </strong>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var script = document.createElement('script');
+      script.src = 'cookie-banner.js';
+      document.body.appendChild(script);
+    });
+  </script>
+<script>
+// Footer-Links klickbar machen ohne Dateipfad beim Hover
+document.querySelectorAll('.footer-link[data-href]').forEach(link => {
+  link.addEventListener('click', function() {
+    window.location.href = link.getAttribute('data-href');
+  });
+});
+document.querySelectorAll('.footer-link[data-cookie]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.showCookieSettings && window.showCookieSettings();
+  });
+});
+</script>
+</body>
+</html>
+

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beschriftungen - PrintLine Werbetechnik</title>
+<meta name="description" content="Professionelle Beschriftungen für Fahrzeuge, Großmaschinen, Industrieanlagen und mehr. Hochwertig und individuell gestaltet.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+
+</head>
+<body>
+  <header class="kategorie-header">
+    <h1>Beschriftungen</h1>
+  </header>
+  <nav>
+    <a href="index.html">Startseite</a>
+    <a href="leistungen.html">Leistungen</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="ueber-uns.html">Über uns</a>
+    <a href="kontakt.html">Kontakt</a>
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="agb.html">AGB</a>
+    </nav>
+  <main>
+    <section class="info-section">
+      <div class="info-text">
+        
+        <p>
+  <strong>Wo Werbung beginnt: Mit der richtigen Beschriftung</strong>
+</p>
+
+<p>
+  Ob PKW, LKW, Transporter, Trailer, Boote, Großmaschinen, Industrieanlagen oder Firmengebäude – die richtige Beschriftung sorgt dafür, dass Ihr Unternehmen gesehen und wiedererkannt wird. Wir entwickeln individuelle Lösungen, die zu Ihrer Marke passen und Ihre Botschaft wirkungsvoll nach außen tragen.
+</p>
+
+<p><strong>Unsere Highlights für Ihren Auftritt:</strong></p>
+<ul>
+  <li>
+    Fahrzeugbeschriftungen – vom dezenten Logo bis zur Flächenbeschriftung. 
+    Ihre mobile Werbefläche, individuell gestaltet. (Keine Vollverklebung<sup>1</sup>!)
+  </li>
+  <li>
+    Maschinen und Industrieanlagen – großflächige Beschriftungslösungen<sup>2</sup>.
+  </li>
+</ul>
+
+<p><strong>Warum wir?</strong></p>
+<ul>
+  <li>Kreative Gestaltung mit hohem Wiedererkennungswert</li>
+  <li>Hochwertige Materialien und langlebige Folien</li>
+  <li>Präzise Umsetzung und Montage</li>
+  <li>Beratung von der Idee bis zur Fertigstellung</li>
+</ul>
+
+<p>
+  Setzen Sie ein sichtbares Zeichen für Ihr Unternehmen – mit professionellen Beschriftungen, die Eindruck hinterlassen.
+</p>
+
+        <ul>
+        </ul>
+      </div>
+      <div class="info-bilder">
+        <img src="bilder-leistung-hintergrund/drkautohaus.jpg" alt="Beschriftung Beispiel" class="zoom-img">
+         <img src="bilder-leistung-hintergrund/geruestplanen.jpg" alt="Fahnen Beispiel" class="zoom-img">
+         <img src="bilder-leistung-hintergrund/drkgroß.JPG" alt="Beschriftung Beispiel" class="zoom-img">
+         <img src="bilder-leistung-hintergrund/beschriftungen.jpg" alt="Beschriftung Beispiel" class="zoom-img">
+        <img src="bilder-leistung-hintergrund/elektroliesecke1.JPG" alt="Fahnen Beispiel" class="zoom-img">
+        <img src="bilder-leistung-hintergrund/boot.jpg" alt="Fahnen Beispiel" class="zoom-img">
+        <img src="bilder-leistung-hintergrund/textildruck.JPG" alt="Fahnen Beispiel" class="zoom-img">
+        <img src="bilder-leistung-hintergrund/thaiküche.JPG" alt="Fahnen Beispiel" class="zoom-img">
+      </div>
+    </section>
+    <!-- Inhalt und Bilder zu Beschriftungen -->
+     <hr>
+
+     <p><sup>1</sup> Unter Vollverklebung versteht man die komplette Beschriftung des Fahrzeugs mit Folie. Diese Leistung bieten wir aktuell nicht an.</p>
+<p><sup>2</sup> Weitere Informationen und Beispiele finden Sie in unserem  <a href="portfolio.html">Portfolio</a>.</p>
+  </main>
+
+  <!-- Footer entfernt, stattdessen reiner Text am Seitenende -->
+  <div style="text-align:center; margin: 30px 0 10px 0; font-size: 1.1rem;">
+    <strong>© 2025 PrintLine Werbetechnik - Alle Rechte vorbehalten <br>
+    <span class="footer-link" data-href="impressum.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Impressum</span> |
+    <span class="footer-link" data-href="datenschutz.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Datenschutz</span> |
+    <span class="footer-link" data-cookie style="color:#004a80; text-decoration:underline; cursor:pointer;">Cookie-Einstellungen</span>
+    </strong>
+  </div>
+  <script src="cookie-banner.js"></script>
+<script>
+// Footer-Links klickbar machen ohne Dateipfad beim Hover
+document.querySelectorAll('.footer-link[data-href]').forEach(link => {
+  link.addEventListener('click', function() {
+    window.location.href = link.getAttribute('data-href');
+  });
+});
+document.querySelectorAll('.footer-link[data-cookie]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.showCookieSettings && window.showCookieSettings();
+  });
+});
+</script>
+<script>
+// Lightbox für Bilder
+function createLightbox(src, alt) {
+  let overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.background = 'rgba(0,0,0,0.85)';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.zIndex = 99999;
+  overlay.onclick = function() { document.body.removeChild(overlay); };
+  let img = document.createElement('img');
+  img.src = src;
+  img.alt = alt || '';
+  img.style.maxWidth = '90vw';
+  img.style.maxHeight = '90vh';
+  img.style.borderRadius = '16px';
+  img.style.boxShadow = '0 8px 32px rgba(0,0,0,0.25)';
+  overlay.appendChild(img);
+  document.body.appendChild(overlay);
+}
+document.querySelectorAll('.zoom-img').forEach(img => {
+  img.style.cursor = 'zoom-in';
+  img.addEventListener('click', function() {
+    createLightbox(img.src, img.alt);
+  });
+});
+</script>
+</body>
+</html>

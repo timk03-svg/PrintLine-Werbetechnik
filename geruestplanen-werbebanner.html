@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerüstplanen Werbebanner - PrintLine Werbetechnik</title>
+<meta name="description" content="Gerüstplanen und Werbebanner als großflächige Werbung für Baustellen und andere Projekte. Individuell beschriftet.">
+  <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+
+</head>
+<body>
+  <header class="kategorie-header">
+    <h1>Gerüstplanen Werbebanner</h1>
+  </header>
+  <nav>
+    <a href="index.html">Startseite</a>
+    <a href="leistungen.html">Leistungen</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="ueber-uns.html">Über uns</a>
+    <a href="kontakt.html">Kontakt</a>
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="agb.html">AGB</a>
+  </nav>
+  <main>
+     <section class="info-section">
+      <div class="info-text">
+        
+        <p>
+  <strong>Gerüstplanen und Werbebanner – Werbung, die groß rauskommt</strong>
+</p>
+
+<p>
+  Ob auf Baustellen, Messen oder Events – Gerüstplanen<sup>1</sup> und Werbebanner<sup>2</sup> bieten die perfekte Lösung für aufmerksamkeitsstarke, großflächige Werbung.
+</p>
+
+<p><strong>Unsere Produkte im Überblick:</strong></p>
+<ul>
+  <li>Gerüstplanen – großformatige Werbung für Baustellen, Fassaden oder temporäre Flächen<sup>3</sup>.</li>
+  <li>Werbebanner – flexibel einsetzbar für Messen, Events oder Firmenhöfe, in allen Größen und Formen.</li>
+  <li>Individueller Digitaldruck – Logos, Slogans oder Motive in gestochen scharfer Qualität<sup>4</sup>.</li>
+  <li>Maßgeschneiderte Konfektion – Ösen<sup>5</sup>, Hohlsaum<sup>6</sup> oder Sonderlösungen für eine einfache Montage.</li>
+</ul>
+
+<p><strong>Ihre Vorteile:</strong></p>
+<ul>
+  <li>Hervorragende Sichtbarkeit auf großen Flächen</li>
+  <li>Robuste Materialien für lange Haltbarkeit unter unterschiedlichen Witterungsbedingungen</li>
+  <li>Brillanter Digitaldruck mit intensiven Farben</li>
+  <li>Flexible Nutzung – für Innen- und Außenbereiche geeignet</li>
+</ul>
+
+<p>
+  Mit Gerüstplanen und Werbebannern setzen Sie Ihre Botschaft wirkungsvoll in Szene – auffällig, professionell und individuell auf Ihre Anforderungen abgestimmt.
+</p>
+
+<p>
+  Mit Gerüstplanen und Werbebannern wird Ihre Marke groß sichtbar – stark, professionell und unübersehbar.
+</p>
+
+        <ul>
+        </ul>
+      </div>
+      <div class="info-bilder">
+        <img src="bilder-leistung-hintergrund/geruestplanen.jpg" alt="Gerüstplanen Beispiel" class="zoom-img">
+      </div>
+    </section>
+    <!-- Inhalt und Bilder zu Beschriftungen -->
+     <hr>
+
+<p><sup>1</sup> Gerüstplanen sind bedruckte PVC- oder Mesh-Planen, die an Baugerüsten angebracht werden und gleichzeitig Werbung und Sichtschutz bieten.</p>
+<p><sup>2</sup> Werbebanner sind flexible Planen, die auf Messen, Events oder Gebäuden angebracht werden und großflächige Werbung ermöglichen.</p>
+<p><sup>3</sup> Großformatige Werbung bedeutet Drucke in sehr großen Dimensionen, die auch aus größerer Entfernung gut sichtbar bleiben.</p>
+<p><sup>4</sup> Digitaldruck erlaubt die detailgetreue Wiedergabe von Bildern, Texten und Logos in hoher Auflösung direkt auf Planen und Bannern.</p>
+<p><sup>5</sup> Ösen sind Metallringe am Rand der Plane, die das einfache Befestigen mit Kabelbindern, Haken oder Seilen ermöglichen.</p>
+<p><sup>6</sup> Ein Hohlsaum ist eine umgeschlagene und vernähte Kante, durch die Stangen oder Seile zur stabilen Befestigung geschoben werden können.</p>
+  </main>
+
+  <!-- Footer entfernt, stattdessen reiner Text am Seitenende -->
+  <div style="text-align:center; margin: 30px 0 10px 0; font-size: 1.1rem;"><strong>
+  © 2025 PrintLine Werbetechnik |
+  <a href="impressum.html" style="color:#004a80;">Impressum</a> |
+  <a href="datenschutz.html" style="color:#004a80;">Datenschutz</a> |
+  <a href="#" style="color:#004a80;" onclick="event.preventDefault(); window.showCookieSettings && window.showCookieSettings(); return false;">Cookie-Einstellungen</a>
+  </strong></div>
+  
+  <script src="cookie-banner.js"></script>
+  <script>
+// Lightbox für Bilder
+function createLightbox(src, alt) {
+  let overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.background = 'rgba(0,0,0,0.85)';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.zIndex = 99999;
+  overlay.onclick = function() { document.body.removeChild(overlay); };
+  let img = document.createElement('img');
+  img.src = src;
+  img.alt = alt || '';
+  img.style.maxWidth = '90vw';
+  img.style.maxHeight = '90vh';
+  img.style.borderRadius = '16px';
+  img.style.boxShadow = '0 8px 32px rgba(0,0,0,0.25)';
+  overlay.appendChild(img);
+  document.body.appendChild(overlay);
+}
+document.querySelectorAll('.zoom-img').forEach(img => {
+  img.style.cursor = 'zoom-in';
+  img.addEventListener('click', function() {
+    createLightbox(img.src, img.alt);
+  });
+});
+</script>
+</body>
+</html>

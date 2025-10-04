@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Bilder-Check: Größe & Ladezeit</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; color: #222; }
+    table { border-collapse: collapse; width: 100%; max-width: 900px; margin: 40px auto; background: #fff; box-shadow: 0 2px 8px #0001; }
+    th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
+    th { background: #eee; }
+    img { max-width: 180px; max-height: 120px; display: block; margin: 0 auto; }
+    .ok { color: green; font-weight: bold; }
+    .warn { color: orange; font-weight: bold; }
+    .bad { color: red; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1 style="text-align:center">Bilder-Check: Größe & Ladezeit</h1>
+  <table id="bilder-tabelle">
+    <tr><th>Bild</th><th>Dateiname</th><th>Dateigröße (kB)</th><th>Ladezeit (ms)</th><th>Status</th></tr>
+  </table>
+  <script>
+    const bilder = [
+      "bilder-leistung-hintergrund/cpc.jpg",
+      "bilder-leistung-hintergrund/elbeshirts.JPG",
+      "bilder-leistung-hintergrund/elektroliesecke (1).JPG",
+      "bilder-leistung-hintergrund/elberadweg2.JPG",
+      "bilder-leistung-hintergrund/druck.jpg",
+      "bilder-leistung-hintergrund/drkscheibesdl.jpg",
+      "bilder-leistung-hintergrund/drkgroß.JPG",
+      "bilder-leistung-hintergrund/drkaußenschild.jpg",
+      "bilder-leistung-hintergrund/favicon_256.png",
+      "bilder-leistung-hintergrund/fahnenschröter.jpg",
+      "bilder-leistung-hintergrund/fahnen.jpg",
+      "bilder-leistung-hintergrund/drkautohaus.jpg",
+      "bilder-leistung-hintergrund/chatgptl.png",
+      "bilder-leistung-hintergrund/boot.jpg",
+      "bilder-leistung-hintergrund/beschriftungen.jpg",
+      "bilder-leistung-hintergrund/aufstellercafeneu123.jpg",
+      "bilder-leistung-hintergrund/aufstellercafeneu1.jpg",
+      "bilder-leistung-hintergrund/aufstellercafe.jpg",
+      "bilder-leistung-hintergrund/maxauto1.jpg",
+      "bilder-leistung-hintergrund/schilder.jpg"
+    ];
+    function formatSize(bytes) { return (bytes/1024).toFixed(1); }
+    function status(size, time) {
+      if (size < 200 && time < 200) return '<span class="ok">Optimal</span>';
+      if (size < 400 && time < 400) return '<span class="warn">Okay</span>';
+      return '<span class="bad">Zu groß/langsam</span>';
+    }
+    const tabelle = document.getElementById('bilder-tabelle');
+    bilder.forEach(src => {
+      const row = document.createElement('tr');
+      const img = document.createElement('img');
+      img.src = src;
+      const t0 = performance.now();
+      img.onload = function() {
+        const t1 = performance.now();
+        fetch(src).then(r => r.blob()).then(blob => {
+          const size = blob.size;
+          row.innerHTML = `<td><img src="${src}"></td><td>${src}</td><td>${formatSize(size)}</td><td>${Math.round(t1-t0)}</td><td>${status(size, t1-t0)}</td>`;
+        });
+      };
+      img.onerror = function() {
+        row.innerHTML = `<td></td><td>${src}</td><td colspan=3 style="color:red">Bild nicht gefunden</td>`;
+      };
+      tabelle.appendChild(row);
+    });
+  </script>
+  <p style="text-align:center; color:#888;">Grün = optimal (&lt;200kB, &lt;200ms), Orange = okay, Rot = zu groß/langsam</p>
+</body>
+</html>

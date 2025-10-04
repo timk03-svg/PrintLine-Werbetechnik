@@ -1,0 +1,920 @@
+@media (max-width: 1300px) and (max-height: 2000px) and (orientation: portrait) {
+  #cookie-banner {
+    position: fixed !important;
+    inset: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    min-width: unset !important;
+    max-width: unset !important;
+    left: unset !important;
+    right: unset !important;
+    top: unset !important;
+    bottom: unset !important;
+    transform: none !important;
+    z-index: 9999 !important;
+    background: rgba(30, 41, 55, 0.08) !important;
+  }
+  .cookie-banner-inner {
+    justify-content: center !important;
+    text-align: center !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    margin: 0 auto !important;
+  }
+}
+@media (max-width: 1024px) {
+  #cookie-banner {
+    position: fixed !important;
+    inset: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    min-width: unset !important;
+    max-width: unset !important;
+    left: unset !important;
+    right: unset !important;
+    top: unset !important;
+    bottom: unset !important;
+    transform: none !important;
+    z-index: 9999 !important;
+    background: rgba(30, 41, 55, 0.08) !important;
+  }
+  .cookie-banner-inner {
+    justify-content: center !important;
+    text-align: center !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    margin: 0 auto !important;
+  }
+}
+/* ...existing code... */
+/* Responsive Design: Media Queries am Ende der Datei */
+.button-row {
+  display: flex;
+  gap: 24px;
+  margin: 32px 0 24px 0;
+  justify-content: center;
+  z-index: 10;
+  position: relative;
+}
+.button-row button {
+  background: var(--tuerkis);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+  min-width: 80px;
+  min-height: 32px;
+}
+.button-row button:hover {
+  background: var(--lila);
+  color: var(--dunkel);
+  box-shadow: 0 4px 16px rgba(192,132,252,0.15);
+}
+/* Sticky Footer global für alle Seiten */
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  color: #1F2937;
+  background: linear-gradient(90deg, var(--tuerkis, #40E0D0) 0%, var(--lila, #C084FC) 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  /* KEIN display: flex und flex-direction hier! */
+}
+
+/* Nur für Seiten mit Sticky Footer: */
+
+main {
+  flex: 1 0 auto;
+  max-width: 1000px;
+  margin: auto;
+  /* background: white; entfernt */
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: 30px;
+  overflow: visible;
+}
+footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  z-index: 1000;
+  margin-top: auto;
+  background: linear-gradient(90deg, var(--tuerkis, #40E0D0) 0%, var(--lila, #C084FC) 100%);
+  color: white;
+  font-size: 1.1rem;
+  min-height: 70px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0;
+}
+/* Sticky Footer für leistungen.html */
+
+.leistung-box h2 {
+  display: none;
+}
+.leistung-box p {
+  display: none;
+}
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  min-height: 100%;
+}
+:root {
+--tuerkis: #40E0D0;
+--tuerkis-dunkel: #0D9488;
+--lila: #C084FC;
+--flieder: #F5D0FE;
+--hell: #F9FAFB;
+--dunkel: #1F2937;
+}
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  color: #1F2937;
+  background: linear-gradient(90deg, var(--tuerkis, #40E0D0) 0%, var(--lila, #C084FC) 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+header {
+  background: linear-gradient(270deg, #6D28D9, #0D9488);
+  color: white;
+padding: 50px;
+text-align: center;
+}
+
+nav {
+background: var(--dunkel);
+text-align: center;
+padding: 10px;
+position: relative;
+z-index: 100;
+}
+
+/* Tablet Hochformat */
+@media (min-width: 600px) and (max-width: 1100px) and (orientation: portrait) {
+  body {
+    font-size: 1.08rem;
+  }
+  main {
+    max-width: 98vw;
+    padding: 18px 2vw;
+    border-radius: 10px;
+  }
+  .leistungen-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    padding: 10px 2vw 120px 2vw;
+  }
+  .leistung-box {
+    max-width: 320px;
+    min-width: 0;
+    margin: 0 auto 18px auto;
+    font-size: 1rem;
+  }
+  header, .kategorie-header {
+    padding: 32px 0;
+    font-size: 1.2em;
+  }
+  nav a {
+    font-size: 1.05em;
+    padding: 10px 12px;
+  }
+  footer {
+    font-size: 1em;
+    padding: 10px 0;
+  }
+}
+
+/* Tablet Querformat */
+@media (min-width: 900px) and (max-width: 1400px) and (orientation: landscape) {
+  body {
+    font-size: 1.12rem;
+  }
+  main {
+    max-width: 90vw;
+    padding: 24px 4vw;
+    border-radius: 14px;
+  }
+  .leistungen-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    justify-items: center;
+  }
+  .leistung-box {
+    max-width: 340px;
+    min-width: 0;
+    margin: 0 auto 24px auto;
+    font-size: 1.05rem;
+  }
+  header, .kategorie-header {
+    padding: 38px 0;
+    font-size: 1.25em;
+  }
+  nav a {
+    font-size: 1.1em;
+    padding: 12px 18px;
+  }
+  footer {
+    font-size: 1.05em;
+    padding: 14px 0;
+  }
+}
+
+/* Sticky Footer für leistungen.html */
+.leistungen-seite {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.leistungen-seite main {
+  flex: 1 0 auto;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+/* Startseite */
+.startseite h1 {
+color: var(--tuerkis-dunkel);
+}
+.ueber-uns h2 {
+color: var(--lila);
+}
+.ueber-uns ul li {
+list-style: "✔ ";
+margin: 8px 0;
+color: var(--tuerkis-dunkel);
+}
+
+/* Kontaktformular */
+.kontakt-form {
+max-width: 500px;
+margin: 20px auto;
+display: flex;
+flex-direction: column;
+gap: 15px;
+}
+.kontakt-form label {
+font-weight: bold;
+}
+.kontakt-form input,
+.kontakt-form textarea {
+padding: 10px;
+border: 1px solid #ddd;
+border-radius: 6px;
+font-size: 1rem;
+transition: border-color 0.3s, box-shadow 0.3s;
+}
+.kontakt-form input:focus,
+.kontakt-form textarea:focus {
+border-color: var(--lila);
+box-shadow: 0 0 5px rgba(192, 132, 252, 0.5);
+outline: none;
+}
+.kontakt-form button {
+background: var(--tuerkis);
+color: white;
+border: none;
+padding: 12px;
+border-radius: 6px;
+font-size: 1rem;
+font-weight: bold;
+cursor: pointer;
+transition: background 0.3s;
+}
+.kontakt-form button:hover {
+background: var(--tuerkis-dunkel);
+}
+
+/* Kontaktformular */
+.kontakt-form {
+max-width: 500px;
+margin: 20px auto;
+display: flex;
+flex-direction: column;
+gap: 15px;
+background: var(--tuerkis);
+}
+.kontakt-form label {
+font-weight: bold;
+}
+.kontakt-form input,
+.kontakt-form textarea {
+padding: 10px;
+border: 1px solid #ddd;
+border-radius: 6px;
+font-size: 1rem;
+transition: border-color 0.3s, box-shadow 0.3s;
+}
+.kontakt-form input:focus,
+.kontakt-form textarea:focus {
+border-color: var(--lila);
+box-shadow: 0 0 5px rgba(192, 132, 252, 0.5);
+outline: none;
+}
+.kontakt-form button {
+background: var(--tuerkis);
+color: white;
+border: none;
+padding: 12px;
+border-radius: 6px;
+font-size: 1rem;
+font-weight: bold;
+cursor: pointer;
+transition: background 0.3s;
+}
+.kontakt-form button:hover {
+background: var(--tuerkis-dunkel);
+}
+/* -------------------------
+Farben (Pastell)
+------------------------- */
+
+
+/* -------------------------
+Grundlayout
+------------------------- */
+
+/* -------------------------
+Header mit Farbverlauf
+------------------------- */
+button {
+  background: var(--tuerkis);
+  color: white;
+  border: none;
+  padding: 20px 24px;
+  border-radius: 100px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: var(--lila);
+}
+nav {
+display: flex;
+justify-content: center;
+background: var(--dunkel);
+flex-wrap: wrap;
+}
+
+nav a {
+padding: 12px 20px;
+margin: 5px;
+border-radius: 100px;
+text-decoration: none;
+font-weight: bold;
+color: white;
+transition: 0.3s;
+}
+
+nav a:hover {
+background: var(--tuerkis);
+color: var(--dunkel);
+}
+
+/* -------------------------
+Hauptbereich
+------------------------- */
+
+/* -------------------------
+
+.main-btn {
+  background: var(--tuerkis);
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin: 10px 16px 10px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  transition: background 0.3s, color 0.3s;
+}
+.main-btn:hover {
+  background: var(--lila);
+  color: var(--dunkel);
+}
+.button-row {
+  display: flex;
+  gap: 18px;
+  margin-top: 32px;
+  margin-bottom: 10px;
+}
+
+/* -------------------------
+Footer
+------------------------- */
+/* -------------------------
+Leistungen
+------------------------- */
+.ueber-uns ul li {
+list-style: "✔ ";
+margin: 8px 0;
+color: var(--tuerkis);
+}
+form {
+background: var(--blau);
+padding: 20px;
+border-radius: 8px;
+}
+
+form input,
+form textarea {
+width: 100%;
+padding: 10px;
+margin-bottom: 15px;
+border: 1px solid #ffffff;
+border-radius: 6px;
+}
+
+form button {
+width: 102%;
+}
+
+/* ...existing code... */
+  .marquee-container {
+  width: 100vw;
+  min-width: 100vw;
+  overflow: hidden;
+  background: linear-gradient(90deg, var(--tuerkis), var(--lila));
+  margin-top: -120px;
+  padding: 150px 0 180px 0; /* Viel mehr Fläche oben und unten */
+}
+.marquee {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  animation: marquee 45s linear infinite;
+  width: max-content;
+}
+
+.marquee img {
+  height: 250px;
+  width: 360px;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 0 50px 0 rgba(255, 255, 255, 0.05);
+  background: white;
+  padding: 16px;
+  margin-bottom: 60px;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+/* ...existing code... */
+
+/* ...existing code... */
+main {
+  background: transparent;
+  box-shadow: none;
+}
+
+.marquee a img {
+  cursor: pointer;
+}
+
+.marquee a:hover img {
+  box-shadow: 0 8px 24px rgba(64,224,208,0.18);
+}
+.kategorie-header {
+  position: relative;
+  background: linear-gradient(90deg, var(--tuerkis), var(--lila));
+  color: white;
+  text-align: center;
+  overflow: hidden;
+}
+
+.kategorie-header h1 {
+  position: relative;
+  z-index: 2;
+  font-size: 2rem;
+  letter-spacing: 2px;
+  margin: 0;
+  color: white;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.18);
+}
+
+.header-gradient {
+  position: absolute;
+  top: 0; left: 0;
+  width: 35vw;
+  height: 100%;
+  background: linear-gradient(to right, rgba(255,255,255,0.65), rgba(255,255,255,0));
+  z-index: 1;
+  pointer-events: none;
+}
+
+.header-gradient.right {
+  left: auto;
+  right: 0;
+  background: linear-gradient(to left, rgba(255,255,255,0.65), rgba(255,255,255,0));
+}
+
+.marquee {
+  position: relative;
+}
+.marquee a {
+  position: relative;
+  display: inline-block;
+}
+.marquee a .zoom-preview {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: -10px;
+  transform: translate(-50%, -100%);
+  z-index: 10;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  /* background: white; entfernt */
+  padding: 8px;
+  max-width: 90vw;
+  max-height: 80vh;
+}
+.marquee a:hover .zoom-preview {
+  display: block;
+}
+.marquee a:hover img {
+  /* Kein transform mehr! */
+  box-shadow: 0 8px 24px rgba(64,224,208,0.18);
+}
+
+.portfolio-item {
+  background: var(--flieder, #F5D0FE);
+  position: relative;
+  padding: 28px 20px;
+  border-radius: 12px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--dunkel, #1F2937);
+  border: 2px solid var(--tuerkis, #40E0D0);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  display: block;
+  margin-bottom: 0;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.portfolio-item:hover {
+  transform: scale(1.04);
+  border-color: var(--lila, #C084FC);
+  box-shadow: 0 4px 16px rgba(192,132,252,0.12);
+  background: var(--blau, #A5F3FC);
+  color: var(--dunkel, #1F2937);
+}
+.portfolio-item.kategorie1 { background-image: url('/bilder/bilder/'); }
+.portfolio-item.kategorie2 { background-image: url('bilder/bilder/zeitfracht-bg.jpg'); }
+/* usw. */
+.marquee {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  animation: marquee 45s linear infinite;
+  width: max-content;
+}
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.leistung-box {
+  position: relative;
+  color: var(--dunkel, #1F2937);
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  border-radius: 16px;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border: 2px solid var(--tuerkis, #40E0D0);
+  margin-bottom: 0;
+  text-align: center;
+  display: block;
+  width: 320px;
+  aspect-ratio: 4 / 3;
+  min-width: 0;
+  min-height: 0;
+  max-width: 100%;
+}
+
+.leistung-box:hover {
+  border-color: var(--lila, #C084FC);
+  box-shadow: 0 4px 16px rgba(192,132,252,0.12);
+  color: var(--dunkel, #1F2937);
+}
+.leistung-box h2,
+.leistung-box p {
+  position: relative;
+  z-index: 2;
+  color: var(--dunkel, #1F2937); /* Immer dunkel */
+}
+/* JEDE Box bekommt ihr Bild */
+
+.leistung-box h2,
+header,
+.kategorie-header {
+  color: white;
+  text-align: center;
+  padding: 60px 0 60px 0; /* Oben und unten gleich viel Platz */
+  margin-bottom: 40px;    /* Abstand nach unten zu nav/main */
+  position: relative;
+  overflow: hidden;
+}
+body::before {
+  content: "";
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background: rgba(0,0,0,0.15); /* 0.10 = 10%, 0.20 = 20% Verdunkelung */
+}
+.info-bilder img {
+  width: 100%;
+  max-width: 220px;   /* Passe diesen Wert nach Wunsch an */
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(64,224,208,0.10);
+  object-fit: cover;
+}
+.info-bilder img {
+  height: auto;
+  max-height: 180px;  /* z.B. */
+}
+.box-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--dunkel, #1F2937);
+  color: #fff;
+  text-align: center;
+  padding: 12px 0 10px 0;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  font-size: 1.05em;
+  letter-spacing: 0.5px;
+  z-index: 3;
+  opacity: 0.98;
+  /* Optional: leichter Schatten oben */
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+}
+.leistung-box {
+  position: relative; /* wichtig für absolute Footer-Position */
+  overflow: hidden;
+}
+
+.portfolio-grid .portfolio-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.portfolio-grid .portfolio-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.15); /* 0.10 = 10%, 0.20 = 20% dimmen */
+  z-index: 1;
+  pointer-events: none;
+}
+
+.portfolio-grid .portfolio-item > * {
+  position: relative;
+  z-index: 2;
+}
+
+.kontaktForm::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.kontaktForm form,
+.kontaktForm > * {
+  position: relative;
+  z-index: 20;
+  background: transparent; /* wichtig! */
+
+}
+.leistungen-seite {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.leistungen-seite main {
+  flex: 1 0 auto;
+  overflow: visible;
+}
+.leistungen-seite footer {
+  flex-shrink: 0;
+}
+#form-success {
+  color: #000;
+}
+header h1 {
+  font-size: 2rem; /* kleinere Schrift für alle Seiten */
+}
+
+.startseite header h1 {
+  font-size: 3rem; /* große Schrift nur auf index.html */
+}
+header {
+  padding: 30px 0; /* gleicher vertikaler Abstand überall */
+}
+
+.leistungen-seite header {
+  padding: 30px 0; /* Weniger vertikaler Abstand nur auf leistungen.html */
+}
+.startseite header h1 {
+  color:
+   #fff; /* Weiß */
+}
+.seiten-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.marquee img {
+  width: 360px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 0 50px 0 rgba(255, 255, 255, 0.05);
+  /* background: white; entfernt */
+  padding: 16px;
+  margin: 0 10px;
+}
+.leistung-box {
+  position: relative; /* wichtig für das absolute Positionieren */
+}
+
+.overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+  pointer-events: none;
+
+  /* Verlauf von lila bis türkis */
+  background: linear-gradient(to left, 
+    #C084FC, /* lila */
+    #F5D0FE, /* rosa */
+    #A5F3FC, /* blau */
+    #99F6E4, /* mint */
+    #40E0D0  /* türkis */
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.leistungen-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Standard: 5 Spalten */
+  gap: 24px;
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 auto;
+  justify-items: center;
+}
+
+@media (max-width: 1600px) {
+  .startseite header h1 {
+    font-size: 2.55rem; /* 15% kleiner als 3rem */
+  }
+  .leistungen-seite .marquee img {
+    width: 70vw;
+    height: auto;
+    min-height: 60px;
+    max-width: 70vw;
+    min-width:0;
+    padding: 8px;
+  }
+  .leistungen-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    justify-items: center;
+  }
+}
+
+
+@media (max-width: 600px) {
+  .startseite header h1 {
+    font-size: 2.55rem; /* 15% kleiner als 3rem */
+  }
+  .leistungen-seite .marquee img {
+    width: 70vw;
+    height: auto;
+    min-height: 60px;
+    max-width: 70vw;
+    min-width:0;
+    padding: 8px;
+  }
+  .leistungen-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    justify-items: center;
+  }
+  .marquee-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 24px;
+  }
+  .marquee {
+    animation: none !important;
+    width: max-content;
+    min-width: 100vw;
+    gap: 24px;
+    /* Touch scroll */
+    display: flex;
+  }
+  .marquee-link {
+    flex: 0 0 auto;
+  }
+}
+.button-row button {
+  font-size: 1.1rem;      /* größere Schrift */
+  padding: 16px 32px;     /* mehr Innenabstand */
+  min-width: 100px;       /* optional: Mindestbreite */
+  border-radius: 100px;     /* optional: größere Rundung */
+}
+.startseite .button-row button {
+  font-size: 0.85rem;
+  padding: 20px 40px;
+  min-width: 160px;
+  border-radius: 100px;
+}
+/* entfernt: doppelte Media Query für #cookie-banner auf Tablets */
+hr {
+    border: 1px solid black; /* Linie schwarz und 1px dick */
+    margin: 20px 0;           /* optional: Abstand oben/unten */
+}
+.pdf-button {
+display: inline-block;
+padding: 8px 14px;
+background-color: var(--flieder, #F5D0FE);
+border: 1px solid var(--tuerkis, #40E0D0);
+border-radius: 4px;
+text-decoration: none;
+color: #000;
+font-size: 0.95rem;
+transition: 0.2s;
+box-shadow: 0 2px 8px rgba(0,0,0,0.05)
+}
+.pdf-button:hover {
+background-color: var(--blau, #A5F3FC);
+border-color: #C084FC;
+box-shadow: 0 4px 16px rgba(192,132,252,0.12)
+}

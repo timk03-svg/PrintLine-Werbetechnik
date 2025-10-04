@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impressum - PrintLine Werbetechnik</title>
+<meta name="description" content="Impressum von PrintLine Werbetechnik – rechtliche Informationen, Kontaktdaten und Angaben zum Anbieter.">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #000;           /* Standardfarbe für Fließtext */
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  h1, h2, h3 {
+    color: #004a80;         /* Überschriften wie bei AGB */
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  h2 {
+    font-size: 1.3rem;
+  }
+  h3 {
+    font-size: 1.2rem;
+  }
+  p {
+    margin: 10px 0;
+    font-size: 1rem;
+  }
+  ul {
+    margin: 10px 0 15px 20px;
+    padding: 0;
+  }
+  li {
+    margin-bottom: 10px;
+  }
+  nav a {
+    margin-right: 15px;
+    text-decoration: none;
+    color: #fff;           /* Navigation bleibt weiß */
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<header class="kategorie-header">
+  <h1>Impressum</h1>
+</header>
+
+<nav>
+  <a href="index.html">Startseite</a>
+  <a href="leistungen.html">Leistungen</a>
+  <a href="portfolio.html">Portfolio</a>
+  <a href="ueber-uns.html">Über uns</a>
+  <a href="kontakt.html">Kontakt</a>
+  <a href="impressum.html">Impressum</a>
+  <a href="datenschutz.html">Datenschutz</a>
+  <a href="agb.html">AGB</a>
+</nav>
+
+<main>
+  <h2>Impressum</h2>
+
+  <p><strong>Angaben gemäß § 5 TMG:</strong></p>
+  <p>
+    Brit Kroner<br>
+    PrintLine Werbetechnik<br>
+    Magdeburger Straße 5A<br>
+    39576 Stendal<br>
+    Deutschland
+  </p>
+
+  <p><strong>Kontakt:</strong><br>
+    Telefon: +49 1512 03016900<br>
+    E-Mail: print2002@gmx.de<br>
+    Website: <a href="https://www.werbung-kroner.de" target="_blank">www.werbung-kroner.de</a>
+  </p>
+
+  <p><strong>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</strong><br>
+    Brit Kroner, Magdeburger Straße 5A, 39576 Stendal
+  </p>
+
+  <p><strong>Hinweis zur Kleinunternehmerregelung:</strong><br>
+    Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.
+  </p>
+
+  <p><strong>Haftungsausschluss:</strong><br>
+    Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte externer Links. 
+    Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich.
+  </p>
+</main>
+
+  <div style="text-align:center; margin: 30px 0 10px 0; font-size: 1.1rem;">
+    <strong>© 2025 PrintLine Werbetechnik - Alle Rechte vorbehalten <br>
+      <span class="footer-link" data-href="impressum.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Impressum</span> |
+      <span class="footer-link" data-href="datenschutz.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Datenschutz</span> |
+      <span class="footer-link" data-cookie style="color:#004a80; text-decoration:underline; cursor:pointer;">Cookie-Einstellungen</span>
+    </strong>
+  </div>
+  <script src="cookie-banner.js"></script>
+<script>
+// Footer-Links klickbar machen ohne Dateipfad beim Hover
+document.querySelectorAll('.footer-link[data-href]').forEach(link => {
+  link.addEventListener('click', function() {
+    window.location.href = link.getAttribute('data-href');
+  });
+});
+document.querySelectorAll('.footer-link[data-cookie]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.showCookieSettings && window.showCookieSettings();
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Druck - PrintLine Werbetechnik</title>
+<meta name="description" content="Digitaldruck: PrintLine Werbetechnik bietet Drucklösungen in hochwertiger Qualität für Banner, Schilder und mehr.">
+  <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+
+</head>
+<body>
+  <header class="kategorie-header">
+    <h1>Druck</h1>
+  </header>
+  <nav>
+    <a href="index.html">Startseite</a>
+    <a href="leistungen.html">Leistungen</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="ueber-uns.html">Über uns</a>
+    <a href="kontakt.html">Kontakt</a>
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="agb.html">AGB</a>
+    </nav>
+  <main>
+    <section class="info-section">
+      <div class="info-text">
+       
+        <p>
+  <strong>Digitaldruck – grenzenlose Möglichkeiten für Ihre Werbung</strong>
+</p>
+
+<p>
+  Ob Fahrzeuge, Gebäude, Maschinen oder Werbeflächen – moderner Digitaldruck macht Ihre Botschaft überall sichtbar. 
+  Wir fertigen Aufkleber, Etiketten und Folien in erstklassiger Qualität, die langlebig und witterungsbeständig sind. 
+  Jede Fläche wird so zu Ihrer Werbefläche!
+</p>
+
+<p><strong>Unsere Digitaldruck-Leistungen:</strong></p>
+<ul>
+  <li>Aufkleber und Etiketten – in allen Formen und Größen, ideal für Branding oder Produktkennzeichnung.</li>
+  <li>Fensterfolien – dekorativ, auffällig oder als Sichtschutz mit Werbeeffekt.</li>
+  <li>Maschinen- und Gerätebeschriftungen – präzise, strapazierfähig und langlebig.</li>
+</ul>
+
+<p><strong>Ihre Vorteile mit unserem Digitaldruck:</strong></p>
+<ul>
+  <li>Brillante Farben und gestochen scharfe Details</li>
+  <li>Witterungsbeständig, UV- und kratzfest</li>
+  <li>Flexible Formate – für jedes Projekt die passende Größe</li>
+  <li>Kreative Lösungen für Innenräume</li>
+  <li>Individuelle Gestaltung und Umsetzung</li>
+</ul>
+
+<p>
+  Mit unserem hochwertigen Digitaldruck setzen wir Ihre Werbung überall wirkungsvoll in Szene – kreativ und zuverlässig.
+</p>
+
+        <ul>
+        </ul>
+      </div>
+      <div class="info-bilder">
+        <img src="bilder-leistung-hintergrund/druck.jpg" alt="Druck Beispiel" class="zoom-img">
+         <img src="bilder-leistung-hintergrund/schilder.jpg" alt="Beschriftung Beispiel" class="zoom-img">
+          <img src="bilder-leistung-hintergrund/altmarkrundkurs.jpg.jpg" alt="Beschriftung Beispiel" class="zoom-img">
+           <img src="bilder-leistung-hintergrund/fenstervoll.JPG" alt="Beschriftung Beispiel" class="zoom-img">
+           
+      </div>
+    </section>
+    <!-- Inhalt und Bilder zu Beschriftungen -->
+  </main>
+
+  <!-- Footer entfernt, stattdessen reiner Text am Seitenende -->
+  <div style="text-align:center; margin: 30px 0 10px 0; font-size: 1.1rem;"><strong>
+  © 2025 PrintLine Werbetechnik - Alle Rechte vorbehalten <br>
+  <span class="footer-link" data-href="impressum.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Impressum</span> |
+  <span class="footer-link" data-href="datenschutz.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Datenschutz</span> |
+  <span class="footer-link" data-cookie style="color:#004a80; text-decoration:underline; cursor:pointer;">Cookie-Einstellungen</span>
+  </strong></div>
+
+  <script src="cookie-banner.js"></script>
+<script>
+// Footer-Links klickbar machen ohne Dateipfad beim Hover
+document.querySelectorAll('.footer-link[data-href]').forEach(link => {
+  link.addEventListener('click', function() {
+    window.location.href = link.getAttribute('data-href');
+  });
+});
+document.querySelectorAll('.footer-link[data-cookie]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.showCookieSettings && window.showCookieSettings();
+  });
+});
+// Lightbox für Bilder
+function createLightbox(src, alt) {
+  let overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.background = 'rgba(0,0,0,0.85)';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.zIndex = 99999;
+  overlay.onclick = function() { document.body.removeChild(overlay); };
+  let img = document.createElement('img');
+  img.src = src;
+  img.alt = alt || '';
+  img.style.maxWidth = '90vw';
+  img.style.maxHeight = '90vh';
+  img.style.borderRadius = '16px';
+  img.style.boxShadow = '0 8px 32px rgba(0,0,0,0.25)';
+  overlay.appendChild(img);
+  document.body.appendChild(overlay);
+}
+document.querySelectorAll('.zoom-img').forEach(img => {
+  img.style.cursor = 'zoom-in';
+  img.addEventListener('click', function() {
+    createLightbox(img.src, img.alt);
+  });
+});
+</script>
+</body>
+</html>

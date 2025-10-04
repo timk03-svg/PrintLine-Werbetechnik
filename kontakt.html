@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Kontakt - PrintLine Werbetechnik</title>
+<meta name="description" content="Kontaktieren Sie PrintLine Werbetechnik in Stendal: Telefon, E-Mail oder über unser Kontaktformular. Wir beraten Sie gerne persönlich.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+<header class="kategorie-header">
+<h1>Kontakt</h1>
+</header>
+
+<nav>
+<a href="index.html">Startseite</a>
+<a href="leistungen.html">Leistungen</a>
+<a href="portfolio.html">Portfolio</a>
+<a href="ueber-uns.html">Über uns</a>
+<a href="kontakt.html">Kontakt</a>
+<a href="impressum.html">Impressum</a>
+<a href="datenschutz.html">Datenschutz</a>
+<a href="agb.html">AGB</a>
+</nav>
+
+<!-- ...existing code... -->
+<main>
+  <h2>Wir sind auch telefonisch oder per E-Mail zu erreichen:</h2>
+  <!-- ...existing code... -->
+<div class="kontakt-daten">
+  <p>
+    <i class="fa-solid fa-envelope"></i>
+    <strong>E-Mail:</strong> <a href="mailto:print2002@gmx.de">print2002@gmx.de</a><br>
+    <p></p>
+    <i class="fa-solid fa-phone"></i>
+    <strong>Telefon:</strong> <a href="tel:+4915203016900">+49 152 03016900</a>
+  </p>
+</div>
+<!-- ...existing code... -->
+
+  <p id="kontakt-hinweis">Haben Sie Fragen oder wünschen Sie ein individuelles Angebot? Füllen Sie einfach das Formular aus:</p>
+<div class="kontaktForm">
+  <form id="kontaktForm" action="https://formspree.io/f/mnnzegpa" method="POST">
+    <label for="name">Ihr Name</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">Ihre E-Mail</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="nachricht">Ihre Nachricht</label>
+    <textarea id="nachricht" name="nachricht" rows="6" required></textarea>
+
+    <button type="submit">Absenden</button>
+    </form>
+</div>
+</main>
+<!-- ...existing code... -->
+<br>
+
+<div id="form-success" style="display:none; color:rgb(0, 0, 0); margin-top:10px;">
+  Nachricht wurde erfolgreich gesendet! Wir melden uns zeitnah bei Ihnen.
+</div>
+<script>
+document.getElementById('kontaktForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const data = new FormData(form);
+  const response = await fetch(form.action, {
+    method: form.method,
+    body: data,
+    headers: { 'Accept': 'application/json' }
+  });
+  if (response.ok) {
+    document.getElementById('kontakt-hinweis').style.display = 'none';
+      form.innerHTML = `
+  <div style="text-align:center; margin-top:40px;">
+    <p style="color: black; font-size:1.2em; margin-top:24px;">Vielen Dank für Ihre Nachricht! 
+      <p>
+      Wir werden uns zeitnah bei Ihnen melden!</p>
+  </div>
+`;
+  } else {
+    form.innerHTML = "<p style='color: red;'>Es gab ein Problem beim Absenden. Bitte versuchen Sie es später erneut.</p>";
+  }
+});
+
+</script>
+  <!-- Footer entfernt, stattdessen reiner Text am Seitenende -->
+  <div style="text-align:center; margin: 30px 0 10px 0; font-size: 1.1rem;">
+    <strong>© 2025 PrintLine Werbetechnik - Alle Rechte vorbehalten <br>
+      <span class="footer-link" data-href="impressum.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Impressum</span> |
+      <span class="footer-link" data-href="datenschutz.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Datenschutz</span> |
+  <span class="footer-link" data-cookie style="color:#004a80; text-decoration:underline; cursor:pointer;">Cookie-Einstellungen</span>
+    </strong>
+<script>
+// Footer-Links klickbar machen ohne Dateipfad beim Hover
+document.querySelectorAll('.footer-link[data-href]').forEach(link => {
+  link.addEventListener('click', function() {
+    window.location.href = link.getAttribute('data-href');
+  });
+});
+document.querySelectorAll('.footer-link[data-cookie]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.showCookieSettings && window.showCookieSettings();
+  });
+});
+</script>
+  </div>
+  <script src="cookie-banner.js" defer></script>
+</body>
+</html>

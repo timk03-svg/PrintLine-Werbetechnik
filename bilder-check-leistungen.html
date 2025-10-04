@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Bilder Ladezeiten & Größen Check</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background: #f0f0f0; }
+    tr.slow { background: #ffe0e0; }
+    tr.large { background: #fff3cd; }
+    img { max-width: 120px; max-height: 80px; }
+  </style>
+</head>
+<body>
+  <h1>Bilder Ladezeiten & Größen Check</h1>
+  <table id="imgTable">
+    <tr>
+      <th>Bild</th>
+      <th>Dateiname</th>
+      <th>Größe (kB)</th>
+      <th>Ladezeit (ms)</th>
+      <th>Abmessungen</th>
+    </tr>
+  </table>
+  <script>
+    // Hier alle Bildpfade aus leistungen.html eintragen (ggf. automatisch generieren)
+    const images = [
+      'bilder-leistung-hintergrund/beschriftungen.jpg',
+      'bilder-leistung-hintergrund/druck.jpg',
+      'bilder-leistung-hintergrund/schilder.jpg',
+      'bilder-leistung-hintergrund/planen.jpg',
+      'bilder-leistung-hintergrund/werbeartikel.jpg',
+      'bilder-leistung-hintergrund/folientechnik.jpg',
+      'bilder-leistung-hintergrund/fahnen.jpg',
+      'bilder-leistung-hintergrund/geruestplanen-werbebanner.jpg',
+      'bilder-leistung-hintergrund/textildruck.JPG',
+      'bilder-leistung-hintergrund/aufsteller-pylonen.jpg'
+    ];
+    const table = document.getElementById('imgTable');
+    images.forEach(src => {
+      const row = table.insertRow();
+      const imgCell = row.insertCell();
+      const nameCell = row.insertCell();
+      const sizeCell = row.insertCell();
+      const timeCell = row.insertCell();
+      const dimCell = row.insertCell();
+      const img = new Image();
+      const t0 = performance.now();
+      img.onload = function() {
+        const t1 = performance.now();
+        fetch(src).then(r => r.blob()).then(blob => {
+          const sizeKB = (blob.size / 1024).toFixed(1);
+          sizeCell.textContent = sizeKB;
+          if (blob.size > 120*1024) row.classList.add('large');
+        });
+        timeCell.textContent = Math.round(t1 - t0);
+        if ((t1-t0) > 200) row.classList.add('slow');
+        dimCell.textContent = img.naturalWidth + 'x' + img.naturalHeight;
+      };
+      img.onerror = function() {
+        sizeCell.textContent = 'Fehler';
+        timeCell.textContent = '-';
+        dimCell.textContent = '-';
+      };
+      imgCell.appendChild(img);
+      img.src = src;
+      nameCell.textContent = src;
+    });
+  </script>
+  <p><small>Rot = langsam, Gelb = groß (&gt;120kB)</small></p>
+</body>
+</html>

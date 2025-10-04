@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Portfolio - PrintLine Werbetechnik</title>
+<meta name="description" content="Werfen Sie einen Blick in unser Portfolio - von Beschriftungen eines LKW Fuhrparks von Zeitfracht bis zu MAschinenköpfen der Windräder von CPC.">
+<link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+
+</head>
+<body>
+<header class="kategorie-header">
+<h1>Unser Portfolio</h1>
+</header>
+
+<nav>
+<a href="index.html">Startseite</a>
+<a href="leistungen.html">Leistungen</a>
+<a href="portfolio.html">Portfolio</a>
+<a href="ueber-uns.html">Über uns</a>
+<a href="kontakt.html">Kontakt</a>
+<a href="impressum.html">Impressum</a>
+<a href="datenschutz.html">Datenschutz</a>
+<a href="agb.html">AGB</a>
+</nav>
+
+<!-- ...existing code... -->
+<br>
+<br>
+<br>
+<br>
+<main>
+  <div class="portfolio-grid">
+    <a href="cpc-germania.html" class="portfolio-item">
+      <h2>CPC GERMANIA</h2>
+      <p>Umsetzung großformatiger Maschinenkopfbeschriftungen mit präziser Planung und enger Projektabstimmung.</p>
+    </a>
+    <br>
+    <br>
+    <a href="zeitfracht.html" class="portfolio-item">
+      <h2>Zeitfracht</h2>
+      <p>Flottenbeschriftung von LKWs und Zugmaschinen im Corporate Design.</p>
+    </a>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!-- Weitere Portfolio-Boxen nach Bedarf -->
+  </div>
+</main>
+
+  <!-- Footer entfernt, stattdessen reiner Text am Seitenende -->
+  <div style="text-align:center; margin: 30px 0 10px 0; font-size: 1.1rem;">
+    <strong>© 2025 PrintLine Werbetechnik - Alle Rechte vorbehalten <br>
+      <span class="footer-link" data-href="impressum.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Impressum</span> |
+      <span class="footer-link" data-href="datenschutz.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Datenschutz</span> |
+  <span class="footer-link" data-cookie style="color:#004a80; text-decoration:underline; cursor:pointer;">Cookie-Einstellungen</span>
+    </strong>
+<script>
+// Footer-Links klickbar machen ohne Dateipfad beim Hover
+document.querySelectorAll('.footer-link[data-href]').forEach(link => {
+  link.addEventListener('click', function() {
+    window.location.href = link.getAttribute('data-href');
+  });
+});
+document.querySelectorAll('.footer-link[data-cookie]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.showCookieSettings && window.showCookieSettings();
+  });
+});
+</script>
+  </div>
+  <script src="cookie-banner.js" defer></script>
+</body>
+</html>

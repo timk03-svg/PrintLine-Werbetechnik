@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Werbeartikel - PrintLine Werbetechnik</title>
+<meta name="description" content="Individuell bedruckte Werbeartikel für Ihr Unternehmen. Kreativ, praktisch und perfekt für Marketingkampagnen.">
+  <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+
+</head>
+<body>
+  <header class="kategorie-header">
+    <h1>Werbeartikel</h1>
+  </header>
+  <nav>
+    <a href="index.html">Startseite</a>
+    <a href="leistungen.html">Leistungen</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="ueber-uns.html">Über uns</a>
+    <a href="kontakt.html">Kontakt</a>
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="agb.html">AGB</a>
+    </nav>
+  <main>
+    <section class="info-section">
+      <div class="info-text">
+        
+        <p>
+         <p>
+  <strong>Werbeartikel – kleine Geschenke, große Wirkung</strong>
+</p>
+
+<p>
+  Werbeartikel sind eine ideale Möglichkeit, Ihre Marke direkt in die Hände Ihrer Kunden zu bringen. 
+  Ob auf Messen, bei Events oder als Dankeschön – individuell gestaltete Produkte bleiben im Gedächtnis.
+</p>
+
+<p><strong>Unsere Produkte für Ihren Auftritt:</strong></p>
+<ul>
+  <li>Kugelschreiber und Schreibwaren – praktisch, hochwertig und mit Ihrem Logo versehen.</li>
+  <li>Tassen und Trinkflaschen – kreativ gestaltet für Büro, Messe oder Kundenpräsente.</li>
+  <li>Weitere Werbemittel – Schlüsselanhänger, USB-Sticks und vieles mehr</li>
+  <li>Sitzwürfel aus Schaumstoff – bequem und individuell anpassbar.</li>
+  <li>Zollstöcke und Warnwesten – praktisch, auffällig und nützlich.</li>
+  <li>Gebogene Messetheken – flexibel einsetzbar und leicht zu transportieren.</li>
+  <li>Stempel, Feuerzeuge, Pokale, Klemmbrätter, 3-Monatskalender – vielseitige Präsente für jeden Anlass</li>
+  <li>Promotionsarmbänder – mit praktischer Kunststoff-Steckschnalle.</li>
+</ul>
+
+<p><strong>Ihre Vorteile:</strong></p>
+<ul>
+  <li>Hochwertige Produkte, individuell bedruckt</li>
+  <li>Praktisch und nützlich – bleiben lange im Alltag präsent</li>
+  <li>Ideal für Messen, Events, Kunden- und Mitarbeitergeschenke</li>
+  <li>Rundum-Service – Beratung, Gestaltung und Produktion aus einer Hand</li>
+</ul>
+
+<p>
+  Mit unseren Werbeartikeln machen Sie Ihr Unternehmen sichtbar – kleine Geschenke mit großer Wirkung.
+</p>
+
+
+        <ul>
+        </ul>
+      </div>
+      <div class="info-bilder">
+        <img src="bilder-leistung-hintergrund/jssec12.jpg" alt="Werbeartikel Beispiel" class="zoom-img">
+        
+      </div>
+    </section>
+    <!-- Inhalt und Bilder zu Beschriftungen -->
+    
+
+
+  </main>
+
+  <!-- Footer entfernt, stattdessen reiner Text am Seitenende -->
+  <div style="text-align:center; margin: 30px 0 10px 0; font-size: 1.1rem;"><strong>
+  © 2025 PrintLine Werbetechnik - Alle Rechte vorbehalten <br>
+  <span class="footer-link" data-href="impressum.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Impressum</span> |
+  <span class="footer-link" data-href="datenschutz.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Datenschutz</span> |
+  <span class="footer-link" data-cookie style="color:#004a80; text-decoration:underline; cursor:pointer;">Cookie-Einstellungen</span>
+  </strong></div>
+  <script src="cookie-banner.js" defer></script>
+<script>
+// Footer-Links klickbar machen ohne Dateipfad beim Hover
+document.querySelectorAll('.footer-link[data-href]').forEach(link => {
+  link.addEventListener('click', function() {
+    window.location.href = link.getAttribute('data-href');
+  });
+});
+document.querySelectorAll('.footer-link[data-cookie]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.showCookieSettings && window.showCookieSettings();
+  });
+});
+</script>
+<script>
+// Lightbox für Bilder
+function createLightbox(src, alt) {
+  let overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.background = 'rgba(0,0,0,0.85)';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.zIndex = 99999;
+  overlay.onclick = function() { document.body.removeChild(overlay); };
+  let img = document.createElement('img');
+  img.src = src;
+  img.alt = alt || '';
+  img.style.maxWidth = '90vw';
+  img.style.maxHeight = '90vh';
+  img.style.borderRadius = '16px';
+  img.style.boxShadow = '0 8px 32px rgba(0,0,0,0.25)';
+  overlay.appendChild(img);
+  document.body.appendChild(overlay);
+}
+document.querySelectorAll('.zoom-img').forEach(img => {
+  img.style.cursor = 'zoom-in';
+  img.addEventListener('click', function() {
+    createLightbox(img.src, img.alt);
+  });
+});
+</script>
+ 
+</body>
+</html>

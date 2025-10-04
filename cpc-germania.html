@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>CPC GERMANIA - PrintLine Werbetechnik</title>
+<meta name="description" content="PrintLine Werbetechnik: Projekt zur Beschriftung von CPC Windkraftanlagen im großen Maßstab.">
+  <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+  <header class="kategorie-header">
+    <h1>CPC GERMANIA</h1>
+  </header>
+  <nav>
+    <a href="index.html">Startseite</a>
+    <a href="leistungen.html">Leistungen</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="ueber-uns.html">Über uns</a>
+    <a href="kontakt.html">Kontakt</a>
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="agb.html">AGB</a>
+    </nav>
+  </nav>
+  <main>
+    <section class="info-section">
+      <div class="info-text">
+       <h2>Projekt: Maschinenkopf-Beschriftung für CPC Germania</h2>
+<p>
+  Für das Unternehmen <strong>CPC Germania</strong> haben wir die großflächige Beschriftung mehrerer Maschinenköpfe übernommen. 
+  Die Arbeiten erforderten eine besonders präzise Verarbeitung und exakte Anpassung an die komplexen Oberflächen.
+</p>
+
+<p>
+  Die Kombination aus großem Format, runden Konturen und teils herausfordernden Materialeigenschaften stellte besondere Anforderungen an Planung und Foliertechnik. 
+  Gleichzeitig lag der Fokus auf der hochwertigen Umsetzung des Corporate Designs, um langfristige Beständigkeit und optische Klarheit zu gewährleisten.
+</p>
+
+<p>
+  Für einen <strong>reibungslosen Ablauf</strong> standen wir in engem Austausch mit dem Projektmanagement von CPC Germania. 
+  Die bereitgestellten Folien wurden durch ein Subunternehmen geliefert, wodurch eine optimale Abstimmung und termingerechte Fertigstellung aller Arbeiten möglich war.
+</p>
+
+<h3>Unsere Leistungen im Überblick</h3>
+<ul>
+  <li>Konzeption und technische Vorbereitung großflächiger Beschriftungen auf Maschinenköpfen</li>
+  <li>Exakte Anpassung und Applikation auf komplexe Oberflächen</li>
+  <li>Verwendung witterungs- und abriebfester Hochleistungsfolien</li>
+  <li>Enge Abstimmung mit dem Projektmanagement für reibungslosen Ablauf</li>
+  <li>Umsetzung des Corporate Designs in langlebiger Ausführung</li>
+  <li>Qualitätssicherung und termingerechte Abwicklung</li>
+</ul>
+
+<p>
+  Mit diesem Projekt demonstrieren wir unsere Expertise in der <strong>Umsetzung anspruchsvoller Spezialflächen</strong>. 
+  Die Beschriftungen sorgen für hohe Wiedererkennbarkeit und stärken das professionelle Erscheinungsbild der Maschinen im operativen Einsatz.
+</p>
+
+        </p>
+        <ul>
+        </ul>
+      </div>
+      <div class="info-bilder">
+        <img src="bilder-leistung-hintergrund/cpc.jpg" alt="CPC Beispiel" class="zoom-img">
+         <img src="bilder-leistung-hintergrund/fahnen.jpg" alt="Beschriftung Beispiel" class="zoom-img">
+      </div>
+    </section>
+    <!-- Inhalt und Bilder zu Beschriftungen -->
+  </main>
+
+  <!-- Footer entfernt, stattdessen reiner Text am Seitenende -->
+  <div style="text-align:center; margin: 30px 0 10px 0; font-size: 1.1rem;"><strong>
+  © 2025 PrintLine Werbetechnik - Alle Rechte vorbehalten <br>
+  <span class="footer-link" data-href="impressum.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Impressum</span> |
+  <span class="footer-link" data-href="datenschutz.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Datenschutz</span> |
+  <span class="footer-link" data-cookie style="color:#004a80; text-decoration:underline; cursor:pointer;">Cookie-Einstellungen</span>
+  </strong></div>
+ 
+  <script src="cookie-banner.js"></script>
+<script>
+// Footer-Links klickbar machen ohne Dateipfad beim Hover
+document.querySelectorAll('.footer-link[data-href]').forEach(link => {
+  link.addEventListener('click', function() {
+    window.location.href = link.getAttribute('data-href');
+  });
+});
+document.querySelectorAll('.footer-link[data-cookie]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.showCookieSettings && window.showCookieSettings();
+  });
+});
+// Lightbox für Bilder
+function createLightbox(src, alt) {
+  let overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.background = 'rgba(0,0,0,0.85)';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.zIndex = 99999;
+  overlay.onclick = function() { document.body.removeChild(overlay); };
+  let img = document.createElement('img');
+  img.src = src;
+  img.alt = alt || '';
+  img.style.maxWidth = '90vw';
+  img.style.maxHeight = '90vh';
+  img.style.borderRadius = '16px';
+  img.style.boxShadow = '0 8px 32px rgba(0,0,0,0.25)';
+  overlay.appendChild(img);
+  document.body.appendChild(overlay);
+}
+document.querySelectorAll('.zoom-img').forEach(img => {
+  img.style.cursor = 'zoom-in';
+  img.addEventListener('click', function() {
+    createLightbox(img.src, img.alt);
+  });
+});
+</script>
+</body>
+</html>

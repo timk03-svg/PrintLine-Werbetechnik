@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Werbebanner und Planen - PrintLine Werbetechnik</title>
+<meta name="description" content="Planen und Werbebanner als großflächige Werbung für Baustellen und andere Projekte. Individuell beschriftet.">
+  <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+
+</head>
+<body>
+  <header class="kategorie-header">
+    <h1>Werbebanner und Planen</h1>
+  </header>
+  <nav>
+    <a href="index.html">Startseite</a>
+    <a href="leistungen.html">Leistungen</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="ueber-uns.html">Über uns</a>
+    <a href="kontakt.html">Kontakt</a>
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="agb.html">AGB</a>
+  </nav>
+  <main>
+     <section class="info-section">
+      <div class="info-text">
+        
+       <p>
+  <strong>Werbebanner und Planen – Werbung, die Eindruck macht</strong>
+</p>
+
+<p>
+  Unsere Werbebanner und Planen sind vielseitige Werbeträger für Baustellen, Gebäude, Events oder große Außenflächen. 
+  Ob klassisch mit langlebiger Folienbeschriftung oder individuell gezielt mit speziell dafür geeigneter Farbe gestaltet – wir setzen Ihre Botschaft großformatig, professionell und sichtbar um.
+</p>
+
+<p><strong>Unsere Möglichkeiten für Sie:</strong></p>
+<ul>
+  <li><strong>Folienbeschriftung:</strong> Präzise und sauber – ideal für detailgenaue Logos, Texte und Motive.</li>
+  <li><strong>Farbgestaltung mit Spezialfarbe:</strong> Direkt auf die Plane aufgetragen für einen handwerklich einzigartigen Look.</li>
+  <li><strong>Individuelle Konfektion:</strong> Banner und Planen nach Maß – mit Ösen, Hohlsaum oder speziellen Befestigungslösungen.</li>
+</ul>
+
+<p><strong>Ihre Vorteile:</strong></p>
+<ul>
+  <li>Großflächige Werbewirkung auf nahezu jeder Fläche</li>
+  <li>Hochwertige, wetterfeste Materialien für lange Haltbarkeit</li>
+  <li>Brillante Farben und saubere Konturen – egal ob Folie oder Farbe</li>
+  <li>Flexibel einsetzbar für Innen- und Außenbereiche</li>
+  <li>Individuell anpassbar auf Größe, Form und Einsatzort</li>
+</ul>
+
+<p>
+  Mit unseren Werbebannern und Planen nutzen Sie jede Fläche als wirkungsvolle Werbefläche. 
+  Ob Folienbeschriftung oder Farbauftrag – wir liefern langlebige, auffällige und passgenaue Lösungen für Ihre Werbung.
+</p>
+
+        <ul>
+        </ul>
+      </div>
+      <div class="info-bilder">
+        <img src="bilder-leistung-hintergrund/planen.jpg" alt="Weitere Beschriftung" class="zoom-img">
+      </div>
+    </section>
+    <!-- Inhalt und Bilder zu Beschriftungen -->
+    
+
+
+  </main>
+
+  <!-- Footer entfernt, stattdessen reiner Text am Seitenende -->
+  <div style="text-align:center; margin: 30px 0 10px 0; font-size: 1.1rem;"><strong>
+  © 2025 PrintLine Werbetechnik - Alle Rechte vorbehalten <br>
+  <a href="impressum.html" style="color:#004a80;">Impressum</a> |
+  <a href="datenschutz.html" style="color:#004a80;">Datenschutz</a> |
+  <a href="#" style="color:#004a80;" onclick="event.preventDefault(); window.showCookieSettings && window.showCookieSettings(); return false;">Cookie-Einstellungen</a>
+  </strong></div>
+<script>
+function createLightbox(src, alt) {
+  let overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.background = 'rgba(0,0,0,0.85)';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.zIndex = 99999;
+  overlay.onclick = function() { document.body.removeChild(overlay); };
+  let img = document.createElement('img');
+  img.src = src;
+  img.alt = alt || '';
+  img.style.maxWidth = '90vw';
+  img.style.maxHeight = '90vh';
+  img.style.borderRadius = '16px';
+  img.style.boxShadow = '0 8px 32px rgba(0,0,0,0.25)';
+  overlay.appendChild(img);
+  document.body.appendChild(overlay);
+}
+document.querySelectorAll('.zoom-img').forEach(img => {
+  img.style.cursor = 'zoom-in';
+  img.addEventListener('click', function() {
+    createLightbox(img.src, img.alt);
+  });
+});
+</script>
+<script src="cookie-banner.js"></script>
+</body>
+</html>

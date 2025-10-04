@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fahnen - PrintLine Werbetechnik</title>
+<meta name="description" content="Individuell bedruckte Fahnen: Wetterfest und ideal für Events, Firmen oder Verkaufsflächen.">
+  <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+
+</head>
+<body>
+  <header class="kategorie-header">
+    <h1>Fahnen</h1>
+  </header>
+  <nav>
+    <a href="index.html">Startseite</a>
+    <a href="leistungen.html">Leistungen</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="ueber-uns.html">Über uns</a>
+    <a href="kontakt.html">Kontakt</a>
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="agb.html">AGB</a>
+    </nav>
+  <main>
+     <section class="info-section">
+      <div class="info-text">
+        
+        <p>
+  <strong>Fahnen und Displays – Ihre Werbung in Bewegung</strong>
+</p>
+
+<p>
+  Ob auf Messen, vor Ihrem Firmengebäude oder bei Veranstaltungen – unsere Fahnen und Roll-Ups präsentieren Ihr Unternehmen wirkungsvoll.
+</p>
+
+<p><strong>Unsere Produkte im Überblick:</strong></p>
+<ul>
+  <li>Hissfahnen – repräsentativ und aufmerksamkeitsstark vor Ihrem Unternehmensstandort.</li>
+  <li>Event- und Messefahnen – flexibel, leicht aufzustellen und sofort einsatzbereit.</li>
+  <li>Beachflags und Werbefahnen – ideal für Promotion, Sportveranstaltungen und Aktionen.</li>
+  <li>Roll-Ups – kompakt, mobil und schnell aufgestellt, perfekt für Messen, Shops und Events.</li>
+</ul>
+
+<p><strong>Ihre Vorteile:</strong></p>
+<ul>
+  <li>Kräftiger Digitaldruck für intensive Farben und klare Botschaften</li>
+  <li>Geeignet für den Einsatz drinnen und draußen</li>
+  <li>Verschiedene Größen, Formen und Systeme verfügbar</li>
+  <li>Komplettlösungen inklusive Zubehör wie Masten und Gestelle</li>
+</ul>
+
+<p>
+  Egal, ob im Wind vor Ihrem Firmenhof, als Eyecatcher auf Messen oder als Informationsmedium bei Veranstaltungen – unsere Fahnen und Roll-Ups machen Ihre Botschaft sichtbar und unvergesslich.
+</p>
+        <ul>
+        </ul>
+      </div>
+      <div class="info-bilder">
+        <img src="bilder-leistung-hintergrund/maxautohandel.jpg" alt="Fahnen Beispiel" class="zoom-img">
+      </div>
+    </section>
+    <!-- Inhalt und Bilder zu Beschriftungen -->
+    
+
+
+  </main>
+
+  <!-- Footer entfernt, stattdessen reiner Text am Seitenende -->
+  <div style="text-align:center; margin: 30px 0 10px 0; font-size: 1.1rem;"><strong>
+  © 2025 PrintLine Werbetechnik - Alle Rechte vorbehalten <br>
+  <span class="footer-link" data-href="impressum.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Impressum</span> |
+  <span class="footer-link" data-href="datenschutz.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Datenschutz</span> |
+  <span class="footer-link" data-cookie style="color:#004a80; text-decoration:underline; cursor:pointer;">Cookie-Einstellungen</span>
+  </strong></div>
+
+  <script src="cookie-banner.js"></script>
+<script>
+// Footer-Links klickbar machen ohne Dateipfad beim Hover
+document.querySelectorAll('.footer-link[data-href]').forEach(link => {
+  link.addEventListener('click', function() {
+    window.location.href = link.getAttribute('data-href');
+  });
+});
+document.querySelectorAll('.footer-link[data-cookie]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.showCookieSettings && window.showCookieSettings();
+  });
+});
+// Lightbox für Bilder
+function createLightbox(src, alt) {
+  let overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.background = 'rgba(0,0,0,0.85)';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.zIndex = 99999;
+  overlay.onclick = function() { document.body.removeChild(overlay); };
+  let img = document.createElement('img');
+  img.src = src;
+  img.alt = alt || '';
+  img.style.maxWidth = '90vw';
+  img.style.maxHeight = '90vh';
+  img.style.borderRadius = '16px';
+  img.style.boxShadow = '0 8px 32px rgba(0,0,0,0.25)';
+  overlay.appendChild(img);
+  document.body.appendChild(overlay);
+}
+document.querySelectorAll('.zoom-img').forEach(img => {
+  img.style.cursor = 'zoom-in';
+  img.addEventListener('click', function() {
+    createLightbox(img.src, img.alt);
+  });
+});
+</script>
+</body>
+</html>

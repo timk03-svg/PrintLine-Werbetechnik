@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Über uns - PrintLine Werbetechnik</title>
+ <meta name="description" content="PrintLine Werbetechnik aus Stendal: Individuelle Schilder, Fahrzeugbeschriftungen, Fassadenwerbung und Werbelösungen – kreativ, zuverlässig und mit Leidenschaft seit fast 40 Jahren.">
+<link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+
+</head>
+<body>
+
+<header class="kategorie-header">
+<h1>Über uns</h1>
+</header>
+
+<nav>
+<a href="index.html">Startseite</a>
+<a href="leistungen.html">Leistungen</a>
+<a href="portfolio.html">Portfolio</a>
+<a href="ueber-uns.html">Über uns</a>
+<a href="kontakt.html">Kontakt</a>
+<a href="impressum.html">Impressum</a>
+<a href="datenschutz.html">Datenschutz</a>
+<a href="agb.html">AGB</a>
+</nav>
+
+<main>
+  <h2>Unser Team</h2>
+
+  <h3>Unsere Wurzeln</h3>
+  <p>
+  Vor fast <strong>vier Jahrzehnten</strong> begann unsere Geschichte – als kleine Werbeabteilung 
+  in einem <strong>familiengeführten Malerbetrieb</strong>, der als <strong>Fach- und Meisterbetrieb</strong> 
+  überregional für Qualität stand. Schon damals war für uns klar: Es geht nicht nur um Farbe, 
+  sondern darum, Ideen sichtbar zu machen und Botschaften kreativ in die Welt zu tragen. 
+  Ob Fahrzeugbeschriftungen, Schilder oder erste Fassadenarbeiten – 
+  wir haben schnell gespürt, dass dies mehr ist als ein Job: es ist unsere Leidenschaft.
+</p>
+
+
+  <h3>Handwerk mit Herz</h3>
+  <p>
+    Schon innerhalb des Malerbetriebs war uns wichtig, dass jedes Projekt 
+    mit Sorgfalt, Kreativität und echter Hingabe umgesetzt wird. 
+    Wir lieben es, wenn aus einer Idee etwas entsteht, das Menschen begeistert 
+    und bleibenden Eindruck hinterlässt. 
+    Diese Begeisterung begleitet uns bis heute.
+  </p>
+
+  <h3>Der Schritt in die Eigenständigkeit</h3>
+  <p>
+    <strong>2002</strong> wurde die Werbeabteilung abgekoppelt vom Malerbetrieb und zu einem alleinstehenden Unternehmen gegründet – 
+    mit dem Ziel, uns ganz auf die Werbetechnik zu konzentrieren. 
+    Seitdem setzen wir unser Wissen und unsere Erfahrung ein, 
+    um Projekte jeder Größe individuell und professionell umzusetzen. 
+    Was uns antreibt? Die Freude daran, mit unserem Handwerk 
+    sichtbare Spuren zu hinterlassen.
+  </p>
+
+  <h3>Zusammen mit unseren Kunden</h3>
+  <p>
+    Wir glauben, dass die besten Ergebnisse im Dialog entstehen. 
+    Deshalb nehmen wir uns Zeit, zuzuhören und die Wünsche unserer Kunden 
+    wirklich zu verstehen. 
+    Jedes Projekt begleiten wir vom ersten Entwurf bis zur fertigen Umsetzung – 
+    partnerschaftlich, transparent und mit einem offenen Ohr für Ideen.
+  </p>
+
+  <h3>Erfahrung & Begeisterung</h3>
+  <p>
+    Heute verbinden wir fast 40 Jahre Erfahrung mit echter Begeisterung für unser Handwerk. 
+    Präzision, Zuverlässigkeit und ein klar strukturierter Ablauf gehören bei uns genauso dazu 
+    wie die Leidenschaft, jedes Projekt zu etwas Besonderem zu machen. 
+    Für uns ist Werbetechnik nicht nur Arbeit – es ist unsere Art, Kreativität sichtbar zu machen.
+  </p>
+</main>
+
+
+<!-- Footer entfernt, stattdessen reiner Text am Seitenende -->
+  <div style="text-align:center; margin: 30px 0 10px 0; font-size: 1.1rem;">
+    <strong>© 2025 PrintLine Werbetechnik - Alle Rechte vorbehalten <br>
+      <span class="footer-link" data-href="impressum.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Impressum</span> |
+      <span class="footer-link" data-href="datenschutz.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Datenschutz</span> |
+  <span class="footer-link" data-cookie style="color:#004a80; text-decoration:underline; cursor:pointer;">Cookie-Einstellungen</span>
+    </strong>
+<script>
+// Footer-Links klickbar machen ohne Dateipfad beim Hover
+document.querySelectorAll('.footer-link[data-href]').forEach(link => {
+  link.addEventListener('click', function() {
+    window.location.href = link.getAttribute('data-href');
+  });
+});
+document.querySelectorAll('.footer-link[data-cookie]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.showCookieSettings && window.showCookieSettings();
+  });
+});
+</script>
+</div>
+<script src="cookie-banner.js" defer></script>
+</body>
+</html>
