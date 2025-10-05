@@ -5,10 +5,30 @@
 <meta charset="UTF-8">
 <title>PrintLine Werbetechnik</title>
 <meta name="description" content="Ihre Werbefirma aus Stendal: Schilder, Fahrzeugbeschriftungen, Fassadenwerbung und individuelle Werbelösungen – kreativ, zuverlässig und .">
-
+<link rel="canonical" href="https://www.werbung-kroner.de/">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <script>
+  type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Werbeagentur",
+    "name": "PrintLine Werbetechnik",
+    "url": "https://www.werbung-kroner.de",
+    
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+49-123-456789",
+      "contactType": "customer service"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Musterstraße 1",
+      "addressLocality": "Stadt",
+      "postalCode": "12345",
+      "addressCountry": "DE"
+    }
+  }
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
       navigator.serviceWorker.register('service-worker.js');
