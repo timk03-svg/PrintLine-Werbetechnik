@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webentwicklung - PrintLine Werbetechnik</title>
+<meta name="description" content="Webentwicklung: PrintLine Werbetechnik .">
+  <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+
+</head>
+<body>
+  <header class="kategorie-header">
+    <h1>Webentwicklung</h1>
+  </header>
+  <nav>
+    <a href="index.html">Startseite</a>
+    <a href="leistungen.html">Leistungen</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="ueber-uns.html">Über uns</a>
+    <a href="kontakt.html">Kontakt</a>
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="agb.html">AGB</a>
+    </nav>
+  <main>
+    <section id="webdesign" class="content-section">
+      <div class="container">
+       
+        <p>
+  <strong>Webentwicklung – Ihr Onlineauftritt, individuell und professionell umgesetzt!</strong>
+</p>
+
+<p>Der erste Eindruck zählt – besonders online. Eine moderne Website ist heute weit mehr als eine digitale Visitenkarte: 
+Sie ist das Fundament Ihres Unternehmensauftritts und der zentrale Kontaktpunkt zu Ihren Kunden.</p>
+
+<p>Durch kreative Webentwicklung vereinen wir als Werbefirma Designkompetenz mit technischer Expertise. 
+Wir entwickeln Websites, die nicht nur gut aussehen, sondern auch perfekt funktionieren – 
+auf Ihr Unternehmen angepasst, benutzerfreundlich und suchmaschinenoptimiert.</p>
+
+<p>Von der Konzeption über das Design bis zur fertigen Umsetzung erhalten Sie bei uns <strong>Webentwicklung aus einer Hand</strong>. 
+Ob Unternehmensseite, Projektübersicht oder Informationsportal – wir schaffen individuelle Lösungen, 
+die Ihr Unternehmen digital sichtbar machen und professionell repräsentieren.</p>
+
+<p>Unsere Stärke liegt in der Verbindung von Gestaltung, Markenverständnis und technischer Umsetzung. 
+Wir begleiten Sie von der Idee bis zum fertigen Onlineauftritt – persönlich, transparent und mit Liebe zum Detail.</p>
+
+<blockquote>
+  <p><strong>Unser Ziel:</strong> Ein durchdachter, einheitlicher Unternehmensauftritt über alle Kanäle hinweg – 
+  von der Fahrzeugbeschriftung bis zum digitalen Branding – für einen starken Wiedererkennungswert.</p>
+</blockquote>
+
+<strong>Unsere Leistungen in der Webentwicklung:</strong>
+<ul>
+  <li>Konzeption, Design und Umsetzung moderner Unternehmenswebsites</li>
+  <li>Individuelle Layouts nach Ihrem Corporate Design</li>
+  <li>Mobile Optimierung (Responsive Design)</li>
+  <li>Pflege, Erweiterung und technische Betreuung bestehender Websites</li>
+  <li>Beratung zu Domain, Hosting, Datenschutz (DSGVO) und Performance</li>
+</ul>
+
+<strong>Warum wir der richtige Partner sind:</strong>
+<ul>
+  <li>Alles aus einer Hand – von Design über Technik bis zur digitalen Strategie</li>
+  <li>Kurze Kommunikationswege und persönliche Ansprechpartner</li>
+  <li>Erfahrung aus Werbung, Unternehmensaufbau und Webentwicklung</li>
+  <li>Individuelle Lösungen statt Standard-Templates</li>
+</ul>
+
+<div class="cta">
+  <p><strong>Lassen Sie uns gemeinsam Ihren digitalen Auftritt entwickeln.</strong><br>
+  Wir gestalten Websites, die modern, intuitiv und überzeugend sind – so einzigartig wie Ihr Unternehmen selbst.</p>
+</div>
+
+<br>
+  </div>
+</section>
+ <div style="text-align:center; margin: 10px 0 10px 0; font-size: 1.1rem;">
+    <strong>© 2025 PrintLine Werbetechnik - Alle Rechte vorbehalten <br>
+      <span class="footer-link" data-href="impressum.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Impressum</span> |
+      <span class="footer-link" data-href="datenschutz.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Datenschutz</span> |
+  <span class="footer-link" data-cookie style="color:#004a80; text-decoration:underline; cursor:pointer;">Cookie-Einstellungen</span>
+    </strong>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var script = document.createElement('script');
+      script.src = 'cookie-banner.js';
+      document.body.appendChild(script);
+    });
+  </script>
+<script>
+// Footer-Links klickbar machen ohne Dateipfad beim Hover
+document.querySelectorAll('.footer-link[data-href]').forEach(link => {
+  link.addEventListener('click', function() {
+    window.location.href = link.getAttribute('data-href');
+  });
+});
+document.querySelectorAll('.footer-link[data-cookie]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.showCookieSettings && window.showCookieSettings();
+  });
+});
+</script>
+</body>
+</html>
+
