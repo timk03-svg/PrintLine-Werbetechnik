@@ -481,7 +481,7 @@ width: 102%;
 
 .marquee img {
   height: 250px;
-  width: 360px;
+  max-width: 360px;
   object-fit: cover;
   border-radius: 20px;
   box-shadow: 0 0 50px 0 rgba(255, 255, 255, 0.05);
@@ -686,7 +686,7 @@ body::before {
   right: 0;
   bottom: 0;
   background: var(--dunkel, #1F2937);
-  color: #fff;
+  color: #ffffff;
   text-align: center;
   padding: 12px 0 10px 0;
   border-bottom-left-radius: 12px;
@@ -826,26 +826,6 @@ header {
   justify-items: center;
 }
 
-@media (max-width: 1600px) {
-  .startseite header h1 {
-    font-size: 2.55rem; /* 15% kleiner als 3rem */
-  }
-  .leistungen-seite .marquee img {
-    width: 70vw;
-    height: auto;
-    min-height: 60px;
-    max-width: 70vw;
-    min-width:0;
-    padding: 8px;
-  }
-  .leistungen-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    padding-left: 2vw;
-    padding-right: 2vw;
-    justify-items: center;
-  }
-}
 
 
 @media (max-width: 600px) {
@@ -930,15 +910,17 @@ box-shadow: 0 4px 16px rgba(192,132,252,0.12)
 }
 
 body {
-margin: 0;
-font-family: var(--font-sans);
-color: #0b1220;
+  margin: 0;
+  font-family: var(--font-sans);
+  color: #0b1220;
 }
 
 .container {
-width: 1100px;
-margin: 40px auto;
-padding: 0 24px;
+  max-width: 1100px;
+  width: 100%;
+  margin: 40px auto;
+  padding: 0 24px;
+  box-sizing: border-box;
 }
 
 /* Kopfbereich */
@@ -1003,38 +985,30 @@ max-width: 650px;
 
 /* Grid */
 .grid {
-display: grid;
-grid-template-columns: repeat(4, 1fr);
-gap: var(--gap);
-width: 100%;
-}
-
-/* Responsiv */
-@media (max-width: 1000px) {
-.grid { grid-template-columns: repeat(3, 1fr); }
-}
-@media (max-width: 720px) {
-.grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 480px) {
-.grid { grid-template-columns: repeat(1, 1fr); }
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--gap);
+  width: 100%;
 }
 
 /* Karten */
 .card {
-background: #F5D0FE;
-border-radius: var(--radius);
-overflow: hidden;
-box-shadow: 0 6px 20px rgba(0,0,0,0.05);
-border: 2px solid #ffffff ;
-width: 100%;
+  background: #F5D0FE;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+  border: 2px solid #ffffff;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 4 / 3;
 }
 
 .card img {
-width: 100%;
-height: 180px;
-object-fit: cover;
-display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
 }
 
 .card figcaption {
@@ -1051,7 +1025,7 @@ color: #111;
 }
 .container .grid .card {
   justify-self: center; /* zusätzlich, falls spezifischere Regeln greifen */
-  margin: 0 auto;       /* wirkt in non-grid Kontexten */
+  margin: 4px;       /* wirkt in non-grid Kontexten */
 }
 
 .card .meta {
@@ -1106,3 +1080,13 @@ header.kategorie-header h1 {
   margin-inline: auto;
   line-height: 1.1;
 }
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
