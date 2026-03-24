@@ -46,6 +46,8 @@
     z-index: 9999 !important;
     background: rgba(30, 41, 55, 0.08) !important;
   }
+  }
+
   .cookie-banner-inner {
     justify-content: center !important;
     text-align: center !important;
@@ -53,7 +55,6 @@
     align-items: center !important;
     margin: 0 auto !important;
   }
-}
 /* ...existing code... */
 /* Responsive Design: Media Queries am Ende der Datei */
 .button-row {
