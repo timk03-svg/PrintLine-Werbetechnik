@@ -47,130 +47,1169 @@
     }
   </script>
 </head>
-<!-- Cookie-Banner-Logik wird jetzt komplett über cookie-banner.js gesteuert -->
 <body class="startseite">
 
-<header class="header header--hero js-header">
+<!-- Scroll-Fortschritts-Leiste -->
+<div id="scroll-progress"></div>
 
-  <!-- ✏️ HERO-HINTERGRUNDBILD EINFÜGEN:
-       1. Bild in den Ordner "bilder-leistung-hintergrund/" kopieren
-          z.B. "hero-hintergrund.jpg" (empfohlen: 1920×1080px)
-       2. Das style-Attribut unten einkommentieren (/* entfernen):
-          style="background-image: url('bilder-leistung-hintergrund/hero-hintergrund.jpg')"
-       3. Verdunkelung in style.css Zeile ".hero-bg::after" anpassen
-          (0.0 = kein Overlay, 0.6 = stark abgedunkelt) -->
-  <div class="hero-bg js-hero-bg"
-    ></div>
-    <!-- style="background-image: url('bilder-leistung-hintergrund/DEIN-BILD.jpg')" -->
+<!-- ══════════════════════════════════════════════════════════
+     NAVIGATION
+     ✏️ Nav-Links anpassen — href-Attribute und Link-Texte ändern
+══════════════════════════════════════════════════════════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <!-- ✏️ FIRMENNAME im Nav -->
+    <a href="/" class="nav-brand">
+      <div class="nav-brand-icon">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+        </svg>
+      </div>
+      <span class="nav-brand-text">PrintLine <span class="grad-text">Werbetechnik</span></span>
+    </a>
 
-  <div style="position:relative; z-index:2; text-align:center; padding: 0 1rem;">
-    <h1 class="hero-title js-parallax js-reveal-words">
-      PrintLine Werbetechnik
-    </h1>
-    <!-- ✏️ UNTERTITEL ÄNDERN: Text zwischen den p-Tags anpassen -->
-    <p class="hero-subtitle">
+    <div class="nav-links" id="nav-links">
+      <a href="#leistungen">Leistungen</a>
+      <a href="webdesign.html">Webentwicklung</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#ueber-uns">Über uns</a>
+      <a href="#archiv">Archiv</a>
+      <a href="#kontakt" class="nav-cta">Jetzt anfragen</a>
+    </div>
+
+    <button class="nav-menu-btn" onclick="toggleMenu()" aria-label="Menü öffnen">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Menü -->
+  <div id="mobile-menu">
+    <a href="#leistungen" onclick="toggleMenu()">Leistungen</a>
+    <a href="webdesign.html" onclick="toggleMenu()">Webentwicklung</a>
+    <a href="#portfolio" onclick="toggleMenu()">Portfolio</a>
+    <a href="#ueber-uns" onclick="toggleMenu()">Über uns</a>
+    <a href="#archiv" onclick="toggleMenu()">Archiv</a>
+    <a href="#kontakt" onclick="toggleMenu()">Kontakt</a>
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="agb.html">AGB</a>
+  </div>
+</nav>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     HERO
+     ✏️ HERO-HINTERGRUNDBILD EINFÜGEN:
+        1. Bild in den Ordner "bilder-leistung-hintergrund/" kopieren
+           z.B. "hero-hintergrund.jpg" (empfohlen: 1920×1080px)
+        2. Das style-Attribut unten einkommentieren (<!-- entfernen):
+           style="background-image: url('bilder-leistung-hintergrund/DEIN-BILD.jpg')"
+     ✏️ HERO-TEXT anpassen: h1, hero-sub
+══════════════════════════════════════════════════════════════ -->
+<section class="hero-section">
+  <!-- Animierte Hintergrund-Blobs — ✏️ Farben/Größen über style-Attribut ändern -->
+  <div class="blob" style="background:#f97316;width:600px;height:600px;top:-200px;right:-150px;opacity:0.12;animation-delay:0s"></div>
+  <div class="blob" style="background:#8b5cf6;width:500px;height:500px;bottom:-150px;left:-100px;opacity:0.10;animation-delay:-7s"></div>
+  <div class="blob" style="background:#14b8a6;width:350px;height:350px;top:40%;left:55%;opacity:0.08;animation-delay:-4s"></div>
+
+  <!-- Hintergrundmuster -->
+  <div class="dot-grid" style="position:absolute;inset:0;pointer-events:none"></div>
+  <div class="stripe-accent" style="position:absolute;inset:0;pointer-events:none"></div>
+
+  <!-- ✏️ HERO-HINTERGRUNDBILD (optional):
+  <div class="hero-bg-img"
+       style="background-image: url('bilder-leistung-hintergrund/DEIN-BILD.jpg')"></div>
+  -->
+
+  <div class="hero-inner">
+    <div class="hero-label">
+      <span class="pulse-dot"></span>
+      <!-- ✏️ LABEL-TEXT -->
       Professionelle Werbetechnik seit fast 40 Jahren · Stendal
+    </div>
+
+    <!-- ✏️ HAUPTÜBERSCHRIFT -->
+    <h1 class="hero-main-title">
+      PrintLine<br><span class="grad-text">Werbetechnik</span>
+    </h1>
+
+    <!-- ✏️ UNTERTITEL -->
+    <p class="hero-sub">
+      Individuelle Beschriftungslösungen für Betriebe, Einrichtungen und Organisationen —
+      von Werbeartikeln bis zum Fuhrpark und darüber hinaus.
     </p>
-  </div>
 
-</header>
-
-
-<nav>
-  <a href="leistungen.html">Leistungen</a>
-  <a href="webdesign.html">Webentwicklung</a>
-  <a href="portfolio.html">Portfolio</a>
-  <a href="ueber-uns.html">Über uns</a>
-  <a href="Archiv.html">Archiv</a>
-  <a href="kontakt.html">Kontakt</a>
-  <a href="impressum.html">Impressum</a>
-  <a href="datenschutz.html">Datenschutz</a>
-  <a href="agb.html">AGB</a>
-    </nav>
-
-<!-- ...existing code... -->
-<main>
-  <!-- ✏️ ÜBERSCHRIFT & TEXT anpassen -->
-  <h2>Ihr Projekt —<br><span class="grad-text">Unser Handwerk</span></h2>
-  <p>Individuelle Beschriftungslösungen für Betriebe, Einrichtungen und Organisationen —
-     von Werbeartikeln bis zum Fuhrpark und darüber hinaus.</p>
-
-  <!-- ✏️ KENNZAHLEN anpassen: Zahl und Beschriftung je Kachel ändern -->
-  <div class="stats-row">
-    <div class="stat-item">
-      <div class="stat-zahl">40+</div>
-      <div class="stat-label">Jahre Erfahrung</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-zahl">1000+</div>
-      <div class="stat-label">Projekte umgesetzt</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-zahl">100%</div>
-      <div class="stat-label">Aus einer Hand</div>
+    <div class="hero-buttons">
+      <a href="#kontakt" class="btn-primary">Jetzt unverbindlich anfragen →</a>
+      <a href="#leistungen" class="btn-outline">Leistungen entdecken</a>
     </div>
   </div>
 
-  <div class="button-row">
-    <button onclick="location.href='leistungen.html'">Zu unseren Leistungen</button>
-    <button onclick="location.href='kontakt.html'">Jetzt unverbindlich anfragen</button>
+  <div class="hero-scroll-hint">
+    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+    </svg>
+    Scrollen
   </div>
-</main>
+</section>
 
+<div class="glow-line"></div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     KENNZAHLEN
+     ✏️ KENNZAHLEN anpassen: Zahl und Beschriftung je Kachel
+══════════════════════════════════════════════════════════════ -->
+<section class="stats-section">
+  <div class="section-container">
+    <div class="stats-grid">
+      <div class="stat-card reveal">
+        <!-- ✏️ STAT 1 -->
+        <div class="stat-grad">40+</div>
+        <div class="stat-label-new">Jahre Erfahrung</div>
+      </div>
+      <div class="stat-card reveal rd2">
+        <!-- ✏️ STAT 2 -->
+        <div class="stat-grad-teal">1000+</div>
+        <div class="stat-label-new">Projekte umgesetzt</div>
+      </div>
+      <div class="stat-card reveal rd4">
+        <!-- ✏️ STAT 3 -->
+        <div class="stat-grad-purple">100%</div>
+        <div class="stat-label-new">Aus einer Hand</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     LEISTUNGEN
+     ✏️ PRO KARTE:
+        1. Bild: src="bilder-leistung-hintergrund/DATEINAME.jpg" eintragen
+           Kein Bild? → onerror-Platzhalter erscheint automatisch
+        2. Titel: <h3>TITEL</h3> anpassen
+        3. Beschreibung: <p>TEXT</p> anpassen
+        4. Link: href="DATEI.html" anpassen
+══════════════════════════════════════════════════════════════ -->
+<section id="leistungen" class="section-wrap">
+  <div class="blob" style="background:#f97316;width:400px;height:400px;top:10%;left:-150px;opacity:0.08;animation-delay:-3s"></div>
+  <div class="blob" style="background:#14b8a6;width:350px;height:350px;top:60%;right:-100px;opacity:0.07;animation-delay:-7s"></div>
+  <div class="blob" style="background:#8b5cf6;width:280px;height:280px;top:30%;right:20%;opacity:0.06;animation-delay:-2s"></div>
+  <div class="dot-grid" style="position:absolute;inset:0;opacity:0.5;pointer-events:none"></div>
+
+  <div class="section-container" style="position:relative;z-index:1">
+    <div class="section-header reveal">
+      <div class="section-label teal">— Unsere Leistungen —</div>
+      <h2 class="section-title">Was wir für Sie<br><span class="grad-text">umsetzen</span></h2>
+      <p class="section-sub">Professionelle Werbetechnik in allen Bereichen — von der Konzeption bis zur Montage.</p>
+    </div>
+
+    <div class="services-grid-new">
+
+      <!-- ════ LEISTUNG 1: BESCHRIFTUNGEN ════
+           ✏️ BILD: src="bilder-leistung-hintergrund/DEIN-BILD.jpg" -->
+      <a href="beschriftungen.html" class="service-card reveal">
+        <div class="service-img-wrap">
+          <img src="bilder-leistung-hintergrund/drkautohaus.jpg" alt="Beschriftungen"
+               onerror="this.parentElement.style.display='none';this.parentElement.nextElementSibling.style.display='flex'">
+          <div class="service-img-placeholder" style="display:none">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <span>✏️ Bild einfügen</span>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="icon-box orange">
+            <svg width="20" height="20" fill="none" stroke="#fb923c" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+          </div>
+          <h3>Beschriftungen</h3>
+          <p>Fahrzeuge, Fenster, Schaufenster und mehr – individuelle Beschriftungen für jeden Zweck.</p>
+          <span class="service-link">Mehr erfahren →</span>
+        </div>
+      </a>
+
+      <!-- ════ LEISTUNG 2: DIGITALDRUCK ════
+           ✏️ BILD: src="bilder-leistung-hintergrund/DEIN-BILD.jpg" -->
+      <a href="druck.html" class="service-card reveal rd1">
+        <div class="service-img-wrap">
+          <img src="bilder-leistung-hintergrund/elberadweg2.JPG" alt="Digitaldruck"
+               onerror="this.parentElement.style.display='none';this.parentElement.nextElementSibling.style.display='flex'">
+          <div class="service-img-placeholder" style="display:none">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <span>✏️ Bild einfügen</span>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="icon-box amber">
+            <svg width="20" height="20" fill="none" stroke="#fbbf24" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+          </div>
+          <h3>Digitaldruck</h3>
+          <p>Großformat-Digitaldruck auf Folie, Dibond, Forex und Papier – für Fahrzeuge, Messen und Werbeflächen.</p>
+          <span class="service-link">Mehr erfahren →</span>
+        </div>
+      </a>
+
+      <!-- ════ LEISTUNG 3: SCHILDER ════
+           ✏️ BILD: src="bilder-leistung-hintergrund/DEIN-BILD.jpg" -->
+      <a href="schilder.html" class="service-card reveal rd2">
+        <div class="service-img-wrap">
+          <img src="bilder-leistung-hintergrund/SchildPC.JPG" alt="Schilder"
+               onerror="this.parentElement.style.display='none';this.parentElement.nextElementSibling.style.display='flex'">
+          <div class="service-img-placeholder" style="display:none">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <span>✏️ Bild einfügen</span>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="icon-box rose">
+            <svg width="20" height="20" fill="none" stroke="#fb7185" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"/></svg>
+          </div>
+          <h3>Schilder</h3>
+          <p>Praxisschilder, Firmenschilder, Bauschilder – robust und individuell gestaltet für jeden Einsatzbereich.</p>
+          <span class="service-link">Mehr erfahren →</span>
+        </div>
+      </a>
+
+      <!-- ════ LEISTUNG 4: FASSADEN ════
+           ✏️ BILD: src="bilder-leistung-hintergrund/DEIN-BILD.jpg" -->
+      <a href="fassaden.html" class="service-card reveal rd3">
+        <div class="service-img-wrap">
+          <img src="bilder-leistung-hintergrund/fenstervoll.JPG" alt="Fassaden"
+               onerror="this.parentElement.style.display='none';this.parentElement.nextElementSibling.style.display='flex'">
+          <div class="service-img-placeholder" style="display:none">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <span>✏️ Bild einfügen</span>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="icon-box teal">
+            <svg width="20" height="20" fill="none" stroke="#2dd4bf" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          </div>
+          <h3>Fassaden</h3>
+          <p>Fassadenwerbung, Wandgestaltung und Außenbeschriftungen – ihr Gebäude als Werbefläche.</p>
+          <span class="service-link">Mehr erfahren →</span>
+        </div>
+      </a>
+
+      <!-- ════ LEISTUNG 5: WERBEARTIKEL ════
+           ✏️ BILD: src="bilder-leistung-hintergrund/DEIN-BILD.jpg" -->
+      <a href="werbeartikel.html" class="service-card reveal">
+        <div class="service-img-wrap">
+          <div class="service-img-placeholder" style="display:flex">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+            <span>✏️ Bild einfügen</span>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="icon-box amber">
+            <svg width="20" height="20" fill="none" stroke="#fcd34d" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          </div>
+          <h3>Werbeartikel</h3>
+          <p>Kugelschreiber, Tassen, Textilien und mehr – mit Ihrem Logo individuell bedruckt und veredelt.</p>
+          <span class="service-link">Mehr erfahren →</span>
+        </div>
+      </a>
+
+      <!-- ════ LEISTUNG 6: FOLIENTECHNIK ════
+           ✏️ BILD: src="bilder-leistung-hintergrund/DEIN-BILD.jpg" -->
+      <a href="folientechnik.html" class="service-card reveal rd1">
+        <div class="service-img-wrap">
+          <img src="bilder-leistung-hintergrund/folientechnik.jpg" alt="Folientechnik"
+               onerror="this.parentElement.style.display='none';this.parentElement.nextElementSibling.style.display='flex'">
+          <div class="service-img-placeholder" style="display:none">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <span>✏️ Bild einfügen</span>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="icon-box cyan">
+            <svg width="20" height="20" fill="none" stroke="#67e8f9" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10l2-1 2 1 2-1 2 1 2-1 2 1V6h2a1 1 0 011 1v10l-3-1z"/></svg>
+          </div>
+          <h3>Folientechnik</h3>
+          <p>Hochwertige Folierungen für Fahrzeuge, Möbel, Glasflächen und mehr – kreativ und langlebig.</p>
+          <span class="service-link">Mehr erfahren →</span>
+        </div>
+      </a>
+
+      <!-- ════ LEISTUNG 7: TEXTILDRUCK ════
+           ✏️ BILD: src="bilder-leistung-hintergrund/DEIN-BILD.jpg" -->
+      <a href="textildruck-flex-und-flock.html" class="service-card reveal rd2">
+        <div class="service-img-wrap">
+          <img src="bilder-leistung-hintergrund/Trikot.jpg" alt="Textildruck"
+               onerror="this.parentElement.style.display='none';this.parentElement.nextElementSibling.style.display='flex'">
+          <div class="service-img-placeholder" style="display:none">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <span>✏️ Bild einfügen</span>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="icon-box purple">
+            <svg width="20" height="20" fill="none" stroke="#c084fc" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
+          </div>
+          <h3>Textildruck (Flex/Flock)</h3>
+          <p>Trikots, Workwear, T-Shirts – mit Flex- und Flockfolien individuell für Teams und Betriebe.</p>
+          <span class="service-link">Mehr erfahren →</span>
+        </div>
+      </a>
+
+      <!-- ════ LEISTUNG 8: FAHNEN ════
+           ✏️ BILD: src="bilder-leistung-hintergrund/DEIN-BILD.jpg" -->
+      <a href="fahnen.html" class="service-card reveal rd3">
+        <div class="service-img-wrap">
+          <div class="service-img-placeholder" style="display:flex">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"/></svg>
+            <span>✏️ Bild einfügen</span>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="icon-box teal">
+            <svg width="20" height="20" fill="none" stroke="#2dd4bf" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2z"/></svg>
+          </div>
+          <h3>Fahnen</h3>
+          <p>Hochwertige Fahnen für Innen- und Außenbereiche – individuell bedruckt und witterungsbeständig.</p>
+          <span class="service-link">Mehr erfahren →</span>
+        </div>
+      </a>
+
+      <!-- ════ LEISTUNG 9: AUFSTELLER & PYLONEN ════
+           ✏️ BILD: src="bilder-leistung-hintergrund/DEIN-BILD.jpg" -->
+      <a href="aufsteller-pylonen.html" class="service-card reveal">
+        <div class="service-img-wrap">
+          <div class="service-img-placeholder" style="display:flex">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+            <span>✏️ Bild einfügen</span>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="icon-box orange">
+            <svg width="20" height="20" fill="none" stroke="#fb923c" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+          </div>
+          <h3>Aufsteller & Pylonen</h3>
+          <p>Auffällige Aufsteller und Pylonen für Innen- und Außenbereiche – robust, groß und langlebig.</p>
+          <span class="service-link">Mehr erfahren →</span>
+        </div>
+      </a>
+
+      <!-- ════ LEISTUNG 10: WERBEBANNER & PLANEN ════
+           ✏️ BILD: src="bilder-leistung-hintergrund/DEIN-BILD.jpg" -->
+      <a href="Werbebanner-planen.html" class="service-card reveal rd1">
+        <div class="service-img-wrap">
+          <img src="bilder-leistung-hintergrund/planen.jpg" alt="Werbebanner und Planen"
+               onerror="this.parentElement.style.display='none';this.parentElement.nextElementSibling.style.display='flex'">
+          <div class="service-img-placeholder" style="display:none">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <span>✏️ Bild einfügen</span>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="icon-box amber">
+            <svg width="20" height="20" fill="none" stroke="#fbbf24" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
+          </div>
+          <h3>Werbebanner & Planen</h3>
+          <p>Wetterfeste Gerüstplanen und Werbebanner – individuell bedruckt und vielseitig einsetzbar.</p>
+          <span class="service-link">Mehr erfahren →</span>
+        </div>
+      </a>
+
+      <!-- ════ LEISTUNG 11: WEBENTWICKLUNG ════
+           ✏️ BILD: src="bilder-leistung-hintergrund/DEIN-BILD.jpg" -->
+      <a href="webdesign.html" class="service-card reveal rd2">
+        <div class="service-img-wrap">
+          <div class="service-img-placeholder" style="display:flex">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+            <span>✏️ Bild einfügen</span>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="icon-box purple">
+            <svg width="20" height="20" fill="none" stroke="#c084fc" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+          </div>
+          <h3>Webentwicklung</h3>
+          <p>Professionelle Websites und digitale Präsenzen – damit Ihre Marke auch online überzeugt.</p>
+          <span class="service-link">Mehr erfahren →</span>
+        </div>
+      </a>
+
+    </div><!-- Ende Leistungen-Grid -->
+
+    <div style="text-align:center; margin-top: 3rem;" class="reveal">
+      <a href="leistungen.html" class="btn-outline">Alle Leistungen im Überblick →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     BILD-LAUFBAND
+     ✏️ MARQUEE-BILDER TAUSCHEN:
+        <div class="marquee-link" data-href="seite.html">
+          <img src="bilder-leistung-hintergrund/DEIN-BILD.jpg" alt="..." loading="lazy">
+        </div>
+══════════════════════════════════════════════════════════════ -->
 <div class="marquee-container">
   <div class="marquee js-marquee-track">
-  <div class="marquee-link" data-href="beschriftungen.html"><img src="bilder-leistung-hintergrund/elektroliesecke1.JPG" alt="beschriftungen" loading="lazy"></div>
-  <div class="marquee-link" data-href="druck.html"><img src="bilder-leistung-hintergrund/elberadweg2.JPG" alt="druck" loading="lazy"></div>
-  <div class="marquee-link" data-href="schilder.html"><img src="bilder-leistung-hintergrund/SchildPC.JPG" alt="schilder" loading="lazy"></div>
-  <div class="marquee-link" data-href="Werbebanner-planen.html"><img src="bilder-leistung-hintergrund/planen.jpg" alt="planen" loading="lazy"></div>
-  <div class="marquee-link" data-href="folientechnik.html"><img src="bilder-leistung-hintergrund/total.JPG" alt="folientechnik" loading="lazy"></div>
-  <div class="marquee-link" data-href="textildruck-flex-und-flock.html"><img src="bilder-leistung-hintergrund/Trikot.jpg" alt="textildruck-flex-und-flock" loading="lazy"></div>
-  <!-- Wiederhole die Links für den Endlos-Effekt -->
-  <div class="marquee-link" data-href="beschriftungen.html"><img src="bilder-leistung-hintergrund/drkautohaus.jpg" alt="beschriftungen" loading="lazy"></div>
-  <div class="marquee-link" data-href="druck.html"><img src="bilder-leistung-hintergrund/fenstervoll.JPG" alt="druck" loading="lazy"></div>
-  <div class="marquee-link" data-href="schilder.html"><img src="bilder-leistung-hintergrund/feuerwehr.JPG" alt="schilder" loading="lazy"></div>
-  <div class="marquee-link" data-href="Werbebanner-planen.html"><img src="bilder-leistung-hintergrund/planen.jpg" alt="planen" loading="lazy"></div>
-  <div class="marquee-link" data-href="folientechnik.html"><img src="bilder-leistung-hintergrund/folientechnik.jpg" alt="folientechnik" loading="lazy"></div>
-  <div class="marquee-link" data-href="textildruck-flex-und-flock.html"><img src="bilder-leistung-hintergrund/elbeshirts.JPG" alt="textildruck-flex-und-flock" loading="lazy"></div>
-  <div class="marquee-link" data-href="beschriftungen.html"><img src="bilder-leistung-hintergrund/elektroliesecke1.JPG" alt="beschriftungen" loading="lazy"></div>
-  <div class="marquee-link" data-href="druck.html"><img src="bilder-leistung-hintergrund/elberadweg2.JPG" alt="druck" loading="lazy"></div>
-  <div class="marquee-link" data-href="schilder.html"><img src="bilder-leistung-hintergrund/SchildPC.JPG" alt="schilder" loading="lazy"></div>
-  <div class="marquee-link" data-href="Werbebanner-planen.html"><img src="bilder-leistung-hintergrund/planen.jpg" alt="planen" loading="lazy"></div>
-  <div class="marquee-link" data-href="folientechnik.html"><img src="bilder-leistung-hintergrund/total.JPG" alt="folientechnik" loading="lazy"></div>
-  <div class="marquee-link" data-href="textildruck-flex-und-flock.html"><img src="bilder-leistung-hintergrund/Trikot.jpg" alt="textildruck-flex-und-flock" loading="lazy"></div>
-  <div class="marquee-link" data-href="beschriftungen.html"><img src="bilder-leistung-hintergrund/drkautohaus.jpg" alt="beschriftungen" loading="lazy"></div>
-  <div class="marquee-link" data-href="druck.html"><img src="bilder-leistung-hintergrund/fenstervoll.JPG" alt="druck" loading="lazy"></div>
-  <div class="marquee-link" data-href="schilder.html"><img src="bilder-leistung-hintergrund/feuerwehr.JPG" alt="schilder" loading="lazy"></div>
-  <div class="marquee-link" data-href="Werbebanner-planen.html"><img src="bilder-leistung-hintergrund/planen.jpg" alt="planen" loading="lazy"></div>
-  <div class="marquee-link" data-href="folientechnik.html"><img src="bilder-leistung-hintergrund/folientechnik.jpg" alt="folientechnik" loading="lazy"></div>
-  <div class="marquee-link" data-href="textildruck-flex-und-flock.html"><img src="bilder-leistung-hintergrund/elbeshirts.JPG" alt="textildruck-flex-und-flock" loading="lazy"></div>
-
+    <div class="marquee-link" data-href="beschriftungen.html"><img src="bilder-leistung-hintergrund/elektroliesecke1.JPG" alt="Beschriftungen" loading="lazy"></div>
+    <div class="marquee-link" data-href="druck.html"><img src="bilder-leistung-hintergrund/elberadweg2.JPG" alt="Digitaldruck" loading="lazy"></div>
+    <div class="marquee-link" data-href="schilder.html"><img src="bilder-leistung-hintergrund/SchildPC.JPG" alt="Schilder" loading="lazy"></div>
+    <div class="marquee-link" data-href="Werbebanner-planen.html"><img src="bilder-leistung-hintergrund/planen.jpg" alt="Planen" loading="lazy"></div>
+    <div class="marquee-link" data-href="folientechnik.html"><img src="bilder-leistung-hintergrund/total.JPG" alt="Folientechnik" loading="lazy"></div>
+    <div class="marquee-link" data-href="textildruck-flex-und-flock.html"><img src="bilder-leistung-hintergrund/Trikot.jpg" alt="Textildruck" loading="lazy"></div>
+    <div class="marquee-link" data-href="beschriftungen.html"><img src="bilder-leistung-hintergrund/drkautohaus.jpg" alt="Beschriftungen" loading="lazy"></div>
+    <div class="marquee-link" data-href="druck.html"><img src="bilder-leistung-hintergrund/fenstervoll.JPG" alt="Digitaldruck" loading="lazy"></div>
+    <div class="marquee-link" data-href="schilder.html"><img src="bilder-leistung-hintergrund/feuerwehr.JPG" alt="Schilder" loading="lazy"></div>
+    <div class="marquee-link" data-href="Werbebanner-planen.html"><img src="bilder-leistung-hintergrund/planen.jpg" alt="Planen" loading="lazy"></div>
+    <div class="marquee-link" data-href="folientechnik.html"><img src="bilder-leistung-hintergrund/folientechnik.jpg" alt="Folientechnik" loading="lazy"></div>
+    <div class="marquee-link" data-href="textildruck-flex-und-flock.html"><img src="bilder-leistung-hintergrund/elbeshirts.JPG" alt="Textildruck" loading="lazy"></div>
+    <!-- Wiederholung für Endlos-Effekt -->
+    <div class="marquee-link" data-href="beschriftungen.html"><img src="bilder-leistung-hintergrund/elektroliesecke1.JPG" alt="Beschriftungen" loading="lazy"></div>
+    <div class="marquee-link" data-href="druck.html"><img src="bilder-leistung-hintergrund/elberadweg2.JPG" alt="Digitaldruck" loading="lazy"></div>
+    <div class="marquee-link" data-href="schilder.html"><img src="bilder-leistung-hintergrund/SchildPC.JPG" alt="Schilder" loading="lazy"></div>
+    <div class="marquee-link" data-href="Werbebanner-planen.html"><img src="bilder-leistung-hintergrund/planen.jpg" alt="Planen" loading="lazy"></div>
+    <div class="marquee-link" data-href="folientechnik.html"><img src="bilder-leistung-hintergrund/total.JPG" alt="Folientechnik" loading="lazy"></div>
+    <div class="marquee-link" data-href="textildruck-flex-und-flock.html"><img src="bilder-leistung-hintergrund/Trikot.jpg" alt="Textildruck" loading="lazy"></div>
+    <div class="marquee-link" data-href="beschriftungen.html"><img src="bilder-leistung-hintergrund/drkautohaus.jpg" alt="Beschriftungen" loading="lazy"></div>
+    <div class="marquee-link" data-href="druck.html"><img src="bilder-leistung-hintergrund/fenstervoll.JPG" alt="Digitaldruck" loading="lazy"></div>
+    <div class="marquee-link" data-href="schilder.html"><img src="bilder-leistung-hintergrund/feuerwehr.JPG" alt="Schilder" loading="lazy"></div>
+    <div class="marquee-link" data-href="folientechnik.html"><img src="bilder-leistung-hintergrund/folientechnik.jpg" alt="Folientechnik" loading="lazy"></div>
+    <div class="marquee-link" data-href="textildruck-flex-und-flock.html"><img src="bilder-leistung-hintergrund/elbeshirts.JPG" alt="Textildruck" loading="lazy"></div>
   </div>
 </div>
-<!-- ...existing code... -->
 
-  <!-- Footer entfernt, stattdessen reiner Text am Seitenende -->
-  <div style="text-align:center; margin: 10px 0 10px 0; font-size: 1.1rem;">
-    <strong>© 2026 PrintLine Werbetechnik - Alle Rechte vorbehalten <br>
-      <span class="footer-link" data-href="impressum.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Impressum</span> |
-      <span class="footer-link" data-href="datenschutz.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Datenschutz</span> |
-  <span class="footer-link" data-cookie style="color:#004a80; text-decoration:underline; cursor:pointer;">Cookie-Einstellungen</span>
-    </strong>
+<div class="glow-line"></div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PORTFOLIO
+     ✏️ PORTFOLIO-BILDER:
+        Im <div class="portfolio-card"> die img-Tags anpassen:
+        <img src="bilder-leistung-hintergrund/DEIN-BILD.jpg" alt="Projektname">
+        Empfohlene Größe: 1200×800px
+     ✏️ NEUE KARTE HINZUFÜGEN: Den gesamten portfolio-card div kopieren
+══════════════════════════════════════════════════════════════ -->
+<section id="portfolio" class="section-wrap">
+  <div class="blob" style="background:#a855f7;width:350px;height:350px;top:20%;right:-100px;opacity:0.09;animation-delay:-7s"></div>
+  <div class="blob" style="background:#06b6d4;width:280px;height:280px;bottom:10%;left:-80px;opacity:0.08;animation-delay:-4s"></div>
+
+  <div class="section-container">
+    <div class="section-header reveal">
+      <div class="section-label purple">— Portfolio —</div>
+      <h2 class="section-title">Ausgewählte <span class="grad-text-purple">Referenzen</span></h2>
+      <p class="section-sub">Projekte, die zeigen, wie Präzision und Leidenschaft zusammenwirken.</p>
+    </div>
+
+    <div class="portfolio-grid-hp">
+
+      <!-- ════ PORTFOLIO-KARTE 1: CPC GERMANIA ════
+           ✏️ BILD: src="bilder-leistung-hintergrund/DEIN-BILD.jpg" -->
+      <a href="cpc-germania.html" class="portfolio-card reveal">
+        <!-- Hintergrund-Gradient (sichtbar wenn kein Bild) -->
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#1a0d08 0%,#2d1a06 40%,#1a1206 100%)"></div>
+        <div style="position:absolute;inset:0;" class="stripe-accent"></div>
+        <!-- ✏️ PORTFOLIO-BILD 1 hier einfügen: -->
+        <!-- <img src="bilder-leistung-hintergrund/DEIN-BILD.jpg" alt="CPC Germania"> -->
+
+        <!-- Immer sichtbarer Text in der Mitte -->
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;pointer-events:none">
+          <div style="width:64px;height:64px;border-radius:16px;background:rgba(249,115,22,0.20);border:1px solid rgba(249,115,22,0.30);display:flex;align-items:center;justify-content:center;margin-bottom:1rem">
+            <svg width="32" height="32" fill="none" stroke="#fb923c" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+          </div>
+          <!-- ✏️ PORTFOLIO-TITEL & TEXT -->
+          <h3 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:1.3rem;color:#fff;margin-bottom:0.5rem">CPC Germania</h3>
+          <p style="color:#94a3b8;font-size:0.875rem;line-height:1.5;max-width:280px;margin:0">Großformatige Maschinenkopfbeschriftungen – präzise an komplexe Oberflächen angepasst.</p>
+        </div>
+
+        <!-- Hover-Overlay -->
+        <div class="p-overlay">
+          <div class="p-overlay-content">
+            <div>
+              <p style="color:#fff;font-family:'Outfit',sans-serif;font-weight:600;margin:0 0 2px">Maschinenkopfbeschriftung</p>
+              <p style="color:#94a3b8;font-size:0.8rem;margin:0">Großformat · Spezialflächen · Corporate Design</p>
+            </div>
+            <span style="background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:4px 12px;font-size:0.75rem;color:#fb923c;white-space:nowrap">Industriebeschriftung</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- ════ PORTFOLIO-KARTE 2: ZEITFRACHT ════
+           ✏️ BILD: src="bilder-leistung-hintergrund/DEIN-BILD.jpg" -->
+      <a href="zeitfracht.html" class="portfolio-card reveal rd2">
+        <!-- ✏️ PORTFOLIO-BILD 2 hier einfügen: -->
+        <img src="bilder-leistung-hintergrund/total.JPG" alt="Zeitfracht Flottenbeschriftung"
+             onerror="this.style.display='none'">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,13,26,0.55) 0%,rgba(10,13,26,0.2) 60%,rgba(10,13,26,0.65) 100%)"></div>
+
+        <!-- Immer sichtbarer Text -->
+        <div class="portfolio-info">
+          <!-- ✏️ PORTFOLIO-TITEL & TEXT -->
+          <h3>Zeitfracht</h3>
+          <p>Flottenbeschriftung von LKWs und Zugmaschinen – Auflieger &amp; Zugmaschine im CI-konformen Design.</p>
+        </div>
+
+        <!-- Hover-Overlay -->
+        <div class="p-overlay">
+          <div class="p-overlay-content">
+            <div>
+              <p style="color:#fff;font-family:'Outfit',sans-serif;font-weight:600;margin:0 0 2px">Flottenbeschriftung</p>
+              <p style="color:#94a3b8;font-size:0.8rem;margin:0">Auflieger · Zugmaschine · UV-beständig · CI-konform</p>
+            </div>
+            <span style="background:rgba(255,255,255,0.045);border:1px solid rgba(245,158,11,0.20);border-radius:8px;padding:4px 12px;font-size:0.75rem;color:#fcd34d;white-space:nowrap">Fahrzeugbeschriftung</span>
+          </div>
+        </div>
+      </a>
+
+    </div><!-- Ende Portfolio-Grid -->
+
+    <div style="text-align:center; margin-top: 3rem;" class="reveal">
+      <a href="portfolio.html" class="btn-outline">Alle Projekte ansehen →</a>
+    </div>
   </div>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var script = document.createElement('script');
-      script.src = 'cookie-banner.js';
-      document.body.appendChild(script);
-    });
-  </script>
+</section>
 
-<!-- GSAP Bibliothek -->
+<div class="glow-line"></div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     ÜBER UNS
+     ✏️ Text und Timeline hier anpassen
+══════════════════════════════════════════════════════════════ -->
+<section id="ueber-uns" class="section-wrap">
+  <div class="blob" style="background:#f97316;width:300px;height:300px;bottom:-80px;left:10%;opacity:0.09;animation-delay:-4s"></div>
+  <div class="blob" style="background:#8b5cf6;width:350px;height:350px;top:-80px;right:-50px;opacity:0.08;animation-delay:-6s"></div>
+  <div class="blob" style="background:#14b8a6;width:220px;height:220px;top:40%;right:10%;opacity:0.07;animation-delay:-2s"></div>
+
+  <div class="section-container">
+    <div class="ueber-uns-hp-grid">
+
+      <!-- Linke Seite: Text -->
+      <div class="reveal-left">
+        <div class="section-label purple" style="margin-bottom:1.5rem">— Über uns —</div>
+        <!-- ✏️ ÜBER-UNS ÜBERSCHRIFT -->
+        <h2 class="section-title" style="text-align:left;margin-bottom:1.5rem">
+          Handwerk mit<br><span class="grad-text">echter Hingabe</span>
+        </h2>
+        <!-- ✏️ ÜBER-UNS TEXTE -->
+        <p style="color:#94a3b8;font-size:1.05rem;line-height:1.75;margin-bottom:1.25rem;max-width:100%">
+          PrintLine Werbetechnik entstand vor fast 40 Jahren als Werbeabteilung in einem familiengeführten
+          Malerbetrieb — mit dem Fokus auf Qualität und kreative Kommunikation.
+        </p>
+        <p style="color:#94a3b8;line-height:1.75;margin-bottom:1.25rem;max-width:100%">
+          <span style="color:#fb923c;font-weight:500">2002</span> wurde die Werbeabteilung eigenständig gegründet. Seitdem
+          wächst unser Leistungsspektrum kontinuierlich — immer mit dem Anspruch, Ihr Projekt
+          so umzusetzen, als wäre es unser eigenes.
+        </p>
+        <p style="color:#94a3b8;line-height:1.75;margin-bottom:2.5rem;max-width:100%">
+          Wir glauben, dass die besten Ergebnisse durch echten Dialog entstehen. Wir nehmen uns
+          die Zeit, Ihre Bedürfnisse zu verstehen und begleiten jedes Projekt vom ersten Gespräch
+          bis zur fertigen Umsetzung.
+        </p>
+
+        <!-- ✏️ USP-PUNKTE: Titel und Beschreibung je Punkt anpassen -->
+        <div class="usp-list-new">
+          <div class="usp-item">
+            <div class="usp-icon orange">
+              <svg width="16" height="16" fill="none" stroke="#fb923c" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <div>
+              <p class="usp-title">Handwerk mit Leidenschaft</p>
+              <p class="usp-text">Jedes Projekt wird mit Sorgfalt, Kreativität und echter Hingabe umgesetzt.</p>
+            </div>
+          </div>
+          <div class="usp-item">
+            <div class="usp-icon teal">
+              <svg width="16" height="16" fill="none" stroke="#2dd4bf" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <div>
+              <p class="usp-title">Kundennähe &amp; Dialog</p>
+              <p class="usp-text">Wir begleiten Sie vom ersten Gespräch bis zur fertigen Umsetzung.</p>
+            </div>
+          </div>
+          <div class="usp-item">
+            <div class="usp-icon purple">
+              <svg width="16" height="16" fill="none" stroke="#c084fc" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <div>
+              <p class="usp-title">Präzision &amp; Verlässlichkeit</p>
+              <p class="usp-text">Jahrzehnte Berufserfahrung treffen auf strukturierte Prozesse und Liebe zum Detail.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rechte Seite: Timeline -->
+      <div class="reveal-right rd2">
+        <div class="timeline-card">
+          <!-- ✏️ TIMELINE-TITEL -->
+          <h3>Unsere Geschichte</h3>
+
+          <!-- ✏️ TIMELINE-EINTRÄGE: Jahr, Titel und Text anpassen -->
+          <div class="timeline-item">
+            <div class="timeline-dot-col">
+              <div class="timeline-dot orange">~85</div>
+              <div class="timeline-line"></div>
+            </div>
+            <div style="padding-top:4px">
+              <p class="timeline-title">Gründung als Werbeabteilung</p>
+              <p class="timeline-text">Start im familiengeführten Malerbetrieb — der Grundstein für jahrzehntelange Expertise in Werbetechnik.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot-col">
+              <div class="timeline-dot teal">2002</div>
+              <div class="timeline-line" style="background:linear-gradient(to bottom, rgba(20,184,166,0.3), transparent)"></div>
+            </div>
+            <div style="padding-top:4px">
+              <p class="timeline-title">Eigenständiges Unternehmen</p>
+              <p class="timeline-text">PrintLine Werbetechnik wird selbstständig und spezialisiert sich vollständig auf Werbetechnik.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot-col">
+              <div class="timeline-dot purple">Heute</div>
+            </div>
+            <div style="padding-top:4px">
+              <p class="timeline-title">Vollspektrum Werbetechnik</p>
+              <p class="timeline-text">10+ Leistungsbereiche, namhafte Referenzkunden — derselbe Anspruch wie am ersten Tag.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     ARCHIV
+     ✏️ PROJEKT HINZUFÜGEN: Eine .archive-item Karte kopieren
+        data-cat="fahrzeug|druck|schilder|textil|folie" → für den Filter
+        ✏️ FILTER-KATEGORIEN: .filter-btn data-filter anpassen
+══════════════════════════════════════════════════════════════ -->
+<section id="archiv" class="section-wrap">
+  <div class="blob" style="background:#eab308;width:300px;height:300px;top:0;right:5%;opacity:0.07;animation-delay:-2s"></div>
+  <div class="blob" style="background:#14b8a6;width:320px;height:320px;bottom:5%;left:-80px;opacity:0.08;animation-delay:-5s"></div>
+  <div class="dot-grid" style="position:absolute;inset:0;opacity:0.4;pointer-events:none"></div>
+
+  <div class="section-container" style="position:relative;z-index:1">
+    <div class="section-header reveal">
+      <div class="section-label amber">— Archiv —</div>
+      <h2 class="section-title">Projekt­<span class="grad-text">Archiv</span></h2>
+      <p class="section-sub">Eine Übersicht vergangener Projekte aus allen Bereichen der Werbetechnik.</p>
+    </div>
+
+    <!-- Filter-Buttons -->
+    <div class="filter-bar reveal">
+      <button class="filter-btn active" data-filter="all">Alle Projekte</button>
+      <button class="filter-btn" data-filter="fahrzeug">Fahrzeugbeschriftung</button>
+      <button class="filter-btn" data-filter="druck">Digitaldruck</button>
+      <button class="filter-btn" data-filter="schilder">Schilder</button>
+      <button class="filter-btn" data-filter="textil">Textildruck</button>
+      <button class="filter-btn" data-filter="folie">Folientechnik</button>
+    </div>
+
+    <div id="archive-grid" class="archive-grid-hp reveal">
+
+      <!-- ✏️ ARCHIV-KARTEN: data-cat und Texte anpassen -->
+
+      <div class="archive-item" data-cat="fahrzeug">
+        <div class="archive-tag fahrzeug">Fahrzeugbeschriftung</div>
+        <h4>Zeitfracht — Flottenbeschriftung</h4>
+        <p>LKWs und Zugmaschinen im Corporate Design. UV-beständige Folien für Nah- und Fernverkehr.</p>
+      </div>
+
+      <div class="archive-item" data-cat="schilder">
+        <div class="archive-tag schilder">Industriebeschriftung</div>
+        <h4>CPC Germania — Maschinenbeschriftung</h4>
+        <p>Großformatige Maschinenkopfbeschriftungen, präzise an komplexe Oberflächen angepasst.</p>
+      </div>
+
+      <div class="archive-item" data-cat="fahrzeug">
+        <div class="archive-tag fahrzeug">Fahrzeugbeschriftung</div>
+        <h4>PKW-Flotte Handwerksbetrieb</h4>
+        <p>Teilfolierung von 8 Servicefahrzeugen — einheitliches Erscheinungsbild für den Außendienst.</p>
+      </div>
+
+      <div class="archive-item" data-cat="druck">
+        <div class="archive-tag druck">Digitaldruck</div>
+        <h4>Bauzaunbanner Rohbau</h4>
+        <p>Großformatiger Digitaldruck auf wetterfesten Gerüstplanen und Bauzaunbannern — weithin sichtbar.</p>
+      </div>
+
+      <div class="archive-item" data-cat="schilder">
+        <div class="archive-tag schilder">Schilder</div>
+        <h4>Praxisschild Zahnarztpraxis</h4>
+        <p>Hochwertiges Außenschild aus Acryl mit hinterleuchteten 3D-Buchstaben.</p>
+      </div>
+
+      <div class="archive-item" data-cat="textil">
+        <div class="archive-tag textil">Textildruck</div>
+        <h4>Workwear Elektrobetrieb</h4>
+        <p>Jacken, T-Shirts und Polo-Shirts für ein 12-köpfiges Team — Flex-Druck mit Unternehmenslogo.</p>
+      </div>
+
+      <div class="archive-item" data-cat="folie">
+        <div class="archive-tag folie">Folientechnik</div>
+        <h4>Schaufensterfolierung Modehaus</h4>
+        <p>Dekorative Milchglasfolie mit Logoausstanzung — modern und stilvoll.</p>
+      </div>
+
+      <div class="archive-item" data-cat="druck">
+        <div class="archive-tag druck">Digitaldruck</div>
+        <h4>Messeauftritt Industrieunternehmen</h4>
+        <p>Digitaldruck auf Roll-Ups, Messebannern und Dibond-Aufstellern — einheitlicher Messeauftritt.</p>
+      </div>
+
+      <div class="archive-item" data-cat="textil">
+        <div class="archive-tag textil">Textildruck</div>
+        <h4>Vereins-Trikots Sportverein</h4>
+        <p>Trikots und Trainingsjacken — Flock-Druck, nummerngenau für den Verein.</p>
+      </div>
+
+      <div class="archive-item" data-cat="schilder">
+        <div class="archive-tag schilder">Schilder</div>
+        <h4>Firmenschild Verwaltungsgebäude</h4>
+        <p>Repräsentatives Eingangsschild aus gebürstetem Aluminium mit eingravierten Firmenlogos.</p>
+      </div>
+
+      <div class="archive-item" data-cat="folie">
+        <div class="archive-tag folie">Folientechnik</div>
+        <h4>Büroraumgestaltung Agentur</h4>
+        <p>Wandfolien und Glastüren-Dekor — kreative Innenraumgestaltung für eine Werbeagentur.</p>
+      </div>
+
+      <div class="archive-item" data-cat="fahrzeug">
+        <div class="archive-tag fahrzeug">Fahrzeugbeschriftung</div>
+        <h4>Transporter-Vollfolierung Lieferdienst</h4>
+        <p>Vollfolierung von 15 Transportern — auffälliges Design, witterungsbeständig.</p>
+      </div>
+
+    </div><!-- Ende Archiv-Grid -->
+
+    <div style="text-align:center; margin-top: 3rem;" class="reveal">
+      <a href="Archiv.html" class="btn-outline">Vollständiges Archiv →</a>
+    </div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     KONTAKT
+     ✏️ KONTAKTDATEN: Telefon, E-Mail unten anpassen
+     ✏️ FORMSPREE: action="https://formspree.io/f/IHRE-ID" eintragen
+══════════════════════════════════════════════════════════════ -->
+<section id="kontakt" class="section-wrap">
+  <div class="blob" style="background:#f97316;width:400px;height:400px;bottom:-100px;right:-80px;opacity:0.10;animation-delay:-8s"></div>
+  <div class="blob" style="background:#8b5cf6;width:350px;height:350px;top:-60px;left:-60px;opacity:0.09;animation-delay:-2s"></div>
+  <div class="blob" style="background:#14b8a6;width:250px;height:250px;top:50%;right:30%;opacity:0.07;animation-delay:-6s"></div>
+
+  <div class="section-container">
+    <div class="kontakt-hp-grid">
+
+      <!-- Linke Seite: Kontaktinfos -->
+      <div class="reveal">
+        <div class="section-label teal" style="margin-bottom:1.5rem">— Kontakt —</div>
+        <h2 class="section-title" style="text-align:left;margin-bottom:1.5rem">
+          Ihr Projekt,<br><span class="grad-text">unser Handwerk.</span>
+        </h2>
+        <p style="color:#94a3b8;font-size:1.05rem;line-height:1.75;margin-bottom:2.5rem;max-width:100%">
+          Kontaktieren Sie uns für ein unverbindliches Beratungsgespräch — wir melden uns schnellstmöglich.
+        </p>
+
+        <!-- ✏️ TELEFONNUMMER -->
+        <div class="contact-item">
+          <div class="contact-icon teal">
+            <svg width="20" height="20" fill="none" stroke="#2dd4bf" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          </div>
+          <div>
+            <div class="contact-label">Telefon</div>
+            <a href="tel:+4915203016900" class="contact-value">+49 152 03016900</a>
+          </div>
+        </div>
+
+        <!-- ✏️ E-MAIL ADRESSE -->
+        <div class="contact-item">
+          <div class="contact-icon purple">
+            <svg width="20" height="20" fill="none" stroke="#c084fc" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </div>
+          <div>
+            <div class="contact-label">E-Mail</div>
+            <a href="mailto:print2002@gmx.de" class="contact-value purple-hover">print2002@gmx.de</a>
+          </div>
+        </div>
+
+        <!-- ✏️ WEBSEITE -->
+        <div class="contact-item">
+          <div class="contact-icon glass">
+            <svg width="20" height="20" fill="none" stroke="#fb7185" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+          </div>
+          <div>
+            <div class="contact-label">Website</div>
+            <a href="https://www.werbung-kroner.de" target="_blank" class="contact-value rose-hover">www.werbung-kroner.de</a>
+          </div>
+        </div>
+
+        <!-- Zitat-Box -->
+        <div class="quote-box">
+          <p class="q-text">"Ihr Projekt — Unser Handwerk."</p>
+          <p class="q-sub">Wir begleiten Sie von der ersten Idee bis zur fertigen Umsetzung. Persönlich, präzise und mit echtem Engagement.</p>
+        </div>
+      </div>
+
+      <!-- Rechte Seite: Formular -->
+      <div class="form-glass reveal rd2">
+        <h3>Angebot anfordern</h3>
+
+        <!--
+        ═══════════════════════════════════════════════════════
+        FORMSPREE — E-MAIL WEITERLEITUNG:
+        ✓ Eingerichtet — ID: mnnzegpa → E-Mails an print2002@gmx.de
+        ═══════════════════════════════════════════════════════
+        -->
+        <form action="https://formspree.io/f/mnnzegpa" method="POST" onsubmit="handleSubmit(event)">
+          <input type="hidden" name="_replyto" value="print2002@gmx.de">
+          <input type="hidden" name="_subject" value="Neue Kundenanfrage — PrintLine Werbetechnik">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Vorname</label>
+              <input type="text" name="vorname" placeholder="Max" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nachname</label>
+              <input type="text" name="nachname" placeholder="Mustermann" class="form-input">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">E-Mail *</label>
+            <input type="email" name="email" placeholder="max@unternehmen.de" required class="form-input">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Telefon (optional)</label>
+            <input type="tel" name="telefon" placeholder="+49 ..." class="form-input">
+          </div>
+
+          <!-- ✏️ LEISTUNGSAUSWAHL: Optionen nach Bedarf ergänzen -->
+          <div class="form-group">
+            <label class="form-label">Gewünschte Leistung</label>
+            <select name="leistung" class="form-input">
+              <option value="">Leistung auswählen …</option>
+              <option>Beschriftungen</option>
+              <option>Digitaldruck</option>
+              <option>Schilder</option>
+              <option>Fassaden</option>
+              <option>Werbeartikel</option>
+              <option>Folientechnik</option>
+              <option>Textildruck (Flex/Flock)</option>
+              <option>Fahnen</option>
+              <option>Aufsteller &amp; Pylonen</option>
+              <option>Werbebanner &amp; Planen</option>
+              <option>Webentwicklung</option>
+              <option>Mehrere / Sonstiges</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Ihre Nachricht *</label>
+            <textarea rows="4" name="nachricht" required
+              placeholder="Beschreiben Sie Ihr Projekt — Menge, Maße, Zeitplan …"
+              class="form-input" style="resize:none"></textarea>
+          </div>
+
+          <button id="submit-btn" type="submit" class="btn-primary-full">
+            Kostenlos anfragen →
+          </button>
+          <p class="form-note">* Pflichtfelder. Ihre Daten werden vertraulich behandelt.</p>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     FOOTER
+     ✏️ Firmenname, Links, Copyright hier anpassen
+══════════════════════════════════════════════════════════════ -->
+<footer class="site-footer-full">
+  <div class="section-container">
+    <div class="footer-grid-hp">
+      <div>
+        <div class="footer-brand-hp">
+          <div class="footer-brand-icon">
+            <svg width="20" height="20" fill="none" stroke="white" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
+          </div>
+          <!-- ✏️ FOOTER FIRMENNAME -->
+          <span class="footer-brand-name">PrintLine <span class="grad-text">Werbetechnik</span></span>
+        </div>
+        <p class="footer-desc">Professionelle Werbetechnik seit fast 40 Jahren. Ihr Projekt — Unser Handwerk.</p>
+        <!-- ✏️ FOOTER KONTAKT -->
+        <p class="footer-contact-mini">print2002@gmx.de · +49 152 03016900</p>
+      </div>
+
+      <div>
+        <h4 class="footer-col-title">Leistungen</h4>
+        <ul class="footer-list">
+          <li><a href="beschriftungen.html">Beschriftungen</a></li>
+          <li><a href="druck.html">Digitaldruck</a></li>
+          <li><a href="schilder.html">Schilder</a></li>
+          <li><a href="folientechnik.html">Folientechnik</a></li>
+          <li><a href="textildruck-flex-und-flock.html">Textildruck</a></li>
+          <li><a href="leistungen.html">Alle Leistungen →</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-col-title">Navigation</h4>
+        <ul class="footer-list">
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#ueber-uns">Über uns</a></li>
+          <li><a href="#archiv">Archiv</a></li>
+          <li><a href="#kontakt">Kontakt</a></li>
+          <li><a href="impressum.html">Impressum</a></li>
+          <li><a href="datenschutz.html">Datenschutz</a></li>
+          <li><a href="agb.html">AGB</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom-hp">
+      <!-- ✏️ COPYRIGHT JAHR -->
+      <p class="footer-copy">© 2026 PrintLine Werbetechnik. Alle Rechte vorbehalten.</p>
+      <div class="footer-legal">
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+        <a href="agb.html">AGB</a>
+        <span class="footer-link" data-cookie style="color:#004a80;text-decoration:underline;cursor:pointer;font-size:0.875rem">Cookie-Einstellungen</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- Floating CTA — erscheint nach 600px scrollen -->
+<div id="floating-cta">
+  <a href="#kontakt">
+    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+    Jetzt anfragen
+  </a>
+</div>
+
+<!-- Cookie-Banner -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var script = document.createElement('script');
+    script.src = 'cookie-banner.js';
+    document.body.appendChild(script);
+  });
+</script>
+
+<!-- GSAP Bibliothek (für Sub-Seiten-Animationen) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
-
-<!-- Eigene Animationen -->
 <script src="animations.js"></script>
+
+<script>
+  /* ── Mobile Menü ───────────────────────────────────────────── */
+  function toggleMenu() {
+    document.getElementById('mobile-menu').classList.toggle('open');
+  }
+
+  /* ── Smooth Scroll für Anker-Links ────────────────────────── */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) {
+        e.preventDefault();
+        // Navbar-Höhe berücksichtigen
+        const navH = document.getElementById('navbar').offsetHeight;
+        const top  = t.getBoundingClientRect().top + window.scrollY - navH;
+        window.scrollTo({ top, behavior: 'smooth' });
+        // Mobile Menü schließen
+        document.getElementById('mobile-menu').classList.remove('open');
+      }
+    });
+  });
+
+  /* ── Scroll-Progress-Leiste ────────────────────────────────── */
+  const progressBar = document.getElementById('scroll-progress');
+  function updateScrollProgress() {
+    const el      = document.documentElement;
+    const scrolled = el.scrollTop || document.body.scrollTop;
+    const total   = el.scrollHeight - el.clientHeight;
+    if (progressBar) progressBar.style.width = (total > 0 ? scrolled / total * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', updateScrollProgress, { passive: true });
+
+  /* ── Navbar-Border beim Scrollen verstärken ─────────────────── */
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').style.borderBottomColor =
+      window.scrollY > 60 ? 'rgba(249,115,22,0.22)' : 'rgba(249,115,22,0.12)';
+    const floatCta = document.getElementById('floating-cta');
+    if (floatCta) floatCta.classList.toggle('show', window.scrollY > 600);
+  }, { passive: true });
+
+  /* ── Scroll-Reveal (IntersectionObserver) ──────────────────── */
+  const revObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); revObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => revObs.observe(el));
+
+  /* Auto-Stagger für Grid-Kinder ohne manuelle rd-Klasse */
+  document.querySelectorAll('.services-grid-new, .archive-grid-hp').forEach(grid => {
+    const cards = [...grid.children].filter(c =>
+      c.classList.contains('reveal') || c.classList.contains('archive-item'));
+    cards.forEach((card, i) => {
+      const hasDelay = ['rd1','rd2','rd3','rd4','rd5','rd6'].some(c => card.classList.contains(c));
+      if (!hasDelay) card.style.transitionDelay = (i * 0.065).toFixed(3) + 's';
+    });
+  });
+
+  /* Archive-Karten IntersectionObserver */
+  const archiveObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        archiveObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.archive-item').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = `opacity .7s cubic-bezier(0.16,1,0.3,1) ${(i % 6 * 0.07).toFixed(2)}s, transform .7s cubic-bezier(0.16,1,0.3,1) ${(i % 6 * 0.07).toFixed(2)}s`;
+    archiveObs.observe(el);
+  });
+
+  /* ── Archiv-Filter ─────────────────────────────────────────── */
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.archive-item').forEach(item => {
+        const hide = filter !== 'all' && item.dataset.cat !== filter;
+        item.classList.toggle('hidden', hide);
+        if (!hide) {
+          // Re-animate beim Einblenden
+          item.style.opacity = '0';
+          item.style.transform = 'translateY(20px)';
+          requestAnimationFrame(() => {
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+          });
+        }
+      });
+    });
+  });
+
+  /* ── Counter-Animation für Stats ──────────────────────────── */
+  function runCounter(el) {
+    const raw    = el.textContent.trim();
+    const prefix = raw.match(/^[^0-9]*/)[0];
+    const suffix = raw.match(/[^0-9]*$/)[0];
+    const num    = parseInt(raw.replace(/[^0-9]/g, ''), 10);
+    if (!num) return;
+    const start = num > 500 ? num - 20 : 0;
+    const t0 = performance.now(), dur = 1600;
+    function tick(now) {
+      const p     = Math.min((now - t0) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 4);
+      el.textContent = prefix + Math.round(start + (num - start) * eased) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  const cntObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { runCounter(e.target); cntObs.unobserve(e.target); } });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.stat-grad, .stat-grad-teal, .stat-grad-purple').forEach(el => cntObs.observe(el));
+
+  /* ── Formular-Feedback ─────────────────────────────────────── */
+  function handleSubmit(event) {
+    const btn = document.getElementById('submit-btn');
+    const hasFormspree = document.querySelector('form').action.includes('formspree.io/f/') &&
+                         !document.querySelector('form').action.includes('FORMSPREE-ID');
+    if (!hasFormspree) {
+      event.preventDefault();
+      btn.textContent = '⚠ Bitte zuerst Formspree-ID eintragen!';
+      btn.style.background = 'linear-gradient(135deg,#d97706,#b45309)';
+      setTimeout(() => { btn.textContent = 'Kostenlos anfragen →'; btn.style.background = ''; }, 4000);
+      return;
+    }
+    btn.textContent = '✓ Anfrage gesendet — wir melden uns!';
+    btn.style.background = 'linear-gradient(135deg,#10b981,#059669)';
+    btn.style.boxShadow  = '0 0 36px rgba(16,185,129,0.35)';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = 'Kostenlos anfragen →';
+      btn.style.background = '';
+      btn.style.boxShadow  = '';
+      btn.disabled = false;
+    }, 4000);
+  }
+
+  /* ── 3D-Tilt auf Service-Karten (nur Desktop) ──────────────── */
+  const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (!isTouch) {
+    document.querySelectorAll('.service-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width  - 0.5) * 14;
+        const y = ((e.clientY - r.top)  / r.height - 0.5) * -10;
+        card.style.transform   = `perspective(700px) rotateY(${x}deg) rotateX(${y}deg) translateY(-7px) scale(1.015)`;
+        card.style.borderColor = 'rgba(249,115,22,0.32)';
+        card.style.boxShadow   = '0 24px 60px rgba(0,0,0,0.55), 0 0 32px rgba(249,115,22,0.13)';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform   = '';
+        card.style.borderColor = '';
+        card.style.boxShadow   = '';
+      });
+    });
+
+    /* Portfolio-Karten Tilt */
+    document.querySelectorAll('.portfolio-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width  - 0.5) * 8;
+        const y = ((e.clientY - r.top)  / r.height - 0.5) * -5;
+        card.style.transform = `perspective(900px) rotateY(${x}deg) rotateX(${y}deg) scale(1.02)`;
+      });
+      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+    });
+  }
+
+  /* ── Marquee: Klick auf Bild → Link öffnen ─────────────────── */
+  document.querySelectorAll('.marquee-link').forEach(el => {
+    el.addEventListener('click', () => {
+      const href = el.dataset.href;
+      if (href) location.href = href;
+    });
+    el.style.cursor = 'pointer';
+  });
+
+  /* ── Footer-Links (footer-link data-href) ──────────────────── */
+  document.querySelectorAll('.footer-link[data-href]').forEach(el => {
+    el.addEventListener('click', () => { location.href = el.dataset.href; });
+  });
+</script>
 </body>
 </html>
-
