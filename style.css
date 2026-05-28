@@ -1,146 +1,147 @@
 /* ══════════════════════════════════════════════════════════════
-   PRINTLINE WERBETECHNIK — Design System v2
-   Erstellt mit UI/UX Pro Max
+   PRINTLINE WERBETECHNIK — Design System v3
+   Stil: Dark / Glassmorphism / Orange-Akzent
+   Fonts: Outfit (Überschriften) + Work Sans (Text)
 
-   ✏️ ANPASSEN:
-   → Farben:  Ändere die Hex-Werte in :root (Zeile 20–50)
-   → Schrift: Google-Fonts-Link im <head> jeder HTML-Datei
-   → Logo:    Pfad in .nav-logo ändern
+   ✏️ FARBEN ANPASSEN → Hex-Werte in :root ändern
+   ✏️ SCHRIFT ÄNDERN   → Google-Fonts-Link im <head> tauschen
    ══════════════════════════════════════════════════════════════ */
 
 
-/* ── 1. DESIGN TOKENS (:root) ──────────────────────────────── */
+/* ── 1. DESIGN TOKENS ──────────────────────────────────────── */
 :root {
   /* Hauptfarben
-     ✏️ AKZENTFARBE ÄNDERN: Ersetze #0D9488 durch deine Wunschfarbe */
-  --akzent:           #0D9488;   /* Teal — Buttons, Hover, Highlights  */
-  --akzent-dunkel:    #0F766E;   /* Teal dunkel — Hover-Zustand        */
-  --akzent-hell:      rgba(13, 148, 136, 0.12); /* Teal transparent    */
-  --lila:             #8B5CF6;   /* Violett — dekorative Akzente       */
+     ✏️ AKZENT:  #F97316 = Orange  |  tausche gegen deine Wunschfarbe */
+  --akzent:        #F97316;
+  --akzent2:       #FBBF24;
+  --akzent-teal:   #14B8A6;
+  --akzent-glow:   rgba(249, 115, 22, 0.35);
 
   /* Hintergründe */
-  --bg-seite:         #F8FAFC;   /* Heller Seitenhintergrund           */
-  --bg-karte:         #FFFFFF;   /* Kartenhintergrund                  */
-  --bg-nav:           #0F172A;   /* Dunkle Navigation / Hero           */
-  --bg-dunkel:        #1E293B;   /* Dunkle Bereiche                    */
+  --bg:            #0E0B08;   /* Haupthintergrund — warmes Schwarz   */
+  --bg-2:          #150F0A;   /* Etwas heller für Abschnitte        */
+  --bg-3:          #1C1208;   /* Karten / Nav                       */
 
-  /* Textfarben */
-  --text-haupt:       #1E293B;   /* Haupttext                          */
-  --text-matt:        #64748B;   /* Grauer Nebentext                   */
-  --text-hell:        #F1F5F9;   /* Heller Text auf dunklem Grund      */
+  /* Glas-Effekte */
+  --glass:         rgba(255, 255, 255, 0.045);
+  --glass-border:  rgba(255, 255, 255, 0.08);
+  --glass-warm:    rgba(249, 115, 22, 0.07);
+  --glass-border-warm: rgba(249, 115, 22, 0.18);
+
+  /* Text */
+  --text:          #E2E8F0;
+  --text-matt:     #94A3B8;
+  --text-hell:     #F8FAFC;
 
   /* Ränder & Schatten */
-  --rand:             #E2E8F0;
-  --schatten:         0 4px 20px rgba(0,0,0,0.08);
-  --schatten-hover:   0 10px 32px rgba(13,148,136,0.18);
-  --schatten-karte:   0 2px 12px rgba(0,0,0,0.06);
+  --rand:          rgba(255,255,255,0.07);
+  --schatten:      0 4px 24px rgba(0,0,0,0.5);
+  --schatten-warm: 0 8px 32px rgba(249,115,22,0.18);
 
-  /* Abstände (4px-Raster) */
+  /* Abstände */
   --s-xs:  4px;
   --s-s:   8px;
   --s-m:   16px;
   --s-l:   24px;
-  --s-xl:  40px;
-  --s-xxl: 64px;
+  --s-xl:  48px;
+  --s-xxl: 80px;
 
   /* Radien */
   --r-s:    6px;
-  --r-m:    12px;
-  --r-l:    20px;
+  --r-m:    14px;
+  --r-l:    22px;
   --r-rund: 100px;
 
-  /* Übergänge */
-  --ease:   0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Übergang */
+  --ease: 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 
-/* ── 2. RESET & BASIS ──────────────────────────────────────── */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-html {
-  scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
-}
+/* ── 2. RESET ──────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
-  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Work Sans', 'Helvetica Neue', Arial, sans-serif;
   font-size: 1rem;
   line-height: 1.65;
-  color: var(--text-haupt);
-  background: var(--bg-seite);
+  color: var(--text);
+  background-color: var(--bg);
+
+  /* Hintergrund-Glüheffekte — wie bei der neuen lokalen Version */
+  background-image:
+    radial-gradient(ellipse 80% 50% at 85% -5%,  rgba(249,115,22,0.13) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 45% at -5% 55%,  rgba(168,85,247,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 50% 105%,  rgba(20,184,166,0.07) 0%, transparent 50%);
+  background-attachment: fixed;
   min-height: 100vh;
   overflow-x: hidden;
 }
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-a { color: inherit; text-decoration: none; }
+img { max-width: 100%; height: auto; display: block; }
+a   { color: inherit; text-decoration: none; }
 
 
 /* ── 3. TYPOGRAFIE ─────────────────────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
-  line-height: 1.25;
-  color: var(--bg-nav);
+  font-family: 'Outfit', 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.2;
+  color: var(--text-hell);
 }
-h1 { font-size: clamp(1.9rem, 5vw, 3.5rem); font-weight: 700; }
-h2 { font-size: clamp(1.4rem, 3vw, 2.2rem); font-weight: 600; }
-h3 { font-size: 1.2rem;  font-weight: 600; }
-p  { max-width: 68ch; line-height: 1.7; }
-hr {
+h1 { font-size: clamp(2rem, 5vw, 3.75rem); font-weight: 800; }
+h2 { font-size: clamp(1.5rem, 3vw, 2.4rem); font-weight: 700; }
+h3 { font-size: 1.2rem; font-weight: 600; }
+p  { max-width: 65ch; color: var(--text); line-height: 1.75; }
+
+/* Orange Gradient-Text für Highlights */
+.grad-text {
+  background: linear-gradient(130deg, var(--akzent2) 0%, var(--akzent) 50%, #ef4444 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Trennlinie */
+.glow-line {
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(20,184,166,0.5),
+    rgba(249,115,22,0.7),
+    rgba(168,85,247,0.5),
+    transparent);
   border: none;
-  border-top: 1px solid var(--rand);
-  margin: var(--s-l) 0;
+  margin: var(--s-xl) 0;
 }
+hr { border: none; border-top: 1px solid var(--rand); margin: var(--s-l) 0; }
 
 
-/* ── 4. SKIP LINK (Barrierefreiheit) ───────────────────────── */
-.skip-link {
-  position: absolute;
-  top: -100px;
-  left: var(--s-m);
-  background: var(--akzent);
-  color: #fff;
-  padding: var(--s-s) var(--s-m);
-  border-radius: var(--r-s);
-  font-weight: 600;
-  z-index: 9999;
-  transition: top 0.2s;
-  text-decoration: none;
-}
-.skip-link:focus { top: var(--s-m); }
-
-
-/* ── 5. NAVIGATION ─────────────────────────────────────────── */
+/* ── 4. NAVIGATION ─────────────────────────────────────────── */
 nav {
-  background: var(--bg-nav);
+  background: rgba(14,11,8,0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(249,115,22,0.12);
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: var(--s-xs);
+  gap: 2px;
   padding: var(--s-s) var(--s-m);
   position: sticky;
   top: 0;
   z-index: 200;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.25);
 }
 nav a {
-  padding: var(--s-s) var(--s-m);
+  padding: 8px 16px;
   border-radius: var(--r-rund);
-  font-family: 'Poppins', Arial, sans-serif;
+  font-family: 'Outfit', Arial, sans-serif;
   font-weight: 500;
   font-size: 0.875rem;
-  color: rgba(241,245,249,0.80);
+  color: rgba(226,232,240,0.75);
   transition: background var(--ease), color var(--ease);
   white-space: nowrap;
   cursor: pointer;
 }
 nav a:hover {
-  background: rgba(13,148,136,0.22);
+  background: rgba(249,115,22,0.15);
   color: #ffffff;
 }
 nav a:focus-visible {
@@ -149,17 +150,14 @@ nav a:focus-visible {
 }
 
 
-/* ── 6. HERO (Startseite) ──────────────────────────────────── */
-
-/* ┌─────────────────────────────────────────────────────────┐
-   │  ✏️ HERO-HINTERGRUNDBILD EINFÜGEN                       │
-   │  1. Bild in den Ordner "bilder-leistung-hintergrund/"   │
-   │     kopieren, z. B. "hero-hintergrund.jpg"              │
-   │  2. In index.html das Element <div class="hero-bg">     │
-   │     suchen und den style-Wert anpassen:                 │
-   │     style="background-image:url('bilder-leistung-       │
-   │     hintergrund/hero-hintergrund.jpg')"                 │
-   └─────────────────────────────────────────────────────────┘ */
+/* ── 5. HERO (Startseite) ──────────────────────────────────── */
+/*
+   ✏️ HERO-HINTERGRUNDBILD EINFÜGEN
+   In index.html beim <div class="hero-bg"> das style-Attribut ergänzen:
+   style="background-image: url('bilder-leistung-hintergrund/DEIN-BILD.jpg')"
+   Empfohlene Größe: 1920×1080px
+   Das dunkle Overlay (hero-bg::after) sorgt für gute Lesbarkeit.
+*/
 .header--hero {
   position: relative;
   min-height: 88vh;
@@ -172,141 +170,148 @@ nav a:focus-visible {
 .hero-bg {
   position: absolute;
   inset: 0;
-  background-color: var(--bg-nav);
+  background-color: var(--bg);
   background-image:
-    radial-gradient(ellipse 80% 60% at 70% -10%,  rgba(13,148,136,0.30) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at -10% 80%,  rgba(139,92,246,0.18) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 40% at 50% 110%,  rgba(13,148,136,0.15) 0%, transparent 50%);
+    radial-gradient(ellipse 80% 60% at 75% -10%,  rgba(249,115,22,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 55% at -10% 80%,  rgba(168,85,247,0.14) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 50% 110%,  rgba(20,184,166,0.12) 0%, transparent 50%);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  /* Wenn ein Hintergrundbild gesetzt ist, wird es durch die
-     background-image-Eigenschaft im style-Attribut überschrieben */
 }
 .hero-bg::after {
   content: "";
   position: absolute;
   inset: 0;
-  /* ✏️ VERDUNKELUNG anpassen: 0.0 = kein Overlay, 0.6 = stark abgedunkelt */
-  background: rgba(15,23,42,0.52);
+  /* ✏️ VERDUNKELUNG: 0.0 = kein Overlay, 0.55 = mittel */
+  background: rgba(14,11,8,0.55);
 }
 .hero-title {
   position: relative;
   z-index: 2;
   color: #ffffff;
-  text-shadow: 0 2px 24px rgba(0,0,0,0.45);
-  padding: var(--s-m);
-  max-width: 900px;
+  text-shadow: 0 2px 30px rgba(0,0,0,0.6);
+  padding: 0 var(--s-m);
+  margin-bottom: var(--s-m);
 }
 .hero-subtitle {
   position: relative;
   z-index: 2;
-  color: rgba(241,245,249,0.85);
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  margin-top: var(--s-m);
-  max-width: 600px;
+  color: rgba(226,232,240,0.80);
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-family: 'Work Sans', Arial, sans-serif;
 }
 
 
-/* ── 7. KATEGORIE-HEADER (Unterseiten) ─────────────────────── */
-.kategorie-header,
-header.kategorie-header {
-  position: relative;
-  background: var(--bg-nav);
-  color: #fff;
-  text-align: center;
-  padding: var(--s-xxl) var(--s-m) var(--s-xl);
-  overflow: hidden;
-  margin: 0;
-}
-.kategorie-header::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 80% 100% at 50% 120%, rgba(13,148,136,0.25) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 80% at 10% -20%,  rgba(139,92,246,0.15) 0%, transparent 60%);
-  pointer-events: none;
-}
-.kategorie-header h1 {
-  position: relative;
-  z-index: 1;
-  color: #ffffff;
-  font-size: clamp(1.9rem, 4vw, 3rem);
-  letter-spacing: -0.01em;
-}
-
-
-/* ── 8. HAUPT-INHALTSBEREICH ───────────────────────────────── */
-main {
+/* ── 6. STARTSEITE MAIN — Info-Bereich ─────────────────────── */
+.startseite main {
   max-width: 1100px;
   margin: 0 auto;
   padding: var(--s-xl) var(--s-m);
   background: transparent;
-  box-shadow: none;
-  border-radius: 0;
+  text-align: center;
 }
-main h2 { color: var(--bg-nav); margin-bottom: var(--s-m); }
-main > p { color: var(--text-haupt); margin-bottom: var(--s-m); }
+.startseite main h2 {
+  color: var(--text-hell);
+  margin-bottom: var(--s-m);
+}
+.startseite main > p {
+  color: var(--text-matt);
+  margin: 0 auto var(--s-l);
+  font-size: 1.05rem;
+}
+
+/* Kennzahlen-Leiste */
+.stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--s-l);
+  margin: var(--s-xl) auto;
+  max-width: 700px;
+}
+.stat-item {
+  background: var(--glass-warm);
+  border: 1px solid var(--glass-border-warm);
+  border-radius: var(--r-l);
+  padding: var(--s-l) var(--s-xl);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-align: center;
+  min-width: 140px;
+}
+.stat-zahl {
+  font-family: 'Outfit', Arial, sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  background: linear-gradient(130deg, var(--akzent2), var(--akzent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--text-matt);
+  margin-top: var(--s-xs);
+  font-family: 'Work Sans', Arial, sans-serif;
+}
 
 
-/* ── 9. BUTTONS ────────────────────────────────────────────── */
+/* ── 7. BUTTONS ────────────────────────────────────────────── */
 button, .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--s-s);
-  background: var(--akzent);
+  background: linear-gradient(135deg, var(--akzent), #ea580c);
   color: #ffffff;
-  border: 2px solid transparent;
-  padding: 14px 30px;
+  border: none;
+  padding: 14px 32px;
   border-radius: var(--r-rund);
-  font-family: 'Poppins', Arial, sans-serif;
+  font-family: 'Outfit', Arial, sans-serif;
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition:
-    background var(--ease),
-    transform var(--ease),
-    box-shadow var(--ease),
-    border-color var(--ease);
-  box-shadow: 0 4px 14px rgba(13,148,136,0.28);
+  box-shadow: 0 0 24px rgba(249,115,22,0.35);
+  transition: box-shadow var(--ease), transform var(--ease);
   text-decoration: none;
   line-height: 1;
 }
 button:hover, .btn:hover {
-  background: var(--akzent-dunkel);
+  box-shadow: 0 0 44px rgba(249,115,22,0.55);
   transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(13,148,136,0.38);
 }
-button:active, .btn:active { transform: translateY(0); }
-button:focus-visible, .btn:focus-visible {
+button:active  { transform: translateY(0); }
+button:focus-visible {
   outline: 2px solid var(--akzent);
   outline-offset: 3px;
 }
 
-/* Zweiter Button in .button-row = Outline-Stil */
+/* Zweiter Button in .button-row = Outline */
 .button-row {
   display: flex;
   flex-wrap: wrap;
   gap: var(--s-m);
   margin-top: var(--s-xl);
+  justify-content: center;
 }
 .button-row button:last-child:not(:first-child) {
-  background: transparent;
-  border-color: var(--akzent);
-  color: var(--akzent);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(249,115,22,0.30);
+  color: var(--text-hell);
   box-shadow: none;
 }
 .button-row button:last-child:not(:first-child):hover {
-  background: var(--akzent);
-  color: #ffffff;
-  box-shadow: 0 4px 14px rgba(13,148,136,0.28);
+  background: rgba(249,115,22,0.10);
+  border-color: rgba(249,115,22,0.55);
+  box-shadow: 0 0 20px rgba(249,115,22,0.18);
+  transform: translateY(-2px);
 }
 
-/* Startseite: breitere Buttons */
+/* Startseite: etwas größere Buttons */
 .startseite .button-row button {
-  padding: 16px 36px;
+  padding: 16px 40px;
   font-size: 1rem;
 }
 
@@ -315,42 +320,85 @@ button:focus-visible, .btn:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: var(--s-s);
-  padding: var(--s-s) var(--s-m);
-  background: var(--akzent-hell);
-  border: 1px solid var(--akzent);
+  padding: 9px 18px;
+  background: rgba(249,115,22,0.08);
+  border: 1px solid rgba(249,115,22,0.25);
   border-radius: var(--r-s);
-  color: var(--akzent-dunkel);
+  color: var(--akzent);
   font-size: 0.9rem;
   font-weight: 500;
   transition: background var(--ease), box-shadow var(--ease);
-  text-decoration: none;
   cursor: pointer;
+  text-decoration: none;
 }
 .pdf-button:hover {
-  background: var(--akzent);
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(13,148,136,0.2);
+  background: rgba(249,115,22,0.15);
+  box-shadow: 0 0 16px rgba(249,115,22,0.2);
 }
 
 
-/* ── 10. MARQUEE (Bilder-Laufband) ─────────────────────────── */
+/* ── 8. KATEGORIE-HEADER (Unterseiten) ─────────────────────── */
+.kategorie-header,
+header.kategorie-header {
+  position: relative;
+  background: var(--bg-3);
+  color: var(--text-hell);
+  text-align: center;
+  padding: var(--s-xxl) var(--s-m) var(--s-xl);
+  overflow: hidden;
+  margin: 0;
+  border-bottom: 1px solid rgba(249,115,22,0.12);
+}
+.kategorie-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 100% at 50% 120%, rgba(249,115,22,0.18) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 70% at 10% -20%,  rgba(168,85,247,0.10) 0%, transparent 60%);
+  pointer-events: none;
+}
+.kategorie-header h1 {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  letter-spacing: -0.01em;
+}
 
-/* ┌─────────────────────────────────────────────────────────┐
-   │  ✏️ MARQUEE-BILDER AUSTAUSCHEN / HINZUFÜGEN             │
-   │  In index.html die <div class="marquee-link"> Blöcke    │
-   │  suchen. Jedes Bild so aufgebaut:                       │
-   │  <div class="marquee-link" data-href="seite.html">      │
-   │    <img src="bilder-leistung-hintergrund/BILD.jpg"      │
-   │         alt="Beschreibung" loading="lazy">              │
-   │  </div>                                                 │
-   │  Bild einfach in bilder-leistung-hintergrund/ legen     │
-   │  und den Dateinamen oben anpassen.                      │
-   └─────────────────────────────────────────────────────────┘ */
+
+/* ── 9. HAUPT-INHALTSBEREICH (allgemein) ───────────────────── */
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--s-xl) var(--s-m);
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  color: var(--text);
+}
+main h2 { color: var(--text-hell); margin-bottom: var(--s-m); }
+main h3 { color: var(--akzent);    margin: var(--s-l) 0 var(--s-s); }
+main p  { color: var(--text);      margin-bottom: var(--s-m); }
+main a  { color: var(--akzent); text-decoration: underline; }
+main a:hover { color: var(--akzent2); }
+
+
+/* ── 10. MARQUEE ───────────────────────────────────────────── */
+/*
+   ✏️ MARQUEE-BILDER TAUSCHEN
+   In index.html die marquee-link Blöcke suchen:
+   <div class="marquee-link" data-href="seite.html">
+     <img src="bilder-leistung-hintergrund/DEIN-BILD.jpg" alt="..." loading="lazy">
+   </div>
+   Bild in bilder-leistung-hintergrund/ legen und Dateinamen anpassen.
+*/
 .marquee-container {
   width: 100%;
   overflow: hidden;
   padding: var(--s-xl) 0;
-  background: var(--bg-dunkel);
+  background: var(--bg-2);
+  border-top:    1px solid rgba(249,115,22,0.10);
+  border-bottom: 1px solid rgba(249,115,22,0.10);
   position: relative;
 }
 .marquee-container::before,
@@ -358,22 +406,22 @@ button:focus-visible, .btn:focus-visible {
   content: "";
   position: absolute;
   top: 0; bottom: 0;
-  width: 100px;
+  width: 120px;
   z-index: 2;
   pointer-events: none;
 }
 .marquee-container::before {
   left: 0;
-  background: linear-gradient(to right, var(--bg-dunkel), transparent);
+  background: linear-gradient(to right, var(--bg-2), transparent);
 }
 .marquee-container::after {
   right: 0;
-  background: linear-gradient(to left,  var(--bg-dunkel), transparent);
+  background: linear-gradient(to left,  var(--bg-2), transparent);
 }
 .marquee {
   display: flex;
   align-items: center;
-  gap: var(--s-l);
+  gap: var(--s-xl);
   animation: marquee-lauf 50s linear infinite;
   width: max-content;
 }
@@ -382,13 +430,15 @@ button:focus-visible, .btn:focus-visible {
   width: 340px;
   object-fit: cover;
   border-radius: var(--r-l);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+  box-shadow: 0 4px 28px rgba(0,0,0,0.55);
+  border: 1px solid rgba(255,255,255,0.06);
   transition: transform var(--ease), box-shadow var(--ease);
   cursor: pointer;
 }
 .marquee-link:hover img {
   transform: scale(1.05) translateY(-4px);
-  box-shadow: 0 14px 36px rgba(13,148,136,0.30);
+  box-shadow: 0 12px 40px rgba(249,115,22,0.28);
+  border-color: rgba(249,115,22,0.35);
 }
 @keyframes marquee-lauf {
   from { transform: translateX(0); }
@@ -397,89 +447,18 @@ button:focus-visible, .btn:focus-visible {
 
 
 /* ── 11. LEISTUNGEN-GRID ───────────────────────────────────── */
-
-/* ┌─────────────────────────────────────────────────────────┐
-   │  ✏️ LEISTUNGS-KARTEN-BILDER AUSTAUSCHEN                 │
-   │  In leistungen.html jede .leistung-box hat:             │
-   │  style="background-image:url('bilder-leistung-          │
-   │  hintergrund/DEIN-BILD.jpg');"                          │
-   │  Einfach den Dateinamen durch dein neues Bild ersetzen. │
-   │  Empfohlene Größe: 800×600px, Format: JPG               │
-   └─────────────────────────────────────────────────────────┘ */
-.leistungen-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: var(--s-l);
-  padding: var(--s-l) var(--s-l) var(--s-xl);
-  max-width: 1280px;
-  margin: 0 auto;
-  width: 100%;
-  box-sizing: border-box;
-  justify-items: stretch;
-}
-.leistung-box {
-  position: relative;
-  border-radius: var(--r-l);
-  overflow: hidden;
-  aspect-ratio: 4 / 3;
-  background: var(--bg-nav) center / cover no-repeat;
-  box-shadow: var(--schatten-karte);
-  border: 1px solid rgba(255,255,255,0.06);
-  cursor: pointer;
-  transition: transform var(--ease), box-shadow var(--ease);
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-}
-/* Dunkles Overlay am unteren Rand für Lesbarkeit */
-.leistung-box::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(15,23,42,0.88) 0%,
-    rgba(15,23,42,0.25) 55%,
-    transparent 100%
-  );
-  transition: background var(--ease);
-}
-.leistung-box:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--schatten-hover);
-}
-.leistung-box:hover::after {
-  background: linear-gradient(
-    to top,
-    rgba(13,148,136,0.75) 0%,
-    rgba(15,23,42,0.35) 60%,
-    transparent 100%
-  );
-}
-/* Titel-Leiste unten in der Karte */
-.box-footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 3;
-  padding: var(--s-m) var(--s-l);
-  color: #ffffff;
-  font-family: 'Poppins', Arial, sans-serif;
-  font-weight: 600;
-  font-size: 1rem;
-  letter-spacing: 0.2px;
-  text-shadow: 0 1px 6px rgba(0,0,0,0.5);
-}
-/* h2 und p in den Boxen ausblenden (Inhalt über box-footer) */
-.leistung-box h2,
-.leistung-box p {
-  display: none;
-}
+/*
+   ✏️ LEISTUNGS-KARTEN BILDER TAUSCHEN
+   In leistungen.html jede .leistung-box:
+   style="background-image: url('bilder-leistung-hintergrund/DEIN-BILD.jpg')"
+   Einfach den Dateinamen durch dein Bild ersetzen.
+   Empfohlene Größe: 800×600px
+*/
 .leistungen-seite {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: var(--bg);
 }
 .leistungen-seite main {
   flex: 1 0 auto;
@@ -489,18 +468,77 @@ button:focus-visible, .btn:focus-visible {
   box-shadow: none;
   border-radius: 0;
 }
+.leistungen-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--s-l);
+  padding: var(--s-l) var(--s-l) var(--s-xl);
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+.leistung-box {
+  position: relative;
+  border-radius: var(--r-l);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--bg-3) center / cover no-repeat;
+  box-shadow: var(--schatten);
+  border: 1px solid var(--rand);
+  cursor: pointer;
+  transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease);
+  width: 100%;
+  min-width: 0;
+}
+.leistung-box::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(14,11,8,0.90) 0%,
+    rgba(14,11,8,0.30) 55%,
+    transparent 100%
+  );
+  transition: background var(--ease);
+}
+.leistung-box:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--schatten-warm);
+  border-color: rgba(249,115,22,0.30);
+}
+.leistung-box:hover::after {
+  background: linear-gradient(
+    to top,
+    rgba(249,115,22,0.65) 0%,
+    rgba(14,11,8,0.40) 60%,
+    transparent 100%
+  );
+}
+.box-footer {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 3;
+  padding: var(--s-m) var(--s-l);
+  color: #ffffff;
+  font-family: 'Outfit', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+}
+.leistung-box h2,
+.leistung-box p { display: none; }
 
 
 /* ── 12. PORTFOLIO ─────────────────────────────────────────── */
-
-/* ┌─────────────────────────────────────────────────────────┐
-   │  ✏️ PORTFOLIO-BILDER EINFÜGEN                           │
-   │  In portfolio.html jedes .portfolio-item hat entweder:  │
-   │  a) style="background-image:url('PFAD/BILD.jpg')"       │
-   │  b) ein <img src="PFAD/BILD.jpg" alt="..."> innen       │
-   │  Bilder in den Ordner "bilder-leistung-hintergrund/"    │
-   │  legen und den Pfad anpassen.                           │
-   └─────────────────────────────────────────────────────────┘ */
+/*
+   ✏️ PORTFOLIO-BILDER
+   In portfolio.html jedes .portfolio-item:
+   style="background-image: url('bilder-leistung-hintergrund/BILD.jpg')"
+   Oder: <img src="..."> direkt innerhalb des Elements.
+*/
 .portfolio-grid,
 .portfolio-liste {
   display: grid;
@@ -513,49 +551,52 @@ button:focus-visible, .btn:focus-visible {
 .portfolio-item {
   border-radius: var(--r-m);
   overflow: hidden;
-  text-decoration: none;
-  color: var(--text-haupt);
-  background: var(--bg-karte) center / cover no-repeat;
+  background: var(--bg-3) center / cover no-repeat;
   border: 1px solid var(--rand);
-  box-shadow: var(--schatten-karte);
+  box-shadow: var(--schatten);
   transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease);
   display: block;
   aspect-ratio: 4 / 3;
   position: relative;
+  color: var(--text);
 }
 .portfolio-item::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.12);
+  background: rgba(14,11,8,0.20);
   z-index: 1;
-  pointer-events: none;
   transition: background var(--ease);
 }
 .portfolio-item > * { position: relative; z-index: 2; }
 .portfolio-item:hover {
-  transform: translateY(-4px) scale(1.015);
-  box-shadow: var(--schatten-hover);
-  border-color: var(--akzent);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: var(--schatten-warm);
+  border-color: rgba(249,115,22,0.30);
 }
-.portfolio-item:hover::before { background: rgba(13,148,136,0.15); }
+.portfolio-item:hover::before {
+  background: rgba(249,115,22,0.12);
+}
 
 
 /* ── 13. ARCHIV ────────────────────────────────────────────── */
-
-/* ┌─────────────────────────────────────────────────────────┐
-   │  ✏️ ARCHIV-BILDER EINFÜGEN                              │
-   │  In Archiv.html jede .card hat ein <img> innen:         │
-   │  <img src="bilder-leistung-hintergrund/BILD.jpg"        │
-   │       alt="Projektname">                                │
-   │  Einfach neues Bild in den Ordner legen und Pfad        │
-   │  im src-Attribut anpassen.                              │
-   └─────────────────────────────────────────────────────────┘ */
+/*
+   ✏️ ARCHIV-BILDER
+   In Archiv.html jede .card:
+   <img src="bilder-leistung-hintergrund/BILD.jpg" alt="Projektname">
+*/
 .container {
   max-width: 1100px;
   margin: var(--s-xl) auto;
   padding: 0 var(--s-l);
   box-sizing: border-box;
+  color: var(--text);
+}
+.container h2,
+.intro h2 {
+  color: var(--text-hell);
+  margin-bottom: var(--s-m);
+  font-size: clamp(1.4rem, 3vw, 2rem);
 }
 .archiv-grid,
 .grid {
@@ -566,21 +607,23 @@ button:focus-visible, .btn:focus-visible {
   justify-items: center;
 }
 .card {
-  background: var(--bg-karte);
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
   border-radius: var(--r-m);
   overflow: hidden;
-  box-shadow: var(--schatten-karte);
-  border: 1px solid var(--rand);
+  box-shadow: var(--schatten);
   width: 100%;
   display: flex;
   flex-direction: column;
   aspect-ratio: 4 / 3;
   transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--schatten-hover);
-  border-color: var(--akzent);
+  transform: translateY(-5px);
+  box-shadow: var(--schatten-warm);
+  border-color: rgba(249,115,22,0.30);
 }
 .card img {
   width: 100%;
@@ -591,8 +634,24 @@ button:focus-visible, .btn:focus-visible {
 .card figcaption,
 .card .meta {
   padding: var(--s-s) var(--s-m);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--text-matt);
+  font-family: 'Work Sans', Arial, sans-serif;
+}
+.note {
+  background: rgba(249,115,22,0.07);
+  border-left: 3px solid var(--akzent);
+  padding: var(--s-m) var(--s-l);
+  border-radius: 0 var(--r-s) var(--r-s) 0;
+  margin: var(--s-l) 0;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+.decade { margin-top: var(--s-xl); }
+.decade h3 {
+  font-size: 1.2rem;
+  color: var(--akzent);
+  margin-bottom: var(--s-s);
 }
 
 
@@ -602,20 +661,9 @@ button:focus-visible, .btn:focus-visible {
   margin: 0 auto;
   padding: var(--s-xl) var(--s-m);
 }
-.ueber-uns h2 {
-  color: var(--akzent);
-  font-size: 1.5rem;
-  margin: var(--s-l) 0 var(--s-m);
-}
-.ueber-uns h3 {
-  color: var(--bg-nav);
-  margin: var(--s-l) 0 var(--s-s);
-}
-.ueber-uns p {
-  color: var(--text-haupt);
-  margin-bottom: var(--s-m);
-}
-/* Listen ohne Emoji — saubere Checkmarks via CSS */
+.ueber-uns h2 { color: var(--akzent); margin: var(--s-l) 0 var(--s-m); }
+.ueber-uns h3 { color: var(--text-hell); margin: var(--s-l) 0 var(--s-s); }
+.ueber-uns p  { color: var(--text); margin-bottom: var(--s-m); }
 .ueber-uns ul {
   list-style: none;
   display: flex;
@@ -628,14 +676,14 @@ button:focus-visible, .btn:focus-visible {
   display: flex;
   align-items: flex-start;
   gap: var(--s-s);
-  color: var(--text-haupt);
+  color: var(--text);
   line-height: 1.6;
 }
+/* CSS-Checkmark statt Emoji */
 .ueber-uns ul li::before {
   content: "";
   flex-shrink: 0;
-  width: 20px;
-  height: 20px;
+  width: 20px; height: 20px;
   margin-top: 2px;
   border-radius: 50%;
   background: var(--akzent)
@@ -645,18 +693,14 @@ button:focus-visible, .btn:focus-visible {
 
 
 /* ── 15. INFO-BILDER (Leistungs-Detailseiten) ──────────────── */
-
-/* ┌─────────────────────────────────────────────────────────┐
-   │  ✏️ BILDER IN LEISTUNGS-DETAILSEITEN EINFÜGEN           │
-   │  In beschriftungen.html, druck.html usw.:               │
-   │  Füge im <div class="info-bilder"> Abschnitt            │
-   │  ein neues <img> hinzu:                                 │
-   │  <img src="bilder-leistung-hintergrund/BILD.jpg"        │
-   │       alt="Kurze Bildbeschreibung"                      │
-   │       loading="lazy">                                   │
-   │  Mehrere Bilder nebeneinander werden automatisch        │
-   │  im Raster angeordnet.                                  │
-   └─────────────────────────────────────────────────────────┘ */
+/*
+   ✏️ BILDER IN DETAILSEITEN EINFÜGEN
+   In beschriftungen.html, druck.html usw.
+   Im <div class="info-bilder"> Block:
+   <img src="bilder-leistung-hintergrund/DEIN-BILD.jpg"
+        alt="Bildbeschreibung" loading="lazy">
+   Mehrere Bilder werden automatisch nebeneinander dargestellt.
+*/
 .info-bilder {
   display: flex;
   flex-wrap: wrap;
@@ -669,42 +713,56 @@ button:focus-visible, .btn:focus-visible {
   height: 200px;
   object-fit: cover;
   border-radius: var(--r-m);
-  box-shadow: var(--schatten-karte);
+  box-shadow: var(--schatten);
+  border: 1px solid var(--rand);
   transition: transform var(--ease), box-shadow var(--ease);
   cursor: zoom-in;
 }
 .info-bilder img:hover {
   transform: scale(1.04);
-  box-shadow: var(--schatten-hover);
+  box-shadow: var(--schatten-warm);
+  border-color: rgba(249,115,22,0.35);
 }
 
-
-/* ── 16. BILD-PLATZHALTER ──────────────────────────────────── */
-/* Wird angezeigt, wenn noch kein Bild eingefügt ist */
+/* Bild-Platzhalter (solange noch kein Bild eingefügt ist) */
 .bild-platzhalter {
   width: 100%;
   max-width: 560px;
   aspect-ratio: 16 / 9;
   border-radius: var(--r-m);
-  border: 2px dashed var(--akzent);
-  background: var(--akzent-hell);
+  border: 2px dashed rgba(249,115,22,0.35);
+  background: rgba(249,115,22,0.04);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: var(--s-s);
-  color: var(--akzent-dunkel);
-  font-family: 'Poppins', Arial, sans-serif;
+  color: rgba(249,115,22,0.6);
+  font-family: 'Outfit', Arial, sans-serif;
   font-size: 0.9rem;
   font-weight: 500;
   margin: var(--s-m) auto;
   text-align: center;
   padding: var(--s-m);
 }
-.bild-platzhalter svg {
-  width: 40px;
-  height: 40px;
-  opacity: 0.6;
+
+
+/* ── 16. GLAS-KARTE (wiederverwendbar) ─────────────────────── */
+.glass-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-l);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: var(--s-xl);
+}
+.glass-card-warm {
+  background: var(--glass-warm);
+  border: 1px solid var(--glass-border-warm);
+  border-radius: var(--r-l);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: var(--s-xl);
 }
 
 
@@ -716,18 +774,20 @@ button:focus-visible, .btn:focus-visible {
   display: flex;
   flex-direction: column;
   gap: var(--s-m);
-  background: var(--bg-karte);
-  border: 1px solid var(--rand);
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
   border-radius: var(--r-l);
   padding: var(--s-xl);
   box-shadow: var(--schatten);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 .kontakt-form label,
 form label {
-  font-family: 'Poppins', Arial, sans-serif;
+  font-family: 'Outfit', Arial, sans-serif;
   font-weight: 500;
   font-size: 0.9rem;
-  color: var(--text-haupt);
+  color: var(--text);
   display: flex;
   flex-direction: column;
   gap: var(--s-xs);
@@ -738,22 +798,27 @@ form input,
 form textarea,
 form select {
   padding: 12px 16px;
-  border: 1.5px solid var(--rand);
+  border: 1.5px solid rgba(255,255,255,0.09);
   border-radius: var(--r-s);
   font-size: 1rem;
-  font-family: 'Inter', Arial, sans-serif;
-  background: var(--bg-seite);
-  color: var(--text-haupt);
+  font-family: 'Work Sans', Arial, sans-serif;
+  background: rgba(255,255,255,0.04);
+  color: var(--text-hell);
   width: 100%;
   transition: border-color var(--ease), box-shadow var(--ease);
+}
+.kontakt-form input::placeholder,
+form input::placeholder,
+form textarea::placeholder {
+  color: rgba(148,163,184,0.5);
 }
 .kontakt-form input:focus,
 .kontakt-form textarea:focus,
 form input:focus,
 form textarea:focus,
 form select:focus {
-  border-color: var(--akzent);
-  box-shadow: 0 0 0 3px rgba(13,148,136,0.12);
+  border-color: rgba(249,115,22,0.55);
+  box-shadow: 0 0 0 3px rgba(249,115,22,0.10);
   outline: none;
 }
 .kontakt-form button,
@@ -761,13 +826,10 @@ form button {
   width: 100%;
   justify-content: center;
 }
-#form-success {
-  color: var(--akzent-dunkel);
-  font-weight: 500;
-}
+#form-success { color: #4ade80; font-weight: 500; }
 
 
-/* ── 18. RECHTLICHE SEITEN (Impressum / Datenschutz / AGB) ─── */
+/* ── 18. RECHTLICHE SEITEN ─────────────────────────────────── */
 .legal-content,
 .impressum-content,
 .datenschutz-content,
@@ -775,44 +837,28 @@ form button {
   max-width: 820px;
   margin: 0 auto;
   padding: var(--s-xl) var(--s-m);
+  color: var(--text);
 }
 .legal-content h1,
-main > h1 {
-  color: var(--bg-nav);
-  margin-bottom: var(--s-l);
-}
+main > h1 { color: var(--text-hell); margin-bottom: var(--s-l); }
 .legal-content h2,
 main > h2 {
-  color: var(--akzent-dunkel);
+  color: var(--akzent);
   font-size: 1.15rem;
-  font-weight: 600;
   margin: var(--s-l) 0 var(--s-s);
   padding-bottom: var(--s-xs);
-  border-bottom: 1px solid var(--rand);
+  border-bottom: 1px solid rgba(249,115,22,0.18);
 }
-.legal-content h3,
-main > h3 {
-  color: var(--text-haupt);
-  font-size: 1rem;
-  margin: var(--s-m) 0 var(--s-xs);
-}
+.legal-content h3 { color: var(--text); font-size: 1rem; margin: var(--s-m) 0 var(--s-xs); }
 .legal-content p,
 .legal-content ul,
-.legal-content ol,
-main > p {
-  color: var(--text-haupt);
+.legal-content ol {
+  color: var(--text-matt);
   margin-bottom: var(--s-m);
   line-height: 1.75;
 }
-.legal-content a,
-main a {
-  color: var(--akzent);
-  text-decoration: underline;
-}
-.legal-content a:hover,
-main a:hover {
-  color: var(--akzent-dunkel);
-}
+.legal-content a { color: var(--akzent); text-decoration: underline; }
+.legal-content a:hover { color: var(--akzent2); }
 
 
 /* ── 19. LEISTUNGS-DETAILSEITEN ───────────────────────────── */
@@ -821,11 +867,8 @@ main a:hover {
   margin: 0 auto;
   padding: var(--s-xl) var(--s-m);
 }
-.leistung-detail h2 {
-  color: var(--akzent);
-  margin: var(--s-l) 0 var(--s-m);
-}
-.leistung-detail p { margin-bottom: var(--s-m); }
+.leistung-detail h2 { color: var(--akzent); margin: var(--s-l) 0 var(--s-m); }
+.leistung-detail p  { margin-bottom: var(--s-m); }
 .leistung-detail ul {
   list-style: none;
   display: flex;
@@ -837,6 +880,7 @@ main a:hover {
   display: flex;
   align-items: flex-start;
   gap: var(--s-s);
+  padding-left: var(--s-xs);
 }
 .leistung-detail ul li::before {
   content: "→";
@@ -845,47 +889,29 @@ main a:hover {
   flex-shrink: 0;
 }
 
-/* Note/Hinweisbox */
-.note {
-  background: var(--akzent-hell);
-  border-left: 4px solid var(--akzent);
-  padding: var(--s-m) var(--s-l);
-  border-radius: 0 var(--r-s) var(--r-s) 0;
-  margin: var(--s-l) 0;
-  font-size: 0.95rem;
-  color: var(--text-haupt);
-}
 
-/* Jahrzehnt-Abschnitt (Archiv) */
-.decade { margin-top: var(--s-xl); }
-.decade h3 {
-  font-size: 1.2rem;
-  color: var(--akzent-dunkel);
-  margin-bottom: var(--s-s);
-}
-.intro h2 { font-size: 1.75rem; }
-
-
-/* ── 20. FOOTER ─────────────────────────────────────────────── */
+/* ── 20. FOOTER ────────────────────────────────────────────── */
 footer,
 .site-footer {
-  background: var(--bg-nav);
-  color: rgba(241,245,249,0.70);
+  background: var(--bg-3);
+  border-top: 1px solid rgba(249,115,22,0.12);
+  color: rgba(148,163,184,0.8);
   text-align: center;
   padding: var(--s-l) var(--s-m);
   font-size: 0.88rem;
-  /* ✅ BUG BEHOBEN: position war früher "fixed" → Inhalte verdeckt */
+  /* ✅ BUG BEHOBEN: früher position:fixed → Inhalte verdeckt */
   position: static !important;
   width: auto !important;
   inset: auto !important;
   transform: none !important;
-  margin-top: var(--s-xl);
+  margin-top: 0;
 }
-/* Inline-Footer (alter Stil mit div) */
+/* Inline-Footer (alter div-Stil) */
 body > div[style*="text-align:center"],
 body > div[style*="text-align: center"] {
-  background: var(--bg-nav);
-  color: rgba(241,245,249,0.70);
+  background: var(--bg-3) !important;
+  border-top: 1px solid rgba(249,115,22,0.12) !important;
+  color: rgba(148,163,184,0.8) !important;
   text-align: center !important;
   padding: var(--s-l) var(--s-m) !important;
   font-size: 0.88rem !important;
@@ -894,8 +920,8 @@ body > div[style*="text-align: center"] {
 }
 body > div[style*="text-align:center"] strong,
 body > div[style*="text-align: center"] strong {
-  color: rgba(241,245,249,0.70);
-  font-weight: 400;
+  color: rgba(148,163,184,0.8) !important;
+  font-weight: 400 !important;
 }
 .footer-link {
   color: var(--akzent) !important;
@@ -903,7 +929,7 @@ body > div[style*="text-align: center"] strong {
   text-decoration: underline;
   transition: color var(--ease);
 }
-.footer-link:hover { color: #5eead4 !important; }
+.footer-link:hover { color: var(--akzent2) !important; }
 
 
 /* ── 21. COOKIE BANNER ─────────────────────────────────────── */
@@ -917,13 +943,15 @@ body > div[style*="text-align: center"] strong {
   z-index: 9999 !important;
   max-width: 620px !important;
   width: calc(100% - 2 * var(--s-m)) !important;
-  background: var(--bg-nav) !important;
-  color: var(--text-hell) !important;
+  background: rgba(21,15,10,0.96) !important;
+  color: var(--text) !important;
   border-radius: var(--r-m) !important;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6) !important;
   padding: var(--s-l) !important;
   font-size: 0.9rem !important;
-  border: 1px solid rgba(255,255,255,0.08) !important;
+  border: 1px solid rgba(249,115,22,0.18) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
 }
 .cookie-banner-inner {
   display: flex;
@@ -939,99 +967,64 @@ body > div[style*="text-align: center"] strong {
   box-shadow: none;
 }
 #reject-all {
-  background: transparent;
-  border: 1.5px solid rgba(255,255,255,0.25);
-  color: var(--text-hell);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--text);
+  box-shadow: none;
 }
 #reject-all:hover {
-  background: rgba(255,255,255,0.1);
-  border-color: rgba(255,255,255,0.5);
-  box-shadow: none;
+  background: rgba(255,255,255,0.10);
   transform: none;
+  box-shadow: none;
 }
 
 
-/* ── 22. OVERLAY — GLOBALES (alten Bug entfernt) ───────────── */
-/*
-   HINWEIS: Das alte body::before mit z-index:9999 wurde entfernt.
-   Es hat alle Klicks blockiert und eine ungewollte Verdunkelung
-   über der ganzen Seite erzeugt.
-*/
-
-
-/* ── 23. ANIMATIONEN ───────────────────────────────────────── */
-@media (prefers-reduced-motion: no-preference) {
-  .reveal-item {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-  .reveal-item.visible {
-    opacity: 1;
-    transform: none;
-  }
+/* ── 22. SEITEN-LAYOUT (für Seiten mit Sticky Footer) ──────── */
+.seiten-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
-/* GSAP-Klassen — werden von animations.js / logo-reveal.js verwendet */
-.js-header        { /* Scroll-gesteuerte Nav-Klasse */         }
-.js-hero-bg       { /* Parallax-Hintergrund-Klasse */          }
-.js-parallax      { /* Parallax-Element */                     }
-.js-reveal-words  { /* Wort-für-Wort Einblend-Animation */     }
-.js-marquee-track { /* Marquee-Laufband (JS-gesteuert) */      }
+.seiten-layout main { flex: 1 0 auto; }
 
 
-/* ── 24. RESPONSIVE DESIGN ─────────────────────────────────── */
+/* ── 23. GSAP / JS-KLASSEN ─────────────────────────────────── */
+.js-header        { /* Scroll-gesteuerte Nav */ }
+.js-hero-bg       { /* Parallax-Hintergrund  */ }
+.js-parallax      { /* Parallax-Element      */ }
+.js-reveal-words  { /* Wort-Einblend-Anim    */ }
+.js-marquee-track { /* JS-Laufband           */ }
 
-/* Tablet */
+
+/* ── 24. RESPONSIVE ────────────────────────────────────────── */
 @media (max-width: 1024px) {
   .leistungen-grid {
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     padding: var(--s-m);
   }
 }
-
-/* Mobil (≤ 768px) */
 @media (max-width: 768px) {
   nav a { padding: 7px 11px; font-size: 0.8rem; }
-
-  .header--hero { min-height: 70vh; }
-
-  .button-row { flex-direction: column; }
+  .header--hero { min-height: 75vh; }
+  .button-row { flex-direction: column; align-items: stretch; }
   .button-row button { width: 100%; }
-
-  .marquee img { height: 170px; width: 250px; }
-
-  .leistungen-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: var(--s-m);
-    padding: var(--s-m);
-  }
-
+  .marquee img { height: 175px; width: 260px; }
+  .leistungen-grid { grid-template-columns: 1fr 1fr; gap: var(--s-m); }
   .info-bilder img { width: 100%; height: auto; max-height: 220px; }
-
-  .kontakt-form,
-  .kontaktForm form { padding: var(--s-l) var(--s-m); }
-
+  .kontakt-form { padding: var(--s-l) var(--s-m); }
   main { padding: var(--s-l) var(--s-m); }
-
-  .archiv-grid, .grid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  }
+  .stats-row { gap: var(--s-m); }
+  .stat-item { min-width: 110px; padding: var(--s-m) var(--s-l); }
+  .stat-zahl { font-size: 1.75rem; }
 }
-
-/* Kleines Mobil (≤ 480px) */
 @media (max-width: 480px) {
   nav a { padding: 6px 9px; font-size: 0.75rem; }
-
-  .leistungen-grid { grid-template-columns: 1fr; }
-
   h1 { font-size: 1.75rem; }
   h2 { font-size: 1.3rem; }
-
-  /* Marquee auf kleinen Bildschirmen: manuell scrollbar */
+  .leistungen-grid { grid-template-columns: 1fr; }
   .marquee-container {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: var(--s-l);
   }
   .marquee {
     animation: none !important;
@@ -1039,11 +1032,13 @@ body > div[style*="text-align: center"] strong {
     gap: var(--s-m);
   }
   .marquee-link { flex: 0 0 auto; }
-  .marquee img { height: 160px; width: 220px; }
+  .marquee img  { height: 160px; width: 220px; }
+  .portfolio-grid,
+  .portfolio-liste { grid-template-columns: 1fr; }
+}
 
-  .portfolio-grid, .portfolio-liste {
-    grid-template-columns: 1fr;
-  }
-
-  footer, .site-footer { padding: var(--s-m); }
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .marquee { animation: none !important; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
 }
