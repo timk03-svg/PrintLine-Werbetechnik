@@ -1,53 +1,78 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta charset="UTF-8">
-<title>PrintLine Werbetechnik</title>
-<meta name="description" content="Ihre Werbefirma aus Stendal: Schilder, Fahrzeugbeschriftungen, Fassadenwerbung und individuelle Werbelösungen – kreativ und zuverlässig.">
-<link rel="canonical" href="https://www.werbung-kroner.de/">
-<link rel="stylesheet" href="style.css">
-<link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- Zeichenkodierung MUSS als erstes stehen -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Werbeagentur",
-  "name": "PrintLine Werbetechnik",
-  "url": "https://www.werbung-kroner.de",
-  "contactPoint": {
-    "@type": "ContactPoint",
+  <title>PrintLine Werbetechnik — Ihr Projekt, Unser Handwerk</title>
+  <meta name="description" content="Ihre Werbefirma aus Stendal: Schilder, Fahrzeugbeschriftungen, Fassadenwerbung und individuelle Werbelösungen – kreativ und zuverlässig.">
+  <link rel="canonical" href="https://www.werbung-kroner.de/">
+
+  <!-- ✏️ SCHRIFT ÄNDERN: URL unten durch eine andere Google-Fonts-URL ersetzen -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "PrintLine Werbetechnik",
+    "url": "https://www.werbung-kroner.de",
     "telephone": "+49 152 03016900",
-    "contactType": "customer service"
-  },
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Magdeburger Straße 5A",
-    "addressLocality": "Stendal",
-    "postalCode": "39576",
-    "addressCountry": "DE"
+    "email": "print2002@gmx.de",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+49 152 03016900",
+      "contactType": "customer service"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Magdeburger Straße 5A",
+      "addressLocality": "Stendal",
+      "postalCode": "39576",
+      "addressCountry": "DE"
+    }
   }
-}
-</script>
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('service-worker.js');
-  });
-}
-</script>
-
-
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js');
+      });
+    }
+  </script>
 </head>
 <!-- Cookie-Banner-Logik wird jetzt komplett über cookie-banner.js gesteuert -->
 <body class="startseite">
 
 <header class="header header--hero js-header">
-  <div class="hero-bg js-hero-bg"></div>
 
-  <h1 class="hero-title js-parallax js-reveal-words">
-    PrintLine Werbetechnik
-  </h1>
+  <!-- ✏️ HERO-HINTERGRUNDBILD EINFÜGEN:
+       1. Bild in den Ordner "bilder-leistung-hintergrund/" kopieren
+          z.B. "hero-hintergrund.jpg" (empfohlen: 1920×1080px)
+       2. Das style-Attribut unten einkommentieren (/* entfernen):
+          style="background-image: url('bilder-leistung-hintergrund/hero-hintergrund.jpg')"
+       3. Verdunkelung in style.css Zeile ".hero-bg::after" anpassen
+          (0.0 = kein Overlay, 0.6 = stark abgedunkelt) -->
+  <div class="hero-bg js-hero-bg"
+    ></div>
+    <!-- style="background-image: url('bilder-leistung-hintergrund/DEIN-BILD.jpg')" -->
+
+  <div style="position:relative; z-index:2; text-align:center; padding: 0 1rem;">
+    <h1 class="hero-title js-parallax js-reveal-words">
+      PrintLine Werbetechnik
+    </h1>
+    <!-- ✏️ UNTERTITEL ÄNDERN: Text zwischen den p-Tags anpassen -->
+    <p class="hero-subtitle">
+      Professionelle Werbetechnik seit fast 40 Jahren · Stendal
+    </p>
+  </div>
+
 </header>
 
 
