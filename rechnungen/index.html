@@ -10,6 +10,8 @@
 <meta name="apple-mobile-web-app-title" content="Rechnungen">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="favicon.ico?v=2" sizes="any">
+<link rel="icon" type="image/png" href="favicon.png?v=2">
 <script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}</script>
 <title>Angebote &amp; Rechnungen</title>
 <style id="pageStyle">
@@ -372,6 +374,25 @@
   .print-head .ph-title{font-size:20px;font-weight:700;margin-top:6px;letter-spacing:-.3px;}
   .print-head .ph-meta{font-size:11px;color:var(--muted);margin-top:2px;}
 
+  /* ---------- Login-Sperre (Zugriffsschutz vor der App) ---------- */
+  #loginGate{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;
+    background:#13161c;color:#e7e9ef;padding:20px;
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Helvetica,Arial,sans-serif;}
+  #loginGate.hidden{display:none;}
+  #loginGate .lg-card{background:#1a1f28;border:1px solid #2b313d;border-radius:18px;padding:34px 28px;
+    width:100%;max-width:360px;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.45);}
+  #loginGate .lg-logo{width:78px;height:78px;margin:0 auto 12px;display:block;}
+  #loginGate h1{font-size:18px;margin:0 0 4px;font-weight:700;}
+  #loginGate p{color:#9aa3b2;font-size:13px;margin:0 0 18px;}
+  #loginGate input{width:100%;padding:12px 13px;border-radius:10px;border:1px solid #3b4250;
+    background:#222834;color:#e7e9ef;font-size:15px;margin-bottom:10px;outline:none;}
+  #loginGate input:focus{border-color:#3761B5;}
+  #loginGate button{width:100%;padding:12px;border-radius:10px;border:0;background:#3761B5;color:#fff;
+    font-weight:700;font-size:14px;cursor:pointer;}
+  #loginGate button:hover{background:#2f55a0;}
+  #loginGate .lg-err{color:#ff7a7a;font-size:13px;min-height:18px;margin-top:10px;}
+  html.gate-locked,body.gate-locked{overflow:hidden!important;}
+
   /* ---------- Dunkles Design (optional, nur Bildschirm/Oberfläche) ---------- */
   /* Nur die App-Oberfläche wird dunkel. Das Dokument (.page) bleibt IMMER hell/weiß,
      damit PDF-Export und Ausdruck unverändert auf weißem Papier erscheinen. */
@@ -462,9 +483,49 @@
 </head>
 <body>
 
+<!-- Login-Sperre: blockiert die App, bis das Passwort eingegeben wurde -->
+<div id="loginGate" aria-modal="true" role="dialog">
+  <div class="lg-card">
+    <img src="icon-192.png" alt="PrintLine" class="lg-logo">
+    <h1>PrintLine&nbsp;Rechnungen</h1>
+    <p>Zugang nur mit Passwort.</p>
+    <input type="password" id="lgPw" placeholder="Passwort" autocomplete="current-password">
+    <button id="lgBtn" type="button">Anmelden</button>
+    <div class="lg-err" id="lgErr"></div>
+  </div>
+</div>
+<script>
+(function(){
+  var HASH="210e8605319ed47da80db2363bd8ae59bd82bb830e98c9a317b66784c0c138fc";
+  var SALT="printline-rechnungen-gate", ITER=200000, VER="1", KEY="pl_gate_ok";
+  var g=document.getElementById("loginGate");
+  document.documentElement.classList.add("gate-locked");
+  function unlock(){ g.classList.add("hidden"); document.documentElement.classList.remove("gate-locked"); if(document.body) document.body.classList.remove("gate-locked"); }
+  try{ if(localStorage.getItem(KEY)===VER){ unlock(); return; } }catch(e){}
+  function tohex(buf){ var b=new Uint8Array(buf), s=""; for(var i=0;i<b.length;i++){ s+=("0"+b[i].toString(16)).slice(-2); } return s; }
+  function check(){
+    var inp=document.getElementById("lgPw"), err=document.getElementById("lgErr"), pw=inp.value;
+    if(!pw) return;
+    if(!(window.crypto && crypto.subtle)){ err.textContent="Bitte aktuellen Browser (HTTPS) verwenden."; return; }
+    err.textContent="…";
+    var enc=new TextEncoder();
+    crypto.subtle.importKey("raw", enc.encode(pw), {name:"PBKDF2"}, false, ["deriveBits"])
+      .then(function(k){ return crypto.subtle.deriveBits({name:"PBKDF2", salt:enc.encode(SALT), iterations:ITER, hash:"SHA-256"}, k, 256); })
+      .then(function(bits){
+        if(tohex(bits)===HASH){ try{ localStorage.setItem(KEY,VER); }catch(e){} unlock(); }
+        else { err.textContent="Falsches Passwort."; inp.value=""; inp.focus(); }
+      })
+      .catch(function(){ err.textContent="Fehler bei der Prüfung."; });
+  }
+  document.getElementById("lgBtn").addEventListener("click", check);
+  document.getElementById("lgPw").addEventListener("keydown", function(e){ if(e.key==="Enter"){ e.preventDefault(); check(); } });
+  setTimeout(function(){ var i=document.getElementById("lgPw"); if(i) i.focus(); }, 60);
+})();
+</script>
+
 <!-- Werkzeugleiste -->
 <div class="toolbar noprint">
-  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-06-25</span></div>
+  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-06-25 · Login</span></div>
   <button class="btn iconbtn" id="btnUndo" title="Rückgängig (Cmd+Z)" disabled>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-1"/></svg>Zurück
   </button>
@@ -494,6 +555,9 @@
   </button>
   <button class="btn" id="btnNeukunde" title="Diesen Beleg als Neukunde kennzeichnen">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>Neukunde
+  </button>
+  <button class="btn iconbtn" id="btnLock" title="App sperren (Passwort erneut nötig)" onclick="try{localStorage.removeItem('pl_gate_ok')}catch(e){};location.reload();">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
   </button>
   <button class="btn iconbtn" id="btnDark" title="Dunkles Design ein/aus">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>
