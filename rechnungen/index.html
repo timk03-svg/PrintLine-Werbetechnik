@@ -417,12 +417,18 @@
   body.dark table.list th{ border-bottom-color:var(--line-strong); }
   body.dark .modal .pick:hover,body.dark .addrow button:hover{ background:var(--accent-soft); }
   body.dark ::-webkit-scrollbar-thumb{ background:#333b48; border-radius:8px; }
-  /* Dokument bleibt hell: alle Dokument-Variablen + Farben auf die Standard-Hellwerte zurücksetzen */
+  /* Dokument am Bildschirm ebenfalls dunkel (angenehm für die Augen). WICHTIG: Beim PDF-Export
+     und Druck wird die Klasse "dark" automatisch entfernt (downloadPDF / beforeprint) -> dort
+     erscheint das Papier wieder weiß mit dunkler Schrift. */
   body.dark .page{
-    --text:#1f2430; --muted:#1f2430; --line:#e6e8ee; --line-strong:#cfd3dc;
-    --accent:#3761B5; --accent-soft:#eaf0fb; --paper:#ffffff;
-    color:#1f2430; background:var(--paper);
+    --text:#e9ebf1; --muted:#b4bccb; --line:#39414f; --line-strong:#4a5466;
+    --accent:#82a8ec; --accent-soft:#26324a; --paper:#1e242e;
+    color:var(--text); background:var(--paper);
   }
+  /* Kopfbogen-Bild auf weißem Träger, damit Logo/Wappen sauber bleiben */
+  body.dark .pagehead{ background:#ffffff; }
+  /* Empfängeradresse liegt im weißen Kopfbogen-Band -> Schrift dort dunkel halten */
+  body.dark .addr{ --text:#1f2430; --muted:#1f2430; color:#1f2430; }
 
   /* ---------- Export-Modus (PDF-Download via html2pdf) ---------- */
   body.exporting [data-ph]:empty:before{content:"" !important;}   /* keine Platzhalter im PDF */
