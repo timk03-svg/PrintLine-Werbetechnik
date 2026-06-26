@@ -352,6 +352,16 @@
   .st-month{margin-top:12px;}
   .st-month-head{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;font-weight:700;color:var(--muted);margin:8px 0 2px;text-transform:capitalize;}
   .st-month-head span:last-child{color:var(--text);}
+  .cards.st4{grid-template-columns:repeat(4,1fr);}
+  .st-soll{display:flex;align-items:center;gap:10px;margin:4px 0 6px;font-size:13px;flex-wrap:wrap;}
+  .st-soll label{font-weight:600;}
+  .st-soll input{width:90px;border:1px solid var(--line-strong);border-radius:8px;padding:7px 10px;font:inherit;text-align:right;}
+  .st-sum{display:flex;flex-wrap:wrap;gap:6px 8px;margin:6px 0 4px;font-size:12px;align-items:center;}
+  .st-sum .lbl{color:var(--muted);font-weight:700;margin-right:2px;}
+  .st-chip{background:var(--accent-soft);color:var(--text);border-radius:20px;padding:3px 10px;font-weight:600;white-space:nowrap;}
+  .st-chip b{color:var(--accent);}
+  .st-chip.ok b{color:#1f8f54;}
+  .st-chip.under b{color:#c2620a;}
   .beleg-link{color:var(--accent);font-weight:600;cursor:pointer;text-decoration:none;font-size:12px;}
   .beleg-link:hover{text-decoration:underline;}
   /* Drag & Drop Ablagefläche */
@@ -554,7 +564,7 @@
 
 <!-- Werkzeugleiste -->
 <div class="toolbar noprint">
-  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-06-26 · Stunden2</span></div>
+  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-06-26 · Stunden3</span></div>
   <button class="btn iconbtn" id="btnUndo" title="Rückgängig (Cmd+Z)" disabled>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-1"/></svg>Zurück
   </button>
@@ -979,15 +989,21 @@ USt-IdNr. …"></div>
     <div class="ph-title">Stundenzettel</div>
     <div class="ph-meta" id="stPrintDate"></div>
   </div>
-  <div class="cards">
+  <div class="cards st4">
     <div class="card saldo"><div class="lab">Stunden gesamt</div><div class="val" id="stTotal">0,00</div></div>
     <div class="card ein"><div class="lab">Dieses Jahr</div><div class="val" id="stYear">0,00</div></div>
     <div class="card aus"><div class="lab">Dieser Monat</div><div class="val" id="stMonth">0,00</div></div>
+    <div class="card"><div class="lab">Diese Woche</div><div class="val" id="stWeek">0,00</div></div>
   </div>
   <div class="panel">
     <div class="finance-head">
-      <div><h2>Stundenzettel</h2><p class="sub" style="margin:0;">Arbeitszeiten pro Tag mit Uhrzeit – nach Jahr/Monat geordnet, mit Summen. Tipp: einmal Datum &amp; Uhrzeiten setzen, dann einfach immer wieder auf <b>„+ Stunden eintragen"</b> drücken – das Datum läuft automatisch auf den nächsten Tag.</p></div>
+      <div><h2>Stundenzettel</h2><p class="sub" style="margin:0;">Arbeitszeiten pro Tag mit Uhrzeit – nach Jahr/Monat geordnet, mit Summen pro Monat, Woche und Tätigkeit. Tipp: einmal Datum &amp; Uhrzeiten setzen, dann immer wieder auf <b>„+ Stunden eintragen"</b> drücken – das Datum läuft automatisch weiter.</p></div>
       <button class="btn noprint" id="btnStundenPdf">Als PDF</button>
+    </div>
+    <div class="st-soll noprint">
+      <label>Wochenstundensatz (Soll-Std/Woche):</label>
+      <input type="number" id="stSoll" min="0" step="0.5" placeholder="z. B. 40">
+      <span class="sub" style="margin:0;">– wird je Woche mit den tatsächlichen Stunden verglichen.</span>
     </div>
     <div class="st-add noprint">
       <input type="date" id="stDatum" title="Datum">
@@ -1081,6 +1097,7 @@ const appDefaults = {
   kassenbuch:[],
   kasseStart:"",
   stunden:[],
+  stundenSoll:"",
   auth:{on:false, users:[]},
   trash:[],
   dark:false,
@@ -1122,6 +1139,7 @@ function loadApp(){
       customers:Array.isArray(s.customers)?s.customers:[],
       kassenbuch:Array.isArray(s.kassenbuch)?s.kassenbuch:[],
       stunden:Array.isArray(s.stunden)?s.stunden:[],
+      stundenSoll:s.stundenSoll||"",
       kasseStart:s.kasseStart||"",
       auth:Object.assign({on:false,users:[]}, s.auth||{}),
       trash:Array.isArray(s.trash)?s.trash:[],
@@ -2141,16 +2159,21 @@ function todayISO(){ const d=new Date(); return d.getFullYear()+"-"+String(d.get
 function addDaysISO(iso,n){ const d=new Date(iso+"T00:00:00"); if(isNaN(d)) return iso; d.setDate(d.getDate()+n); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
 function t2m(t){ const m=/^(\d{1,2}):(\d{2})$/.exec(String(t||"").trim()); return m?(+m[1])*60+(+m[2]):null; }
 function stHours(e){ const s=t2m(e.start), en=t2m(e.ende); if(s==null||en==null) return 0; let d=en-s; if(d<0) d+=1440; d-=(+e.pause||0); return d>0?d/60:0; }
+// ISO-Kalenderwoche als Schlüssel "YYYY-Www"
+function isoWeekKey(ds){ const x=new Date(ds+"T00:00:00"); if(isNaN(x)) return ""; const dt=new Date(Date.UTC(x.getFullYear(),x.getMonth(),x.getDate())); const day=dt.getUTCDay()||7; dt.setUTCDate(dt.getUTCDate()+4-day); const ys=new Date(Date.UTC(dt.getUTCFullYear(),0,1)); const wn=Math.ceil((((dt-ys)/86400000)+1)/7); return dt.getUTCFullYear()+"-W"+String(wn).padStart(2,"0"); }
 function renderStunden(){
   const pd=document.getElementById("stPrintDate"); if(pd) pd.textContent="Stand: "+todayStr();
   const dEl=document.getElementById("stDatum"); if(dEl && !dEl.value){ const ds=appData.stunden.map(e=>e.datum).filter(Boolean).sort(); dEl.value=ds.length?addDaysISO(ds[ds.length-1],1):todayISO(); }
   const list=appData.stunden.slice().sort((a,b)=> String(b.datum||"").localeCompare(String(a.datum||"")) || (b.id-a.id));
-  const now=new Date(), curY=String(now.getFullYear()), curYM=curY+"-"+String(now.getMonth()+1).padStart(2,"0");
-  let total=0, yearSum=0, monthSum=0;
-  list.forEach(e=>{ const h=stHours(e); total+=h; if(String(e.datum||"").slice(0,4)===curY) yearSum+=h; if(String(e.datum||"").slice(0,7)===curYM) monthSum+=h; });
+  const now=new Date(), curY=String(now.getFullYear()), curYM=curY+"-"+String(now.getMonth()+1).padStart(2,"0"), curWeek=isoWeekKey(todayISO());
+  const soll=parseNum(appData.stundenSoll);
+  const sEl=document.getElementById("stSoll"); if(sEl && document.activeElement!==sEl) sEl.value=appData.stundenSoll||"";
+  let total=0, yearSum=0, monthSum=0, weekSum=0;
+  list.forEach(e=>{ const h=stHours(e); total+=h; if(String(e.datum||"").slice(0,4)===curY) yearSum+=h; if(String(e.datum||"").slice(0,7)===curYM) monthSum+=h; if(isoWeekKey(e.datum)===curWeek) weekSum+=h; });
   document.getElementById("stTotal").textContent=hfmt.format(total);
   document.getElementById("stYear").textContent=hfmt.format(yearSum);
   document.getElementById("stMonth").textContent=hfmt.format(monthSum);
+  document.getElementById("stWeek").textContent=hfmt.format(weekSum)+(soll>0?(" / "+hfmt.format(soll)):"");
   const box=document.getElementById("stundenList");
   if(!list.length){ box.innerHTML='<table class="list"><tbody><tr><td class="empty">Noch keine Stunden eingetragen. Trag oben deinen ersten Arbeitstag ein.</td></tr></tbody></table>'; return; }
   const years={};
@@ -2163,6 +2186,14 @@ function renderStunden(){
       const arr=years[y][ym]; let mSum=0; arr.forEach(e=>mSum+=stHours(e));
       const mName=/^\d{4}-\d{2}$/.test(ym)? new Date(ym+"-01T00:00:00").toLocaleDateString("de-DE",{month:"long",year:"numeric"}) : ym;
       html+=`<div class="st-month"><div class="st-month-head"><span>${escapeHtml(mName)}</span><span>${hfmt.format(mSum)} Std</span></div>`;
+      // Summe nach Tätigkeit (absteigend) – für mehr Übersicht
+      const actMap={}; arr.forEach(e=>{ const a=(e.notiz||"").trim()||"– ohne Tätigkeit –"; actMap[a]=(actMap[a]||0)+stHours(e); });
+      const actChips=Object.entries(actMap).sort((a,b)=>b[1]-a[1]).map(([a,h])=>`<span class="st-chip">${escapeHtml(a)} <b>${hfmt.format(h)}</b></span>`).join("");
+      html+=`<div class="st-sum"><span class="lbl">Nach Tätigkeit:</span>${actChips}</div>`;
+      // Summe nach Kalenderwoche (Stunden in diesem Monat), mit Soll-Vergleich falls gesetzt
+      const wkMap={}; arr.forEach(e=>{ const k=isoWeekKey(e.datum); if(k) wkMap[k]=(wkMap[k]||0)+stHours(e); });
+      const wkChips=Object.keys(wkMap).sort().map(k=>{ const h=wkMap[k], wn=parseInt(k.slice(6),10); const cls=soll>0?(h+0.001>=soll?" ok":" under"):""; return `<span class="st-chip${cls}">KW ${wn} <b>${hfmt.format(h)}</b>${soll>0?(" / "+hfmt.format(soll)):""}</span>`; }).join("");
+      html+=`<div class="st-sum"><span class="lbl">Nach Woche:</span>${wkChips}</div>`;
       html+=`<table class="list"><thead><tr><th>Tag</th><th>von</th><th>bis</th><th class="r">Pause</th><th class="r">Stunden</th><th>Tätigkeit</th><th class="noprint"></th></tr></thead><tbody>`;
       arr.forEach(e=>{
         const d=/^\d{4}-\d{2}-\d{2}$/.test(String(e.datum||""))? new Date(e.datum+"T00:00:00"):null;
@@ -2185,6 +2216,8 @@ document.getElementById("btnStAdd").addEventListener("click",()=>{
   if(!datum||!start||!ende){ alert("Bitte Datum, Beginn und Ende angeben."); return; }
   appData.stunden.push({id:Date.now(),datum,start,ende,pause,notiz});
   saveApp();
+  // Datum automatisch auf den nächsten Tag setzen (Zeiten + Pause bleiben stehen)
+  // -> du kannst Folgetage einfach durch wiederholtes Drücken von „+" erfassen.
   document.getElementById("stDatum").value=addDaysISO(datum,1);
   document.getElementById("stNotiz").value="";
   renderStunden();
@@ -2198,6 +2231,7 @@ document.getElementById("stundenList").addEventListener("click",e=>{
   }
 });
 document.getElementById("btnStundenPdf").addEventListener("click",()=>{ if(currentView()!=="stunden") switchView("stunden"); downloadPDF(); });
+document.getElementById("stSoll").addEventListener("input",e=>{ appData.stundenSoll=e.target.value; saveApp(); renderStunden(); });
 
 /* ---------- Kassenbuch ---------- */
 document.getElementById("btnKassePdf").addEventListener("click",downloadPDF);
