@@ -554,7 +554,7 @@
 
 <!-- Werkzeugleiste -->
 <div class="toolbar noprint">
-  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-06-26 · Stunden</span></div>
+  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-06-26 · Stunden2</span></div>
   <button class="btn iconbtn" id="btnUndo" title="Rückgängig (Cmd+Z)" disabled>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-1"/></svg>Zurück
   </button>
@@ -986,7 +986,7 @@ USt-IdNr. …"></div>
   </div>
   <div class="panel">
     <div class="finance-head">
-      <div><h2>Stundenzettel</h2><p class="sub" style="margin:0;">Arbeitszeiten pro Tag mit Uhrzeit – automatisch nach Jahr und Monat geordnet, mit Summen.</p></div>
+      <div><h2>Stundenzettel</h2><p class="sub" style="margin:0;">Arbeitszeiten pro Tag mit Uhrzeit – nach Jahr/Monat geordnet, mit Summen. Tipp: einmal Datum &amp; Uhrzeiten setzen, dann einfach immer wieder auf <b>„+ Stunden eintragen"</b> drücken – das Datum läuft automatisch auf den nächsten Tag.</p></div>
       <button class="btn noprint" id="btnStundenPdf">Als PDF</button>
     </div>
     <div class="st-add noprint">
@@ -2138,11 +2138,12 @@ document.getElementById("viewRechnungen").addEventListener("click",e=>{
 /* ---------- Stundenzettel (Zeiterfassung) ---------- */
 const hfmt=new Intl.NumberFormat("de-DE",{minimumFractionDigits:2,maximumFractionDigits:2});
 function todayISO(){ const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function addDaysISO(iso,n){ const d=new Date(iso+"T00:00:00"); if(isNaN(d)) return iso; d.setDate(d.getDate()+n); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
 function t2m(t){ const m=/^(\d{1,2}):(\d{2})$/.exec(String(t||"").trim()); return m?(+m[1])*60+(+m[2]):null; }
 function stHours(e){ const s=t2m(e.start), en=t2m(e.ende); if(s==null||en==null) return 0; let d=en-s; if(d<0) d+=1440; d-=(+e.pause||0); return d>0?d/60:0; }
 function renderStunden(){
   const pd=document.getElementById("stPrintDate"); if(pd) pd.textContent="Stand: "+todayStr();
-  const dEl=document.getElementById("stDatum"); if(dEl && !dEl.value) dEl.value=todayISO();
+  const dEl=document.getElementById("stDatum"); if(dEl && !dEl.value){ const ds=appData.stunden.map(e=>e.datum).filter(Boolean).sort(); dEl.value=ds.length?addDaysISO(ds[ds.length-1],1):todayISO(); }
   const list=appData.stunden.slice().sort((a,b)=> String(b.datum||"").localeCompare(String(a.datum||"")) || (b.id-a.id));
   const now=new Date(), curY=String(now.getFullYear()), curYM=curY+"-"+String(now.getMonth()+1).padStart(2,"0");
   let total=0, yearSum=0, monthSum=0;
@@ -2184,7 +2185,8 @@ document.getElementById("btnStAdd").addEventListener("click",()=>{
   if(!datum||!start||!ende){ alert("Bitte Datum, Beginn und Ende angeben."); return; }
   appData.stunden.push({id:Date.now(),datum,start,ende,pause,notiz});
   saveApp();
-  document.getElementById("stNotiz").value=""; document.getElementById("stPause").value="";
+  document.getElementById("stDatum").value=addDaysISO(datum,1);
+  document.getElementById("stNotiz").value="";
   renderStunden();
 });
 document.getElementById("stundenList").addEventListener("click",e=>{
