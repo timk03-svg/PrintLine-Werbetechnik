@@ -564,7 +564,7 @@
 
 <!-- Werkzeugleiste -->
 <div class="toolbar noprint">
-  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-06-26 · Stunden3</span></div>
+  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-06-26 · Stunden4</span></div>
   <button class="btn iconbtn" id="btnUndo" title="Rückgängig (Cmd+Z)" disabled>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-1"/></svg>Zurück
   </button>
@@ -989,15 +989,9 @@ USt-IdNr. …"></div>
     <div class="ph-title">Stundenzettel</div>
     <div class="ph-meta" id="stPrintDate"></div>
   </div>
-  <div class="cards st4">
-    <div class="card saldo"><div class="lab">Stunden gesamt</div><div class="val" id="stTotal">0,00</div></div>
-    <div class="card ein"><div class="lab">Dieses Jahr</div><div class="val" id="stYear">0,00</div></div>
-    <div class="card aus"><div class="lab">Dieser Monat</div><div class="val" id="stMonth">0,00</div></div>
-    <div class="card"><div class="lab">Diese Woche</div><div class="val" id="stWeek">0,00</div></div>
-  </div>
   <div class="panel">
     <div class="finance-head">
-      <div><h2>Stundenzettel</h2><p class="sub" style="margin:0;">Arbeitszeiten pro Tag mit Uhrzeit – nach Jahr/Monat geordnet, mit Summen pro Monat, Woche und Tätigkeit. Tipp: einmal Datum &amp; Uhrzeiten setzen, dann immer wieder auf <b>„+ Stunden eintragen"</b> drücken – das Datum läuft automatisch weiter.</p></div>
+      <div><h2>Stundenzettel</h2></div>
       <button class="btn noprint" id="btnStundenPdf">Als PDF</button>
     </div>
     <div class="st-soll noprint">
@@ -2165,23 +2159,15 @@ function renderStunden(){
   const pd=document.getElementById("stPrintDate"); if(pd) pd.textContent="Stand: "+todayStr();
   const dEl=document.getElementById("stDatum"); if(dEl && !dEl.value){ const ds=appData.stunden.map(e=>e.datum).filter(Boolean).sort(); dEl.value=ds.length?addDaysISO(ds[ds.length-1],1):todayISO(); }
   const list=appData.stunden.slice().sort((a,b)=> String(b.datum||"").localeCompare(String(a.datum||"")) || (b.id-a.id));
-  const now=new Date(), curY=String(now.getFullYear()), curYM=curY+"-"+String(now.getMonth()+1).padStart(2,"0"), curWeek=isoWeekKey(todayISO());
   const soll=parseNum(appData.stundenSoll);
   const sEl=document.getElementById("stSoll"); if(sEl && document.activeElement!==sEl) sEl.value=appData.stundenSoll||"";
-  let total=0, yearSum=0, monthSum=0, weekSum=0;
-  list.forEach(e=>{ const h=stHours(e); total+=h; if(String(e.datum||"").slice(0,4)===curY) yearSum+=h; if(String(e.datum||"").slice(0,7)===curYM) monthSum+=h; if(isoWeekKey(e.datum)===curWeek) weekSum+=h; });
-  document.getElementById("stTotal").textContent=hfmt.format(total);
-  document.getElementById("stYear").textContent=hfmt.format(yearSum);
-  document.getElementById("stMonth").textContent=hfmt.format(monthSum);
-  document.getElementById("stWeek").textContent=hfmt.format(weekSum)+(soll>0?(" / "+hfmt.format(soll)):"");
   const box=document.getElementById("stundenList");
   if(!list.length){ box.innerHTML='<table class="list"><tbody><tr><td class="empty">Noch keine Stunden eingetragen. Trag oben deinen ersten Arbeitstag ein.</td></tr></tbody></table>'; return; }
   const years={};
   list.forEach(e=>{ const y=String(e.datum||"").slice(0,4)||"—", ym=String(e.datum||"").slice(0,7)||"—"; (years[y]=years[y]||{}); (years[y][ym]=years[y][ym]||[]).push(e); });
   let html="";
   Object.keys(years).sort().reverse().forEach(y=>{
-    let ySum=0; Object.values(years[y]).forEach(arr=>arr.forEach(e=>ySum+=stHours(e)));
-    html+=`<div class="st-year"><div class="st-year-head"><span>${escapeHtml(y)}</span><span>${hfmt.format(ySum)} Std</span></div>`;
+    html+=`<div class="st-year"><div class="st-year-head"><span>${escapeHtml(y)}</span></div>`;
     Object.keys(years[y]).sort().reverse().forEach(ym=>{
       const arr=years[y][ym]; let mSum=0; arr.forEach(e=>mSum+=stHours(e));
       const mName=/^\d{4}-\d{2}$/.test(ym)? new Date(ym+"-01T00:00:00").toLocaleDateString("de-DE",{month:"long",year:"numeric"}) : ym;
@@ -2195,7 +2181,7 @@ function renderStunden(){
       const wkChips=Object.keys(wkMap).sort().map(k=>{ const h=wkMap[k], wn=parseInt(k.slice(6),10); const cls=soll>0?(h+0.001>=soll?" ok":" under"):""; return `<span class="st-chip${cls}">KW ${wn} <b>${hfmt.format(h)}</b>${soll>0?(" / "+hfmt.format(soll)):""}</span>`; }).join("");
       html+=`<div class="st-sum"><span class="lbl">Nach Woche:</span>${wkChips}</div>`;
       html+=`<table class="list"><thead><tr><th>Tag</th><th>von</th><th>bis</th><th class="r">Pause</th><th class="r">Stunden</th><th>Tätigkeit</th><th class="noprint"></th></tr></thead><tbody>`;
-      arr.forEach(e=>{
+      arr.slice().sort((a,b)=> String(a.datum||"").localeCompare(String(b.datum||"")) || (a.id-b.id)).forEach(e=>{
         const d=/^\d{4}-\d{2}-\d{2}$/.test(String(e.datum||""))? new Date(e.datum+"T00:00:00"):null;
         const tag=d? d.toLocaleDateString("de-DE",{weekday:"short",day:"2-digit",month:"2-digit"}):escapeHtml(e.datum||"");
         const pause=(+e.pause||0)?((+e.pause)+" min"):"–";
