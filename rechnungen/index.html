@@ -417,18 +417,14 @@
   body.dark table.list th{ border-bottom-color:var(--line-strong); }
   body.dark .modal .pick:hover,body.dark .addrow button:hover{ background:var(--accent-soft); }
   body.dark ::-webkit-scrollbar-thumb{ background:#333b48; border-radius:8px; }
-  /* Dokument am Bildschirm ebenfalls dunkel (angenehm für die Augen). WICHTIG: Beim PDF-Export
-     und Druck wird die Klasse "dark" automatisch entfernt (downloadPDF / beforeprint) -> dort
-     erscheint das Papier wieder weiß mit dunkler Schrift. */
+  /* Dokument bleibt im Dark Mode komplett HELL/weiß (= das Papier, exakt wie im PDF/Druck).
+     Grund: der Kopfbogen ist ein festes weißes Logo-Bild und lässt sich nicht dunkel machen –
+     ein teils dunkles Dokument würde sonst hell/dunkel mischen. Nur die App-Oberfläche ist dunkel. */
   body.dark .page{
-    --text:#e9ebf1; --muted:#b4bccb; --line:#39414f; --line-strong:#4a5466;
-    --accent:#82a8ec; --accent-soft:#26324a; --paper:#1e242e;
-    color:var(--text); background:var(--paper);
+    --text:#1f2430; --muted:#1f2430; --line:#e6e8ee; --line-strong:#cfd3dc;
+    --accent:#3761B5; --accent-soft:#eaf0fb; --paper:#ffffff;
+    color:#1f2430; background:var(--paper);
   }
-  /* Kopfbogen-Bild auf weißem Träger, damit Logo/Wappen sauber bleiben */
-  body.dark .pagehead{ background:#ffffff; }
-  /* Empfängeradresse liegt im weißen Kopfbogen-Band -> Schrift dort dunkel halten */
-  body.dark .addr{ --text:#1f2430; --muted:#1f2430; color:#1f2430; }
 
   /* ---------- Export-Modus (PDF-Download via html2pdf) ---------- */
   body.exporting [data-ph]:empty:before{content:"" !important;}   /* keine Platzhalter im PDF */
@@ -531,7 +527,7 @@
 
 <!-- Werkzeugleiste -->
 <div class="toolbar noprint">
-  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-06-25 · Dark2 ✓</span></div>
+  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-06-25 · v3 ✓</span></div>
   <button class="btn iconbtn" id="btnUndo" title="Rückgängig (Cmd+Z)" disabled>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-1"/></svg>Zurück
   </button>
