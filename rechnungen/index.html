@@ -255,13 +255,14 @@
   .head-row,.totals-wrap,.totals-box,.hinweis,.schluss,.docfoot,.footer,.legal p,.legal h4{break-inside:avoid;}
 
   /* ---------- Listen-Ansichten ---------- */
-  #viewHistory,#viewFinance,#viewKunden,#viewRechnungen,#viewKasse,#viewStart,#viewTrash{display:none;max-width:1000px;margin:0 auto;padding:26px 22px 70px;}
-  body:is(.view-history,.view-finance,.view-kunden,.view-rechnungen,.view-kasse,.view-start,.view-trash) #viewDoc{display:none;}
+  #viewHistory,#viewFinance,#viewKunden,#viewRechnungen,#viewKasse,#viewStunden,#viewStart,#viewTrash{display:none;max-width:1000px;margin:0 auto;padding:26px 22px 70px;}
+  body:is(.view-history,.view-finance,.view-kunden,.view-rechnungen,.view-kasse,.view-stunden,.view-start,.view-trash) #viewDoc{display:none;}
   body.view-history #viewHistory{display:block;}
   body.view-finance #viewFinance{display:block;}
   body.view-kunden #viewKunden{display:block;}
   body.view-rechnungen #viewRechnungen{display:block;}
   body.view-kasse #viewKasse{display:block;}
+  body.view-stunden #viewStunden{display:block;}
   body.view-start #viewStart{display:block;}
   body.view-trash #viewTrash{display:block;}
 
@@ -326,6 +327,7 @@
   #authOverlay.open{display:flex;}
   body.role-mitarbeiter [data-view="finance"],
   body.role-mitarbeiter [data-view="kasse"],
+  body.role-mitarbeiter [data-view="stunden"],
   body.role-mitarbeiter #btnSettings,
   body.role-mitarbeiter .delbtn{display:none !important;}
   .userrow{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 0;border-bottom:1px solid var(--line);}
@@ -340,6 +342,16 @@
   .kb-add{display:grid;grid-template-columns:110px 1fr 130px 130px 120px;gap:10px;margin-top:14px;align-items:start;}
   .kb-add input,.kb-add select{border:1px solid var(--line-strong);border-radius:8px;padding:8px 10px;font:inherit;width:100%;}
   .kb-add .full{grid-column:1 / -1;}
+  /* Stundenzettel */
+  .st-add{display:grid;grid-template-columns:165px 120px 120px 130px;gap:10px;margin-top:14px;align-items:start;}
+  .st-add input{border:1px solid var(--line-strong);border-radius:8px;padding:8px 10px;font:inherit;width:100%;}
+  .st-add .full{grid-column:1 / -1;}
+  .st-year{margin-top:20px;}
+  .st-year-head{display:flex;justify-content:space-between;align-items:baseline;font-size:20px;font-weight:800;letter-spacing:-.3px;border-bottom:2px solid var(--text);padding-bottom:5px;}
+  .st-year-head span:last-child{font-size:14px;font-weight:700;color:var(--accent);}
+  .st-month{margin-top:12px;}
+  .st-month-head{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;font-weight:700;color:var(--muted);margin:8px 0 2px;text-transform:capitalize;}
+  .st-month-head span:last-child{color:var(--text);}
   .beleg-link{color:var(--accent);font-weight:600;cursor:pointer;text-decoration:none;font-size:12px;}
   .beleg-link:hover{text-decoration:underline;}
   /* Drag & Drop Ablagefläche */
@@ -478,15 +490,16 @@
     .betreff:empty,.intro:empty,.schluss:empty{display:none;}
     .c-pos,.c-menge,.c-einheit,.c-preis,.c-gesamt{padding-left:0;}
     /* Listen-Ansichten als sauberen Report drucken */
-    #viewHistory,#viewFinance,#viewKunden,#viewRechnungen,#viewKasse{max-width:none;margin:0;padding:0;}
-    body:is(.view-history,.view-finance,.view-kunden,.view-rechnungen,.view-kasse,.view-start,.view-trash) #viewDoc{display:none !important;}
+    #viewHistory,#viewFinance,#viewKunden,#viewRechnungen,#viewKasse,#viewStunden{max-width:none;margin:0;padding:0;}
+    body:is(.view-history,.view-finance,.view-kunden,.view-rechnungen,.view-kasse,.view-stunden,.view-start,.view-trash) #viewDoc{display:none !important;}
     #viewStart,#viewTrash{display:none !important;}
     body.view-history #viewHistory{display:block !important;}
     body.view-finance #viewFinance{display:block !important;}
     body.view-kunden #viewKunden{display:block !important;}
     body.view-rechnungen #viewRechnungen{display:block !important;}
     body.view-kasse #viewKasse{display:block !important;}
-    .kb-add{display:none !important;}
+    body.view-stunden #viewStunden{display:block !important;}
+    .kb-add,.st-add{display:none !important;}
     .print-head{display:block;margin-bottom:14px;border-bottom:2px solid var(--accent);padding-bottom:8px;}
     .panel{box-shadow:none;border:none;border-radius:0;padding:0;margin:0 0 12px;break-inside:avoid;}
     .card{box-shadow:none;}
@@ -541,7 +554,7 @@
 
 <!-- Werkzeugleiste -->
 <div class="toolbar noprint">
-  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-06-26 · Druckfix</span></div>
+  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-06-26 · Stunden</span></div>
   <button class="btn iconbtn" id="btnUndo" title="Rückgängig (Cmd+Z)" disabled>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-1"/></svg>Zurück
   </button>
@@ -554,6 +567,7 @@
     <button data-view="kunden">Kunden</button>
     <button data-view="rechnungen">Rechnungen</button>
     <button data-view="kasse">Kassenbuch</button>
+    <button data-view="stunden">Stunden</button>
     <button data-view="history">Verlauf</button>
     <button data-view="finance">Einnahmen&nbsp;/&nbsp;Ausgaben</button>
     <button data-view="trash">Papierkorb</button>
@@ -958,6 +972,35 @@ USt-IdNr. …"></div>
   </div>
 </div>
 
+<!-- Ansicht: Stundenzettel (Zeiterfassung) -->
+<div id="viewStunden">
+  <div class="print-head">
+    <div class="ph-firma">Stundenzettel · Arbeitszeiten</div>
+    <div class="ph-title">Stundenzettel</div>
+    <div class="ph-meta" id="stPrintDate"></div>
+  </div>
+  <div class="cards">
+    <div class="card saldo"><div class="lab">Stunden gesamt</div><div class="val" id="stTotal">0,00</div></div>
+    <div class="card ein"><div class="lab">Dieses Jahr</div><div class="val" id="stYear">0,00</div></div>
+    <div class="card aus"><div class="lab">Dieser Monat</div><div class="val" id="stMonth">0,00</div></div>
+  </div>
+  <div class="panel">
+    <div class="finance-head">
+      <div><h2>Stundenzettel</h2><p class="sub" style="margin:0;">Arbeitszeiten pro Tag mit Uhrzeit – automatisch nach Jahr und Monat geordnet, mit Summen.</p></div>
+      <button class="btn noprint" id="btnStundenPdf">Als PDF</button>
+    </div>
+    <div class="st-add noprint">
+      <input type="date" id="stDatum" title="Datum">
+      <input type="time" id="stStart" title="Beginn" value="08:00">
+      <input type="time" id="stEnde" title="Ende" value="16:00">
+      <input type="number" id="stPause" min="0" step="5" placeholder="Pause Min." title="Pause in Minuten">
+      <input type="text" id="stNotiz" class="full" placeholder="Tätigkeit / Notiz (optional)">
+      <button class="btn primary full" id="btnStAdd" style="justify-self:start;">+ Stunden eintragen</button>
+    </div>
+    <div id="stundenList"></div>
+  </div>
+</div>
+
 <!-- Schnellsuche Kunde -->
 <div id="searchModal" class="noprint">
   <div class="modal">
@@ -1037,6 +1080,7 @@ const appDefaults = {
   customers:[],
   kassenbuch:[],
   kasseStart:"",
+  stunden:[],
   auth:{on:false, users:[]},
   trash:[],
   dark:false,
@@ -1077,6 +1121,7 @@ function loadApp(){
       fixkosten:Array.isArray(s.fixkosten)?s.fixkosten:[],
       customers:Array.isArray(s.customers)?s.customers:[],
       kassenbuch:Array.isArray(s.kassenbuch)?s.kassenbuch:[],
+      stunden:Array.isArray(s.stunden)?s.stunden:[],
       kasseStart:s.kasseStart||"",
       auth:Object.assign({on:false,users:[]}, s.auth||{}),
       trash:Array.isArray(s.trash)?s.trash:[],
@@ -1518,7 +1563,8 @@ document.getElementById("rows").addEventListener("keydown",e=>{
 
 // Ansichten umschalten (Dokument / Kunden / Rechnungen / Verlauf / Finanzen)
 function switchView(v){
-  document.body.classList.remove("view-doc","view-history","view-finance","view-kunden","view-rechnungen","view-kasse","view-start","view-trash");
+  if(currentView()==="doc" && v!=="doc") flushAutoArchive();   // angefangenes Dokument vor dem Wechsel sichern
+  document.body.classList.remove("view-doc","view-history","view-finance","view-kunden","view-rechnungen","view-kasse","view-start","view-trash","view-stunden");
   document.body.classList.add("view-"+v);
   // Einstellungen sind ein Overlay über der jeweiligen Ansicht – beim Navigieren immer schließen,
   // damit sie nicht auf der Startseite / anderen Ansichten "hängen bleiben".
@@ -1532,11 +1578,12 @@ function switchView(v){
   if(v==="kunden") renderKunden();
   if(v==="rechnungen") renderRechnungen();
   if(v==="kasse") renderKasse();
+  if(v==="stunden") renderStunden();
   if(v==="start") renderStart();
   if(v==="trash") renderTrash();
 }
 function currentView(){
-  for(const v of ["finance","history","kunden","rechnungen","kasse","start","trash"]) if(document.body.classList.contains("view-"+v)) return v;
+  for(const v of ["finance","history","kunden","rechnungen","kasse","stunden","start","trash"]) if(document.body.classList.contains("view-"+v)) return v;
   return "doc";
 }
 document.getElementById("viewSeg").addEventListener("click",e=>{
@@ -1557,6 +1604,7 @@ function renderStart(){
     {act:"kunden", t:"Kunden", d:appData.customers.length+" gespeichert", i:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/>'},
     {act:"rechnungen", t:"Rechnungen", d:(offen?offen+" offen":"offen / bezahlt"), i:'<path d="M9 11l3 3 8-8"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>'},
     {act:"kasse", role:1, t:"Kassenbuch", d:"Bareinnahmen & -ausgaben", i:'<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/>'},
+    {act:"stunden", role:1, t:"Stundenzettel", d:"Arbeitszeiten pro Tag erfassen", i:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'},
     {act:"history", t:"Verlauf", d:"alle gespeicherten PDFs", i:'<path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l3 2"/>'},
     {act:"finance", role:1, t:"Einnahmen / Ausgaben", d:"Gewinnrechnung (EÜR)", i:'<path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/>'},
     {act:"trash", t:"Papierkorb", d:(appData.trash.length?(appData.trash.length===1?"1 Eintrag":appData.trash.length+" Einträge"):"Gelöschtes wiederherstellen"), i:'<path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>'},
@@ -1580,7 +1628,7 @@ function trashItem(type,item,label){
   appData.trash.unshift({id:"t"+Date.now()+"_"+Math.round(Math.random()*1e6), ts:Date.now(), type, label, data:JSON.parse(JSON.stringify(item))});
   if(appData.trash.length>1000) appData.trash.pop();
 }
-const TRASH_LABELS={archive:"Dokument",customer:"Kunde",expense:"Ausgabe",fixkosten:"Fixkosten",kasse:"Kassenbuch"};
+const TRASH_LABELS={archive:"Dokument",customer:"Kunde",expense:"Ausgabe",fixkosten:"Fixkosten",kasse:"Kassenbuch",stunden:"Stundeneintrag"};
 function renderTrash(){
   const tb=document.getElementById("trashRows");
   if(!appData.trash.length){ tb.innerHTML='<tr><td colspan="5" class="empty">Der Papierkorb ist leer.</td></tr>'; return; }
@@ -1597,6 +1645,7 @@ function restoreTrash(id){
   else if(t.type==="expense") appData.expenses.push(t.data);
   else if(t.type==="fixkosten") appData.fixkosten.push(t.data);
   else if(t.type==="kasse") appData.kassenbuch.push(t.data);
+  else if(t.type==="stunden") appData.stunden.push(t.data);
   appData.trash=appData.trash.filter(x=>x.id!==id); saveApp(); renderTrash();
 }
 function purgeTrash(id){
@@ -1677,6 +1726,7 @@ document.getElementById("btnLogoClear").addEventListener("click",()=>{
 
 // Neues Dokument (mit fortlaufender Nummer). Firmendaten/Einstellungen bleiben erhalten.
 function freshState(type){
+  flushAutoArchive();   // bisheriges Dokument sichern, bevor es ersetzt wird
   const keepSettings=state.settings, keepLogo=state.logo;
   const keep={footer1:state.fields.footer1,footer2:state.fields.footer2,footer3:state.fields.footer3,absender:state.fields.absender,hinweis:state.fields.hinweis};
   state=structuredClone(defaults);
@@ -1788,6 +1838,16 @@ function scheduleAutoArchive(){
     if(h) h.textContent="✓ automatisch im Verlauf gesichert · "+new Date().toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"});
   },1500);
 }
+// Sofort sichern (z. B. vor dem Wechsel zu einer anderen Ansicht oder zu einem anderen Dokument),
+// damit ein angefangenes Angebot/eine Rechnung NIE verloren geht. Greift unabhängig vom 1,5-s-Timer.
+function flushAutoArchive(){
+  clearTimeout(autoArchiveTimer);
+  if(!["Angebot","Rechnung","Mahnung"].includes(state.docType)) return;
+  if(!(state.fields.nummer||"").trim()) return;
+  if(!hasDocContent()) return;
+  blurActive && blurActive();   // letzten Tippstand übernehmen
+  archiveCurrent(true);
+}
 // Kunde (Firma + Kunden-Nr.) in die Kundenliste übernehmen
 function upsertCustomer(){
   let firma=kundeName(); if(firma==="—") firma="";
@@ -1825,6 +1885,7 @@ function pdfFileName(v){
   if(v==="kunden") return "Kundenliste";
   if(v==="rechnungen") return "Rechnungen_offen_bezahlt";
   if(v==="kasse") return "Kassenbuch";
+  if(v==="stunden") return "Stundenzettel";
   const nr=(state.fields.nummer||"").replace(/[^\w\-]+/g,"_");
   return (state.docType+(nr?"_"+nr:""));
 }
@@ -1885,6 +1946,7 @@ function downloadPDF(){
   else if(v==="kunden"){ el=document.getElementById("viewKunden"); margin=10; }
   else if(v==="rechnungen"){ el=document.getElementById("viewRechnungen"); margin=10; }
   else if(v==="kasse"){ el=document.getElementById("viewKasse"); margin=10; }
+  else if(v==="stunden"){ el=document.getElementById("viewStunden"); margin=10; }
   else {
     isDoc=true;
     el=document.getElementById("page"); switchView("doc"); archiveCurrent();
@@ -1937,6 +1999,7 @@ document.getElementById("historyRows").addEventListener("click",e=>{
   if(d && confirm("Diesen Eintrag in den Papierkorb verschieben?")){ const a=appData.archive.find(x=>x.id==d.dataset.delarch); if(a) trashItem("archive",a,a.docType+" "+(a.nummer||"")+" · "+(a.kunde||"")); appData.archive=appData.archive.filter(x=>x.id!=d.dataset.delarch); saveApp(); renderHistory(); }
 });
 function loadSnapshot(s){
+  flushAutoArchive();   // aktuelles Dokument sichern, bevor ein anderes geladen wird
   state.docType=s.docType||"Angebot";
   state.fields=Object.assign({},defaults.fields,s.fields||{});
   state.rows=structuredClone(s.rows&&s.rows.length?s.rows:defaults.rows);
@@ -2071,6 +2134,68 @@ document.getElementById("viewRechnungen").addEventListener("click",e=>{
     if(a && confirm("Rechnung "+(a.nummer||"")+" in den Papierkorb verschieben? (Wiederherstellbar über den Papierkorb.)")){
       trashItem("archive",a,a.docType+" "+(a.nummer||"")+" · "+(a.kunde||"")); appData.archive=appData.archive.filter(x=>x.id!=dr.dataset.delrech); saveApp(); renderRechnungen(); } }
 });
+
+/* ---------- Stundenzettel (Zeiterfassung) ---------- */
+const hfmt=new Intl.NumberFormat("de-DE",{minimumFractionDigits:2,maximumFractionDigits:2});
+function todayISO(){ const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function t2m(t){ const m=/^(\d{1,2}):(\d{2})$/.exec(String(t||"").trim()); return m?(+m[1])*60+(+m[2]):null; }
+function stHours(e){ const s=t2m(e.start), en=t2m(e.ende); if(s==null||en==null) return 0; let d=en-s; if(d<0) d+=1440; d-=(+e.pause||0); return d>0?d/60:0; }
+function renderStunden(){
+  const pd=document.getElementById("stPrintDate"); if(pd) pd.textContent="Stand: "+todayStr();
+  const dEl=document.getElementById("stDatum"); if(dEl && !dEl.value) dEl.value=todayISO();
+  const list=appData.stunden.slice().sort((a,b)=> String(b.datum||"").localeCompare(String(a.datum||"")) || (b.id-a.id));
+  const now=new Date(), curY=String(now.getFullYear()), curYM=curY+"-"+String(now.getMonth()+1).padStart(2,"0");
+  let total=0, yearSum=0, monthSum=0;
+  list.forEach(e=>{ const h=stHours(e); total+=h; if(String(e.datum||"").slice(0,4)===curY) yearSum+=h; if(String(e.datum||"").slice(0,7)===curYM) monthSum+=h; });
+  document.getElementById("stTotal").textContent=hfmt.format(total);
+  document.getElementById("stYear").textContent=hfmt.format(yearSum);
+  document.getElementById("stMonth").textContent=hfmt.format(monthSum);
+  const box=document.getElementById("stundenList");
+  if(!list.length){ box.innerHTML='<table class="list"><tbody><tr><td class="empty">Noch keine Stunden eingetragen. Trag oben deinen ersten Arbeitstag ein.</td></tr></tbody></table>'; return; }
+  const years={};
+  list.forEach(e=>{ const y=String(e.datum||"").slice(0,4)||"—", ym=String(e.datum||"").slice(0,7)||"—"; (years[y]=years[y]||{}); (years[y][ym]=years[y][ym]||[]).push(e); });
+  let html="";
+  Object.keys(years).sort().reverse().forEach(y=>{
+    let ySum=0; Object.values(years[y]).forEach(arr=>arr.forEach(e=>ySum+=stHours(e)));
+    html+=`<div class="st-year"><div class="st-year-head"><span>${escapeHtml(y)}</span><span>${hfmt.format(ySum)} Std</span></div>`;
+    Object.keys(years[y]).sort().reverse().forEach(ym=>{
+      const arr=years[y][ym]; let mSum=0; arr.forEach(e=>mSum+=stHours(e));
+      const mName=/^\d{4}-\d{2}$/.test(ym)? new Date(ym+"-01T00:00:00").toLocaleDateString("de-DE",{month:"long",year:"numeric"}) : ym;
+      html+=`<div class="st-month"><div class="st-month-head"><span>${escapeHtml(mName)}</span><span>${hfmt.format(mSum)} Std</span></div>`;
+      html+=`<table class="list"><thead><tr><th>Tag</th><th>von</th><th>bis</th><th class="r">Pause</th><th class="r">Stunden</th><th>Tätigkeit</th><th class="noprint"></th></tr></thead><tbody>`;
+      arr.forEach(e=>{
+        const d=/^\d{4}-\d{2}-\d{2}$/.test(String(e.datum||""))? new Date(e.datum+"T00:00:00"):null;
+        const tag=d? d.toLocaleDateString("de-DE",{weekday:"short",day:"2-digit",month:"2-digit"}):escapeHtml(e.datum||"");
+        const pause=(+e.pause||0)?((+e.pause)+" min"):"–";
+        html+=`<tr><td>${tag}</td><td>${escapeHtml(e.start||"")}</td><td>${escapeHtml(e.ende||"")}</td><td class="r">${pause}</td><td class="r" style="font-weight:700;">${hfmt.format(stHours(e))}</td><td>${escapeHtml(e.notiz||"")}</td><td class="noprint"><button class="delbtn" data-delst="${e.id}" title="Eintrag löschen">×</button></td></tr>`;
+      });
+      html+="</tbody></table></div>";
+    });
+    html+="</div>";
+  });
+  box.innerHTML=html;
+}
+document.getElementById("btnStAdd").addEventListener("click",()=>{
+  const datum=document.getElementById("stDatum").value;
+  const start=document.getElementById("stStart").value;
+  const ende=document.getElementById("stEnde").value;
+  const pause=parseInt(document.getElementById("stPause").value,10)||0;
+  const notiz=document.getElementById("stNotiz").value.trim();
+  if(!datum||!start||!ende){ alert("Bitte Datum, Beginn und Ende angeben."); return; }
+  appData.stunden.push({id:Date.now(),datum,start,ende,pause,notiz});
+  saveApp();
+  document.getElementById("stNotiz").value=""; document.getElementById("stPause").value="";
+  renderStunden();
+});
+document.getElementById("stundenList").addEventListener("click",e=>{
+  const d=e.target.closest("[data-delst]"); if(!d) return;
+  const id=d.dataset.delst, en=appData.stunden.find(x=>x.id==id); if(!en) return;
+  if(confirm("Stundeneintrag in den Papierkorb verschieben?")){
+    trashItem("stunden",en,(en.datum||"")+" · "+hfmt.format(stHours(en))+" Std");
+    appData.stunden=appData.stunden.filter(x=>x.id!=id); saveApp(); renderStunden();
+  }
+});
+document.getElementById("btnStundenPdf").addEventListener("click",()=>{ if(currentView()!=="stunden") switchView("stunden"); downloadPDF(); });
 
 /* ---------- Kassenbuch ---------- */
 document.getElementById("btnKassePdf").addEventListener("click",downloadPDF);
@@ -2319,7 +2444,7 @@ function applyRole(){
   const mit=currentUser && currentUser.role==="mitarbeiter";
   document.body.classList.toggle("role-mitarbeiter", !!mit);
   document.getElementById("btnLogout").style.display=(appData.auth.on && currentUser)?"":"none";
-  if(mit && (currentView()==="finance"||currentView()==="kasse")) switchView("doc");
+  if(mit && (currentView()==="finance"||currentView()==="kasse"||currentView()==="stunden")) switchView("doc");
   if(document.body.classList.contains("view-start")) renderStart();   // Kacheln je Rolle
 }
 document.getElementById("btnLogout").addEventListener("click",()=>{ currentUser=null; if(appData.auth.on) showLogin(); });
