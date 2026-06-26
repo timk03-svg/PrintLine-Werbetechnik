@@ -207,6 +207,18 @@
   }
   .footer .inner .col{white-space:pre-wrap;}
 
+  /* ---------- TIM ECOM Kopfbogen (umschaltbare Vorlage) ---------- */
+  .th-tec{width:100%;background:#fff;padding:12mm 0 6mm;text-align:center;}
+  .th-tec .logo{font-family:"Arial Black","Helvetica Neue",Arial,sans-serif;font-weight:900;
+    font-size:42px;letter-spacing:10px;color:#585858;line-height:1;display:inline-block;
+    transform:scaleX(1.08);transform-origin:center;}
+  .th-tec .bar{margin:8px auto 0;width:150mm;max-width:90%;height:8.5mm;background:#2c7bb6;
+    display:flex;align-items:center;justify-content:flex-end;}
+  .th-tec .bar i{color:#fff;font-style:italic;font-weight:600;font-size:18px;padding-right:6mm;
+    letter-spacing:.4px;font-family:"Helvetica Neue",Arial,sans-serif;}
+  /* TIM-ECOM-Fußzeile + Akzente im Marketing-Blau */
+  body.kb-timecom .footer .inner{color:#2c7bb6;border-top-color:#2c7bb6;}
+
   /* contenteditable Komfort */
   [contenteditable]{outline:none;}
   [contenteditable]:focus{
@@ -527,7 +539,7 @@
 
 <!-- Werkzeugleiste -->
 <div class="toolbar noprint">
-  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-06-25 · v3 ✓</span></div>
+  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-06-26 · TIM ECOM</span></div>
   <button class="btn iconbtn" id="btnUndo" title="Rückgängig (Cmd+Z)" disabled>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-1"/></svg>Zurück
   </button>
@@ -581,6 +593,13 @@
 <div class="settings noprint" id="settings">
   <h3>Einstellungen</h3>
   <div class="grid">
+    <div class="field">
+      <label>Kopfbogen-Vorlage</label>
+      <select id="setKopfbogen">
+        <option value="printline">PrintLine Werbetechnik</option>
+        <option value="timecom">TIM ECOM Marketing</option>
+      </select>
+    </div>
     <div class="field">
       <label>Kopfbogen-Modus</label>
       <select id="setMode">
@@ -750,7 +769,7 @@ USt-IdNr. …"></div>
   <div class="print-head">
     <div class="ph-firma">PrintLine Werbetechnik · Magdeburger Straße 5 A · 39576 Stendal</div>
     <div class="ph-title">Einnahmenüberschussrechnung (EÜR) <span id="euJahrTitle"></span></div>
-    <div class="ph-meta">Kleinunternehmer nach § 19 UStG</div>
+    <div class="ph-meta">Kleinunternehmer nach § 19 UStG · Steuernr. </div>
   </div>
 
   <div class="finance-head">
@@ -997,7 +1016,7 @@ const defaults = {
     schluss:"",
     footer1:"PrintLine Werbetechnik\nMagdeburger Straße 5 A\n39576 Stendal",
     footer2:"E-Mail: print2002@gmx.de\nTel.: 0152 03016900",
-    footer3:""
+    footer3:"Bank: C24\nIBAN: \nBIC: DEFFDEFFXXX\nSteuernr.: "
   },
   rows:[ {menge:"1",einheit:"Stk",bez:"",preis:"",rabatt:""} ],
   discount:{on:false,percent:""},
@@ -1005,7 +1024,7 @@ const defaults = {
   mahnstufe:0,
   neukunde:false,
   logo:null,
-  settings:{lh:74,side:25,bottom:18,mode:"embed",financeChart:false}
+  settings:{lh:74,side:25,bottom:18,mode:"embed",financeChart:false,kopfbogen:"printline"}
 };
 // App-weite, dokumentübergreifende Daten (Nummern-Zähler, Verlauf, Ausgaben, Kunden)
 const appDefaults = {
@@ -1018,7 +1037,8 @@ const appDefaults = {
   kasseStart:"",
   auth:{on:false, users:[]},
   trash:[],
-  dark:false
+  dark:false,
+  kbFooters:{}
 };
 let state = load();
 let appData = loadApp();
@@ -1058,7 +1078,8 @@ function loadApp(){
       kasseStart:s.kasseStart||"",
       auth:Object.assign({on:false,users:[]}, s.auth||{}),
       trash:Array.isArray(s.trash)?s.trash:[],
-      dark:!!s.dark
+      dark:!!s.dark,
+      kbFooters:(s.kbFooters && typeof s.kbFooters==="object")?s.kbFooters:{}
     };
   }catch(e){ return structuredClone(appDefaults); }
 }
@@ -1195,6 +1216,8 @@ function applySettings(){
   // Einstellungs-Felder
   setVal("setLh",st.lh); setVal("setSide",st.side); setVal("setBottom",st.bottom);
   const ms=document.getElementById("setMode"); if(ms) ms.value=mode;
+  const ks=document.getElementById("setKopfbogen"); if(ks) ks.value=st.kopfbogen||"printline";
+  applyKbClass();
 }
 function setVal(id,v){ const el=document.getElementById(id); if(el) el.value=v; }
 
@@ -1219,7 +1242,7 @@ function renderGueltig(){
   document.getElementById("valGueltig").textContent=fmtDate(addDays(d,plus));
 }
 
-function renderLegal(){ document.getElementById("legal").innerHTML=legalHTML(state.docType); }
+function renderLegal(){ document.getElementById("legal").innerHTML=((state.settings.kopfbogen||"printline")==="timecom")?"":legalHTML(state.docType); }
 
 function renderFields(){
   document.querySelectorAll("[data-field]").forEach(el=>{
@@ -1229,9 +1252,43 @@ function renderFields(){
   });
 }
 
+// Umschaltbare Kopfbogen-Vorlagen (Kopf + passende Fußzeile/Absender)
+const TIMECOM_HEADER_HTML='<div class="th-tec"><div class="logo">TIM&nbsp;&nbsp;ECOM</div><div class="bar"><i>... Marketing</i></div></div>';
+const KOPFBOGEN={
+  printline:{
+    footer1:"PrintLine Werbetechnik\nMagdeburger Straße 5 A\n39576 Stendal",
+    footer2:"E-Mail: print2002@gmx.de\nTel.: 0152 03016900",
+    footer3:"Bank: C24\nIBAN: \nBIC: DEFFDEFFXXX\nSteuernr.: ",
+    absender:"PrintLine Werbetechnik · Magdeburger Straße 5 A · 39576 Stendal"
+  },
+  timecom:{
+    footer1:"Tim Kroner\nBergstraße 56\n39576 Stendal",
+    footer2:"Mobil: +49 151 52894911\nE-Mail: krontim@gmail.com",
+    footer3:"Solaris\nIBAN: \nBIC: SOBKDEB2XXX",
+    absender:"Tim Kroner · Bergstraße 56 · 39576 Stendal"
+  }
+};
+function applyKbClass(){ document.body.classList.toggle("kb-timecom", (state.settings.kopfbogen||"printline")==="timecom"); }
+// Kopfbogen-Vorlage wechseln: setzt Kopf + Fußzeile + Absenderzeile auf die Vorlage
+function setKopfbogen(which){
+  if(!KOPFBOGEN[which]) which="printline";
+  const cur=state.settings.kopfbogen||"printline";
+  // zuletzt genutzte Fußzeile/Absender der bisherigen Vorlage merken
+  // (so bleiben selbst eingetragene Daten wie die IBAN beim Hin-/Herwechseln erhalten)
+  appData.kbFooters=appData.kbFooters||{};
+  appData.kbFooters[cur]={footer1:state.fields.footer1,footer2:state.fields.footer2,footer3:state.fields.footer3,absender:state.fields.absender};
+  state.settings.kopfbogen=which;
+  state.logo=null;   // evtl. eigenes Upload-Bild entfernen, damit die Vorlage greift
+  const p=appData.kbFooters[which]||KOPFBOGEN[which];   // Gemerktes bevorzugen, sonst Vorlagen-Standard
+  state.fields.footer1=p.footer1; state.fields.footer2=p.footer2; state.fields.footer3=p.footer3; state.fields.absender=p.absender;
+  applyKbClass(); renderLogo(); renderFields(); renderLegal();
+  const ks=document.getElementById("setKopfbogen"); if(ks) ks.value=which;
+  saveApp(); save();
+}
 function renderLogo(){
   const bg=document.getElementById("pagehead");
   bg.innerHTML="";
+  if(!state.logo && (state.settings.kopfbogen||"printline")==="timecom"){ bg.innerHTML=TIMECOM_HEADER_HTML; return; }
   const src=state.logo||EMBEDDED_HEADER;
   if(src && src.indexOf("data:")===0){
     const img=new Image(); img.src=src; img.alt="Kopfbogen"; bg.appendChild(img);
@@ -1603,6 +1660,7 @@ bindSetting("setLh","lh");
 bindSetting("setSide","side");
 bindSetting("setBottom","bottom");
 document.getElementById("setMode").addEventListener("change",e=>{state.settings.mode=e.target.value;applySettings();save();});
+document.getElementById("setKopfbogen").addEventListener("change",e=>{ setKopfbogen(e.target.value); });
 
 // Logo
 document.getElementById("setLogo").addEventListener("change",e=>{
