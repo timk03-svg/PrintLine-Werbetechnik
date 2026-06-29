@@ -90,6 +90,58 @@
   .check{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:600;}
   .check input{width:18px;height:18px;}
 
+  /* ---------- Material & Kalkulation ---------- */
+  .mat-tools{margin:6px 0 12px;}
+  .mat-tools input{width:100%;max-width:440px;border:1px solid var(--line-strong);border-radius:8px;padding:8px 11px;font:inherit;}
+  td.mat-low{color:#e5484d;font-weight:700;}
+  .modal-wide{max-width:780px;max-height:88vh;overflow:auto;}
+  .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px 18px;margin:4px 0 10px;}
+  .form-grid .field-wide{grid-column:1/-1;}
+  .form-grid select{border:1px solid var(--line-strong);border-radius:8px;padding:8px 10px;font:inherit;background:#fff;}
+  .form-grid textarea{border:1px solid var(--line-strong);border-radius:8px;padding:8px 10px;font:inherit;background:#fff;min-height:54px;resize:vertical;}
+  .sd-seg{margin-bottom:14px;flex-wrap:wrap;}
+  .srch-h{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:12px 0 4px;}
+  .srch-h:first-child{margin-top:0;}
+  .proj-badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px;border:1px solid;background:transparent;white-space:nowrap;}
+  .proj-thumbs{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;}
+  .proj-thumb{position:relative;width:96px;height:96px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface,#f4f6fa);}
+  .proj-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .proj-thumb .delbtn{position:absolute;top:2px;right:2px;background:rgba(255,255,255,.85);border-radius:50%;width:22px;height:22px;line-height:1;}
+  .proj-files{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
+  .proj-file{display:flex;align-items:center;gap:8px;}
+  .dropzone.drag{border-color:var(--accent);background:var(--accent-soft);}
+  body.dark .proj-thumb{background:#1b2029;}
+  .sigblock{display:flex;gap:46px;margin:16px 0 6px;flex-wrap:wrap;}
+  .sig-col{display:flex;flex-direction:column;align-items:flex-start;}
+  .sig-col img{max-height:74px;max-width:210px;object-fit:contain;}
+  .sig-line{border-top:1px solid var(--text);margin-top:2px;padding-top:3px;font-size:12px;min-width:170px;}
+  body.dark .form-grid textarea{background:#222834;}
+  .mat-hist{margin:10px 0 4px;}
+  .mat-hist-h{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;}
+  .mat-hist-t{max-width:340px;}
+  .kp-card{border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:12px 0;background:#fff;}
+  .kp-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+  .kp-num{font-weight:700;font-size:14px;}
+  .kp-sub{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:11px 0 5px;}
+  .kp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px 14px;}
+  .kp-grid .field-bez{grid-column:1/-1;}
+  .kp-grid input,.kp-grid select{border:1px solid var(--line-strong);border-radius:8px;padding:7px 9px;font:inherit;background:#fff;width:100%;}
+  .kp-ro{background:#f4f6fa !important;color:var(--muted);}
+  .kp-result{margin-top:12px;border-top:1px dashed var(--line-strong);padding-top:10px;display:flex;flex-direction:column;gap:6px;}
+  .kp-rline{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12px;color:var(--muted);}
+  .kp-rline b{color:var(--text);font-weight:700;}
+  .kp-rmain{font-size:13px;}
+  .kp-rmain b{color:var(--accent);}
+  .kalk-total{margin-top:16px;border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:var(--accent-soft);}
+  .kalk-total .kt-row{display:flex;justify-content:space-between;gap:12px;padding:3px 0;font-size:14px;}
+  .kalk-total .kt-main{font-size:17px;font-weight:700;}
+  .kalk-total .kt-main b{color:var(--accent);}
+  .kalk-actions{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:16px;}
+  .kalk-actions .grp{display:flex;gap:8px;flex-wrap:wrap;}
+  body.dark .kp-card{background:#161b22;border-color:var(--line);}
+  body.dark .kp-ro{background:#1b2029 !important;}
+  body.dark .form-grid select,body.dark .kp-grid input,body.dark .kp-grid select{background:#222834;}
+
   /* ---------- Seite (A4) ---------- */
   .stage{padding:26px 16px 60px;display:flex;justify-content:center;}
   .page{
@@ -255,8 +307,8 @@
   .head-row,.totals-wrap,.totals-box,.hinweis,.schluss,.docfoot,.footer,.legal p,.legal h4{break-inside:avoid;}
 
   /* ---------- Listen-Ansichten ---------- */
-  #viewHistory,#viewFinance,#viewKunden,#viewRechnungen,#viewKasse,#viewStunden,#viewStart,#viewTrash{display:none;max-width:1000px;margin:0 auto;padding:26px 22px 70px;}
-  body:is(.view-history,.view-finance,.view-kunden,.view-rechnungen,.view-kasse,.view-stunden,.view-start,.view-trash) #viewDoc{display:none;}
+  #viewHistory,#viewFinance,#viewKunden,#viewRechnungen,#viewKasse,#viewStunden,#viewStart,#viewTrash,#viewMaterial,#viewKalkulation,#viewStammdaten,#viewProjekte{display:none;max-width:1000px;margin:0 auto;padding:26px 22px 70px;}
+  body:is(.view-history,.view-finance,.view-kunden,.view-rechnungen,.view-kasse,.view-stunden,.view-start,.view-trash,.view-material,.view-kalkulation,.view-stammdaten,.view-projekte) #viewDoc{display:none;}
   body.view-history #viewHistory{display:block;}
   body.view-finance #viewFinance{display:block;}
   body.view-kunden #viewKunden{display:block;}
@@ -265,6 +317,11 @@
   body.view-stunden #viewStunden{display:block;}
   body.view-start #viewStart{display:block;}
   body.view-trash #viewTrash{display:block;}
+  body.view-material #viewMaterial{display:block;}
+  body.view-kalkulation #viewKalkulation{display:block;}
+  body.view-stammdaten #viewStammdaten{display:block;}
+  body.view-projekte #viewProjekte{display:block;}
+  #viewMaterial,#viewKalkulation,#viewStammdaten,#viewProjekte{max-width:1080px;}
 
   /* Startseite */
   #viewStart{max-width:1040px;}
@@ -310,9 +367,9 @@
     font-size:12px;padding:3px 12px;border-radius:20px;letter-spacing:.3px;}
 
   /* Auswahl-Dialog (z. B. Rechnung aus Angebot) */
-  #modalBg,#searchModal{position:fixed;inset:0;z-index:300;display:none;align-items:flex-start;justify-content:center;
+  #modalBg,#searchModal,#matModal,#sdModal,#verModal{position:fixed;inset:0;z-index:300;display:none;align-items:flex-start;justify-content:center;
     background:rgba(20,30,60,.32);padding:60px 16px;overflow:auto;}
-  #modalBg.open,#searchModal.open{display:flex;}
+  #modalBg.open,#searchModal.open,#matModal.open,#sdModal.open,#verModal.open{display:flex;}
   .modal{background:#fff;border-radius:16px;max-width:640px;width:100%;padding:22px 24px;box-shadow:0 20px 60px rgba(20,30,60,.3);}
   .modal h3{margin:0 0 4px;font-size:18px;}
   .modal .sub{color:var(--muted);font-size:13px;margin:0 0 16px;}
@@ -328,6 +385,10 @@
   body.role-mitarbeiter [data-view="finance"],
   body.role-mitarbeiter [data-view="kasse"],
   body.role-mitarbeiter [data-view="stunden"],
+  body.role-mitarbeiter [data-view="material"],
+  body.role-mitarbeiter [data-view="kalkulation"],
+  body.role-mitarbeiter [data-view="stammdaten"],
+  body.role-mitarbeiter [data-view="projekte"],
   body.role-mitarbeiter #btnSettings,
   body.role-mitarbeiter .delbtn{display:none !important;}
   .userrow{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 0;border-bottom:1px solid var(--line);}
@@ -408,7 +469,7 @@
   .print-head .ph-title{font-size:20px;font-weight:700;margin-top:6px;letter-spacing:-.3px;}
   .print-head .ph-meta{font-size:11px;color:var(--muted);margin-top:2px;}
 
-  /* ---------- Login-Sperre (Zugriffsschutz vor der App) ---------- */
+    /* ---------- Login-Sperre (Zugriffsschutz vor der App) ---------- */
   #loginGate{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;
     background:#13161c;color:#e7e9ef;padding:20px;
     font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Helvetica,Arial,sans-serif;}
@@ -501,8 +562,8 @@
     .c-pos,.c-menge,.c-einheit,.c-preis,.c-gesamt{padding-left:0;}
     /* Listen-Ansichten als sauberen Report drucken */
     #viewHistory,#viewFinance,#viewKunden,#viewRechnungen,#viewKasse,#viewStunden{max-width:none;margin:0;padding:0;}
-    body:is(.view-history,.view-finance,.view-kunden,.view-rechnungen,.view-kasse,.view-stunden,.view-start,.view-trash) #viewDoc{display:none !important;}
-    #viewStart,#viewTrash{display:none !important;}
+    body:is(.view-history,.view-finance,.view-kunden,.view-rechnungen,.view-kasse,.view-stunden,.view-start,.view-trash,.view-material,.view-kalkulation,.view-stammdaten,.view-projekte) #viewDoc{display:none !important;}
+    #viewStart,#viewTrash,#viewMaterial,#viewKalkulation,#viewStammdaten,#viewProjekte{display:none !important;}
     body.view-history #viewHistory{display:block !important;}
     body.view-finance #viewFinance{display:block !important;}
     body.view-kunden #viewKunden{display:block !important;}
@@ -521,8 +582,6 @@
 </style>
 </head>
 <body>
-
-<!-- Login-Sperre: blockiert die App, bis das Passwort eingegeben wurde -->
 <div id="loginGate" aria-modal="true" role="dialog">
   <div class="lg-card">
     <img src="icon-192.png" alt="PrintLine" class="lg-logo">
@@ -564,7 +623,7 @@
 
 <!-- Werkzeugleiste -->
 <div class="toolbar noprint">
-  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-06-26 · Stunden4</span></div>
+  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-06-29 · Abschluss</span></div>
   <button class="btn iconbtn" id="btnUndo" title="Rückgängig (Cmd+Z)" disabled>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-1"/></svg>Zurück
   </button>
@@ -575,6 +634,10 @@
     <button data-view="start">Start</button>
     <button data-view="doc" class="active">Dokument</button>
     <button data-view="kunden">Kunden</button>
+    <button data-view="projekte">Projekte</button>
+    <button data-view="material">Material</button>
+    <button data-view="kalkulation">Kalkulation</button>
+    <button data-view="stammdaten">Stammdaten</button>
     <button data-view="rechnungen">Rechnungen</button>
     <button data-view="kasse">Kassenbuch</button>
     <button data-view="stunden">Stunden</button>
@@ -596,7 +659,7 @@
   <button class="btn" id="btnNeukunde" title="Diesen Beleg als Neukunde kennzeichnen">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>Neukunde
   </button>
-  <button class="btn iconbtn" id="btnLock" title="App sperren (Passwort erneut nötig)" onclick="try{localStorage.removeItem('pl_gate_ok')}catch(e){};location.reload();">
+    <button class="btn iconbtn" id="btnLock" title="App sperren (Passwort erneut nötig)" onclick="try{localStorage.removeItem('pl_gate_ok')}catch(e){};location.reload();">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
   </button>
   <button class="btn iconbtn" id="btnDark" title="Dunkles Design ein/aus">
@@ -659,6 +722,51 @@
     Für den Einbau-Modus am besten <b>Google&nbsp;Chrome</b> verwenden (Hintergrund/Bilder werden mitgedruckt).
   </p>
 
+  <h3 style="margin:20px 0 6px;font-size:15px;">Firmendaten (für Fußzeile &amp; PDF)</h3>
+  <p class="sub" style="margin:6px 0 10px;">Werden im Backup gesichert. Mit dem Knopf unten füllst du Fußzeile + Absender des aktuellen Dokuments daraus. Stempel/Unterschrift werden ins Angebots-PDF eingebunden.</p>
+  <div class="grid">
+    <div class="field"><label>Firmenname</label><input type="text" id="fa_name"></div>
+    <div class="field"><label>Rechtsform</label><input type="text" id="fa_rechtsform"></div>
+    <div class="field"><label>Straße</label><input type="text" id="fa_strasse"></div>
+    <div class="field"><label>Hausnummer</label><input type="text" id="fa_hausnummer"></div>
+    <div class="field"><label>PLZ</label><input type="text" id="fa_plz"></div>
+    <div class="field"><label>Ort</label><input type="text" id="fa_ort"></div>
+    <div class="field"><label>Land</label><input type="text" id="fa_land"></div>
+    <div class="field"><label>Telefon</label><input type="text" id="fa_telefon"></div>
+    <div class="field"><label>Mobil</label><input type="text" id="fa_mobil"></div>
+    <div class="field"><label>E-Mail</label><input type="text" id="fa_email"></div>
+    <div class="field"><label>Website</label><input type="text" id="fa_website"></div>
+    <div class="field"><label>Bank</label><input type="text" id="fa_bank"></div>
+    <div class="field"><label>IBAN</label><input type="text" id="fa_iban"></div>
+    <div class="field"><label>BIC</label><input type="text" id="fa_bic"></div>
+    <div class="field"><label>Steuernummer</label><input type="text" id="fa_steuernr"></div>
+    <div class="field"><label>USt-IdNr. (optional)</label><input type="text" id="fa_ustid"></div>
+    <div class="field field-wide"><label>Zahlungsbedingungen</label><input type="text" id="fa_zahlungsbedingungen"></div>
+    <div class="field"><label>Firmenstempel (Bild)</label><input type="file" id="fa_stempelFile" accept="image/*"><div id="fa_stempelPrev"></div></div>
+    <div class="field"><label>Unterschrift (Bild)</label><input type="file" id="fa_unterschriftFile" accept="image/*"><div id="fa_unterschriftPrev"></div></div>
+  </div>
+  <div style="margin-top:10px;"><button class="btn primary" id="btnFirmaFooter">Fußzeile &amp; Absender aus Firmendaten füllen</button></div>
+
+  <h3 style="margin:20px 0 6px;font-size:15px;">Kalkulation – Standard-Aufschläge</h3>
+  <p class="sub" style="margin:6px 0 10px;">Diese Werte werden bei jeder neuen Kalkulationsposition vorausgefüllt (pro Position überschreibbar). Leer lassen = 0 %.</p>
+  <div class="grid">
+    <div class="field"><label>Gemeinkosten %</label><input type="text" id="csGemein" placeholder="z. B. 15"></div>
+    <div class="field"><label>Risikozuschlag %</label><input type="text" id="csRisiko" placeholder="z. B. 5"></div>
+    <div class="field"><label>Gewinn %</label><input type="text" id="csGewinn" placeholder="z. B. 20"></div>
+    <div class="field"><label>Verschnitt % (Material)</label><input type="text" id="csVerschnitt" placeholder="z. B. 10"></div>
+    <div class="field"><label>Stundenlohn (€)</label><input type="text" id="csStundenlohn" placeholder="z. B. 45"></div>
+    <div class="field"><label>Maschinensatz (€/h)</label><input type="text" id="csMaschinensatz" placeholder="z. B. 25"></div>
+    <div class="field"><label>Material-Aufschlag % (VK-Anzeige)</label><input type="text" id="csMaterialaufschlag" placeholder="z. B. 30"></div>
+    <div class="field"><label>Rundung Verkaufspreis</label>
+      <select id="csRundung"><option value="keine">keine</option><option value="0.5">auf 0,50 €</option><option value="1">auf 1 €</option><option value="5">auf 5 €</option><option value="10">auf 10 €</option></select>
+    </div>
+  </div>
+
+  <h3 style="margin:20px 0 6px;font-size:15px;">Preislisten / Kalkulationsprofile</h3>
+  <p class="sub" style="margin:6px 0 10px;">Mehrere Aufschlag-Profile (z. B. Privatkunden, Geschäftskunden, Stammkunden). In der Kalkulation oben auswählbar – überträgt die Aufschläge auf alle Positionen. „Standard" = die obigen Werte.</p>
+  <table class="list"><thead><tr><th>Name</th><th class="r">GK %</th><th class="r">Risiko %</th><th class="r">Gewinn %</th><th>Rundung</th><th></th><th></th></tr></thead><tbody id="plRows"></tbody></table>
+  <button class="btn primary" id="btnPlNew" style="margin-top:10px;">+ Preisliste</button>
+
   <h3 style="margin:20px 0 6px;font-size:15px;">Benutzer &amp; Rechte</h3>
   <label class="check"><input type="checkbox" id="setAuthOn"> Anmeldung mit Benutzer &amp; PIN aktivieren</label>
   <p class="sub" style="margin:6px 0 10px;">Rollen blenden Bereiche aus: <b>Inhaber</b> = alles, <b>Mitarbeiter</b> = keine Finanzen/Kassenbuch, keine Einstellungen, kein Löschen. Hinweis: organisatorische Steuerung, keine echte Zugriffssicherung.</p>
@@ -669,6 +777,11 @@
     <select id="newUserRole"><option value="admin">Inhaber (alles)</option><option value="mitarbeiter">Mitarbeiter</option></select>
     <button class="btn primary" id="btnAddUser" title="Benutzer hinzufügen">+</button>
   </div>
+
+  <h3 style="margin:20px 0 6px;font-size:15px;">Protokoll / Änderungsverlauf</h3>
+  <p class="sub" style="margin:6px 0 10px;">Automatisches Audit-Log (Status­änderungen, neue Versionen). Nur einsehbar.</p>
+  <table class="list"><thead><tr><th>Zeit</th><th>Aktion</th><th>Objekt</th><th>Detail</th></tr></thead><tbody id="auditRows"></tbody></table>
+  <button class="btn" id="btnAuditClear" style="margin-top:8px;">Protokoll leeren</button>
 
   <h3 style="margin:20px 0 6px;font-size:15px;">Programm &amp; Sicherung</h3>
   <p class="sub" style="margin:6px 0 10px;">Das Programm ist eine einzige Datei. Zum Mitnehmen/Vervielfältigen einfach herunterladen und auf einen USB-Stick oder anderen Mac kopieren (per Doppelklick öffnen). Deine Daten überträgst du separat über die Sicherung.</p>
@@ -750,6 +863,8 @@ vielen Dank für Ihre Anfrage. Gerne unterbreiten wir Ihnen folgendes Angebot:">
       <div class="schluss" contenteditable="true" data-field="schluss" data-ph="Wir freuen uns auf Ihren Auftrag.
 Mit freundlichen Grüßen"></div>
 
+      <div class="sigblock" id="sigblock"></div>
+
       <div class="docfoot">
       <div class="legal" id="legal"></div>
 
@@ -784,7 +899,7 @@ USt-IdNr. …"></div>
       <button class="btn noprint" id="btnHistPdf">Als PDF</button>
     </div>
     <table class="list">
-      <thead><tr><th>Datum</th><th>Typ</th><th>Nummer</th><th>Kunde</th><th class="r">Betrag (netto)</th><th class="noprint"></th><th class="noprint"></th></tr></thead>
+      <thead><tr><th>Datum</th><th>Typ</th><th>Nummer</th><th>Kunde</th><th class="r">Betrag (netto)</th><th class="noprint">Status</th><th class="noprint"></th><th class="noprint"></th></tr></thead>
       <tbody id="historyRows"></tbody>
     </table>
   </div>
@@ -821,6 +936,12 @@ USt-IdNr. …"></div>
       <tr><td>− Fixkosten (12 × monatlich)</td><td class="r" id="euFix">0,00 €</td></tr>
       <tr class="sum"><td>= Gewinn</td><td class="r" id="euGew">0,00 €</td></tr>
     </table>
+  </div>
+
+  <div class="panel">
+    <h2>Statistik &amp; Kennzahlen <span class="yrtag" id="statYr"></span></h2>
+    <p class="sub">Angebote nach Status (Erfolgsquote) sowie Material-/Arbeitskosten und Deckungsbeitrag aus allen Kalkulationen.</p>
+    <div class="cards" id="statCards"></div>
   </div>
 
   <div class="panel">
@@ -872,6 +993,7 @@ USt-IdNr. …"></div>
 <div id="viewStart">
   <div class="start-h">Was möchtest du tun?</div>
   <p class="start-sub">Wähle eine Funktion – oder oben einen Reiter.</p>
+  <div class="cards" id="startCards" style="margin-bottom:18px;"></div>
   <div class="tiles" id="startTiles"></div>
 </div>
 
@@ -898,11 +1020,19 @@ USt-IdNr. …"></div>
   </div>
   <div class="panel">
     <div class="finance-head">
-      <div><h2>Kunden</h2><p class="sub" style="margin:0;">Wird automatisch ergänzt, sobald ein Angebot oder eine Rechnung gespeichert wird. Sortiert alphabetisch nach Firma.</p></div>
-      <button class="btn noprint" id="btnKundenPdf">Als PDF</button>
+      <div><h2>Kunden</h2><p class="sub" style="margin:0;">Wird automatisch ergänzt, sobald ein Angebot/eine Rechnung gespeichert wird – oder manuell anlegen. Sortiert alphabetisch nach Firma.</p></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn noprint" id="btnKundenCsv" title="Als CSV exportieren">CSV</button>
+        <button class="btn noprint" id="btnKundenXlsx" title="Als Excel exportieren">Excel</button>
+        <button class="btn noprint" id="btnKundenImport" title="Aus CSV importieren">Import</button>
+        <button class="btn primary noprint" id="btnKundeNew">+ Kunde</button>
+        <button class="btn noprint" id="btnKundenPdf">Als PDF</button>
+      </div>
+      <input type="file" id="kundenImportFile" accept=".csv,text/csv" hidden>
     </div>
+    <div class="mat-tools noprint"><input type="text" id="kundenSearch" placeholder="Suche: Firma, Kunden-Nr., Ansprechpartner, Ort …"></div>
     <table class="list">
-      <thead><tr><th>Firma / Name</th><th>Kunden-Nr.</th><th class="noprint"></th><th class="noprint"></th></tr></thead>
+      <thead><tr><th>Firma / Name</th><th>Kunden-Nr.</th><th>Ansprechpartner</th><th>Ort</th><th class="noprint"></th><th class="noprint"></th><th class="noprint"></th></tr></thead>
       <tbody id="kundenRows"></tbody>
     </table>
   </div>
@@ -1011,6 +1141,219 @@ USt-IdNr. …"></div>
   </div>
 </div>
 
+<!-- Ansicht: Materialdatenbank -->
+<div id="viewMaterial">
+  <div class="print-head">
+    <div class="ph-firma">PrintLine Werbetechnik · Magdeburger Straße 5 A · 39576 Stendal</div>
+    <div class="ph-title">Materialliste</div>
+    <div class="ph-meta" id="matPrintDate"></div>
+  </div>
+  <div class="panel">
+    <div class="finance-head">
+      <div><h2>Materialdatenbank</h2><p class="sub" style="margin:0;">Artikel-Stammdaten mit Einkaufspreis und Preisverlauf – Grundlage für die Kalkulation.</p></div>
+      <div class="noprint" style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn" id="btnMatCsv" title="Als CSV exportieren">CSV</button>
+        <button class="btn" id="btnMatXlsx" title="Als Excel exportieren">Excel</button>
+        <button class="btn" id="btnMatImport" title="Aus CSV importieren">Import</button>
+        <button class="btn" id="btnMatPdf" title="Liste als PDF">Liste&nbsp;PDF</button>
+        <button class="btn primary" id="btnMatNew">+ Material</button>
+      </div>
+      <input type="file" id="matImportFile" accept=".csv,text/csv" hidden>
+    </div>
+    <div class="mat-tools noprint"><input type="text" id="matSearch" placeholder="Suche: Artikel-Nr., Bezeichnung, Kategorie, Lieferant …"></div>
+    <table class="list">
+      <thead><tr><th>Artikel-Nr.</th><th>Bezeichnung</th><th>Kategorie</th><th>Einheit</th><th class="r">Einkauf</th><th class="r">VK (auto)</th><th class="r">Bestand</th><th class="noprint"></th><th class="noprint"></th></tr></thead>
+      <tbody id="matRows"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Ansicht: Kalkulation -->
+<div id="viewKalkulation">
+  <div id="kalkList">
+    <div class="panel">
+      <div class="finance-head">
+        <div><h2>Kalkulationen</h2><p class="sub" style="margin:0;">Kosten kalkulieren (Material, Arbeit, Maschine, Nebenkosten + Aufschläge) und als Angebot übernehmen.</p></div>
+        <button class="btn primary" id="btnKalkNew">+ Neue Kalkulation</button>
+      </div>
+      <table class="list">
+        <thead><tr><th>Bezeichnung</th><th>Kunde</th><th>Datum</th><th class="r">Pos.</th><th class="r">Verkaufspreis</th><th class="noprint"></th><th class="noprint"></th><th class="noprint"></th></tr></thead>
+        <tbody id="kalkRows"></tbody>
+      </table>
+    </div>
+  </div>
+  <div id="kalkEditor" hidden>
+    <div class="panel">
+      <div class="finance-head">
+        <div><h2 id="kalkEditorTitle">Neue Kalkulation</h2><p class="sub" style="margin:0;">Pro Position: Kosten erfassen → Selbstkosten, Aufschläge und Verkaufspreis werden automatisch berechnet.</p></div>
+        <button class="btn" id="kalkBack">← zur Liste</button>
+      </div>
+      <div class="form-grid">
+        <div class="field"><label>Bezeichnung der Kalkulation</label><input type="text" id="kalkName" placeholder="z. B. Fahrzeugbeschriftung Transporter"></div>
+        <div class="field"><label>Kunde (optional)</label><input type="text" id="kalkKunde" list="kalkKundenList"></div>
+        <div class="field"><label>Preisliste / Profil</label><select id="kalkProfil"></select></div>
+      </div>
+      <div id="kalkPositionen"></div>
+      <button class="btn" id="btnKalkAddPos" style="margin-top:12px;">+ Position hinzufügen</button>
+      <div class="kalk-total" id="kalkTotal"></div>
+      <div class="kalk-actions">
+        <div class="grp"><button class="btn primary" id="kalkSave">Kalkulation speichern</button></div>
+        <div class="grp">
+          <button class="btn" id="kalkToCurrent">→ ins aktuelle Dokument</button>
+          <button class="btn primary" id="kalkToNew">→ als neues Angebot</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Material-Editor -->
+<div id="matModal" class="noprint">
+  <div class="modal modal-wide">
+    <h3 id="matModalTitle">Neues Material</h3>
+    <div class="form-grid">
+      <div class="field"><label>Artikel-Nr.</label><input type="text" id="mfArtikelnr"></div>
+      <div class="field"><label>Bezeichnung *</label><input type="text" id="mfBezeichnung"></div>
+      <div class="field"><label>Kategorie</label><input type="text" id="mfKategorie" list="matKatList"></div>
+      <div class="field"><label>Einheit</label><select id="mfEinheit"></select></div>
+      <div class="field"><label>Einkaufspreis (€ / Einheit)</label><input type="text" id="mfEinkaufspreis" placeholder="0,00"></div>
+      <div class="field"><label>Material-Aufschlag % (VK-Anzeige)</label><input type="text" id="mfMaterialaufschlag" placeholder="leer = Standard"></div>
+      <div class="field"><label>Standardverschnitt %</label><input type="text" id="mfStandardverschnitt" placeholder="z. B. 10"></div>
+      <div class="field"><label>Lagerbestand</label><input type="text" id="mfLagerbestand" placeholder="0"></div>
+      <div class="field"><label>Mindestbestand</label><input type="text" id="mfMindestbestand" placeholder="0"></div>
+      <div class="field"><label>Reserve</label><input type="text" id="mfReserve" placeholder="0"></div>
+      <div class="field"><label>Lieferant</label><select id="mfLieferant"></select></div>
+      <div class="field"><label>Lieferzeit</label><input type="text" id="mfLieferzeit" placeholder="z. B. 3 Tage"></div>
+      <div class="field"><label>Alternativmaterial</label><input type="text" id="mfAlternativmaterial"></div>
+      <div class="field field-wide"><label>Notiz</label><input type="text" id="mfNotiz"></div>
+    </div>
+    <div id="matHist" class="mat-hist"></div>
+    <div class="actions">
+      <button class="btn primary" id="matSave">Speichern</button>
+      <button class="btn" id="matCancel">Abbrechen</button>
+    </div>
+  </div>
+</div>
+<datalist id="matKatList"></datalist>
+<datalist id="kalkKundenList"></datalist>
+
+<!-- Ansicht: Projekte / Anfragen (Workflow Anfrage → Auftrag) -->
+<div id="viewProjekte">
+  <div id="projList">
+    <div class="panel">
+      <div class="finance-head">
+        <div><h2>Projekte / Anfragen</h2><p class="sub" style="margin:0;">Von der Kundenanfrage über Aufmaß und Kalkulation bis zum Auftrag.</p></div>
+        <button class="btn primary" id="btnProjNew">+ Neue Anfrage</button>
+      </div>
+      <div class="mat-tools"><input type="text" id="projSearch" placeholder="Suche: Nummer, Kunde, Leistung, Status …"></div>
+      <table class="list">
+        <thead><tr><th>Nummer</th><th>Kunde</th><th>Leistung</th><th>Status</th><th>Termin</th><th class="noprint"></th><th class="noprint"></th></tr></thead>
+        <tbody id="projRows"></tbody>
+      </table>
+    </div>
+  </div>
+  <div id="projEditor" hidden>
+    <div class="panel">
+      <div class="finance-head">
+        <div><h2 id="projEditorTitle">Neue Anfrage</h2><p class="sub" id="projNrSub" style="margin:0;"></p></div>
+        <button class="btn" id="projBack">← zur Liste</button>
+      </div>
+      <div class="kp-sub">Status &amp; Bearbeiter</div>
+      <div class="kp-grid">
+        <div class="field"><label>Status</label><select id="pf_status"></select></div>
+        <div class="field"><label>Bearbeiter</label><input type="text" id="pf_bearbeiter"></div>
+      </div>
+      <div class="kp-sub">1 · Kundenanfrage</div>
+      <div class="kp-grid">
+        <div class="field"><label>Kunde</label><input type="text" id="pf_kunde" list="projKundenList" placeholder="Firma wählen oder eingeben"></div>
+        <div class="field"><label>Anfragekanal</label><select id="pf_kanal"><option value="">—</option><option>Telefon</option><option>E-Mail</option><option>Empfehlung</option><option>Website</option><option>Laufkundschaft</option><option>Sonstiges</option></select></div>
+        <div class="field"><label>Priorität</label><select id="pf_prioritaet"><option value="">—</option><option>Niedrig</option><option>Normal</option><option>Hoch</option><option>Dringend</option></select></div>
+        <div class="field"><label>Anfragedatum</label><input type="text" id="pf_anfrageDatum" placeholder="TT.MM.JJJJ"></div>
+        <div class="field"><label>Angebotsfrist</label><input type="text" id="pf_angebotsfrist" placeholder="TT.MM.JJJJ"></div>
+        <div class="field"><label>Ausführungstermin</label><input type="text" id="pf_ausfuehrungstermin"></div>
+        <div class="field"><label>Budget (optional)</label><input type="text" id="pf_budget"></div>
+      </div>
+      <div class="kp-sub">2 · Projektanalyse</div>
+      <div class="kp-grid">
+        <div class="field"><label>Projektart</label><select id="pf_projektart"><option value="">—</option><option>Neubau</option><option>Umbau</option><option>Sanierung</option><option>Reparatur</option><option>Wartung</option><option>Sonstiges</option></select></div>
+        <div class="field field-bez"><label>Leistungsbeschreibung</label><textarea id="pf_leistungsbeschreibung"></textarea></div>
+        <div class="field field-bez"><label>Leistungsumfang (detailliert)</label><textarea id="pf_umfang"></textarea></div>
+        <div class="field field-bez"><label>Abgrenzung (NICHT enthalten)</label><textarea id="pf_abgrenzung"></textarea></div>
+        <div class="field"><label>Vorleistungen anderer Gewerke</label><textarea id="pf_vorleistungen"></textarea></div>
+        <div class="field"><label>Eigenleistungen Kunde</label><textarea id="pf_eigenleistungen"></textarea></div>
+        <div class="field"><label>Besonderheiten</label><textarea id="pf_besonderheiten"></textarea></div>
+        <div class="field"><label>Risiken</label><textarea id="pf_risiken"></textarea></div>
+      </div>
+      <div class="kp-sub">3 · Aufmaß</div>
+      <div id="projAufmass"></div>
+      <button class="btn" id="btnProjAufmassAdd" style="margin-top:8px;">+ Maß hinzufügen</button>
+      <div class="kp-grid" style="margin-top:10px;">
+        <div class="field"><label>Baustellenbedingungen</label><textarea id="pf_baustellenbedingungen"></textarea></div>
+        <div class="field"><label>Zugänglichkeit</label><textarea id="pf_zugaenglichkeit"></textarea></div>
+        <div class="field"><label>Aufmaß-Besonderheiten</label><textarea id="pf_aufmassBesonderheiten"></textarea></div>
+      </div>
+      <div class="kp-sub">Fotos / Skizzen</div>
+      <div class="dropzone full" id="projFotoDrop">Foto/Skizze hier ablegen (Drag &amp; Drop) – oder klicken</div>
+      <input type="file" id="projFotoFile" accept="image/*" multiple hidden>
+      <div id="projFotos" class="proj-thumbs"></div>
+      <div class="kp-sub">Pläne (PDF / Bild)</div>
+      <div class="dropzone full" id="projPlanDrop">Plan hier ablegen (Drag &amp; Drop) – oder klicken</div>
+      <input type="file" id="projPlanFile" accept="application/pdf,image/*" multiple hidden>
+      <div id="projPlaene" class="proj-files"></div>
+      <div class="kp-sub">Notizen &amp; Übergabe</div>
+      <div class="kp-grid"><div class="field field-bez"><label>Interne Notizen</label><textarea id="pf_notizen"></textarea></div></div>
+      <div class="kalk-actions">
+        <div class="grp"><button class="btn primary" id="projSave">Projekt speichern</button></div>
+        <div class="grp">
+          <button class="btn" id="projToKalk">Kalkulation öffnen/anlegen</button>
+          <button class="btn primary" id="projToAngebot">Angebot erzeugen</button>
+        </div>
+      </div>
+      <p class="sub" id="projLinkInfo" style="margin-top:8px;"></p>
+    </div>
+  </div>
+</div>
+<datalist id="projKundenList"></datalist>
+
+<!-- Ansicht: Stammdaten (Lieferanten / Maschinen / Mitarbeiter) -->
+<div id="viewStammdaten">
+  <div class="panel">
+    <div class="finance-head">
+      <div><h2>Stammdaten</h2><p class="sub" style="margin:0;">Lieferanten, Maschinen und Mitarbeiter – Grundlage für Kalkulation und Beschaffung.</p></div>
+      <button class="btn primary" id="btnSdNew">+ Neu</button>
+    </div>
+    <div class="seg sd-seg" id="sdSeg">
+      <button data-sd="lieferant" class="active">Lieferanten</button>
+      <button data-sd="maschine">Maschinen</button>
+      <button data-sd="mitarbeiter">Mitarbeiter</button>
+    </div>
+    <div class="mat-tools"><input type="text" id="sdSearch" placeholder="Suche …"></div>
+    <table class="list"><thead id="sdHead"></thead><tbody id="sdRows"></tbody></table>
+  </div>
+</div>
+
+<!-- Generisches Stammdaten-Editor-Modal (Lieferant / Maschine / Mitarbeiter / Kunde) -->
+<div id="sdModal" class="noprint">
+  <div class="modal modal-wide">
+    <h3 id="sdModalTitle">Neu</h3>
+    <div class="form-grid" id="sdModalForm"></div>
+    <div class="actions">
+      <button class="btn primary" id="sdSave">Speichern</button>
+      <button class="btn" id="sdCancel">Abbrechen</button>
+    </div>
+  </div>
+</div>
+
+<!-- Versionen eines Angebots -->
+<div id="verModal" class="noprint">
+  <div class="modal">
+    <h3>Versionen</h3>
+    <p class="sub" id="verModalSub"></p>
+    <div id="verList"></div>
+    <div class="actions"><button class="btn" id="verCancel">Schließen</button></div>
+  </div>
+</div>
+
 <!-- Schnellsuche Kunde -->
 <div id="searchModal" class="noprint">
   <div class="modal">
@@ -1083,7 +1426,7 @@ const defaults = {
 };
 // App-weite, dokumentübergreifende Daten (Nummern-Zähler, Verlauf, Ausgaben, Kunden)
 const appDefaults = {
-  counters:{ year:new Date().getFullYear(), angebot:0, rechnung:0, mahnung:0 },
+  counters:{ year:new Date().getFullYear(), angebot:0, rechnung:0, mahnung:0, projekt:0 },
   archive:[],
   expenses:[],
   fixkosten:[],
@@ -1095,7 +1438,17 @@ const appDefaults = {
   auth:{on:false, users:[]},
   trash:[],
   dark:false,
-  kbFooters:{}
+  kbFooters:{},
+  materials:[],
+  kalkulationen:[],
+  calcSettings:{ gemeinkosten:"", risiko:"", gewinn:"", verschnitt:"", stundenlohn:"", maschinensatz:"", materialaufschlag:"", rundung:"keine" },
+  lieferanten:[],
+  maschinen:[],
+  mitarbeiter:[],
+  preislisten:[],
+  projekte:[],
+  auditLog:[],
+  firma:{ name:"", rechtsform:"", strasse:"", hausnummer:"", plz:"", ort:"", land:"Deutschland", telefon:"", mobil:"", email:"", website:"", iban:"", bic:"", bank:"", steuernr:"", ustid:"", zahlungsbedingungen:"", stempel:null, unterschrift:null }
 };
 let state = load();
 let appData = loadApp();
@@ -1138,7 +1491,17 @@ function loadApp(){
       auth:Object.assign({on:false,users:[]}, s.auth||{}),
       trash:Array.isArray(s.trash)?s.trash:[],
       dark:!!s.dark,
-      kbFooters:(s.kbFooters && typeof s.kbFooters==="object")?s.kbFooters:{}
+      kbFooters:(s.kbFooters && typeof s.kbFooters==="object")?s.kbFooters:{},
+      materials:Array.isArray(s.materials)?s.materials:[],
+      kalkulationen:Array.isArray(s.kalkulationen)?s.kalkulationen:[],
+      calcSettings:Object.assign({}, appDefaults.calcSettings, s.calcSettings||{}),
+      lieferanten:Array.isArray(s.lieferanten)?s.lieferanten:[],
+      maschinen:Array.isArray(s.maschinen)?s.maschinen:[],
+      mitarbeiter:Array.isArray(s.mitarbeiter)?s.mitarbeiter:[],
+      preislisten:Array.isArray(s.preislisten)?s.preislisten:[],
+      projekte:Array.isArray(s.projekte)?s.projekte:[],
+      auditLog:Array.isArray(s.auditLog)?s.auditLog:[],
+      firma:Object.assign({}, appDefaults.firma, s.firma||{})
     };
   }catch(e){ return structuredClone(appDefaults); }
 }
@@ -1222,11 +1585,11 @@ function todayStr(){ return fmtDate(new Date()); }
 /* ---------- Nummernkreis ---------- */
 function nextNumber(type){
   const cy=new Date().getFullYear();
-  if(appData.counters.year!==cy){ appData.counters.year=cy; appData.counters.angebot=0; appData.counters.rechnung=0; appData.counters.mahnung=0; }
-  const key=type==="Rechnung"?"rechnung":type==="Mahnung"?"mahnung":"angebot";
+  if(appData.counters.year!==cy){ appData.counters.year=cy; appData.counters.angebot=0; appData.counters.rechnung=0; appData.counters.mahnung=0; appData.counters.projekt=0; }
+  const key=type==="Rechnung"?"rechnung":type==="Mahnung"?"mahnung":type==="Projekt"?"projekt":"angebot";
   appData.counters[key]=(appData.counters[key]||0)+1;
   saveApp();
-  const pre=type==="Rechnung"?"RE":type==="Mahnung"?"MA":"AG";
+  const pre=type==="Rechnung"?"RE":type==="Mahnung"?"MA":type==="Projekt"?"AN":"AG";
   return pre+"-"+cy+"-"+("00"+appData.counters[key]).slice(-3);
 }
 function mahnTitle(stufe){ return ["Zahlungserinnerung","Zahlungserinnerung","1. Mahnung","2. Mahnung"][Math.min(stufe||1,3)]; }
@@ -1459,7 +1822,15 @@ function updateTotalsAmounts(){
   set("gesEur",euro.format(state.vat.on?brutto:netAfter));
 }
 
-function renderAll(){ applySettings(); renderDocType(); renderFields(); renderLogo(); renderRows(); renderNeukunde(); }
+function renderSignature(){
+  const el=document.getElementById("sigblock"); if(!el) return;
+  const f=appData.firma||{};
+  let html="";
+  if(f.unterschrift) html+='<div class="sig-col"><img src="'+f.unterschrift+'" alt="Unterschrift"><div class="sig-line">'+escapeHtml(f.name||"")+'</div></div>';
+  if(f.stempel) html+='<div class="sig-col"><img src="'+f.stempel+'" alt="Firmenstempel"></div>';
+  el.innerHTML=html; el.style.display=html?"":"none";
+}
+function renderAll(){ applySettings(); renderDocType(); renderFields(); renderLogo(); renderRows(); renderNeukunde(); renderSignature(); }
 
 /* ---------- Ereignisse ---------- */
 // Textfelder
@@ -1576,7 +1947,7 @@ document.getElementById("rows").addEventListener("keydown",e=>{
 // Ansichten umschalten (Dokument / Kunden / Rechnungen / Verlauf / Finanzen)
 function switchView(v){
   if(currentView()==="doc" && v!=="doc") flushAutoArchive();   // angefangenes Dokument vor dem Wechsel sichern
-  document.body.classList.remove("view-doc","view-history","view-finance","view-kunden","view-rechnungen","view-kasse","view-start","view-trash","view-stunden");
+  document.body.classList.remove("view-doc","view-history","view-finance","view-kunden","view-rechnungen","view-kasse","view-start","view-trash","view-stunden","view-material","view-kalkulation","view-stammdaten","view-projekte");
   document.body.classList.add("view-"+v);
   // Einstellungen sind ein Overlay über der jeweiligen Ansicht – beim Navigieren immer schließen,
   // damit sie nicht auf der Startseite / anderen Ansichten "hängen bleiben".
@@ -1593,9 +1964,13 @@ function switchView(v){
   if(v==="stunden") renderStunden();
   if(v==="start") renderStart();
   if(v==="trash") renderTrash();
+  if(v==="material") renderMaterial();
+  if(v==="kalkulation") renderKalkulation();
+  if(v==="stammdaten") renderStammdaten();
+  if(v==="projekte") renderProjekte();
 }
 function currentView(){
-  for(const v of ["finance","history","kunden","rechnungen","kasse","stunden","start","trash"]) if(document.body.classList.contains("view-"+v)) return v;
+  for(const v of ["finance","history","kunden","rechnungen","kasse","stunden","start","trash","material","kalkulation","stammdaten","projekte"]) if(document.body.classList.contains("view-"+v)) return v;
   return "doc";
 }
 document.getElementById("viewSeg").addEventListener("click",e=>{
@@ -1614,6 +1989,10 @@ function renderStart(){
     {act:"search", t:"Kunde suchen", d:"Name/Nr. → Angebot oder Rechnung", i:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>'},
     {act:"doc", t:"Dokument bearbeiten", d:"aktuell geöffneten Beleg öffnen", i:'<path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h5"/>'},
     {act:"kunden", t:"Kunden", d:appData.customers.length+" gespeichert", i:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/>'},
+    {act:"material", role:1, t:"Material", d:appData.materials.length+(appData.materials.length===1?" Artikel":" Artikel"), i:'<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96L12 12l8.73-5.04M12 22.08V12"/>'},
+    {act:"kalkulation", role:1, t:"Kalkulation", d:"Kosten → Verkaufspreis", i:'<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 6h8v3H8zM8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01M16 17h.01"/>'},
+    {act:"stammdaten", role:1, t:"Stammdaten", d:"Lieferanten · Maschinen · Mitarbeiter", i:'<path d="M3 7h18M3 12h18M3 17h18"/><circle cx="7" cy="7" r="0.5"/><circle cx="7" cy="12" r="0.5"/><circle cx="7" cy="17" r="0.5"/>'},
+    {act:"projekte", role:1, t:"Projekte", d:"Anfrage → Aufmaß → Angebot → Auftrag", i:'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 13l2 2 4-4"/>'},
     {act:"rechnungen", t:"Rechnungen", d:(offen?offen+" offen":"offen / bezahlt"), i:'<path d="M9 11l3 3 8-8"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>'},
     {act:"kasse", role:1, t:"Kassenbuch", d:"Bareinnahmen & -ausgaben", i:'<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/>'},
     {act:"stunden", role:1, t:"Stundenzettel", d:"Arbeitszeiten pro Tag erfassen", i:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'},
@@ -1624,6 +2003,23 @@ function renderStart(){
   ];
   document.getElementById("startTiles").innerHTML = tiles.filter(x=>!(mit&&x.role)).map(x=>
     `<button class="tile ${x.cls||""}" data-go="${x.act}">${svg(x.i)}<div class="t">${x.t}</div><div class="d">${x.d}</div></button>`).join("");
+  const sc=document.getElementById("startCards");
+  if(sc){
+    if(mit){ sc.innerHTML=""; }
+    else {
+      const Y=new Date().getFullYear();
+      const rechn=appData.archive.filter(a=>a.docType==="Rechnung");
+      const umsatzY=rechn.filter(a=>yearOf(a.datum)===Y).reduce((s,a)=>s+(a.netto||0),0);
+      const off=rechn.filter(a=>a.status!=="bezahlt");
+      const offSum=off.reduce((s,a)=>s+(a.netto||0),0);
+      const angebote=appData.archive.filter(a=>a.docType==="Angebot").length;
+      sc.innerHTML=
+        '<div class="card ein"><div class="lab">Umsatz '+Y+'</div><div class="val">'+euro.format(umsatzY)+'</div></div>'+
+        '<div class="card aus"><div class="lab">Offen ('+off.length+')</div><div class="val">'+euro.format(offSum)+'</div></div>'+
+        '<div class="card"><div class="lab">Angebote</div><div class="val">'+angebote+'</div></div>'+
+        '<div class="card"><div class="lab">Material · Kalkulationen</div><div class="val">'+appData.materials.length+' · '+appData.kalkulationen.length+'</div></div>';
+    }
+  }
 }
 document.getElementById("startTiles").addEventListener("click",e=>{
   const b=e.target.closest("[data-go]"); if(!b) return;
@@ -1640,7 +2036,7 @@ function trashItem(type,item,label){
   appData.trash.unshift({id:"t"+Date.now()+"_"+Math.round(Math.random()*1e6), ts:Date.now(), type, label, data:JSON.parse(JSON.stringify(item))});
   if(appData.trash.length>1000) appData.trash.pop();
 }
-const TRASH_LABELS={archive:"Dokument",customer:"Kunde",expense:"Ausgabe",fixkosten:"Fixkosten",kasse:"Kassenbuch",stunden:"Stundeneintrag"};
+const TRASH_LABELS={archive:"Dokument",customer:"Kunde",expense:"Ausgabe",fixkosten:"Fixkosten",kasse:"Kassenbuch",stunden:"Stundeneintrag",material:"Material",kalkulation:"Kalkulation",lieferant:"Lieferant",maschine:"Maschine",mitarbeiter:"Mitarbeiter",projekt:"Projekt"};
 function renderTrash(){
   const tb=document.getElementById("trashRows");
   if(!appData.trash.length){ tb.innerHTML='<tr><td colspan="5" class="empty">Der Papierkorb ist leer.</td></tr>'; return; }
@@ -1658,6 +2054,12 @@ function restoreTrash(id){
   else if(t.type==="fixkosten") appData.fixkosten.push(t.data);
   else if(t.type==="kasse") appData.kassenbuch.push(t.data);
   else if(t.type==="stunden") appData.stunden.push(t.data);
+  else if(t.type==="material") appData.materials.push(t.data);
+  else if(t.type==="kalkulation") appData.kalkulationen.push(t.data);
+  else if(t.type==="lieferant") appData.lieferanten.push(t.data);
+  else if(t.type==="maschine") appData.maschinen.push(t.data);
+  else if(t.type==="mitarbeiter") appData.mitarbeiter.push(t.data);
+  else if(t.type==="projekt") appData.projekte.push(t.data);
   appData.trash=appData.trash.filter(x=>x.id!==id); saveApp(); renderTrash();
 }
 function purgeTrash(id){
@@ -1828,6 +2230,12 @@ function archiveCurrent(skipCustomer){
     snapshot:{docType:state.docType,fields:Object.assign({},state.fields),rows:structuredClone(state.rows),discount:Object.assign({},state.discount),vat:Object.assign({},state.vat),mahnstufe:state.mahnstufe,settings:Object.assign({},state.settings),logo:state.logo,neukunde:!!state.neukunde}
   };
   if(state.docType==="Rechnung") entry.status=(prev&&prev.status)?prev.status:"offen";
+  if(state.docType==="Angebot"){
+    entry.angebotStatus=(prev&&prev.angebotStatus)?prev.angebotStatus:"entwurf";
+    entry.version=(prev&&prev.version)?prev.version:1;
+    if(prev&&Array.isArray(prev.versionen)) entry.versionen=prev.versionen;
+    if(prev&&prev.basisNummer) entry.basisNummer=prev.basisNummer;
+  }
   if(i>=0) appData.archive[i]=entry; else appData.archive.unshift(entry);
   if(!skipCustomer) upsertCustomer();
   saveApp();
@@ -1898,6 +2306,7 @@ function pdfFileName(v){
   if(v==="rechnungen") return "Rechnungen_offen_bezahlt";
   if(v==="kasse") return "Kassenbuch";
   if(v==="stunden") return "Stundenzettel";
+  if(v==="material") return "Materialliste";
   const nr=(state.fields.nummer||"").replace(/[^\w\-]+/g,"_");
   return (state.docType+(nr?"_"+nr:""));
 }
@@ -1959,6 +2368,7 @@ function downloadPDF(){
   else if(v==="rechnungen"){ el=document.getElementById("viewRechnungen"); margin=10; }
   else if(v==="kasse"){ el=document.getElementById("viewKasse"); margin=10; }
   else if(v==="stunden"){ el=document.getElementById("viewStunden"); margin=10; }
+  else if(v==="material"){ el=document.getElementById("viewMaterial"); margin=10; }
   else {
     isDoc=true;
     el=document.getElementById("page"); switchView("doc"); archiveCurrent();
@@ -1992,23 +2402,74 @@ function downloadPDF(){
 document.getElementById("btnDownload").addEventListener("click",downloadPDF);
 
 /* ---------- Verlauf ---------- */
+const ANGEBOT_STATUS=[["entwurf","Entwurf"],["gesendet","Gesendet"],["angenommen","Angenommen"],["abgelehnt","Abgelehnt"],["abgeschlossen","Abgeschlossen"]];
+function angStatusLabel(s){ const e=ANGEBOT_STATUS.find(x=>x[0]===s); return e?e[1]:"Entwurf"; }
+function logAudit(action, entity, detail){
+  if(!Array.isArray(appData.auditLog)) appData.auditLog=[];
+  appData.auditLog.unshift({ id:"a"+Date.now()+"_"+Math.round(Math.random()*1e6), ts:Date.now(), user:(currentUser&&currentUser.name)||"", action:action||"", entity:entity||"", detail:detail||"" });
+  if(appData.auditLog.length>500) appData.auditLog.length=500;
+  saveApp();
+  if(typeof renderAudit==="function") renderAudit();
+}
 function renderHistory(){
   document.getElementById("histPrintDate").textContent="Stand: "+todayStr();
   const tb=document.getElementById("historyRows");
   const list=appData.archive.slice().sort((a,b)=>b.ts-a.ts);
-  if(!list.length){ tb.innerHTML='<tr><td colspan="7" class="empty">Noch keine gespeicherten Dokumente. Erstelle ein PDF („Als PDF speichern“), dann erscheint es hier.</td></tr>'; return; }
+  if(!list.length){ tb.innerHTML='<tr><td colspan="8" class="empty">Noch keine gespeicherten Dokumente. Erstelle ein PDF („Als PDF speichern“), dann erscheint es hier.</td></tr>'; return; }
   tb.innerHTML=list.map(a=>{
-    const badge=a.docType==="Rechnung"?'<span class="badge re">Rechnung</span>':'<span class="badge an">Angebot</span>';
-    return `<tr><td>${a.datum||new Date(a.ts).toLocaleDateString("de-DE")}</td><td>${badge}</td><td>${escapeHtml(a.nummer||"—")}</td>`+
+    const badge=a.docType==="Rechnung"?'<span class="badge re">Rechnung</span>':(a.docType==="Mahnung"?'<span class="badge">Mahnung</span>':'<span class="badge an">Angebot</span>');
+    const ver=(a.docType==="Angebot"&&((a.version||1)>1||(a.versionen&&a.versionen.length)))?' <span class="k">v'+(a.version||1)+'</span>':"";
+    let statusCell="<span class=\"k\">—</span>", actions="";
+    if(a.docType==="Angebot"){
+      statusCell='<select class="hist-status" data-angstatus="'+a.id+'">'+ANGEBOT_STATUS.map(s=>'<option value="'+s[0]+'"'+((a.angebotStatus||"entwurf")===s[0]?" selected":"")+'>'+s[1]+'</option>').join("")+'</select>';
+      actions='<button class="pill" data-newver="'+a.id+'" title="Neue Version – alten Stand sichern">+ Version</button>'+((a.versionen&&a.versionen.length)?' <button class="pill" data-vershow="'+a.id+'">Versionen ('+a.versionen.length+')</button>':"");
+    } else if(a.docType==="Rechnung"){ statusCell='<span class="badge '+(a.status==="bezahlt"?"":"offen")+'">'+(a.status==="bezahlt"?"Bezahlt":"Offen")+'</span>'; }
+    return `<tr><td>${a.datum||new Date(a.ts).toLocaleDateString("de-DE")}</td><td>${badge}${ver}</td><td>${escapeHtml(a.nummer||"—")}${a.basisNummer?' <span class="k">aus '+escapeHtml(a.basisNummer)+'</span>':""}</td>`+
       `<td>${escapeHtml(a.kunde)}</td><td class="r">${euro.format(a.netto||0)}</td>`+
-      `<td><button class="linkbtn" data-open="${a.id}">Öffnen</button></td>`+
-      `<td><button class="delbtn" data-delarch="${a.id}" title="Aus Verlauf löschen">×</button></td></tr>`;
+      `<td class="noprint">${statusCell}${actions?'<div style="margin-top:5px;display:flex;gap:6px;flex-wrap:wrap;">'+actions+'</div>':""}</td>`+
+      `<td class="noprint"><button class="linkbtn" data-open="${a.id}">Öffnen</button></td>`+
+      `<td class="noprint"><button class="delbtn" data-delarch="${a.id}" title="Aus Verlauf löschen">×</button></td></tr>`;
   }).join("");
 }
+function neueAngebotVersion(id){
+  const a=appData.archive.find(x=>x.id==id); if(!a||a.docType!=="Angebot") return;
+  if(!Array.isArray(a.versionen)) a.versionen=[];
+  a.versionen.push({ version:(a.version||1), ts:Date.now(), datum:a.datum, netto:a.netto, snapshot:JSON.parse(JSON.stringify(a.snapshot)) });
+  a.version=(a.version||1)+1; saveApp();
+  logAudit("Neue Version", "Angebot "+(a.nummer||""), "Stand v"+(a.version-1)+" gesichert, bearbeite v"+a.version);
+  loadSnapshot(a.snapshot); switchView("doc");
+  alert("Stand als v"+(a.version-1)+" gesichert. Du bearbeitest jetzt v"+a.version+" (Nummer "+(a.nummer||"")+").");
+}
+let verModalArchId=null;
+function openVerModal(id){
+  const a=appData.archive.find(x=>x.id==id); if(!a) return;
+  verModalArchId=id;
+  document.getElementById("verModalSub").textContent="Angebot "+(a.nummer||"")+" – aktueller Stand: v"+(a.version||1);
+  const vs=(a.versionen||[]).slice().reverse();
+  document.getElementById("verList").innerHTML= vs.length? vs.map(v=>'<div class="pick"><span><b>v'+v.version+'</b> · '+escapeHtml(v.datum||new Date(v.ts).toLocaleDateString("de-DE"))+' · '+euro.format(v.netto||0)+'</span><button class="pill" data-verview="'+v.version+'">ansehen</button></div>').join("") : '<p class="sub">Keine früheren Versionen.</p>';
+  document.getElementById("verModal").classList.add("open");
+}
+function closeVerModal(){ document.getElementById("verModal").classList.remove("open"); }
+document.getElementById("verCancel").addEventListener("click",closeVerModal);
+document.getElementById("verModal").addEventListener("click",e=>{ if(e.target.id==="verModal") closeVerModal(); });
+document.getElementById("verList").addEventListener("click",e=>{
+  const b=e.target.closest("[data-verview]"); if(!b) return;
+  const a=appData.archive.find(x=>x.id==verModalArchId); if(!a) return;
+  const v=(a.versionen||[]).find(x=>String(x.version)===b.dataset.verview);
+  if(v&&v.snapshot){ closeVerModal(); loadSnapshot(v.snapshot); switchView("doc"); }
+});
 document.getElementById("historyRows").addEventListener("click",e=>{
-  const o=e.target.closest("[data-open]"), d=e.target.closest("[data-delarch]");
+  const o=e.target.closest("[data-open]"), d=e.target.closest("[data-delarch]"), nv=e.target.closest("[data-newver]"), vs=e.target.closest("[data-vershow]");
+  if(nv) return neueAngebotVersion(nv.dataset.newver);
+  if(vs) return openVerModal(vs.dataset.vershow);
   if(o){ const a=appData.archive.find(x=>x.id==o.dataset.open); if(a){ loadSnapshot(a.snapshot); switchView("doc"); } }
   if(d && confirm("Diesen Eintrag in den Papierkorb verschieben?")){ const a=appData.archive.find(x=>x.id==d.dataset.delarch); if(a) trashItem("archive",a,a.docType+" "+(a.nummer||"")+" · "+(a.kunde||"")); appData.archive=appData.archive.filter(x=>x.id!=d.dataset.delarch); saveApp(); renderHistory(); }
+});
+document.getElementById("historyRows").addEventListener("change",e=>{
+  const s=e.target.closest("[data-angstatus]"); if(!s) return;
+  const a=appData.archive.find(x=>x.id==s.dataset.angstatus); if(!a) return;
+  a.angebotStatus=s.value; saveApp();
+  logAudit("Status geändert", "Angebot "+(a.nummer||""), "→ "+angStatusLabel(s.value));
 });
 function loadSnapshot(s){
   flushAutoArchive();   // aktuelles Dokument sichern, bevor ein anderes geladen wird
@@ -2060,6 +2521,27 @@ function renderFinance(){
   document.getElementById("euFix").textContent=euro.format(fixJ);
   document.getElementById("euGew").textContent=euro.format(gewinn);
 
+  // Statistik & Kennzahlen
+  const sc=document.getElementById("statCards");
+  if(sc){
+    const sy=document.getElementById("statYr"); if(sy) sy.textContent=Y;
+    const angY=appData.archive.filter(a=>a.docType==="Angebot"&&yearOf(a.datum)===Y);
+    const gesamt=angY.length;
+    const gewonnen=angY.filter(a=>a.angebotStatus==="angenommen"||a.angebotStatus==="abgeschlossen").length;
+    const quote=gesamt?(gewonnen/gesamt*100):0;
+    const summeAng=angY.reduce((s,a)=>s+(a.netto||0),0);
+    const avg=gesamt?(summeAng/gesamt):0;
+    let matK=0, arbK=0, vk=0, sk=0;
+    appData.kalkulationen.forEach(k=>(k.positionen||[]).forEach(p=>{ matK+=kpMaterial(p); arbK+=kpArbeit(p); vk+=kpVerkauf(p); sk+=kpSelbstkosten(p); }));
+    sc.innerHTML=
+      '<div class="card"><div class="lab">Angebote '+Y+'</div><div class="val">'+gesamt+'</div></div>'+
+      '<div class="card ein"><div class="lab">Erfolgsquote ('+gewonnen+'/'+gesamt+')</div><div class="val">'+num2.format(quote)+' %</div></div>'+
+      '<div class="card"><div class="lab">Ø-Angebotswert</div><div class="val">'+euro.format(avg)+'</div></div>'+
+      '<div class="card aus"><div class="lab">Materialkosten (Kalk.)</div><div class="val">'+euro.format(matK)+'</div></div>'+
+      '<div class="card aus"><div class="lab">Arbeitskosten (Kalk.)</div><div class="val">'+euro.format(arbK)+'</div></div>'+
+      '<div class="card saldo"><div class="lab">Deckungsbeitrag (Kalk.)</div><div class="val">'+euro.format(vk-sk)+'</div></div>';
+  }
+
   // Fixkosten-Liste
   const ftb=document.getElementById("fixRows");
   if(!appData.fixkosten.length){ ftb.innerHTML='<tr><td colspan="3" class="empty">Noch keine Fixkosten erfasst.</td></tr>'; }
@@ -2094,21 +2576,29 @@ document.getElementById("btnKundenPdf").addEventListener("click",downloadPDF);
 document.getElementById("btnRechPdf").addEventListener("click",downloadPDF);
 
 /* ---------- Kundenliste ---------- */
+let kundenFilter="";
 function renderKunden(){
   document.getElementById("kundenPrintDate").textContent="Stand: "+todayStr();
   const tb=document.getElementById("kundenRows");
-  const list=appData.customers.slice().sort((a,b)=>(a.firma||"").localeCompare(b.firma||"","de",{sensitivity:"base"}));
-  if(!list.length){ tb.innerHTML='<tr><td colspan="4" class="empty">Noch keine Kunden. Wird automatisch gefüllt, sobald ein Angebot/eine Rechnung gespeichert wird.</td></tr>'; return; }
+  const q=kundenFilter.toLowerCase().trim();
+  let list=appData.customers.slice().sort((a,b)=>(a.firma||"").localeCompare(b.firma||"","de",{sensitivity:"base"}));
+  if(q) list=list.filter(c=>["firma","nummer","ansprechpartner","ort","email"].some(k=>String(c[k]||"").toLowerCase().indexOf(q)>-1));
+  if(!list.length){ tb.innerHTML='<tr><td colspan="7" class="empty">'+(appData.customers.length?"Keine Treffer.":"Noch keine Kunden. Über „+ Kunde“ anlegen – oder automatisch beim Speichern eines Belegs.")+'</td></tr>'; return; }
   tb.innerHTML=list.map(c=>{
     const key=c.nummer||c.firma||"";
     return `<tr><td><b>${escapeHtml(c.firma||"—")}</b></td><td>${escapeHtml(c.nummer||"—")}</td>`+
+      `<td>${escapeHtml(c.ansprechpartner||"—")}</td><td>${escapeHtml(c.ort||"—")}</td>`+
+      `<td class="noprint"><button class="linkbtn" data-editkunde="${escapeHtml(key)}">Bearbeiten</button></td>`+
       `<td class="noprint"><button class="linkbtn" data-newang="${escapeHtml(key)}">+ Angebot</button></td>`+
       `<td class="noprint"><button class="delbtn" data-delkunde="${escapeHtml(key)}" title="Kunde löschen">×</button></td></tr>`;
   }).join("");
 }
 function findCustomer(key){ return appData.customers.find(c=>(c.nummer||c.firma||"")===key); }
+document.getElementById("btnKundeNew").addEventListener("click",()=>openSdEditor("kunde",null));
+document.getElementById("kundenSearch").addEventListener("input",e=>{ kundenFilter=e.target.value; renderKunden(); });
 document.getElementById("kundenRows").addEventListener("click",e=>{
-  const na=e.target.closest("[data-newang]"), d=e.target.closest("[data-delkunde]");
+  const na=e.target.closest("[data-newang]"), d=e.target.closest("[data-delkunde]"), ed=e.target.closest("[data-editkunde]");
+  if(ed) return openSdEditor("kunde", ed.dataset.editkunde);
   if(na){ const c=findCustomer(na.dataset.newang); if(c) newDocForCustomer("Angebot",c); }
   if(d && confirm("Diesen Kunden in den Papierkorb verschieben?")){ const k=d.dataset.delkunde; const c=appData.customers.find(x=>(x.nummer||x.firma||"")===k); if(c) trashItem("customer",c,(c.firma||"")+(c.nummer?" · Nr. "+c.nummer:"")); appData.customers=appData.customers.filter(c=>(c.nummer||c.firma||"")!==k); saveApp(); renderKunden(); }
 });
@@ -2145,6 +2635,872 @@ document.getElementById("viewRechnungen").addEventListener("click",e=>{
   if(dr){ const a=appData.archive.find(x=>x.id==dr.dataset.delrech);
     if(a && confirm("Rechnung "+(a.nummer||"")+" in den Papierkorb verschieben? (Wiederherstellbar über den Papierkorb.)")){
       trashItem("archive",a,a.docType+" "+(a.nummer||"")+" · "+(a.kunde||"")); appData.archive=appData.archive.filter(x=>x.id!=dr.dataset.delrech); saveApp(); renderRechnungen(); } }
+});
+
+/* ====================================================================
+   MATERIAL & KALKULATION (Kostenrechnung -> Angebot)
+   ==================================================================== */
+const EINHEITEN=["Stück","Meter","Quadratmeter","Kubikmeter","Kilogramm","Gramm","Liter","Milliliter","Rolle","Paket","Karton","Palette"];
+function fillEinheitSelect(sel,val){
+  if(!sel) return;
+  let html=EINHEITEN.map(u=>'<option value="'+u+'">'+u+'</option>').join("");
+  if(val && EINHEITEN.indexOf(val)===-1) html+='<option value="'+escapeHtml(val)+'">'+escapeHtml(val)+'</option>';
+  sel.innerHTML=html; sel.value=val||"Stück";
+}
+function fillMaterialSelect(sel,val){
+  if(!sel) return;
+  const ms=appData.materials.slice().sort((a,b)=>(a.bezeichnung||"").localeCompare(b.bezeichnung||"","de",{sensitivity:"base"}));
+  sel.innerHTML='<option value="">— kein Material / frei —</option>'+ms.map(m=>'<option value="'+m.id+'">'+escapeHtml(m.bezeichnung||"—")+(m.artikelnr?" ("+escapeHtml(m.artikelnr)+")":"")+'</option>').join("");
+  sel.value=val||"";
+}
+
+/* ---------- Berechnungs-Engine ---------- */
+function kpFlaeche(p){ return parseNum(p.laenge)*parseNum(p.breite); }
+function kpVolumen(p){ return parseNum(p.laenge)*parseNum(p.breite)*parseNum(p.hoehe); }
+function kpMaterial(p){ return parseNum(p.menge)*parseNum(p.einkaufspreis)*(1+parseNum(p.verschnitt)/100); }
+function kpArbeit(p){ return parseNum(p.arbeitszeit)*(parseNum(p.anzahlMA)||1)*parseNum(p.stundenlohn); }
+function kpMaschine(p){ return parseNum(p.maschinenstunden)*parseNum(p.maschinensatz); }
+function kpNeben(p){ return parseNum(p.transport)+parseNum(p.fahrtkosten)+parseNum(p.werkzeug)+parseNum(p.kleinmaterial)+parseNum(p.verpackung)+parseNum(p.entsorgung)+parseNum(p.fremdleistung); }
+function kpSelbstkosten(p){ return kpMaterial(p)+kpArbeit(p)+kpMaschine(p)+kpNeben(p); }
+function roundPrice(v,regel){
+  const r={"0.5":0.5,"1":1,"5":5,"10":10}[regel];
+  if(!r||!isFinite(v)) return v;
+  return Math.round(v/r)*r;
+}
+function kpVerkauf(p){
+  let v=kpSelbstkosten(p);
+  v*=(1+parseNum(p.gemeinkosten)/100);
+  v*=(1+parseNum(p.risiko)/100);
+  v*=(1+parseNum(p.gewinn)/100);
+  return roundPrice(v,p.rundung||"keine");
+}
+function kpEinzel(p){ const m=parseNum(p.menge)||1; return kpVerkauf(p)/m; }
+
+/* ---------- Materialdatenbank ---------- */
+let matFilter="", matEditId=null;
+function renderMaterial(){
+  const tb=document.getElementById("matRows"); if(!tb) return;
+  const pd=document.getElementById("matPrintDate"); if(pd) pd.textContent="Stand: "+todayStr();
+  const q=matFilter.toLowerCase().trim();
+  let list=appData.materials.slice().sort((a,b)=>(a.bezeichnung||"").localeCompare(b.bezeichnung||"","de",{sensitivity:"base"}));
+  if(q) list=list.filter(m=>["artikelnr","bezeichnung","kategorie","lieferant"].some(k=>String(m[k]||"").toLowerCase().indexOf(q)>-1));
+  if(!list.length){ tb.innerHTML='<tr><td colspan="9" class="empty">'+(appData.materials.length?"Keine Treffer.":'Noch kein Material. Lege oben mit „+ Material" den ersten Artikel an.')+'</td></tr>'; return; }
+  const defAuf=parseNum(appData.calcSettings.materialaufschlag);
+  tb.innerHTML=list.map(m=>{
+    const ek=parseNum(m.einkaufspreis);
+    const hasEk=String(m.einkaufspreis||"").trim()!=="";
+    const auf=String(m.materialaufschlag||"").trim()!==""?parseNum(m.materialaufschlag):defAuf;
+    const vk=ek*(1+auf/100);
+    const hasBestand=String(m.lagerbestand||"").trim()!=="";
+    const low=hasBestand && String(m.mindestbestand||"").trim()!=="" && parseNum(m.lagerbestand)<parseNum(m.mindestbestand);
+    return "<tr><td>"+escapeHtml(m.artikelnr||"—")+"</td>"+
+      "<td><b>"+escapeHtml(m.bezeichnung||"—")+"</b>"+(m.notiz?'<div class="sub" style="margin:0;font-size:11px;">'+escapeHtml(m.notiz)+"</div>":"")+"</td>"+
+      "<td>"+escapeHtml(m.kategorie||"—")+"</td><td>"+escapeHtml(m.einheit||"—")+"</td>"+
+      '<td class="r">'+(hasEk?euro.format(ek):"—")+"</td>"+
+      '<td class="r">'+(hasEk?euro.format(vk):"—")+"</td>"+
+      '<td class="r'+(low?" mat-low":"")+'">'+(hasBestand?escapeHtml(String(m.lagerbestand)):"—")+"</td>"+
+      '<td class="noprint"><button class="linkbtn" data-matedit="'+m.id+'">Bearbeiten</button></td>'+
+      '<td class="noprint"><button class="delbtn" data-matdel="'+m.id+'" title="Material in den Papierkorb">×</button></td></tr>';
+  }).join("");
+}
+function fillKatList(){
+  const dl=document.getElementById("matKatList"); if(!dl) return;
+  const cats=Array.from(new Set(appData.materials.map(m=>m.kategorie).filter(Boolean))).sort();
+  dl.innerHTML=cats.map(c=>'<option value="'+escapeHtml(c)+'">').join("");
+}
+function renderMatHist(m){
+  const el=document.getElementById("matHist"); if(!el) return;
+  const h=(m&&Array.isArray(m.preisHistorie))?m.preisHistorie:[];
+  if(!h.length){ el.innerHTML=""; return; }
+  el.innerHTML='<div class="mat-hist-h">Preisverlauf (Einkauf)</div>'+
+    '<table class="list mat-hist-t"><thead><tr><th>Datum</th><th class="r">Einkaufspreis</th></tr></thead><tbody>'+
+    h.slice().reverse().map(x=>"<tr><td>"+escapeHtml(x.datum||"")+'</td><td class="r">'+euro.format(parseNum(x.preis))+"</td></tr>").join("")+
+    "</tbody></table>";
+}
+function openMatEditor(id){
+  matEditId=id||null;
+  const m=id?appData.materials.find(x=>x.id===id):null;
+  document.getElementById("matModalTitle").textContent=m?"Material bearbeiten":"Neues Material";
+  fillEinheitSelect(document.getElementById("mfEinheit"), m?m.einheit:"Stück");
+  const v=(eid,val)=>{ const e=document.getElementById(eid); if(e) e.value=(val==null?"":val); };
+  v("mfArtikelnr",m&&m.artikelnr); v("mfBezeichnung",m&&m.bezeichnung); v("mfKategorie",m&&m.kategorie);
+  v("mfEinkaufspreis",m&&m.einkaufspreis); v("mfMaterialaufschlag",m&&m.materialaufschlag);
+  v("mfStandardverschnitt",m&&m.standardverschnitt);
+  v("mfLagerbestand",m&&m.lagerbestand); v("mfMindestbestand",m&&m.mindestbestand); v("mfReserve",m&&m.reserve);
+  v("mfLieferzeit",m&&m.lieferzeit); v("mfAlternativmaterial",m&&m.alternativmaterial); v("mfNotiz",m&&m.notiz);
+  fillLieferantSelect(document.getElementById("mfLieferant"), m?m.lieferantId:"");
+  fillKatList(); renderMatHist(m);
+  document.getElementById("matModal").classList.add("open");
+}
+function closeMatModal(){ document.getElementById("matModal").classList.remove("open"); }
+function saveMatEditor(){
+  const g=eid=>{ const e=document.getElementById(eid); return e?e.value.trim():""; };
+  const bez=g("mfBezeichnung");
+  if(!bez){ alert("Bitte eine Bezeichnung eingeben."); return; }
+  const ekNew=g("mfEinkaufspreis");
+  const lieferantId=g("mfLieferant");
+  const fields={ artikelnr:g("mfArtikelnr"), bezeichnung:bez, kategorie:g("mfKategorie"), einheit:document.getElementById("mfEinheit").value, einkaufspreis:ekNew, materialaufschlag:g("mfMaterialaufschlag"), standardverschnitt:g("mfStandardverschnitt"), lagerbestand:g("mfLagerbestand"), mindestbestand:g("mfMindestbestand"), reserve:g("mfReserve"), lieferzeit:g("mfLieferzeit"), alternativmaterial:g("mfAlternativmaterial"), lieferantId:lieferantId, lieferant:lieferantName(lieferantId), notiz:g("mfNotiz") };
+  if(matEditId){
+    const m=appData.materials.find(x=>x.id===matEditId); if(!m){ closeMatModal(); return; }
+    const ekOld=m.einkaufspreis||"";
+    Object.assign(m,fields);
+    if(!Array.isArray(m.preisHistorie)) m.preisHistorie=[];
+    if(ekNew!=="" && parseNum(ekNew)!==parseNum(ekOld)) m.preisHistorie.push({datum:todayStr(),preis:ekNew});
+  }else{
+    const m=Object.assign({ id:"m"+Date.now()+"_"+Math.round(Math.random()*1e6), ts:Date.now(), preisHistorie:(ekNew!==""?[{datum:todayStr(),preis:ekNew}]:[]) }, fields);
+    appData.materials.push(m);
+  }
+  saveApp(); closeMatModal(); renderMaterial();
+}
+document.getElementById("btnMatNew").addEventListener("click",()=>openMatEditor(null));
+document.getElementById("matSave").addEventListener("click",saveMatEditor);
+document.getElementById("matCancel").addEventListener("click",closeMatModal);
+document.getElementById("matModal").addEventListener("click",e=>{ if(e.target.id==="matModal") closeMatModal(); });
+document.getElementById("matSearch").addEventListener("input",e=>{ matFilter=e.target.value; renderMaterial(); });
+document.getElementById("matRows").addEventListener("click",e=>{
+  const ed=e.target.closest("[data-matedit]"), dl=e.target.closest("[data-matdel]");
+  if(ed) return openMatEditor(ed.dataset.matedit);
+  if(dl){
+    const m=appData.materials.find(x=>x.id===dl.dataset.matdel);
+    if(m && confirm("Material „"+(m.bezeichnung||"")+"“ in den Papierkorb verschieben?")){
+      trashItem("material",m,(m.bezeichnung||"")+(m.artikelnr?" · "+m.artikelnr:""));
+      appData.materials=appData.materials.filter(x=>x.id!==dl.dataset.matdel);
+      saveApp(); renderMaterial();
+    }
+  }
+});
+
+/* ---------- Kalkulation ---------- */
+let kalkDraft=null, kalkEditId=null;
+function profileById(id){ return appData.preislisten.find(p=>p.id===id)||null; }
+function activeCalcProfile(){
+  const p=(kalkDraft && kalkDraft.preislisteId)?profileById(kalkDraft.preislisteId):null;
+  return p || appData.calcSettings || {};
+}
+function newKalkPos(){
+  const prof=activeCalcProfile(), cs=appData.calcSettings||{};
+  return { bez:"", menge:"1", einheit:"Stück", laenge:"", breite:"", hoehe:"",
+    materialId:"", einkaufspreis:"", verschnitt:prof.verschnitt||"",
+    arbeitszeit:"", anzahlMA:"1", stundenlohn:cs.stundenlohn||"", mitarbeiterId:"",
+    maschinenstunden:"", maschinensatz:cs.maschinensatz||"", maschineId:"",
+    transport:"", fahrtkosten:"", werkzeug:"", kleinmaterial:"", verpackung:"", entsorgung:"", fremdleistung:"",
+    notiz:"", gemeinkosten:prof.gemeinkosten||"", risiko:prof.risiko||"", gewinn:prof.gewinn||"", rundung:prof.rundung||"keine" };
+}
+function fillKalkKundenList(){
+  const dl=document.getElementById("kalkKundenList"); if(!dl) return;
+  dl.innerHTML=appData.customers.slice().sort((a,b)=>(a.firma||"").localeCompare(b.firma||"","de",{sensitivity:"base"})).map(c=>'<option value="'+escapeHtml(c.firma||"")+'">').join("");
+}
+function fillKalkProfilSelect(){
+  const sel=document.getElementById("kalkProfil"); if(!sel) return;
+  sel.innerHTML='<option value="">Standard (Einstellungen)</option>'+appData.preislisten.slice().sort((a,b)=>(a.name||"").localeCompare(b.name||"","de",{sensitivity:"base"})).map(p=>'<option value="'+p.id+'">'+escapeHtml(p.name||"—")+'</option>').join("");
+  sel.value=(kalkDraft&&kalkDraft.preislisteId)||"";
+}
+function renderKalkulation(){ showKalkList(); }
+function showKalkList(){
+  document.getElementById("kalkEditor").hidden=true;
+  document.getElementById("kalkList").hidden=false;
+  const tb=document.getElementById("kalkRows");
+  const list=appData.kalkulationen.slice().sort((a,b)=>(b.ts||0)-(a.ts||0));
+  if(!list.length){ tb.innerHTML='<tr><td colspan="8" class="empty">Noch keine Kalkulation. Lege oben mit „+ Neue Kalkulation" an.</td></tr>'; return; }
+  tb.innerHTML=list.map(k=>{
+    const vk=(k.positionen||[]).reduce((s,p)=>s+kpVerkauf(p),0);
+    return "<tr><td><b>"+escapeHtml(k.name||"—")+"</b></td><td>"+escapeHtml(k.kundeFirma||"—")+"</td><td>"+escapeHtml(k.datum||"")+"</td>"+
+      '<td class="r">'+((k.positionen||[]).length)+'</td><td class="r">'+euro.format(vk)+"</td>"+
+      '<td class="noprint"><button class="linkbtn" data-kalkedit="'+k.id+'">Öffnen</button></td>'+
+      '<td class="noprint"><button class="pill ok" data-kalkueber="'+k.id+'">→ Angebot</button></td>'+
+      '<td class="noprint"><button class="delbtn" data-kalkdel="'+k.id+'" title="Kalkulation in den Papierkorb">×</button></td></tr>';
+  }).join("");
+}
+function openKalk(id){
+  kalkEditId=id||null; kalkDraft=null;
+  if(id){ const k=appData.kalkulationen.find(x=>x.id===id); if(k) kalkDraft=JSON.parse(JSON.stringify(k)); }
+  if(!kalkDraft){ kalkDraft={ id:null, name:"", kundeFirma:"", datum:todayStr(), positionen:[newKalkPos()] }; kalkEditId=null; }
+  if(!Array.isArray(kalkDraft.positionen) || !kalkDraft.positionen.length) kalkDraft.positionen=[newKalkPos()];
+  document.getElementById("kalkEditorTitle").textContent=kalkEditId?"Kalkulation bearbeiten":"Neue Kalkulation";
+  document.getElementById("kalkName").value=kalkDraft.name||"";
+  document.getElementById("kalkKunde").value=kalkDraft.kundeFirma||"";
+  fillKalkKundenList(); fillKalkProfilSelect();
+  document.getElementById("kalkList").hidden=true;
+  document.getElementById("kalkEditor").hidden=false;
+  renderKalkPositionen();
+}
+function kalkPosCardHTML(p,i){
+  const inp=(f,ph)=>'<input type="text" data-kp="'+i+'" data-f="'+f+'" value="'+escapeHtml(p[f]||"")+'" placeholder="'+(ph||"")+'">';
+  return '<div class="kp-card" data-kpcard="'+i+'">'+
+    '<div class="kp-head"><span class="kp-num">Position '+(i+1)+'</span>'+(kalkDraft.positionen.length>1?'<button class="delbtn" data-kpdel="'+i+'" title="Position entfernen">×</button>':"")+'</div>'+
+    '<div class="kp-grid">'+
+      '<div class="field field-bez"><label>Bezeichnung</label>'+inp("bez","z. B. Folienbeschriftung Heckklappe")+'</div>'+
+      '<div class="field"><label>Menge</label>'+inp("menge","1")+'</div>'+
+      '<div class="field"><label>Einheit</label><select data-kp="'+i+'" data-f="einheit"></select></div>'+
+    '</div>'+
+    '<div class="kp-sub">Maße (optional – Fläche/Volumen automatisch)</div>'+
+    '<div class="kp-grid">'+
+      '<div class="field"><label>Länge</label>'+inp("laenge","")+'</div>'+
+      '<div class="field"><label>Breite</label>'+inp("breite","")+'</div>'+
+      '<div class="field"><label>Höhe</label>'+inp("hoehe","")+'</div>'+
+      '<div class="field"><label>Fläche</label><input type="text" readonly class="kp-ro" data-kpr="flaeche" data-i="'+i+'"></div>'+
+      '<div class="field"><label>Volumen</label><input type="text" readonly class="kp-ro" data-kpr="volumen" data-i="'+i+'"></div>'+
+    '</div>'+
+    '<div class="kp-sub">Material</div>'+
+    '<div class="kp-grid">'+
+      '<div class="field field-bez"><label>Material aus Datenbank</label><select data-kp="'+i+'" data-f="materialId"></select></div>'+
+      '<div class="field"><label>Einkaufspreis (€)</label>'+inp("einkaufspreis","0,00")+'</div>'+
+      '<div class="field"><label>Verschnitt %</label>'+inp("verschnitt","")+'</div>'+
+    '</div>'+
+    '<div class="kp-sub">Arbeit &amp; Maschine</div>'+
+    '<div class="kp-grid">'+
+      '<div class="field"><label>Arbeitszeit (h)</label>'+inp("arbeitszeit","")+'</div>'+
+      '<div class="field"><label>Anzahl Mitarbeiter</label>'+inp("anzahlMA","1")+'</div>'+
+      '<div class="field"><label>Mitarbeiter (Vorlage)</label><select data-kp="'+i+'" data-f="mitarbeiterId"></select></div>'+
+      '<div class="field"><label>Stundenlohn (€)</label>'+inp("stundenlohn","")+'</div>'+
+      '<div class="field"><label>Maschine (Vorlage)</label><select data-kp="'+i+'" data-f="maschineId"></select></div>'+
+      '<div class="field"><label>Maschinenstunden</label>'+inp("maschinenstunden","")+'</div>'+
+      '<div class="field"><label>Maschinensatz (€/h)</label>'+inp("maschinensatz","")+'</div>'+
+    '</div>'+
+    '<div class="kp-sub">Nebenkosten (€)</div>'+
+    '<div class="kp-grid">'+
+      '<div class="field"><label>Transport</label>'+inp("transport","")+'</div>'+
+      '<div class="field"><label>Fahrtkosten</label>'+inp("fahrtkosten","")+'</div>'+
+      '<div class="field"><label>Werkzeug</label>'+inp("werkzeug","")+'</div>'+
+      '<div class="field"><label>Kleinmaterial</label>'+inp("kleinmaterial","")+'</div>'+
+      '<div class="field"><label>Verpackung</label>'+inp("verpackung","")+'</div>'+
+      '<div class="field"><label>Entsorgung</label>'+inp("entsorgung","")+'</div>'+
+      '<div class="field"><label>Fremdleistung</label>'+inp("fremdleistung","")+'</div>'+
+    '</div>'+
+    '<div class="kp-sub">Aufschläge</div>'+
+    '<div class="kp-grid">'+
+      '<div class="field"><label>Gemeinkosten %</label>'+inp("gemeinkosten","")+'</div>'+
+      '<div class="field"><label>Risikozuschlag %</label>'+inp("risiko","")+'</div>'+
+      '<div class="field"><label>Gewinn %</label>'+inp("gewinn","")+'</div>'+
+      '<div class="field"><label>Rundung</label><select data-kp="'+i+'" data-f="rundung"><option value="keine">keine</option><option value="0.5">auf 0,50 €</option><option value="1">auf 1 €</option><option value="5">auf 5 €</option><option value="10">auf 10 €</option></select></div>'+
+    '</div>'+
+    '<div class="kp-grid"><div class="field field-bez"><label>Notiz</label>'+inp("notiz","")+'</div></div>'+
+    '<div class="kp-result">'+
+      '<div class="kp-rline"><span>Material <b data-kpr="mat" data-i="'+i+'"></b></span><span>Arbeit <b data-kpr="arb" data-i="'+i+'"></b></span><span>Maschine <b data-kpr="mas" data-i="'+i+'"></b></span><span>Nebenkosten <b data-kpr="neb" data-i="'+i+'"></b></span></div>'+
+      '<div class="kp-rline kp-rmain"><span>Selbstkosten <b data-kpr="sk" data-i="'+i+'"></b></span><span>Verkaufspreis <b data-kpr="vk" data-i="'+i+'"></b></span><span>Einzelpreis <b data-kpr="einzel" data-i="'+i+'"></b></span><span>Marge <b data-kpr="marge" data-i="'+i+'"></b></span></div>'+
+    '</div>'+
+  '</div>';
+}
+function renderKalkPositionen(){
+  const wrap=document.getElementById("kalkPositionen"); if(!wrap) return;
+  wrap.innerHTML=kalkDraft.positionen.map((p,i)=>kalkPosCardHTML(p,i)).join("");
+  kalkDraft.positionen.forEach((p,i)=>{
+    const es=wrap.querySelector('select[data-kp="'+i+'"][data-f="einheit"]'); if(es) fillEinheitSelect(es,p.einheit);
+    const msel=wrap.querySelector('select[data-kp="'+i+'"][data-f="materialId"]'); if(msel) fillMaterialSelect(msel,p.materialId);
+    const misel=wrap.querySelector('select[data-kp="'+i+'"][data-f="mitarbeiterId"]'); if(misel) fillMitarbeiterSelect(misel,p.mitarbeiterId);
+    const masel=wrap.querySelector('select[data-kp="'+i+'"][data-f="maschineId"]'); if(masel) fillMaschineSelect(masel,p.maschineId);
+    const rs=wrap.querySelector('select[data-kp="'+i+'"][data-f="rundung"]'); if(rs) rs.value=p.rundung||"keine";
+  });
+  updateKalkTotals();
+}
+function applyMaterialToPos(i,matId){
+  const p=kalkDraft.positionen[i]; if(!p) return;
+  const m=appData.materials.find(x=>x.id===matId);
+  if(m){
+    p.einkaufspreis=m.einkaufspreis||"";
+    if(m.einheit) p.einheit=m.einheit;
+    if(String(m.standardverschnitt||"").trim()!=="") p.verschnitt=m.standardverschnitt;
+    if(!p.bez) p.bez=m.bezeichnung||"";
+  }
+  const card=document.querySelector('[data-kpcard="'+i+'"]'); if(!card) return;
+  const ek=card.querySelector('[data-kp="'+i+'"][data-f="einkaufspreis"]'); if(ek) ek.value=p.einkaufspreis||"";
+  const vs=card.querySelector('[data-kp="'+i+'"][data-f="verschnitt"]'); if(vs) vs.value=p.verschnitt||"";
+  const eh=card.querySelector('select[data-kp="'+i+'"][data-f="einheit"]'); if(eh) fillEinheitSelect(eh,p.einheit);
+  const bz=card.querySelector('[data-kp="'+i+'"][data-f="bez"]'); if(bz && !bz.value) bz.value=p.bez||"";
+}
+function fillMitarbeiterSelect(sel,val){
+  if(!sel) return;
+  const ms=appData.mitarbeiter.slice().sort((a,b)=>(a.name||"").localeCompare(b.name||"","de",{sensitivity:"base"}));
+  sel.innerHTML='<option value="">— manuell —</option>'+ms.map(m=>'<option value="'+m.id+'">'+escapeHtml(m.name||"—")+(m.position?" ("+escapeHtml(m.position)+")":"")+'</option>').join("");
+  sel.value=val||"";
+}
+function fillMaschineSelect(sel,val){
+  if(!sel) return;
+  const ms=appData.maschinen.slice().sort((a,b)=>(a.name||"").localeCompare(b.name||"","de",{sensitivity:"base"}));
+  sel.innerHTML='<option value="">— manuell —</option>'+ms.map(m=>'<option value="'+m.id+'">'+escapeHtml(m.name||"—")+'</option>').join("");
+  sel.value=val||"";
+}
+function applyMitarbeiterToPos(i,id){
+  const p=kalkDraft.positionen[i]; if(!p) return;
+  const m=appData.mitarbeiter.find(x=>x.id===id);
+  if(m && String(m.stundenlohn||"").trim()!=="") p.stundenlohn=m.stundenlohn;
+  const card=document.querySelector('[data-kpcard="'+i+'"]'); if(!card) return;
+  const el=card.querySelector('[data-kp="'+i+'"][data-f="stundenlohn"]'); if(el) el.value=p.stundenlohn||"";
+}
+function applyMaschineToPos(i,id){
+  const p=kalkDraft.positionen[i]; if(!p) return;
+  const m=appData.maschinen.find(x=>x.id===id);
+  if(m && String(m.stundensatz||"").trim()!=="") p.maschinensatz=m.stundensatz;
+  const card=document.querySelector('[data-kpcard="'+i+'"]'); if(!card) return;
+  const el=card.querySelector('[data-kp="'+i+'"][data-f="maschinensatz"]'); if(el) el.value=p.maschinensatz||"";
+}
+function updateKalkPosResult(i){
+  const p=kalkDraft.positionen[i]; if(!p) return;
+  const mat=kpMaterial(p),arb=kpArbeit(p),mas=kpMaschine(p),neb=kpNeben(p);
+  const sk=mat+arb+mas+neb,vk=kpVerkauf(p),einzel=kpEinzel(p),marge=vk-sk;
+  const pct=sk>0?(marge/sk*100):0, fl=kpFlaeche(p), vol=kpVolumen(p);
+  const set=(k,val)=>{ const el=document.querySelector('[data-kpr="'+k+'"][data-i="'+i+'"]'); if(el){ if(el.tagName==="INPUT") el.value=val; else el.textContent=val; } };
+  set("flaeche", fl?num2.format(fl):"");
+  set("volumen", vol?num2.format(vol):"");
+  set("mat",euro.format(mat)); set("arb",euro.format(arb)); set("mas",euro.format(mas)); set("neb",euro.format(neb));
+  set("sk",euro.format(sk)); set("vk",euro.format(vk));
+  set("einzel",euro.format(einzel)+" / "+(p.einheit||"Einh."));
+  set("marge",euro.format(marge)+" ("+num2.format(pct)+" %)");
+}
+function updateKalkTotals(){
+  if(!kalkDraft) return;
+  let sk=0,vk=0;
+  kalkDraft.positionen.forEach((p,i)=>{ updateKalkPosResult(i); sk+=kpSelbstkosten(p); vk+=kpVerkauf(p); });
+  const marge=vk-sk, pct=sk>0?(marge/sk*100):0;
+  const el=document.getElementById("kalkTotal"); if(!el) return;
+  el.innerHTML='<div class="kt-row"><span>Selbstkosten gesamt</span><b>'+euro.format(sk)+'</b></div>'+
+    '<div class="kt-row kt-main"><span>Verkaufspreis gesamt (netto)</span><b>'+euro.format(vk)+'</b></div>'+
+    '<div class="kt-row"><span>Marge gesamt</span><b>'+euro.format(marge)+' ('+num2.format(pct)+' %)</b></div>';
+}
+function syncKalkHeader(){
+  if(!kalkDraft) return;
+  kalkDraft.name=document.getElementById("kalkName").value.trim();
+  kalkDraft.kundeFirma=document.getElementById("kalkKunde").value.trim();
+}
+function saveKalk(){
+  if(!kalkDraft) return false;
+  syncKalkHeader();
+  if(!kalkDraft.name){ alert("Bitte der Kalkulation einen Namen geben."); return false; }
+  if(kalkEditId){
+    const k=appData.kalkulationen.find(x=>x.id===kalkEditId);
+    if(k){ k.name=kalkDraft.name; k.kundeFirma=kalkDraft.kundeFirma; k.datum=kalkDraft.datum||todayStr(); k.preislisteId=kalkDraft.preislisteId||""; k.positionen=JSON.parse(JSON.stringify(kalkDraft.positionen)); }
+  }else{
+    kalkDraft.id="k"+Date.now()+"_"+Math.round(Math.random()*1e6);
+    kalkDraft.ts=Date.now();
+    if(!kalkDraft.datum) kalkDraft.datum=todayStr();
+    appData.kalkulationen.push(JSON.parse(JSON.stringify(kalkDraft)));
+    kalkEditId=kalkDraft.id;
+  }
+  if(pendingProjektForKalk){ const pr=appData.projekte.find(x=>x.id===pendingProjektForKalk); if(pr) pr.kalkId=kalkEditId; pendingProjektForKalk=null; }
+  saveApp(); return true;
+}
+function isEmptyDocRow(r){ return !((r.bez&&String(r.bez).trim())||(r.preis&&String(r.preis).trim())); }
+function uebernehmeKalk(kalk,ziel){
+  const positionen=(kalk.positionen||[]).filter(p=>(p.bez&&p.bez.trim())||kpVerkauf(p)>0);
+  if(!positionen.length){ alert("Diese Kalkulation hat keine ausgefüllten Positionen."); return; }
+  if(ziel==="current"){
+    if(!(state.docType==="Angebot"||state.docType==="Rechnung")){ alert("Bitte zuerst ein Angebot oder eine Rechnung öffnen – oder „→ als neues Angebot“ nutzen."); return; }
+    if(state.rows.length===1 && isEmptyDocRow(state.rows[0])) state.rows=[];
+  }else{
+    newDoc("Angebot");
+    state.rows=[];
+  }
+  positionen.forEach(p=>{
+    const einzel=kpEinzel(p);
+    state.rows.push({ menge:(String(p.menge||"").trim()||"1"), einheit:p.einheit||"", bez:(p.bez||"").trim()||(kalk.name||"Position"), preis:num2.format(einzel), rabatt:"" });
+  });
+  if(!state.rows.length) state.rows=[{menge:"1",einheit:"",bez:"",preis:"",rabatt:""}];
+  state.fromKalkId=kalk.id||null;
+  switchView("doc"); renderAll(); recalc(); save();
+}
+document.getElementById("btnKalkNew").addEventListener("click",()=>openKalk(null));
+document.getElementById("kalkBack").addEventListener("click",showKalkList);
+document.getElementById("btnKalkAddPos").addEventListener("click",()=>{ if(!kalkDraft) return; kalkDraft.positionen.push(newKalkPos()); renderKalkPositionen(); });
+document.getElementById("kalkSave").addEventListener("click",()=>{ if(saveKalk()) showKalkList(); });
+document.getElementById("kalkToNew").addEventListener("click",()=>{ if(!kalkDraft) return; syncKalkHeader(); uebernehmeKalk(kalkDraft,"new"); });
+document.getElementById("kalkToCurrent").addEventListener("click",()=>{ if(!kalkDraft) return; syncKalkHeader(); uebernehmeKalk(kalkDraft,"current"); });
+document.getElementById("kalkName").addEventListener("input",e=>{ if(kalkDraft) kalkDraft.name=e.target.value; });
+document.getElementById("kalkKunde").addEventListener("input",e=>{ if(kalkDraft) kalkDraft.kundeFirma=e.target.value; });
+document.getElementById("kalkProfil").addEventListener("change",e=>{
+  if(!kalkDraft) return;
+  const id=e.target.value, prof=id?profileById(id):appData.calcSettings;
+  if(!prof){ e.target.value=kalkDraft.preislisteId||""; return; }
+  if(kalkDraft.positionen.some(p=>kpSelbstkosten(p)>0) && !confirm("Aufschläge (Gemeinkosten/Risiko/Gewinn/Verschnitt/Rundung) aller Positionen mit diesem Profil überschreiben?")){ e.target.value=kalkDraft.preislisteId||""; return; }
+  kalkDraft.preislisteId=id||"";
+  kalkDraft.positionen.forEach(p=>{ p.gemeinkosten=prof.gemeinkosten||""; p.risiko=prof.risiko||""; p.gewinn=prof.gewinn||""; p.verschnitt=prof.verschnitt||""; p.rundung=prof.rundung||"keine"; });
+  renderKalkPositionen();
+});
+document.getElementById("kalkRows").addEventListener("click",e=>{
+  const ed=e.target.closest("[data-kalkedit]"), ub=e.target.closest("[data-kalkueber]"), dl=e.target.closest("[data-kalkdel]");
+  if(ed) return openKalk(ed.dataset.kalkedit);
+  if(ub){ const k=appData.kalkulationen.find(x=>x.id===ub.dataset.kalkueber); if(k) uebernehmeKalk(k,"new"); return; }
+  if(dl){
+    const k=appData.kalkulationen.find(x=>x.id===dl.dataset.kalkdel);
+    if(k && confirm("Kalkulation „"+(k.name||"")+"“ in den Papierkorb verschieben?")){
+      trashItem("kalkulation",k,(k.name||"")+(k.kundeFirma?" · "+k.kundeFirma:""));
+      appData.kalkulationen=appData.kalkulationen.filter(x=>x.id!==dl.dataset.kalkdel);
+      saveApp(); showKalkList();
+    }
+  }
+});
+document.getElementById("kalkPositionen").addEventListener("input",e=>{
+  const el=e.target.closest("[data-kp]"); if(!el||!kalkDraft) return;
+  const i=+el.dataset.kp, f=el.dataset.f;
+  if(!kalkDraft.positionen[i]) return;
+  kalkDraft.positionen[i][f]=el.value;
+  if(f==="materialId") applyMaterialToPos(i,el.value);
+  if(f==="mitarbeiterId") applyMitarbeiterToPos(i,el.value);
+  if(f==="maschineId") applyMaschineToPos(i,el.value);
+  updateKalkTotals();
+});
+document.getElementById("kalkPositionen").addEventListener("change",e=>{
+  const el=e.target.closest("select[data-kp]"); if(!el||!kalkDraft) return;
+  const i=+el.dataset.kp, f=el.dataset.f;
+  if(!kalkDraft.positionen[i]) return;
+  kalkDraft.positionen[i][f]=el.value;
+  if(f==="materialId") applyMaterialToPos(i,el.value);
+  if(f==="mitarbeiterId") applyMitarbeiterToPos(i,el.value);
+  if(f==="maschineId") applyMaschineToPos(i,el.value);
+  updateKalkTotals();
+});
+document.getElementById("kalkPositionen").addEventListener("click",e=>{
+  const d=e.target.closest("[data-kpdel]"); if(!d||!kalkDraft) return;
+  const i=+d.dataset.kpdel;
+  kalkDraft.positionen.splice(i,1);
+  if(!kalkDraft.positionen.length) kalkDraft.positionen=[newKalkPos()];
+  renderKalkPositionen();
+});
+
+/* ---------- Kalkulations-Einstellungen (Standard-Aufschläge) ---------- */
+function fillCalcSettings(){
+  const cs=appData.calcSettings||{};
+  const set=(id,val)=>{ const e=document.getElementById(id); if(e) e.value=(val==null?"":val); };
+  set("csGemein",cs.gemeinkosten); set("csRisiko",cs.risiko); set("csGewinn",cs.gewinn);
+  set("csVerschnitt",cs.verschnitt); set("csStundenlohn",cs.stundenlohn); set("csMaschinensatz",cs.maschinensatz);
+  set("csMaterialaufschlag",cs.materialaufschlag);
+  const r=document.getElementById("csRundung"); if(r) r.value=cs.rundung||"keine";
+}
+function bindCalcSetting(id,key){
+  const e=document.getElementById(id); if(!e) return;
+  e.addEventListener(id==="csRundung"?"change":"input",()=>{ appData.calcSettings[key]=e.value; saveApp(); });
+}
+bindCalcSetting("csGemein","gemeinkosten"); bindCalcSetting("csRisiko","risiko"); bindCalcSetting("csGewinn","gewinn");
+bindCalcSetting("csVerschnitt","verschnitt"); bindCalcSetting("csStundenlohn","stundenlohn"); bindCalcSetting("csMaschinensatz","maschinensatz");
+bindCalcSetting("csMaterialaufschlag","materialaufschlag"); bindCalcSetting("csRundung","rundung");
+fillCalcSettings();
+
+/* ====================================================================
+   STAMMDATEN (Lieferanten / Maschinen / Mitarbeiter) + Kunden-Editor
+   ==================================================================== */
+function lieferantName(id){ const l=appData.lieferanten.find(x=>x.id===id); return l?(l.name||""):""; }
+function fillLieferantSelect(sel,val){
+  if(!sel) return;
+  const ls=appData.lieferanten.slice().sort((a,b)=>(a.name||"").localeCompare(b.name||"","de",{sensitivity:"base"}));
+  sel.innerHTML='<option value="">— kein —</option>'+ls.map(l=>'<option value="'+l.id+'">'+escapeHtml(l.name||"—")+'</option>').join("");
+  sel.value=val||"";
+}
+const SD = {
+  lieferant:{ coll:"lieferanten", trash:"lieferant", idp:"lf", title:"Lieferant",
+    fields:[ {k:"name",l:"Name / Firma",req:1},{k:"ansprechpartner",l:"Ansprechpartner"},{k:"telefon",l:"Telefon"},{k:"mobil",l:"Mobil"},{k:"email",l:"E-Mail"},{k:"website",l:"Website"},{k:"zahlungsbedingungen",l:"Zahlungsbedingungen"},{k:"lieferzeit",l:"Lieferzeit"},{k:"rabatt",l:"Rabatt %"},{k:"notiz",l:"Notiz",wide:1,ta:1} ],
+    cols:[ {l:"Name",g:x=>"<b>"+escapeHtml(x.name||"—")+"</b>"},{l:"Ansprechpartner",g:x=>escapeHtml(x.ansprechpartner||"—")},{l:"Telefon",g:x=>escapeHtml(x.telefon||x.mobil||"—")},{l:"E-Mail",g:x=>escapeHtml(x.email||"—")},{l:"Lieferzeit",g:x=>escapeHtml(x.lieferzeit||"—")} ],
+    search:x=>[x.name,x.ansprechpartner,x.email,x.telefon].join(" ") },
+  maschine:{ coll:"maschinen", trash:"maschine", idp:"ma", title:"Maschine",
+    fields:[ {k:"name",l:"Maschinenname",req:1},{k:"stundensatz",l:"Maschinenstundensatz (€/h)"},{k:"wartung",l:"Wartungskosten (€)"},{k:"kraftstoff",l:"Kraftstoffkosten (€)"},{k:"sonstige",l:"Sonstige Kosten (€)"},{k:"notiz",l:"Notiz",wide:1,ta:1} ],
+    cols:[ {l:"Maschine",g:x=>"<b>"+escapeHtml(x.name||"—")+"</b>"},{l:"Stundensatz",r:1,g:x=>String(x.stundensatz||"").trim()!==""?euro.format(parseNum(x.stundensatz)):"—"},{l:"Wartung",r:1,g:x=>String(x.wartung||"").trim()!==""?euro.format(parseNum(x.wartung)):"—"} ],
+    search:x=>[x.name].join(" ") },
+  mitarbeiter:{ coll:"mitarbeiter", trash:"mitarbeiter", idp:"mi", title:"Mitarbeiter",
+    fields:[ {k:"name",l:"Name",req:1},{k:"stundenlohn",l:"Stundenlohn (€/h)"},{k:"position",l:"Position"},{k:"notiz",l:"Notiz",wide:1,ta:1} ],
+    cols:[ {l:"Name",g:x=>"<b>"+escapeHtml(x.name||"—")+"</b>"},{l:"Position",g:x=>escapeHtml(x.position||"—")},{l:"Stundenlohn",r:1,g:x=>String(x.stundenlohn||"").trim()!==""?euro.format(parseNum(x.stundenlohn)):"—"} ],
+    search:x=>[x.name,x.position].join(" ") },
+  kunde:{ coll:"customers", trash:"customer", title:"Kunde", kundeMode:1,
+    fields:[ {k:"firma",l:"Firma / Name",req:1},{k:"nummer",l:"Kunden-Nr."},{k:"ansprechpartner",l:"Ansprechpartner"},{k:"strasse",l:"Straße & Nr."},{k:"plz",l:"PLZ"},{k:"ort",l:"Ort"},{k:"land",l:"Land"},{k:"telefon",l:"Telefon"},{k:"mobil",l:"Mobil"},{k:"email",l:"E-Mail"},{k:"website",l:"Website"},{k:"kundengruppe",l:"Kundengruppe"},{k:"rabattgruppe",l:"Rabattgruppe / Rabatt %"},{k:"rechnungsadresse",l:"Rechnungsadresse (falls abweichend)",wide:1,ta:1},{k:"baustellenadresse",l:"Baustellen-/Lieferadresse",wide:1,ta:1},{k:"notizen",l:"Notizen",wide:1,ta:1} ] },
+  preisliste:{ coll:"preislisten", idp:"pl", title:"Preisliste", refresh:function(){ renderPreislisten(); },
+    fields:[ {k:"name",l:"Name der Preisliste",req:1},{k:"gemeinkosten",l:"Gemeinkosten %"},{k:"risiko",l:"Risikozuschlag %"},{k:"gewinn",l:"Gewinn %"},{k:"verschnitt",l:"Verschnitt %"},{k:"materialaufschlag",l:"Material-Aufschlag %"},{k:"rundung",l:"Rundung",sel:[["keine","keine"],["0.5","auf 0,50 €"],["1","auf 1 €"],["5","auf 5 €"],["10","auf 10 €"]]} ] }
+};
+let sdActive="lieferant", sdFilter="", sdEditType=null, sdEditId=null;
+function renderStammdaten(){ renderSdList(); }
+function renderSdList(){
+  const t=SD[sdActive]; const tb=document.getElementById("sdRows"), th=document.getElementById("sdHead");
+  if(!tb||!th) return;
+  document.querySelectorAll("#sdSeg button").forEach(x=>x.classList.toggle("active",x.dataset.sd===sdActive));
+  th.innerHTML="<tr>"+t.cols.map(c=>"<th"+(c.r?' class="r"':"")+">"+c.l+"</th>").join("")+'<th class="noprint"></th><th class="noprint"></th></tr>';
+  const q=sdFilter.toLowerCase().trim();
+  let list=appData[t.coll].slice().sort((a,b)=>(a.name||"").localeCompare(b.name||"","de",{sensitivity:"base"}));
+  if(q) list=list.filter(x=>t.search(x).toLowerCase().indexOf(q)>-1);
+  if(!list.length){ tb.innerHTML='<tr><td colspan="'+(t.cols.length+2)+'" class="empty">'+(appData[t.coll].length?"Keine Treffer.":'Noch keine Einträge. Über „+ Neu" anlegen.')+'</td></tr>'; return; }
+  tb.innerHTML=list.map(x=>"<tr>"+t.cols.map(c=>"<td"+(c.r?' class="r"':"")+">"+c.g(x)+"</td>").join("")+
+    '<td class="noprint"><button class="linkbtn" data-sdedit="'+x.id+'">Bearbeiten</button></td>'+
+    '<td class="noprint"><button class="delbtn" data-sddel="'+x.id+'" title="In den Papierkorb">×</button></td></tr>').join("");
+}
+document.getElementById("sdSeg").addEventListener("click",e=>{
+  const b=e.target.closest("button[data-sd]"); if(!b) return;
+  sdActive=b.dataset.sd; sdFilter=""; const si=document.getElementById("sdSearch"); if(si) si.value="";
+  document.querySelectorAll("#sdSeg button").forEach(x=>x.classList.toggle("active",x.dataset.sd===sdActive));
+  renderSdList();
+});
+document.getElementById("sdSearch").addEventListener("input",e=>{ sdFilter=e.target.value; renderSdList(); });
+document.getElementById("btnSdNew").addEventListener("click",()=>openSdEditor(sdActive,null));
+document.getElementById("sdRows").addEventListener("click",e=>{
+  const ed=e.target.closest("[data-sdedit]"), dl=e.target.closest("[data-sddel]");
+  if(ed) return openSdEditor(sdActive, ed.dataset.sdedit);
+  if(dl){
+    const t=SD[sdActive]; const x=appData[t.coll].find(y=>y.id===dl.dataset.sddel);
+    if(x && confirm(t.title+" „"+(x.name||"")+"“ in den Papierkorb verschieben?")){
+      trashItem(t.trash,x,(x.name||""));
+      appData[t.coll]=appData[t.coll].filter(y=>y.id!==dl.dataset.sddel);
+      saveApp(); renderSdList();
+    }
+  }
+});
+function openSdEditor(type,id){
+  const t=SD[type]; if(!t) return;
+  sdEditType=type; sdEditId=null;
+  let obj=null;
+  if(id){
+    if(t.kundeMode){ obj=appData.customers.find(c=>(c.nummer||c.firma||"")===id)||null; if(obj) sdEditId=id; }
+    else { obj=appData[t.coll].find(x=>x.id===id)||null; if(obj) sdEditId=obj.id; }
+  }
+  document.getElementById("sdModalTitle").textContent=(obj?t.title+" bearbeiten":"Neuer "+t.title);
+  document.getElementById("sdModalForm").innerHTML=t.fields.map(f=>{
+    const val=obj?(obj[f.k]==null?"":String(obj[f.k])):"";
+    let ctrl;
+    if(f.sel) ctrl='<select id="sd_'+f.k+'">'+f.sel.map(o=>'<option value="'+o[0]+'">'+o[1]+'</option>').join("")+'</select>';
+    else if(f.ta) ctrl='<textarea id="sd_'+f.k+'">'+escapeHtml(val)+'</textarea>';
+    else ctrl='<input type="text" id="sd_'+f.k+'" value="'+escapeHtml(val)+'">';
+    return '<div class="field'+(f.wide?' field-wide':'')+'"><label>'+f.l+(f.req?" *":"")+'</label>'+ctrl+'</div>';
+  }).join("");
+  t.fields.forEach(f=>{ if(f.sel){ const el=document.getElementById("sd_"+f.k); if(el) el.value=(obj&&obj[f.k])?obj[f.k]:f.sel[0][0]; } });
+  document.getElementById("sdModal").classList.add("open");
+}
+function closeSdModal(){ document.getElementById("sdModal").classList.remove("open"); }
+function saveSdEditor(){
+  const t=SD[sdEditType]; if(!t) return;
+  const data={};
+  t.fields.forEach(f=>{ const el=document.getElementById("sd_"+f.k); data[f.k]= el?el.value.trim():""; });
+  const reqf=t.fields.find(f=>f.req);
+  if(reqf && !data[reqf.k]){ alert("Bitte „"+reqf.l+"“ ausfüllen."); return; }
+  if(t.kundeMode){
+    const coll=appData.customers;
+    let i=sdEditId?coll.findIndex(c=>(c.nummer||c.firma||"")===sdEditId):-1;
+    if(i>=0) appData.customers[i]=Object.assign({},coll[i],data,{ts:coll[i].ts||Date.now()});
+    else appData.customers.push(Object.assign({ts:Date.now()},data));
+  } else {
+    const coll=appData[t.coll];
+    if(sdEditId){ const o=coll.find(x=>x.id===sdEditId); if(o) Object.assign(o,data); }
+    else coll.push(Object.assign({id:t.idp+Date.now()+"_"+Math.round(Math.random()*1e6), ts:Date.now()}, data));
+  }
+  saveApp(); closeSdModal();
+  if(t.kundeMode) renderKunden(); else if(t.refresh) t.refresh(); else renderSdList();
+}
+document.getElementById("sdSave").addEventListener("click",saveSdEditor);
+document.getElementById("sdCancel").addEventListener("click",closeSdModal);
+document.getElementById("sdModal").addEventListener("click",e=>{ if(e.target.id==="sdModal") closeSdModal(); });
+
+/* ---------- Preislisten / Kalkulationsprofile (Einstellungen) ---------- */
+function renderPreislisten(){
+  const tb=document.getElementById("plRows"); if(!tb) return;
+  const list=appData.preislisten.slice().sort((a,b)=>(a.name||"").localeCompare(b.name||"","de",{sensitivity:"base"}));
+  if(!list.length){ tb.innerHTML='<tr><td colspan="7" class="empty">Noch keine Preisliste. „Standard" nutzt die obigen Aufschläge.</td></tr>'; return; }
+  const rmap={ "keine":"keine","0.5":"0,50 €","1":"1 €","5":"5 €","10":"10 €" };
+  tb.innerHTML=list.map(p=>"<tr><td><b>"+escapeHtml(p.name||"—")+"</b></td>"+
+    '<td class="r">'+escapeHtml(p.gemeinkosten||"—")+'</td><td class="r">'+escapeHtml(p.risiko||"—")+'</td><td class="r">'+escapeHtml(p.gewinn||"—")+"</td>"+
+    "<td>"+(rmap[p.rundung]||"keine")+"</td>"+
+    '<td><button class="linkbtn" data-pledit="'+p.id+'">Bearbeiten</button></td>'+
+    '<td><button class="delbtn" data-pldel="'+p.id+'" title="Preisliste löschen">×</button></td></tr>').join("");
+}
+document.getElementById("btnPlNew").addEventListener("click",()=>openSdEditor("preisliste",null));
+document.getElementById("plRows").addEventListener("click",e=>{
+  const ed=e.target.closest("[data-pledit]"), dl=e.target.closest("[data-pldel]");
+  if(ed) return openSdEditor("preisliste", ed.dataset.pledit);
+  if(dl){ const id=dl.dataset.pldel; const p=appData.preislisten.find(x=>x.id===id);
+    if(p && confirm("Preisliste „"+(p.name||"")+"“ löschen?")){ appData.preislisten=appData.preislisten.filter(x=>x.id!==id); saveApp(); renderPreislisten(); } }
+});
+renderPreislisten();
+
+/* ---------- Firmendaten (Einstellungen → Fußzeile/PDF) ---------- */
+const FIRMA_KEYS=["name","rechtsform","strasse","hausnummer","plz","ort","land","telefon","mobil","email","website","bank","iban","bic","steuernr","ustid","zahlungsbedingungen"];
+function fillFirmaSettings(){
+  const f=appData.firma||{};
+  FIRMA_KEYS.forEach(k=>{ const e=document.getElementById("fa_"+k); if(e) e.value=(f[k]==null?"":f[k]); });
+  renderFirmaPrev();
+}
+function renderFirmaPrev(){
+  const f=appData.firma||{};
+  const sp=document.getElementById("fa_stempelPrev"); if(sp) sp.innerHTML=f.stempel?'<img src="'+f.stempel+'" style="max-height:54px;margin-top:6px;border:1px solid var(--line);border-radius:6px;display:block;"><button class="linkbtn" data-firmaclear="stempel">entfernen</button>':"";
+  const up=document.getElementById("fa_unterschriftPrev"); if(up) up.innerHTML=f.unterschrift?'<img src="'+f.unterschrift+'" style="max-height:54px;margin-top:6px;border:1px solid var(--line);border-radius:6px;display:block;"><button class="linkbtn" data-firmaclear="unterschrift">entfernen</button>':"";
+}
+FIRMA_KEYS.forEach(k=>{ const e=document.getElementById("fa_"+k); if(e) e.addEventListener("input",()=>{ appData.firma[k]=e.value; saveApp(); }); });
+function firmaImg(which,file){ const r=new FileReader(); r.onload=()=>{ appData.firma[which]=r.result; saveApp(); renderFirmaPrev(); if(typeof renderSignature==="function") renderSignature(); }; r.readAsDataURL(file); }
+(function(){ const s=document.getElementById("fa_stempelFile"); if(s) s.addEventListener("change",e=>{ const f=e.target.files[0]; if(f) firmaImg("stempel",f); });
+  const u=document.getElementById("fa_unterschriftFile"); if(u) u.addEventListener("change",e=>{ const f=e.target.files[0]; if(f) firmaImg("unterschrift",f); }); })();
+document.getElementById("settings").addEventListener("click",e=>{ const c=e.target.closest("[data-firmaclear]"); if(c){ appData.firma[c.dataset.firmaclear]=null; saveApp(); renderFirmaPrev(); if(typeof renderSignature==="function") renderSignature(); const fi=document.getElementById("fa_"+c.dataset.firmaclear+"File"); if(fi) fi.value=""; } });
+document.getElementById("btnFirmaFooter").addEventListener("click",()=>{
+  const f=appData.firma||{};
+  const adr=[f.name, (f.strasse+" "+(f.hausnummer||"")).trim(), ((f.plz||"")+" "+(f.ort||"")).trim()].filter(x=>x&&x.trim());
+  const kontakt=[f.email?"E-Mail: "+f.email:"", f.telefon?"Tel.: "+f.telefon:(f.mobil?"Mobil: "+f.mobil:""), f.website||""].filter(x=>x&&x.trim());
+  const bank=[f.bank?"Bank: "+f.bank:"", f.iban?"IBAN: "+f.iban:"", f.bic?"BIC: "+f.bic:"", f.steuernr?"Steuernr. "+f.steuernr:""].filter(x=>x&&x.trim());
+  if(adr.length){ state.fields.footer1=adr.join("\n"); state.fields.absender=adr.join(" · "); }
+  if(kontakt.length) state.fields.footer2=kontakt.join("\n");
+  if(bank.length) state.fields.footer3=bank.join("\n");
+  if(typeof renderFields==="function") renderFields();
+  save();
+  alert("Fußzeile & Absender aus den Firmendaten übernommen.");
+});
+fillFirmaSettings();
+
+/* ---------- Protokoll / Audit-Log (Einstellungen) ---------- */
+function renderAudit(){
+  const tb=document.getElementById("auditRows"); if(!tb) return;
+  const list=(appData.auditLog||[]).slice(0,200);
+  if(!list.length){ tb.innerHTML='<tr><td colspan="4" class="empty">Noch keine Einträge.</td></tr>'; return; }
+  tb.innerHTML=list.map(a=>"<tr><td>"+new Date(a.ts).toLocaleString("de-DE")+"</td><td>"+escapeHtml(a.action)+"</td><td>"+escapeHtml(a.entity)+"</td><td>"+escapeHtml(a.detail)+"</td></tr>").join("");
+}
+document.getElementById("btnAuditClear").addEventListener("click",()=>{ if(confirm("Protokoll wirklich leeren?")){ appData.auditLog=[]; saveApp(); renderAudit(); } });
+renderAudit();
+
+/* ====================================================================
+   EXPORT / IMPORT  (CSV + echtes .xlsx, ohne externe Bibliothek)
+   ==================================================================== */
+const _crcTab=(function(){ const t=[]; for(let n=0;n<256;n++){ let c=n; for(let k=0;k<8;k++) c=(c&1)?(0xEDB88320^(c>>>1)):(c>>>1); t[n]=c>>>0; } return t; })();
+function _crc32(bytes){ let c=0xFFFFFFFF; for(let i=0;i<bytes.length;i++) c=_crcTab[(c^bytes[i])&0xFF]^(c>>>8); return (c^0xFFFFFFFF)>>>0; }
+function _bytes(s){ return new TextEncoder().encode(s); }
+function _xesc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function buildXlsx(headers, rows){
+  function cellRef(c,r){ let s="",cc=c+1; while(cc>0){ const m=(cc-1)%26; s=String.fromCharCode(65+m)+s; cc=Math.floor((cc-1)/26); } return s+r; }
+  const all=[headers].concat(rows);
+  let sheet='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>';
+  all.forEach((row,ri)=>{ sheet+='<row r="'+(ri+1)+'">'; row.forEach((val,ci)=>{ sheet+='<c r="'+cellRef(ci,ri+1)+'" t="inlineStr"><is><t xml:space="preserve">'+_xesc(val)+'</t></is></c>'; }); sheet+='</row>'; });
+  sheet+='</sheetData></worksheet>';
+  const files=[
+    ["[Content_Types].xml",'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>'],
+    ["_rels/.rels",'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'],
+    ["xl/workbook.xml",'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Daten" sheetId="1" r:id="rId1"/></sheets></workbook>'],
+    ["xl/_rels/workbook.xml.rels",'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/></Relationships>'],
+    ["xl/worksheets/sheet1.xml",sheet]
+  ];
+  const u16=n=>[n&0xFF,(n>>>8)&0xFF], u32=n=>[n&0xFF,(n>>>8)&0xFF,(n>>>16)&0xFF,(n>>>24)&0xFF];
+  const chunks=[], central=[]; let offset=0;
+  files.forEach(f=>{ const nameB=_bytes(f[0]), dataB=_bytes(f[1]), crc=_crc32(dataB);
+    const local=[].concat(u32(0x04034b50),u16(20),u16(0),u16(0),u16(0),u16(0),u32(crc),u32(dataB.length),u32(dataB.length),u16(nameB.length),u16(0));
+    chunks.push(new Uint8Array(local),nameB,dataB);
+    const cen=[].concat(u32(0x02014b50),u16(20),u16(20),u16(0),u16(0),u16(0),u16(0),u32(crc),u32(dataB.length),u32(dataB.length),u16(nameB.length),u16(0),u16(0),u16(0),u16(0),u32(0),u32(offset));
+    central.push(new Uint8Array(cen),nameB);
+    offset+=local.length+nameB.length+dataB.length;
+  });
+  let cenSize=0; central.forEach(c=>cenSize+=c.length);
+  const eocd=[].concat(u32(0x06054b50),u16(0),u16(0),u16(files.length),u16(files.length),u32(cenSize),u32(offset),u16(0));
+  const parts=chunks.concat(central,[new Uint8Array(eocd)]);
+  let total=0; parts.forEach(p=>total+=p.length);
+  const out=new Uint8Array(total); let pos=0; parts.forEach(p=>{ out.set(p,pos); pos+=p.length; });
+  return new Blob([out],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+}
+function toCSV(headers, rows){
+  const esc=v=>{ v=String(v==null?"":v); return /[";\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; };
+  return "﻿"+[headers.map(esc).join(";")].concat(rows.map(r=>r.map(esc).join(";"))).join("\r\n");
+}
+function parseCSV(text){
+  text=String(text).replace(/^﻿/,"");
+  const first=(text.split(/\r?\n/)[0]||""); const sep=(first.split(";").length>=first.split(",").length)?";":",";
+  const rows=[]; let row=[], cur="", inq=false;
+  for(let i=0;i<text.length;i++){ const ch=text[i];
+    if(inq){ if(ch==='"'){ if(text[i+1]==='"'){ cur+='"'; i++; } else inq=false; } else cur+=ch; }
+    else if(ch==='"') inq=true;
+    else if(ch===sep){ row.push(cur); cur=""; }
+    else if(ch==="\n"){ row.push(cur); rows.push(row); row=[]; cur=""; }
+    else if(ch!=="\r") cur+=ch;
+  }
+  if(cur!==""||row.length){ row.push(cur); rows.push(row); }
+  return rows;
+}
+const MAT_COLS=[["artikelnr","Artikel-Nr."],["bezeichnung","Bezeichnung"],["kategorie","Kategorie"],["einheit","Einheit"],["einkaufspreis","Einkaufspreis"],["standardverschnitt","Standardverschnitt"],["materialaufschlag","Materialaufschlag"],["lagerbestand","Lagerbestand"],["mindestbestand","Mindestbestand"],["reserve","Reserve"],["lieferzeit","Lieferzeit"],["alternativmaterial","Alternativmaterial"],["lieferant","Lieferant"],["notiz","Notiz"]];
+const KUNDE_COLS=[["firma","Firma"],["nummer","Kunden-Nr."],["ansprechpartner","Ansprechpartner"],["strasse","Straße"],["plz","PLZ"],["ort","Ort"],["land","Land"],["telefon","Telefon"],["mobil","Mobil"],["email","E-Mail"],["website","Website"],["kundengruppe","Kundengruppe"],["rabattgruppe","Rabattgruppe"],["notizen","Notizen"]];
+function exportData(coll, cols, fmt){
+  const headers=cols.map(c=>c[1]);
+  const rows=appData[coll].slice().map(o=>cols.map(c=>o[c[0]]==null?"":String(o[c[0]])));
+  const name=coll+"_"+todayISO();
+  if(fmt==="csv") saveBlob(new Blob([toCSV(headers,rows)],{type:"text/csv;charset=utf-8"}), name+".csv");
+  else saveBlob(buildXlsx(headers,rows), name+".xlsx");
+}
+function importCSVData(coll, cols, file){
+  const r=new FileReader();
+  r.onload=()=>{
+    const rows=parseCSV(r.result); if(rows.length<2){ alert("Keine Daten gefunden (Kopfzeile + mind. 1 Zeile nötig)."); return; }
+    const head=rows[0].map(h=>h.trim().toLowerCase());
+    const idx={}; cols.forEach(c=>{ const li=head.indexOf(c[1].toLowerCase()); if(li>-1) idx[c[0]]=li; });
+    const keyf= coll==="materials"?"bezeichnung":"firma";
+    if(idx[keyf]==null){ alert("Spalte „"+(cols.find(c=>c[0]===keyf)[1])+"“ nicht gefunden – bitte CSV mit passender Kopfzeile (am besten vorher exportieren als Vorlage)."); return; }
+    let n=0;
+    rows.slice(1).forEach(rw=>{ if(!rw.length || rw.every(x=>!String(x).trim())) return;
+      const obj={}; cols.forEach(c=>{ if(idx[c[0]]!=null) obj[c[0]]=(rw[idx[c[0]]]||"").trim(); });
+      if(!obj[keyf]) return;
+      if(coll==="materials"){ obj.id="m"+Date.now()+"_"+Math.round(Math.random()*1e6); obj.ts=Date.now(); obj.preisHistorie=obj.einkaufspreis?[{datum:todayStr(),preis:obj.einkaufspreis}]:[]; appData.materials.push(obj); }
+      else { obj.ts=Date.now(); appData.customers.push(obj); }
+      n++;
+    });
+    saveApp(); alert(n+" Einträge importiert.");
+    if(coll==="materials") renderMaterial(); else renderKunden();
+  };
+  r.readAsText(file,"utf-8");
+}
+// Buttons verdrahten (Elemente kommen aus den View-Headern)
+(function(){
+  const on=(id,fn)=>{ const e=document.getElementById(id); if(e) e.addEventListener("click",fn); };
+  on("btnMatCsv",()=>exportData("materials",MAT_COLS,"csv"));
+  on("btnMatXlsx",()=>exportData("materials",MAT_COLS,"xlsx"));
+  on("btnMatPdf",()=>downloadPDF());
+  on("btnMatImport",()=>document.getElementById("matImportFile").click());
+  const mf=document.getElementById("matImportFile"); if(mf) mf.addEventListener("change",e=>{ const f=e.target.files[0]; if(f) importCSVData("materials",MAT_COLS,f); e.target.value=""; });
+  on("btnKundenCsv",()=>exportData("customers",KUNDE_COLS,"csv"));
+  on("btnKundenXlsx",()=>exportData("customers",KUNDE_COLS,"xlsx"));
+  on("btnKundenImport",()=>document.getElementById("kundenImportFile").click());
+  const kf=document.getElementById("kundenImportFile"); if(kf) kf.addEventListener("change",e=>{ const f=e.target.files[0]; if(f) importCSVData("customers",KUNDE_COLS,f); e.target.value=""; });
+})();
+
+/* ====================================================================
+   PROJEKTE / ANFRAGEN  (Workflow Anfrage → Aufmaß → Angebot → Auftrag)
+   ==================================================================== */
+const PROJ_STATUS=[["anfrage","Anfrage","#6b7686"],["in_arbeit","In Bearbeitung","#3761B5"],["angebot","Angebot erstellt","#8a6d00"],["angenommen","Angenommen","#1f8f54"],["abgelehnt","Abgelehnt","#b4413c"],["auftrag","Auftrag","#1f8f54"],["abgeschlossen","Abgeschlossen","#555"]];
+function projStatusLabel(s){ const e=PROJ_STATUS.find(x=>x[0]===s); return e?e[1]:"Anfrage"; }
+function projStatusColor(s){ const e=PROJ_STATUS.find(x=>x[0]===s); return e?e[2]:"#6b7686"; }
+const PROJ_FIELDS=["bearbeiter","kanal","prioritaet","anfrageDatum","angebotsfrist","ausfuehrungstermin","budget","projektart","leistungsbeschreibung","umfang","abgrenzung","vorleistungen","eigenleistungen","besonderheiten","risiken","baustellenbedingungen","zugaenglichkeit","aufmassBesonderheiten","notizen"];
+let projDraft=null, projEditId=null, pendingProjektForKalk=null;
+function newProjekt(){ return { id:null, nummer:"", ts:0, status:"anfrage", kundeKey:"", bearbeiter:"", kanal:"", prioritaet:"Normal", anfrageDatum:todayStr(), angebotsfrist:"", ausfuehrungstermin:"", budget:"", projektart:"", leistungsbeschreibung:"", umfang:"", abgrenzung:"", vorleistungen:"", eigenleistungen:"", besonderheiten:"", risiken:"", aufmass:[], baustellenbedingungen:"", zugaenglichkeit:"", aufmassBesonderheiten:"", fotoIds:[], planIds:[], kalkId:"", angebotNummer:"", notizen:"" }; }
+function renderProjekte(){ showProjList(); }
+function showProjList(){
+  document.getElementById("projEditor").hidden=true;
+  document.getElementById("projList").hidden=false;
+  const tb=document.getElementById("projRows");
+  const q=(document.getElementById("projSearch").value||"").toLowerCase().trim();
+  let list=appData.projekte.slice().sort((a,b)=>(b.ts||0)-(a.ts||0));
+  if(q) list=list.filter(p=>[p.nummer,p.kundeKey,p.leistungsbeschreibung,projStatusLabel(p.status)].some(x=>String(x||"").toLowerCase().indexOf(q)>-1));
+  if(!list.length){ tb.innerHTML='<tr><td colspan="7" class="empty">'+(appData.projekte.length?"Keine Treffer.":'Noch keine Anfrage. Lege oben mit „+ Neue Anfrage" an.')+'</td></tr>'; return; }
+  tb.innerHTML=list.map(p=>{
+    const leist=String(p.leistungsbeschreibung||p.projektart||"").slice(0,42);
+    const col=projStatusColor(p.status);
+    return "<tr><td><b>"+escapeHtml(p.nummer||"—")+"</b></td><td>"+escapeHtml(p.kundeKey||"—")+"</td><td>"+escapeHtml(leist||"—")+"</td>"+
+      '<td><span class="proj-badge" style="color:'+col+';border-color:'+col+';">'+escapeHtml(projStatusLabel(p.status))+"</span></td>"+
+      "<td>"+escapeHtml(p.ausfuehrungstermin||"—")+"</td>"+
+      '<td class="noprint"><button class="linkbtn" data-projedit="'+p.id+'">Öffnen</button></td>'+
+      '<td class="noprint"><button class="delbtn" data-projdel="'+p.id+'" title="Projekt in den Papierkorb">×</button></td></tr>';
+  }).join("");
+}
+function fillProjKundenList(){ const dl=document.getElementById("projKundenList"); if(dl) dl.innerHTML=appData.customers.slice().sort((a,b)=>(a.firma||"").localeCompare(b.firma||"","de",{sensitivity:"base"})).map(c=>'<option value="'+escapeHtml(c.firma||"")+'">').join(""); }
+function fillProjStatusSelect(){ const sel=document.getElementById("pf_status"); if(!sel) return; sel.innerHTML=PROJ_STATUS.map(s=>'<option value="'+s[0]+'">'+s[1]+'</option>').join(""); sel.value=(projDraft&&projDraft.status)||"anfrage"; }
+function openProjekt(id){
+  projEditId=id||null; projDraft=null;
+  if(id){ const p=appData.projekte.find(x=>x.id===id); if(p) projDraft=JSON.parse(JSON.stringify(p)); }
+  if(!projDraft){ projDraft=newProjekt(); projEditId=null; }
+  if(!Array.isArray(projDraft.aufmass)) projDraft.aufmass=[];
+  if(!Array.isArray(projDraft.fotoIds)) projDraft.fotoIds=[];
+  if(!Array.isArray(projDraft.planIds)) projDraft.planIds=[];
+  document.getElementById("projEditorTitle").textContent=projEditId?"Projekt bearbeiten":"Neue Anfrage";
+  document.getElementById("projNrSub").textContent=projDraft.nummer?("Nummer "+projDraft.nummer):"(Nummer wird beim Speichern vergeben)";
+  PROJ_FIELDS.forEach(k=>{ const e=document.getElementById("pf_"+k); if(e) e.value=(projDraft[k]==null?"":projDraft[k]); });
+  document.getElementById("pf_kunde").value=projDraft.kundeKey||"";
+  fillProjKundenList(); fillProjStatusSelect();
+  renderProjAufmass(); renderProjFotos(); renderProjPlaene(); renderProjLinkInfo();
+  document.getElementById("projList").hidden=true;
+  document.getElementById("projEditor").hidden=false;
+}
+function syncProjFromForm(){
+  if(!projDraft) return;
+  PROJ_FIELDS.forEach(k=>{ const e=document.getElementById("pf_"+k); if(e) projDraft[k]=e.value; });
+  const ku=document.getElementById("pf_kunde"); if(ku) projDraft.kundeKey=ku.value.trim();
+  const st=document.getElementById("pf_status"); if(st) projDraft.status=st.value;
+}
+function renderProjAufmass(){
+  const wrap=document.getElementById("projAufmass"); if(!wrap) return;
+  if(!projDraft.aufmass.length){ wrap.innerHTML='<p class="sub" style="margin:0;">Noch keine Maße – „+ Maß hinzufügen".</p>'; return; }
+  wrap.innerHTML='<table class="list"><thead><tr><th>Bezeichnung</th><th>Länge</th><th>Breite</th><th>Höhe</th><th class="r">Fläche</th><th class="r">Volumen</th><th class="noprint"></th></tr></thead><tbody>'+
+    projDraft.aufmass.map((m,i)=>{ const fl=parseNum(m.l)*parseNum(m.b), vol=parseNum(m.l)*parseNum(m.b)*parseNum(m.h);
+      return '<tr><td><input type="text" data-am="'+i+'" data-f="bez" value="'+escapeHtml(m.bez||"")+'"></td>'+
+        '<td><input type="text" data-am="'+i+'" data-f="l" value="'+escapeHtml(m.l||"")+'" style="width:72px;"></td>'+
+        '<td><input type="text" data-am="'+i+'" data-f="b" value="'+escapeHtml(m.b||"")+'" style="width:72px;"></td>'+
+        '<td><input type="text" data-am="'+i+'" data-f="h" value="'+escapeHtml(m.h||"")+'" style="width:72px;"></td>'+
+        '<td class="r" data-amfl="'+i+'">'+(fl?num2.format(fl):"—")+'</td><td class="r" data-amvol="'+i+'">'+(vol?num2.format(vol):"—")+'</td>'+
+        '<td class="noprint"><button class="delbtn" data-amdel="'+i+'">×</button></td></tr>';
+    }).join("")+'</tbody></table>';
+}
+function renderProjFotos(){
+  const wrap=document.getElementById("projFotos"); if(!wrap) return;
+  wrap.innerHTML=projDraft.fotoIds.map(id=>'<div class="proj-thumb" data-fid="'+id+'"><img alt="Foto"><button class="delbtn" data-fotodel="'+id+'" title="entfernen">×</button></div>').join("");
+  projDraft.fotoIds.forEach(id=>{ belegGet(id).then(r=>{ if(r&&r.blob){ const img=wrap.querySelector('[data-fid="'+id+'"] img'); if(img) img.src=URL.createObjectURL(r.blob); } }); });
+}
+function renderProjPlaene(){
+  const wrap=document.getElementById("projPlaene"); if(!wrap) return;
+  wrap.innerHTML=projDraft.planIds.map(id=>'<div class="proj-file" data-fid2="'+id+'"><button class="linkbtn" data-planopen="'+id+'">📄 <span class="pfn">Plan</span></button> <button class="delbtn" data-plandel="'+id+'">×</button></div>').join("");
+  projDraft.planIds.forEach(id=>{ belegGet(id).then(r=>{ if(r){ const sp=wrap.querySelector('[data-fid2="'+id+'"] .pfn'); if(sp) sp.textContent=r.name||"Plan"; } }); });
+}
+function renderProjLinkInfo(){
+  const el=document.getElementById("projLinkInfo"); if(!el) return;
+  const k=projDraft.kalkId?appData.kalkulationen.find(x=>x.id===projDraft.kalkId):null;
+  let t=k?('Verknüpfte Kalkulation: „'+(k.name||"—")+'“ · Verkaufspreis '+euro.format((k.positionen||[]).reduce((s,p)=>s+kpVerkauf(p),0))):"Noch keine Kalkulation verknüpft.";
+  if(projDraft.angebotNummer) t+="   ·   Angebot: "+projDraft.angebotNummer;
+  el.textContent=t;
+}
+async function projUpload(which,files){
+  if(!files||!files.length||!projDraft) return;
+  for(const f of Array.from(files)){ const id=(which==="foto"?"pf":"pl")+Date.now()+"_"+Math.round(Math.random()*1e6); try{ await belegPut(id,f); (which==="foto"?projDraft.fotoIds:projDraft.planIds).push(id); }catch(e){} }
+  if(which==="foto") renderProjFotos(); else renderProjPlaene();
+}
+function saveProjekt(){
+  if(!projDraft) return false;
+  syncProjFromForm();
+  if(!projDraft.kundeKey && !projDraft.leistungsbeschreibung){ alert("Bitte mindestens Kunde oder Leistungsbeschreibung angeben."); return false; }
+  if(projEditId){ const p=appData.projekte.find(x=>x.id===projEditId); if(p) Object.assign(p, projDraft, {id:p.id, ts:p.ts}); }
+  else { projDraft.id="p"+Date.now()+"_"+Math.round(Math.random()*1e6); projDraft.ts=Date.now(); if(!projDraft.nummer) projDraft.nummer=nextNumber("Projekt"); appData.projekte.push(JSON.parse(JSON.stringify(projDraft))); projEditId=projDraft.id; }
+  saveApp();
+  document.getElementById("projNrSub").textContent=projDraft.nummer?("Nummer "+projDraft.nummer):"";
+  return true;
+}
+function projToKalk(){
+  if(!projDraft) return;
+  if(!saveProjekt()) return;
+  if(projDraft.kalkId && appData.kalkulationen.find(x=>x.id===projDraft.kalkId)){ switchView("kalkulation"); openKalk(projDraft.kalkId); return; }
+  pendingProjektForKalk=projEditId;
+  switchView("kalkulation"); openKalk(null);
+  if(kalkDraft){ kalkDraft.name="Kalkulation "+(projDraft.nummer||""); kalkDraft.kundeFirma=projDraft.kundeKey||""; document.getElementById("kalkName").value=kalkDraft.name; document.getElementById("kalkKunde").value=kalkDraft.kundeFirma; }
+}
+function projToAngebot(){
+  if(!projDraft) return;
+  if(!saveProjekt()) return;
+  const k=projDraft.kalkId?appData.kalkulationen.find(x=>x.id===projDraft.kalkId):null;
+  if(!k){ alert("Bitte zuerst eine Kalkulation anlegen/verknüpfen (Knopf „Kalkulation öffnen/anlegen“)."); return; }
+  const pid=projEditId;
+  uebernehmeKalk(k,"new");   // erzeugt neues Angebot, wechselt in die Dokumentansicht
+  const pr=appData.projekte.find(x=>x.id===pid);
+  if(pr){ pr.angebotNummer=state.fields.nummer||""; if(pr.status==="anfrage"||pr.status==="in_arbeit") pr.status="angebot"; saveApp(); }
+  state.fields.betreff=state.fields.betreff||((pr&&pr.leistungsbeschreibung)||"");
+  state.projektNummer=pr?pr.nummer:""; save();
+  if(typeof logAudit==="function") logAudit("Angebot erzeugt", "Projekt "+(pr?pr.nummer:""), "→ "+(state.fields.nummer||""));
+}
+document.getElementById("btnProjNew").addEventListener("click",()=>openProjekt(null));
+document.getElementById("projBack").addEventListener("click",showProjList);
+document.getElementById("projSearch").addEventListener("input",showProjList);
+document.getElementById("projSave").addEventListener("click",()=>{ if(saveProjekt()){ showProjList(); } });
+document.getElementById("projToKalk").addEventListener("click",projToKalk);
+document.getElementById("projToAngebot").addEventListener("click",projToAngebot);
+document.getElementById("btnProjAufmassAdd").addEventListener("click",()=>{ if(!projDraft) return; projDraft.aufmass.push({bez:"",l:"",b:"",h:""}); renderProjAufmass(); });
+document.getElementById("projRows").addEventListener("click",e=>{
+  const ed=e.target.closest("[data-projedit]"), dl=e.target.closest("[data-projdel]");
+  if(ed) return openProjekt(ed.dataset.projedit);
+  if(dl){ const p=appData.projekte.find(x=>x.id===dl.dataset.projdel);
+    if(p && confirm("Projekt „"+(p.nummer||"")+"“ in den Papierkorb verschieben?")){ trashItem("projekt",p,(p.nummer||"")+(p.kundeKey?" · "+p.kundeKey:"")); appData.projekte=appData.projekte.filter(x=>x.id!==dl.dataset.projdel); saveApp(); showProjList(); } }
+});
+document.getElementById("projAufmass").addEventListener("input",e=>{
+  const el=e.target.closest("[data-am]"); if(!el||!projDraft) return;
+  const i=+el.dataset.am, f=el.dataset.f; if(!projDraft.aufmass[i]) return;
+  projDraft.aufmass[i][f]=el.value;
+  const m=projDraft.aufmass[i], fl=parseNum(m.l)*parseNum(m.b), vol=parseNum(m.l)*parseNum(m.b)*parseNum(m.h);
+  const cfl=document.querySelector('[data-amfl="'+i+'"]'); if(cfl) cfl.textContent=fl?num2.format(fl):"—";
+  const cvol=document.querySelector('[data-amvol="'+i+'"]'); if(cvol) cvol.textContent=vol?num2.format(vol):"—";
+});
+document.getElementById("projAufmass").addEventListener("click",e=>{
+  const d=e.target.closest("[data-amdel]"); if(!d||!projDraft) return;
+  projDraft.aufmass.splice(+d.dataset.amdel,1); renderProjAufmass();
+});
+(function(){
+  const fd=document.getElementById("projFotoDrop"), ff=document.getElementById("projFotoFile");
+  const pd=document.getElementById("projPlanDrop"), pf=document.getElementById("projPlanFile");
+  if(fd){ fd.addEventListener("click",()=>ff.click()); fd.addEventListener("dragover",e=>{e.preventDefault();fd.classList.add("drag");}); fd.addEventListener("dragleave",()=>fd.classList.remove("drag")); fd.addEventListener("drop",e=>{e.preventDefault();fd.classList.remove("drag");projUpload("foto",e.dataTransfer.files);}); }
+  if(ff) ff.addEventListener("change",e=>{ projUpload("foto",e.target.files); e.target.value=""; });
+  if(pd){ pd.addEventListener("click",()=>pf.click()); pd.addEventListener("dragover",e=>{e.preventDefault();pd.classList.add("drag");}); pd.addEventListener("dragleave",()=>pd.classList.remove("drag")); pd.addEventListener("drop",e=>{e.preventDefault();pd.classList.remove("drag");projUpload("plan",e.dataTransfer.files);}); }
+  if(pf) pf.addEventListener("change",e=>{ projUpload("plan",e.target.files); e.target.value=""; });
+})();
+document.getElementById("projFotos").addEventListener("click",e=>{
+  const d=e.target.closest("[data-fotodel]"); if(!d||!projDraft) return;
+  const id=d.dataset.fotodel; try{ belegDel(id); }catch(e2){}
+  projDraft.fotoIds=projDraft.fotoIds.filter(x=>x!==id); renderProjFotos();
+});
+document.getElementById("projPlaene").addEventListener("click",e=>{
+  const op=e.target.closest("[data-planopen]"), dl=e.target.closest("[data-plandel]");
+  if(op) return openBeleg(op.dataset.planopen);
+  if(dl && projDraft){ const id=dl.dataset.plandel; try{ belegDel(id); }catch(e2){} projDraft.planIds=projDraft.planIds.filter(x=>x!==id); renderProjPlaene(); }
 });
 
 /* ---------- Stundenzettel (Zeiterfassung) ---------- */
@@ -2394,18 +3750,32 @@ function closeSearch(){ document.getElementById("searchModal").classList.remove(
 function renderSearch(q){
   q=(q||"").trim().toLowerCase();
   const el=document.getElementById("searchResults");
-  let list=appData.customers.slice().sort((a,b)=>(a.firma||"").localeCompare(b.firma||"","de",{sensitivity:"base"}));
-  if(q) list=list.filter(c=>((c.firma||"").toLowerCase().includes(q)||(c.nummer||"").toLowerCase().includes(q)));
-  let html=list.slice(0,40).map(c=>{
-    const key=c.nummer||c.firma||"";
-    return `<div class="pick"><span><b>${escapeHtml(c.firma||"—")}</b>${c.nummer?` · <span class="k">Nr. ${escapeHtml(c.nummer)}</span>`:""}</span>`+
-      `<span style="white-space:nowrap;"><button class="pill" data-screate="Angebot" data-key="${escapeHtml(key)}">+ Angebot</button> <button class="pill ok" data-screate="Rechnung" data-key="${escapeHtml(key)}">+ Rechnung</button></span></div>`;
-  }).join("");
-  if(q && !list.length){
-    html=`<p class="sub">Kein Kunde gefunden.</p>`+
-      `<div class="pick"><span>Neuer Kunde „<b>${escapeHtml(document.getElementById("searchInput").value.trim())}</b>"</span>`+
+  let custs=appData.customers.slice().sort((a,b)=>(a.firma||"").localeCompare(b.firma||"","de",{sensitivity:"base"}));
+  if(q) custs=custs.filter(c=>((c.firma||"").toLowerCase().includes(q)||(c.nummer||"").toLowerCase().includes(q)||(c.ansprechpartner||"").toLowerCase().includes(q)||(c.ort||"").toLowerCase().includes(q)));
+  let html="";
+  if(custs.length){
+    html+='<div class="srch-h">Kunden</div>'+custs.slice(0,20).map(c=>{
+      const key=c.nummer||c.firma||"";
+      return `<div class="pick"><span><b>${escapeHtml(c.firma||"—")}</b>${c.nummer?` · <span class="k">Nr. ${escapeHtml(c.nummer)}</span>`:""}</span>`+
+        `<span style="white-space:nowrap;"><button class="pill" data-sedit="${escapeHtml(key)}">bearb.</button> <button class="pill" data-screate="Angebot" data-key="${escapeHtml(key)}">+ Angebot</button> <button class="pill ok" data-screate="Rechnung" data-key="${escapeHtml(key)}">+ Rechnung</button></span></div>`;
+    }).join("");
+  }
+  if(q){
+    const mats=appData.materials.filter(m=>[m.artikelnr,m.bezeichnung,m.kategorie,m.lieferant].some(x=>String(x||"").toLowerCase().includes(q))).slice(0,15);
+    if(mats.length) html+='<div class="srch-h">Material</div>'+mats.map(m=>`<div class="pick" data-sgo="material"><span><b>${escapeHtml(m.bezeichnung||"—")}</b>${m.artikelnr?' · <span class="k">'+escapeHtml(m.artikelnr)+'</span>':""}</span><span class="k">öffnen ›</span></div>`).join("");
+    const lfs=appData.lieferanten.filter(l=>[l.name,l.ansprechpartner,l.email].some(x=>String(x||"").toLowerCase().includes(q))).slice(0,15);
+    if(lfs.length) html+='<div class="srch-h">Lieferanten</div>'+lfs.map(l=>`<div class="pick" data-sgo="lieferant"><span><b>${escapeHtml(l.name||"—")}</b></span><span class="k">öffnen ›</span></div>`).join("");
+    const docs=appData.archive.filter(a=>[a.nummer,a.kunde].some(x=>String(x||"").toLowerCase().includes(q))).sort((a,b)=>b.ts-a.ts).slice(0,15);
+    if(docs.length) html+='<div class="srch-h">Belege</div>'+docs.map(a=>`<div class="pick" data-sopen="${a.id}"><span><b>${escapeHtml(a.nummer||"—")}</b> · ${escapeHtml(a.kunde||"")}</span><span class="k">${escapeHtml(a.datum||"")} · öffnen ›</span></div>`).join("");
+    const projs=appData.projekte.filter(p=>[p.nummer,p.kundeKey,p.leistungsbeschreibung].some(x=>String(x||"").toLowerCase().includes(q))).sort((a,b)=>b.ts-a.ts).slice(0,15);
+    if(projs.length) html+='<div class="srch-h">Projekte</div>'+projs.map(p=>`<div class="pick" data-sopenproj="${p.id}"><span><b>${escapeHtml(p.nummer||"—")}</b> · ${escapeHtml(p.kundeKey||"")}</span><span class="k">${escapeHtml(projStatusLabel(p.status))} · öffnen ›</span></div>`).join("");
+  }
+  if(q && !custs.length){
+    html+=`<div class="srch-h">Neu</div><div class="pick"><span>Neuer Kunde „<b>${escapeHtml(document.getElementById("searchInput").value.trim())}</b>"</span>`+
       `<span style="white-space:nowrap;"><button class="pill" data-snew="Angebot">+ Angebot</button> <button class="pill ok" data-snew="Rechnung">+ Rechnung</button></span></div>`;
-  } else if(!q && !list.length){ html='<p class="sub">Noch keine Kunden gespeichert – tippe einen Namen für einen neuen Kunden.</p>'; }
+  }
+  if(!q && !custs.length) html='<p class="sub">Tippe für Kunden, Material, Lieferanten oder Belege …</p>';
+  if(q && !html) html='<p class="sub">Nichts gefunden.</p>';
   el.innerHTML=html;
 }
 document.getElementById("btnSearch").addEventListener("click",openSearch);
@@ -2413,7 +3783,17 @@ document.getElementById("searchCancel").addEventListener("click",closeSearch);
 document.getElementById("searchModal").addEventListener("click",e=>{ if(e.target.id==="searchModal") closeSearch(); });
 document.getElementById("searchInput").addEventListener("input",e=>renderSearch(e.target.value));
 document.getElementById("searchResults").addEventListener("click",e=>{
-  const c=e.target.closest("[data-screate]"), n=e.target.closest("[data-snew]");
+  const c=e.target.closest("[data-screate]"), n=e.target.closest("[data-snew]"), ed=e.target.closest("[data-sedit]"), go=e.target.closest("[data-sgo]"), op=e.target.closest("[data-sopen]");
+  const qv=document.getElementById("searchInput").value.trim();
+  if(ed){ closeSearch(); openSdEditor("kunde", ed.dataset.sedit); return; }
+  if(go){ closeSearch();
+    if(go.dataset.sgo==="material"){ matFilter=qv; const si=document.getElementById("matSearch"); if(si) si.value=qv; switchView("material"); }
+    else if(go.dataset.sgo==="lieferant"){ sdActive="lieferant"; sdFilter=qv; const si=document.getElementById("sdSearch"); if(si) si.value=qv; switchView("stammdaten"); }
+    return;
+  }
+  if(op){ const a=appData.archive.find(x=>x.id==op.dataset.sopen); closeSearch(); if(a&&a.snapshot){ loadSnapshot(a.snapshot); switchView("doc"); } return; }
+  const gp=e.target.closest("[data-sopenproj]");
+  if(gp){ closeSearch(); switchView("projekte"); openProjekt(gp.dataset.sopenproj); return; }
   if(c){ const cust=appData.customers.find(x=>(x.nummer||x.firma||"")===c.dataset.key); closeSearch(); if(cust) newDocForCustomer(c.dataset.screate, cust); }
   if(n){ const name=document.getElementById("searchInput").value.trim(); closeSearch(); newDocForCustomer(n.dataset.snew, {firma:name,nummer:""}); }
 });
