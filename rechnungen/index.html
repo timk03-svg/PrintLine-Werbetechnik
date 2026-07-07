@@ -623,7 +623,7 @@
 
 <!-- Werkzeugleiste -->
 <div class="toolbar noprint">
-  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-06-29 · Abschluss</span></div>
+  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-07-07 · Backup-Erinnerung</span></div>
   <button class="btn iconbtn" id="btnUndo" title="Rückgängig (Cmd+Z)" disabled>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-1"/></svg>Zurück
   </button>
@@ -1448,6 +1448,7 @@ const appDefaults = {
   preislisten:[],
   projekte:[],
   auditLog:[],
+  lastBackup:0,
   firma:{ name:"", rechtsform:"", strasse:"", hausnummer:"", plz:"", ort:"", land:"Deutschland", telefon:"", mobil:"", email:"", website:"", iban:"", bic:"", bank:"", steuernr:"", ustid:"", zahlungsbedingungen:"", stempel:null, unterschrift:null }
 };
 let state = load();
@@ -1501,6 +1502,7 @@ function loadApp(){
       preislisten:Array.isArray(s.preislisten)?s.preislisten:[],
       projekte:Array.isArray(s.projekte)?s.projekte:[],
       auditLog:Array.isArray(s.auditLog)?s.auditLog:[],
+      lastBackup:(typeof s.lastBackup==="number"?s.lastBackup:0),
       firma:Object.assign({}, appDefaults.firma, s.firma||{})
     };
   }catch(e){ return structuredClone(appDefaults); }
@@ -3879,6 +3881,8 @@ async function downloadBackup(){
   try{ const {vals,keys}=await idbGetAll("belege"); for(let i=0;i<vals.length;i++){ belege.push({id:keys[i],name:vals[i].name,type:vals[i].type,b64:await blobToB64(vals[i].blob)}); } }catch(e){}
   const data={_app:"PrintLine",_v:1,ts:Date.now(),state:localStorage.getItem(LS_KEY),app:localStorage.getItem(LS_KEY+"_app"),belege};
   saveBlob(new Blob([JSON.stringify(data)],{type:"application/json"}), "PrintLine-Sicherung-"+dateStamp()+".json");
+  appData.lastBackup=Date.now(); saveApp();
+  const rb=document.getElementById("backupReminderBar"); if(rb) rb.remove();
 }
 document.getElementById("btnBackup").addEventListener("click",()=>{ downloadBackup(); });
 document.getElementById("btnRestore").addEventListener("click",()=>document.getElementById("restoreFile").click());
@@ -3919,6 +3923,35 @@ updateUndoButtons();
 applyDark(appData.dark);   // gespeicherten Dark-Mode-Zustand anwenden
 authInit();
 switchView("start");   // Startseite „Was möchtest du tun?" als Einstieg
+
+/* ---------- Backup-Erinnerung (sanfter Hinweis, wenn > 7 Tage keine Sicherung) ---------- */
+function backupReminder(){
+  try{
+    const MAX=7*24*60*60*1000;                 // 7 Tage
+    const last=appData.lastBackup||0;
+    if(Date.now()-last < MAX) return;          // kürzlich gesichert → nichts tun
+    if(document.getElementById("backupReminderBar")) return;
+    if(sessionStorage.getItem("backupNagDismissed")==="1") return; // in dieser Sitzung weggeklickt
+    const tage=last?Math.floor((Date.now()-last)/(24*60*60*1000)):null;
+    const txt=last?("Letzte Sicherung vor "+tage+" Tag"+(tage===1?"":"en")+"."):"Es wurde noch keine Sicherung erstellt.";
+    const bar=document.createElement("div");
+    bar.id="backupReminderBar";
+    bar.style.cssText="position:fixed;left:12px;right:12px;bottom:12px;z-index:9998;display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:center;background:#3761B5;color:#fff;padding:12px 16px;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.25);font:500 14px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+    const msg=document.createElement("span");
+    msg.textContent="🛟 "+txt+" Jetzt eine Sicherung erstellen?";
+    const go=document.createElement("button");
+    go.textContent="Jetzt sichern";
+    go.style.cssText="background:#fff;color:#3761B5;border:0;border-radius:8px;padding:8px 14px;font-weight:700;cursor:pointer";
+    go.addEventListener("click",()=>{ downloadBackup(); });
+    const later=document.createElement("button");
+    later.textContent="Später";
+    later.style.cssText="background:rgba(255,255,255,.18);color:#fff;border:0;border-radius:8px;padding:8px 14px;cursor:pointer";
+    later.addEventListener("click",()=>{ sessionStorage.setItem("backupNagDismissed","1"); bar.remove(); });
+    bar.appendChild(msg); bar.appendChild(go); bar.appendChild(later);
+    document.body.appendChild(bar);
+  }catch(e){}
+}
+backupReminder();
 </script>
 </body>
 </html>
