@@ -623,7 +623,7 @@
 
 <!-- Werkzeugleiste -->
 <div class="toolbar noprint">
-  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-07-07 · Bewertung</span></div>
+  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-07-07 · §19-Monitor</span></div>
   <button class="btn iconbtn" id="btnUndo" title="Rückgängig (Cmd+Z)" disabled>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-1"/></svg>Zurück
   </button>
@@ -2504,6 +2504,30 @@ function buildYearSelect(){
   sel.innerHTML=years.map(y=>`<option value="${y}"${y===financeYear?" selected":""}>${y}</option>`).join("");
 }
 
+function s19MonitorHtml(Y, umsatzJahr){
+  // §19-Kleinunternehmer-Beobachtung (Stand 2025: Vorjahr 25.000 €, laufend 100.000 €). Nur Anzeige.
+  const vj=Y-1;
+  const umsatzVJ=appData.archive.filter(a=>a.docType==="Rechnung"&&yearOf(a.datum)===vj).reduce((s,a)=>s+(a.netto||0),0);
+  const LVJ=25000, LLJ=100000;
+  const col=(u,l)=> u>l ? '#b4413c' : (u>=0.8*l ? '#8a6d00' : '#1f8f54');
+  const bar=(lab,jahr,u,l)=>{
+    const pct=Math.min(100, l?(u/l*100):0), c=col(u,l);
+    return '<div style="margin:6px 0;">'+
+      '<div style="display:flex;justify-content:space-between;font-size:13px;"><span>'+lab+' '+jahr+'</span>'+
+      '<span style="font-variant-numeric:tabular-nums;">'+euro.format(u)+' / '+euro.format(l)+'</span></div>'+
+      '<div style="height:8px;border-radius:6px;background:rgba(0,0,0,.08);overflow:hidden;margin-top:3px;">'+
+      '<div style="height:100%;width:'+pct.toFixed(0)+'%;background:'+c+';"></div></div></div>';
+  };
+  let msg, mc;
+  if(umsatzVJ>LVJ || umsatzJahr>LLJ){ msg='⚠ Grenze überschritten — bitte den Steuerberater kontaktieren (Wechsel zur Regelbesteuerung/GmbH prüfen).'; mc='#b4413c'; }
+  else if(umsatzVJ>=0.8*LVJ || umsatzJahr>=0.8*LLJ){ msg='Annäherung an die Grenze — Steuerberater-Termin einplanen.'; mc='#8a6d00'; }
+  else { msg='Im grünen Bereich. §19 (Kleinunternehmer) gilt. GmbH bleibt Fernziel (umsatzabhängig).'; mc='#1f8f54'; }
+  return '<div class="card" style="grid-column:1/-1;text-align:left;">'+
+    '<div class="lab">§19 Kleinunternehmer-Grenzen · nur Beobachtung (Stand 2025)</div>'+
+    bar('Vorjahr', vj, umsatzVJ, LVJ)+ bar('Laufendes Jahr', Y, umsatzJahr, LLJ)+
+    '<div class="sub" style="color:'+mc+';margin-top:6px;">'+msg+'</div>'+
+    '<div class="sub" style="margin-top:2px;">Grundlage: Rechnungssummen des Jahres. Verbindlich ist allein der Steuerberater.</div></div>';
+}
 function renderFinance(){
   buildYearSelect();
   const Y=financeYear;
@@ -2544,6 +2568,7 @@ function renderFinance(){
       '<div class="card aus"><div class="lab">Materialkosten (Kalk.)</div><div class="val">'+euro.format(matK)+'</div></div>'+
       '<div class="card aus"><div class="lab">Arbeitskosten (Kalk.)</div><div class="val">'+euro.format(arbK)+'</div></div>'+
       '<div class="card saldo"><div class="lab">Deckungsbeitrag (Kalk.)</div><div class="val">'+euro.format(vk-sk)+'</div></div>';
+    sc.innerHTML += s19MonitorHtml(Y, ein);
   }
 
   // Fixkosten-Liste
