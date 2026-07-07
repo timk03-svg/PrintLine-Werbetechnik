@@ -623,7 +623,7 @@
 
 <!-- Werkzeugleiste -->
 <div class="toolbar noprint">
-  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-07-07 · Backup-Erinnerung</span></div>
+  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-07-07 · Bewertung</span></div>
   <button class="btn iconbtn" id="btnUndo" title="Rückgängig (Cmd+Z)" disabled>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-1"/></svg>Zurück
   </button>
@@ -1449,6 +1449,7 @@ const appDefaults = {
   projekte:[],
   auditLog:[],
   lastBackup:0,
+  reviewLink:"",
   firma:{ name:"", rechtsform:"", strasse:"", hausnummer:"", plz:"", ort:"", land:"Deutschland", telefon:"", mobil:"", email:"", website:"", iban:"", bic:"", bank:"", steuernr:"", ustid:"", zahlungsbedingungen:"", stempel:null, unterschrift:null }
 };
 let state = load();
@@ -1503,6 +1504,7 @@ function loadApp(){
       projekte:Array.isArray(s.projekte)?s.projekte:[],
       auditLog:Array.isArray(s.auditLog)?s.auditLog:[],
       lastBackup:(typeof s.lastBackup==="number"?s.lastBackup:0),
+      reviewLink:(typeof s.reviewLink==="string"?s.reviewLink:""),
       firma:Object.assign({}, appDefaults.firma, s.firma||{})
     };
   }catch(e){ return structuredClone(appDefaults); }
@@ -3424,6 +3426,37 @@ function renderProjLinkInfo(){
   let t=k?('Verknüpfte Kalkulation: „'+(k.name||"—")+'“ · Verkaufspreis '+euro.format((k.positionen||[]).reduce((s,p)=>s+kpVerkauf(p),0))):"Noch keine Kalkulation verknüpft.";
   if(projDraft.angebotNummer) t+="   ·   Angebot: "+projDraft.angebotNummer;
   el.textContent=t;
+  // ★ Bewertung anfragen (Routine beim Projektabschluss)
+  const rb=document.createElement("button");
+  rb.type="button"; rb.className="btn"; rb.style.marginLeft="8px";
+  rb.textContent="★ Bewertung anfragen";
+  rb.title="Fertige Bewertungsbitte an den Kunden (E-Mail-Entwurf + Text in der Zwischenablage)";
+  rb.addEventListener("click",bewertungAnfragen);
+  el.appendChild(rb);
+}
+function reviewText(kundeName, projName){
+  const link=appData.reviewLink||"";
+  const anr=kundeName?("Hallo "+kundeName+","):"Guten Tag,";
+  return anr+"\n\nvielen Dank für Ihren Auftrag"+(projName?" ("+projName+")":"")+" bei PrintLine Werbetechnik. "+
+    "Wenn Sie mit unserer Arbeit zufrieden waren, würden wir uns sehr über eine kurze Google-Bewertung freuen – das hilft uns sehr:\n"+
+    link+"\n\nHerzlichen Dank und beste Grüße\nIhr Team von PrintLine Werbetechnik";
+}
+function bewertungAnfragen(){
+  if(!projDraft) return;
+  if(projDraft.status!=="abgeschlossen" && !confirm("Dieses Projekt ist noch nicht als „abgeschlossen“ markiert. Trotzdem eine Bewertung anfragen?")) return;
+  if(!appData.reviewLink){
+    const l=prompt("Google-Bewertungslink von PrintLine einfügen (einmalig, wird gemerkt).\nZu finden im Google-Unternehmensprofil unter „Rezensionen → Bewertungen erhalten“:","");
+    if(l===null) return;
+    appData.reviewLink=(l||"").trim(); saveApp();
+  }
+  const kunde=appData.customers.find(c=>c.nummer===projDraft.kundeKey || c.firma===projDraft.kundeKey) || null;
+  const kundeName=kunde?(kunde.ansprechpartner||kunde.firma||""):"";
+  const kundeMail=kunde?(kunde.email||""):"";
+  const projName=projDraft.leistungsbeschreibung || projDraft.nummer || "";
+  const text=reviewText(kundeName, projName);
+  try{ if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(text); }catch(e){}
+  const mailto="mailto:"+encodeURIComponent(kundeMail)+"?subject="+encodeURIComponent("Ihre Meinung zu PrintLine Werbetechnik")+"&body="+encodeURIComponent(text);
+  window.location.href=mailto;
 }
 async function projUpload(which,files){
   if(!files||!files.length||!projDraft) return;
