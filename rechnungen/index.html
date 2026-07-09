@@ -623,7 +623,7 @@
 
 <!-- Werkzeugleiste -->
 <div class="toolbar noprint">
-  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-07-07 · §19-Monitor</span></div>
+  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-07-09 · Unterschrift</span></div>
   <button class="btn iconbtn" id="btnUndo" title="Rückgängig (Cmd+Z)" disabled>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-1"/></svg>Zurück
   </button>
@@ -1830,8 +1830,9 @@ function renderSignature(){
   const el=document.getElementById("sigblock"); if(!el) return;
   const f=appData.firma||{};
   let html="";
-  if(f.unterschrift) html+='<div class="sig-col"><img src="'+f.unterschrift+'" alt="Unterschrift"><div class="sig-line">'+escapeHtml(f.name||"")+'</div></div>';
-  if(f.stempel) html+='<div class="sig-col"><img src="'+f.stempel+'" alt="Firmenstempel"></div>';
+  // Unterschrift NUR auf Angeboten (nicht auf Rechnungen/Mahnungen)
+  if(f.unterschrift && state.docType==="Angebot") html+='<div class="sig-col"><img src="'+f.unterschrift+'" alt="Unterschrift"><div class="sig-line">'+escapeHtml(f.name||"")+'</div></div>';
+  if(f.stempel && state.docType==="Angebot") html+='<div class="sig-col"><img src="'+f.stempel+'" alt="Firmenstempel"></div>';
   el.innerHTML=html; el.style.display=html?"":"none";
 }
 function renderAll(){ applySettings(); renderDocType(); renderFields(); renderLogo(); renderRows(); renderNeukunde(); renderSignature(); }
