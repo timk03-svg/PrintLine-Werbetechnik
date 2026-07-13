@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f1220"/>
+      <stop offset="50%" stop-color="#0d1128"/>
+      <stop offset="100%" stop-color="#0a1420"/>
+    </linearGradient>
+    <radialGradient id="glowPurple" cx="75%" cy="20%" r="55%">
+      <stop offset="0%" stop-color="#a855f7" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#a855f7" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowTeal" cx="15%" cy="75%" r="50%">
+      <stop offset="0%" stop-color="#14b8a6" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#14b8a6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowOrange" cx="50%" cy="100%" r="40%">
+      <stop offset="0%" stop-color="#f97316" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#f97316" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="browserGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e2235"/>
+      <stop offset="100%" stop-color="#151828"/>
+    </linearGradient>
+    <linearGradient id="screenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#0a0e17"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="12" stdDeviation="20" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="screenGlow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <rect width="800" height="450" fill="url(#glowPurple)"/>
+  <rect width="800" height="450" fill="url(#glowTeal)"/>
+  <rect width="800" height="450" fill="url(#glowOrange)"/>
+
+  <!-- Dot grid -->
+  <pattern id="dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+    <circle cx="14" cy="14" r="0.8" fill="#ffffff" fill-opacity="0.05"/>
+  </pattern>
+  <rect width="800" height="450" fill="url(#dots)"/>
+
+  <!-- ── BROWSER WINDOW (main, slightly tilted) ─────────────── -->
+  <g transform="rotate(-3, 400, 225) translate(100, 55)" filter="url(#shadow)">
+    <!-- Browser frame -->
+    <rect x="0" y="0" width="600" height="350" rx="12" fill="url(#browserGrad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+    <!-- Title bar -->
+    <rect x="0" y="0" width="600" height="38" rx="12" fill="#1e2235"/>
+    <rect x="0" y="26" width="600" height="12" fill="#1e2235"/>
+    <!-- Traffic light buttons -->
+    <circle cx="22" cy="19" r="6" fill="#ef4444" fill-opacity="0.8"/>
+    <circle cx="40" cy="19" r="6" fill="#f59e0b" fill-opacity="0.8"/>
+    <circle cx="58" cy="19" r="6" fill="#22c55e" fill-opacity="0.8"/>
+    <!-- URL bar -->
+    <rect x="80" y="10" width="430" height="18" rx="9" fill="#0d1117" fill-opacity="0.8" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+    <text x="120" y="23" fill="#94a3b8" font-size="9" font-family="monospace">https://www.werbung-kroner.de</text>
+    <!-- Lock icon -->
+    <rect x="88" y="13" width="8" height="7" rx="1" fill="#22c55e" fill-opacity="0.7"/>
+    <rect x="90" y="10" width="4" height="5" rx="2" fill="none" stroke="#22c55e" stroke-width="1.5" stroke-opacity="0.7"/>
+
+    <!-- Screen content area -->
+    <rect x="0" y="38" width="600" height="312" fill="url(#screenGrad)"/>
+
+    <!-- Left sidebar / nav -->
+    <rect x="0" y="38" width="180" height="312" fill="#0a0e17" fill-opacity="0.6"/>
+    <!-- Sidebar items -->
+    <rect x="14" y="58"  width="100" height="8" rx="4" fill="#a855f7" fill-opacity="0.8"/>
+    <rect x="14" y="74"  width="130" height="7" rx="3" fill="#ffffff" fill-opacity="0.12"/>
+    <rect x="14" y="88"  width="115" height="7" rx="3" fill="#ffffff" fill-opacity="0.12"/>
+    <rect x="14" y="102" width="125" height="7" rx="3" fill="#ffffff" fill-opacity="0.12"/>
+    <rect x="14" y="116" width="105" height="7" rx="3" fill="#14b8a6" fill-opacity="0.5"/>
+    <rect x="14" y="130" width="118" height="7" rx="3" fill="#ffffff" fill-opacity="0.12"/>
+    <!-- Sidebar divider -->
+    <rect x="14" y="148" width="140" height="1" rx="0.5" fill="#ffffff" fill-opacity="0.05"/>
+    <!-- More sidebar items -->
+    <rect x="14" y="158" width="90"  height="6" rx="3" fill="#ffffff" fill-opacity="0.08"/>
+    <rect x="14" y="172" width="110" height="6" rx="3" fill="#ffffff" fill-opacity="0.08"/>
+    <rect x="14" y="186" width="95"  height="6" rx="3" fill="#ffffff" fill-opacity="0.08"/>
+
+    <!-- Main content area — nav bar of the site -->
+    <rect x="180" y="38" width="420" height="32" fill="#0c0f1c" fill-opacity="0.9"/>
+    <rect x="195" y="48" width="50"  height="12" rx="6" fill="#f97316" fill-opacity="0.85"/>
+    <rect x="258" y="51" width="35"  height="6"  rx="3" fill="#ffffff" fill-opacity="0.25"/>
+    <rect x="302" y="51" width="28"  height="6"  rx="3" fill="#ffffff" fill-opacity="0.25"/>
+    <rect x="340" y="51" width="40"  height="6"  rx="3" fill="#ffffff" fill-opacity="0.25"/>
+    <rect x="540" y="46" width="52"  height="18" rx="9" fill="#f97316" fill-opacity="0.7"/>
+    <text x="566" y="59" text-anchor="middle" fill="#fff" font-size="7" font-family="sans-serif" font-weight="600">Anfragen</text>
+
+    <!-- Hero section of the site -->
+    <rect x="180" y="70"  width="420" height="110" fill="#0c0f1c" fill-opacity="0.5"/>
+    <rect x="210" y="85"  width="200" height="14" rx="7" fill="#ffffff" fill-opacity="0.5"/>
+    <rect x="210" y="105" width="280" height="10" rx="5" fill="#ffffff" fill-opacity="0.2"/>
+    <rect x="210" y="120" width="250" height="10" rx="5" fill="#ffffff" fill-opacity="0.2"/>
+    <rect x="210" y="140" width="95"  height="22" rx="11" fill="#f97316" fill-opacity="0.8"/>
+    <rect x="315" y="140" width="80"  height="22" rx="11" fill="#ffffff" fill-opacity="0.07" stroke="#f97316" stroke-opacity="0.3" stroke-width="1"/>
+
+    <!-- Cards row -->
+    <rect x="188" y="188" width="120" height="70" rx="8" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.07" stroke-width="1"/>
+    <rect x="316" y="188" width="120" height="70" rx="8" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.07" stroke-width="1"/>
+    <rect x="444" y="188" width="128" height="70" rx="8" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.07" stroke-width="1"/>
+    <!-- Card icons -->
+    <circle cx="248" cy="210" r="10" fill="#f97316" fill-opacity="0.2"/>
+    <circle cx="376" cy="210" r="10" fill="#14b8a6" fill-opacity="0.2"/>
+    <circle cx="508" cy="210" r="10" fill="#a855f7" fill-opacity="0.2"/>
+    <!-- Card text lines -->
+    <rect x="200" y="228" width="95"  height="6" rx="3" fill="#ffffff" fill-opacity="0.15"/>
+    <rect x="200" y="240" width="75"  height="5" rx="2.5" fill="#ffffff" fill-opacity="0.08"/>
+    <rect x="328" y="228" width="95"  height="6" rx="3" fill="#ffffff" fill-opacity="0.15"/>
+    <rect x="328" y="240" width="80"  height="5" rx="2.5" fill="#ffffff" fill-opacity="0.08"/>
+    <rect x="456" y="228" width="95"  height="6" rx="3" fill="#ffffff" fill-opacity="0.15"/>
+    <rect x="456" y="240" width="70"  height="5" rx="2.5" fill="#ffffff" fill-opacity="0.08"/>
+
+    <!-- Bottom bar -->
+    <rect x="180" y="310" width="420" height="40" fill="#0a0e1a" fill-opacity="0.8"/>
+    <rect x="200" y="322" width="60"  height="6" rx="3" fill="#ffffff" fill-opacity="0.2"/>
+    <rect x="272" y="322" width="45"  height="6" rx="3" fill="#ffffff" fill-opacity="0.15"/>
+    <rect x="329" y="322" width="50"  height="6" rx="3" fill="#ffffff" fill-opacity="0.15"/>
+    <rect x="490" y="320" width="90"  height="10" rx="5" fill="#f97316" fill-opacity="0.2"/>
+
+    <!-- Green "Live" badge on browser -->
+    <rect x="500" y="11" width="40" height="16" rx="8" fill="#22c55e" fill-opacity="0.15" stroke="#22c55e" stroke-opacity="0.3" stroke-width="1"/>
+    <circle cx="510" cy="19" r="3" fill="#22c55e" fill-opacity="0.8"/>
+    <text x="521" y="23" fill="#22c55e" font-size="8" font-family="sans-serif" font-weight="600">Live</text>
+  </g>
+
+  <!-- ── CODE SNIPPET CARD (floating left) ──────────────────── -->
+  <g transform="translate(28, 130)" filter="url(#shadow)">
+    <rect x="0" y="0" width="195" height="155" rx="10" fill="#0d1117" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1"/>
+    <!-- Code editor top bar -->
+    <rect x="0" y="0" width="195" height="24" rx="10" fill="#1e2235"/>
+    <rect x="0" y="14" width="195" height="10" fill="#1e2235"/>
+    <circle cx="14" cy="12" r="4" fill="#ef4444" fill-opacity="0.7"/>
+    <circle cx="26" cy="12" r="4" fill="#f59e0b" fill-opacity="0.7"/>
+    <circle cx="38" cy="12" r="4" fill="#22c55e" fill-opacity="0.7"/>
+    <text x="110" y="16" text-anchor="middle" fill="#94a3b8" font-size="8" font-family="monospace">index.html</text>
+
+    <!-- Code lines with syntax coloring -->
+    <text x="12" y="40"  fill="#7c3aed" font-size="8.5" font-family="monospace">&lt;<tspan fill="#60a5fa">html</tspan> <tspan fill="#34d399">lang</tspan>=<tspan fill="#fbbf24">"de"</tspan>&gt;</text>
+    <text x="20" y="54"  fill="#7c3aed" font-size="8.5" font-family="monospace">&lt;<tspan fill="#60a5fa">head</tspan>&gt;</text>
+    <text x="30" y="68"  fill="#94a3b8" font-size="8.5" font-family="monospace">&lt;<tspan fill="#60a5fa">title</tspan>&gt;</text>
+    <text x="72" y="68"  fill="#fbbf24" font-size="8.5" font-family="monospace">PrintLine</text>
+    <text x="30" y="82"  fill="#94a3b8" font-size="8.5" font-family="monospace">&lt;<tspan fill="#60a5fa">meta</tspan></text>
+    <text x="30" y="96"  fill="#34d399" font-size="8.5" font-family="monospace">  charset=<tspan fill="#fbbf24">"UTF-8"</tspan></text>
+    <text x="30" y="110" fill="#94a3b8" font-size="8.5" font-family="monospace">&lt;<tspan fill="#60a5fa">style</tspan>&gt;</text>
+    <text x="40" y="124" fill="#c084fc" font-size="8.5" font-family="monospace">.hero {'{'}</text>
+    <text x="50" y="138" fill="#34d399" font-size="8.5" font-family="monospace">  color: <tspan fill="#fbbf24">#fff</tspan>;</text>
+    <text x="40" y="152" fill="#c084fc" font-size="8.5" font-family="monospace">{'}'}</text>
+
+    <!-- Cursor blink -->
+    <rect x="63" y="144" width="6" height="11" rx="1" fill="#a855f7" fill-opacity="0.9"/>
+  </g>
+
+  <!-- ── PERFORMANCE METRICS CARD (floating right) ──────────── -->
+  <g transform="translate(590, 180)" filter="url(#shadow)">
+    <rect x="0" y="0" width="175" height="185" rx="10" fill="#0d1117" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1"/>
+    <text x="14" y="22" fill="#94a3b8" font-size="9" font-family="sans-serif" font-weight="600">Performance</text>
+    <!-- Score ring -->
+    <circle cx="87" cy="80" r="38" fill="none" stroke="#1e2235" stroke-width="8"/>
+    <circle cx="87" cy="80" r="38" fill="none" stroke="#22c55e" stroke-width="8" stroke-dasharray="215 239" stroke-dashoffset="60" stroke-linecap="round" transform="rotate(-90 87 80)"/>
+    <text x="87" y="76"  text-anchor="middle" fill="#22c55e" font-size="22" font-family="sans-serif" font-weight="800">98</text>
+    <text x="87" y="90"  text-anchor="middle" fill="#94a3b8" font-size="8" font-family="sans-serif">Score</text>
+    <!-- Metrics rows -->
+    <rect x="14" y="132" width="147" height="1" fill="#ffffff" fill-opacity="0.06"/>
+    <text x="14" y="148" fill="#94a3b8" font-size="8"  font-family="sans-serif">LCP</text>
+    <text x="155" y="148" text-anchor="end" fill="#22c55e" font-size="8"  font-family="sans-serif" font-weight="600">1.2s</text>
+    <text x="14" y="162" fill="#94a3b8" font-size="8"  font-family="sans-serif">SEO</text>
+    <text x="155" y="162" text-anchor="end" fill="#22c55e" font-size="8"  font-family="sans-serif" font-weight="600">100</text>
+    <text x="14" y="176" fill="#94a3b8" font-size="8"  font-family="sans-serif">Accessibility</text>
+    <text x="155" y="176" text-anchor="end" fill="#f97316" font-size="8"  font-family="sans-serif" font-weight="600">97</text>
+  </g>
+
+  <!-- ── SEO Badge (floating bottom-left) ─────────────────────── -->
+  <g transform="translate(28, 330)">
+    <rect x="0" y="0" width="155" height="36" rx="18" fill="#14b8a6" fill-opacity="0.12" stroke="#14b8a6" stroke-opacity="0.3" stroke-width="1"/>
+    <text x="78" y="23" text-anchor="middle" fill="#2dd4bf" font-size="11" font-family="sans-serif" font-weight="600">✓ SEO-optimiert</text>
+  </g>
+
+  <!-- ── Responsive badge ──────────────────────────────────── -->
+  <g transform="translate(200, 380)">
+    <rect x="0" y="0" width="165" height="36" rx="18" fill="#a855f7" fill-opacity="0.12" stroke="#a855f7" stroke-opacity="0.3" stroke-width="1"/>
+    <text x="82" y="23" text-anchor="middle" fill="#c084fc" font-size="11" font-family="sans-serif" font-weight="600">Responsive Design</text>
+  </g>
+
+  <!-- Decorative sparkles -->
+  <circle cx="740" cy="60"  r="2"   fill="#a855f7" fill-opacity="0.7"/>
+  <circle cx="755" cy="75"  r="1"   fill="#a855f7" fill-opacity="0.5"/>
+  <circle cx="748" cy="50"  r="1.5" fill="#c084fc"  fill-opacity="0.6"/>
+  <circle cx="55"  cy="420" r="2"   fill="#14b8a6"  fill-opacity="0.5"/>
+  <circle cx="40"  cy="408" r="1"   fill="#14b8a6"  fill-opacity="0.4"/>
+</svg>

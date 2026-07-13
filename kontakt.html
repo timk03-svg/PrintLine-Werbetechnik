@@ -1,126 +1,285 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-      navigator.serviceWorker.register('service-worker.js');
-    });
-  }
-</script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com https://formspree.io https://printline-chat-api.vercel.app; base-uri 'self'; form-action 'self' mailto: https://formspree.io; object-src 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kontakt - PrintLine Werbetechnik</title>
-<meta name="description" content="Kontaktieren Sie PrintLine Werbetechnik in Stendal: Telefon, E-Mail oder über unser Kontaktformular. Wir beraten Sie gerne persönlich.">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="description" content="Kontaktieren Sie PrintLine Werbetechnik in Stendal: Telefon, E-Mail oder über unser Kontaktformular. Wir beraten Sie gerne persönlich.">
+  <link rel="canonical" href="https://www.werbung-kroner.de/kontakt.html">
+  <link rel="alternate" hreflang="de-DE" href="https://www.werbung-kroner.de/kontakt.html">
+  <link rel="alternate" hreflang="x-default" href="https://www.werbung-kroner.de/kontakt.html">
+  <meta name="theme-color" content="#40E0D0">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/assets/icon-192.png">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type"        content="website">
+  <meta property="og:site_name"   content="PrintLine Werbetechnik">
+  <meta property="og:url"         content="https://www.werbung-kroner.de/kontakt.html">
+  <meta property="og:title"       content="Kontakt - PrintLine Werbetechnik">
+  <meta property="og:description" content="Kontaktieren Sie PrintLine Werbetechnik in Stendal: Telefon, E-Mail oder über unser Kontaktformular. Wir beraten Sie gerne persönlich.">
+  <meta property="og:image"       content="https://www.werbung-kroner.de/bilder-leistung-hintergrund/beschriftungen.jpg">
+  <meta property="og:locale"      content="de_DE">
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Kontakt - PrintLine Werbetechnik">
+  <meta name="twitter:description" content="Kontaktieren Sie PrintLine Werbetechnik in Stendal: Telefon, E-Mail oder über unser Kontaktformular. Wir beraten Sie gerne persönlich.">
+  <meta name="twitter:image"       content="https://www.werbung-kroner.de/bilder-leistung-hintergrund/beschriftungen.jpg">
+
+  <link rel="icon" href="favicon.ico?v=3" sizes="any">
+  <link rel="icon" type="image/png" href="favicon.png?v=3">
+
+  <!-- Theme früh setzen (kein Aufblitzen) -->
+  <script>(function(){try{var t=localStorage.getItem('pl-theme')||'light';document.documentElement.setAttribute('data-theme',t);if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('reveal-on');}}catch(e){document.documentElement.setAttribute('data-theme','light');}})();</script>
+
+  <link rel="stylesheet" href="/assets/fonts/fonts.css">
+  <link rel="stylesheet" href="style.css?v=18">
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ContactPage",
+      "@id": "https://www.werbung-kroner.de/kontakt.html#webpage",
+      "url": "https://www.werbung-kroner.de/kontakt.html",
+      "name": "Kontakt & Anfrage – PrintLine Werbetechnik",
+      "description": "Kontaktieren Sie PrintLine Werbetechnik in Stendal.",
+      "isPartOf": {
+        "@id": "https://www.werbung-kroner.de/#website"
+      },
+      "about": {
+        "@id": "https://www.werbung-kroner.de/#business"
+      },
+      "inLanguage": "de-DE"
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://www.werbung-kroner.de/#business",
+      "name": "PrintLine Werbetechnik",
+      "telephone": "+49 152 03016900",
+      "email": "print2002@gmx.de",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Magdeburger Straße 5A",
+        "postalCode": "39576",
+        "addressLocality": "Stendal",
+        "addressRegion": "Sachsen-Anhalt",
+        "addressCountry": "DE"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+49 152 03016900",
+        "email": "print2002@gmx.de",
+        "contactType": "customer service",
+        "availableLanguage": "German"
+      },
+      "sameAs": [
+        "https://www.instagram.com/printlinewerbetechnik",
+        "https://www.facebook.com/profile.php?id=61578642672834",
+        "https://share.google/znhlfRnPWObpDEKwx"
+      ],
+      "logo": "https://www.werbung-kroner.de/assets/logo.png",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "10:00",
+          "closes": "18:00"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Startseite",
+          "item": "https://www.werbung-kroner.de/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Kontakt",
+          "item": "https://www.werbung-kroner.de/kontakt.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+  <style>
+    .req { color: #d6451f; }
+    .form-note { font-size: .85em; opacity: .7; margin: 0 0 1rem; }
+  </style>
 </head>
 <body>
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
 
-<header class="kategorie-header">
-<h1>Kontakt</h1>
-</header>
+  <!-- ══ NAVIGATION ══ -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="brand" aria-label="PrintLine Werbetechnik Startseite">
+        <img class="brand__logo" src="assets/logo-mark.webp" alt="" aria-hidden="true">
+        <span>PrintLine&nbsp;<span class="text-grad">Werbetechnik</span></span>
+      </a>
 
-<nav>
-<a href="index.html">Startseite</a>
-<a href="leistungen.html">Leistungen</a>
-<a href="webdesign.html">Webentwicklung</a>
-<a href="portfolio.html">Portfolio</a>
-<a href="ueber-uns.html">Über uns</a>
- <a href="Archiv.html">Archiv</a>
-<a href="impressum.html">Impressum</a>
-<a href="datenschutz.html">Datenschutz</a>
-<a href="agb.html">AGB</a>
-</nav>
+      <nav class="nav__links" aria-label="Hauptnavigation">
+        <a href="index.html#leistungen">Leistungen</a>
+        <a href="https://konfigurator.werbung-kroner.de" target="_blank" rel="noopener">Konfigurator</a>
+        <a href="webdesign.html">Webentwicklung</a>
+        <a href="index.html#portfolio">Portfolio</a>
+        <a href="index.html#ueber-uns">Über uns</a>
+        <a href="index.html#archiv">Archiv</a>
+      </nav>
 
-<!-- ...existing code... -->
-<main>
-  <h2>Wir sind auch telefonisch oder per E-Mail zu erreichen:</h2>
-  <!-- ...existing code... -->
-<div class="kontakt-daten">
-  <p>
-    <i class="fa-solid fa-envelope"></i>
-    <strong>E-Mail:</strong> <a href="mailto:print2002@gmx.de">print2002@gmx.de</a><br>
-    <p></p>
-    <i class="fa-solid fa-phone"></i>
-    <strong>Telefon:</strong> <a href="tel:+4915203016900">+49 152 03016900</a>
-  </p>
-</div>
-<!-- ...existing code... -->
+      <div class="nav__actions">
+        <button class="theme-toggle" data-theme-toggle aria-label="Hell/Dunkel umschalten">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <a href="index.html#kontakt" class="btn btn-primary">Jetzt anfragen</a>
+        <button class="nav__burger" aria-label="Menü öffnen" aria-controls="mobileMenu" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
 
-  <p id="kontakt-hinweis">Haben Sie Fragen oder wünschen Sie ein individuelles Angebot? Füllen Sie einfach das Formular aus:</p>
-<div class="kontaktForm">
-  <form id="kontaktForm" action="https://formspree.io/f/mnnzegpa" method="POST">
-    <label for="name">Ihr Name</label>
-    <input type="text" id="name" name="name" required>
-
-    <label for="email">Ihre E-Mail</label>
-    <input type="email" id="email" name="email" required>
-
-    <label for="nachricht">Ihre Nachricht</label>
-    <textarea id="nachricht" name="nachricht" rows="6" required></textarea>
-
-    <button type="submit">Absenden</button>
-    </form>
-</div>
-</main>
-<!-- ...existing code... -->
-<br>
-
-<div id="form-success" style="display:none; color:rgb(0, 0, 0); margin-top:10px;">
-  Nachricht wurde erfolgreich gesendet! Wir melden uns zeitnah bei Ihnen.
-</div>
-<script>
-document.getElementById('kontaktForm').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const form = e.target;
-  const data = new FormData(form);
-  const response = await fetch(form.action, {
-    method: form.method,
-    body: data,
-    headers: { 'Accept': 'application/json' }
-  });
-  if (response.ok) {
-    document.getElementById('kontakt-hinweis').style.display = 'none';
-      form.innerHTML = `
-  <div style="text-align:center; margin-top:40px;">
-    <p style="color: black; font-size:1.2em; margin-top:24px;">Vielen Dank für Ihre Nachricht! 
-      <p>
-      Wir werden uns zeitnah bei Ihnen melden!</p>
+  <!-- Mobile-Menü -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html#leistungen">Leistungen</a>
+        <a href="https://konfigurator.werbung-kroner.de" target="_blank" rel="noopener">Konfigurator</a>
+    <a href="webdesign.html">Webentwicklung</a>
+    <a href="index.html#portfolio">Portfolio</a>
+    <a href="index.html#ueber-uns">Über uns</a>
+    <a href="index.html#archiv">Archiv</a>
+    <a href="index.html#kontakt">Kontakt</a>
   </div>
-`;
-  } else {
-    form.innerHTML = "<p style='color: red;'>Es gab ein Problem beim Absenden. Bitte versuchen Sie es später erneut.</p>";
-  }
-});
 
-</script>
-  <!-- Footer entfernt, stattdessen reiner Text am Seitenende -->
-  <div style="text-align:center; margin: 30px 0 10px 0; font-size: 1.1rem;">
-    <strong>© 2026 PrintLine Werbetechnik - Alle Rechte vorbehalten <br>
-      <span class="footer-link" data-href="impressum.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Impressum</span> |
-      <span class="footer-link" data-href="datenschutz.html" style="color:#004a80; text-decoration:underline; cursor:pointer;">Datenschutz</span> |
-  <span class="footer-link" data-cookie style="color:#004a80; text-decoration:underline; cursor:pointer;">Cookie-Einstellungen</span>
-    </strong>
-<script>
-// Footer-Links klickbar machen ohne Dateipfad beim Hover
-document.querySelectorAll('.footer-link[data-href]').forEach(link => {
-  link.addEventListener('click', function() {
-    window.location.href = link.getAttribute('data-href');
-  });
-});
-document.querySelectorAll('.footer-link[data-cookie]').forEach(link => {
-  link.addEventListener('click', function(e) {
-    e.preventDefault();
-    window.showCookieSettings && window.showCookieSettings();
-  });
-});
-</script>
-  </div>
-  <script src="cookie-banner.js" defer></script>
+  <main id="main">
+
+    <!-- ══ SUBHERO ══ -->
+    <section class="subhero">
+      <div class="wrap">
+        <nav class="breadcrumb" aria-label="Brotkrümel-Navigation">
+          <a href="index.html">Startseite</a> › <span>Kontakt</span>
+        </nav>
+        <h1>Kontakt</h1>
+        <p>Kontaktieren Sie PrintLine Werbetechnik in Stendal: telefonisch, per E-Mail oder über unser Kontaktformular. Wir beraten Sie gerne persönlich.</p>
+      </div>
+    </section>
+
+    <!-- ══ KONTAKTDATEN ══ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="prose-card" data-reveal>
+          <h2>Wir sind auch telefonisch oder per E-Mail zu erreichen:</h2>
+          <ul class="ticks">
+            <li><strong>E-Mail:</strong> <a href="mailto:print2002@gmx.de">print2002@gmx.de</a></li>
+            <li><strong>Telefon:</strong> <a href="tel:+4915203016900">+49 152 03016900</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ KONTAKTFORMULAR ══ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="prose-card" data-reveal>
+          <p id="kontakt-hinweis">Haben Sie Fragen oder wünschen Sie ein individuelles Angebot? Füllen Sie einfach das Formular aus:</p>
+          <form id="kontaktForm" action="https://formspree.io/f/mnnzegpa" method="POST">
+            <p class="form-note"><span class="req" aria-hidden="true">*</span> Pflichtfeld</p>
+            <div class="field">
+              <label for="name">Ihr Name <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="name" name="name" required>
+            </div>
+            <div class="field">
+              <label for="email">Ihre E-Mail <span class="req" aria-hidden="true">*</span></label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            <div class="field">
+              <label for="telefon">Ihre Telefonnummer (optional)</label>
+              <input type="tel" id="telefon" name="telefon" inputmode="tel" autocomplete="tel">
+            </div>
+            <div class="field">
+              <label for="nachricht">Ihre Nachricht <span class="req" aria-hidden="true">*</span></label>
+              <textarea id="nachricht" name="nachricht" rows="6" required></textarea>
+            </div>
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp-field">
+            <button type="submit" class="btn btn-primary btn-lg">Anfrage absenden – Antwort in 24&nbsp;Stunden</button>
+            <p class="form-note" style="margin-top:.6rem">Kostenlos &amp; unverbindlich · Ihre Daten nutzen wir ausschließlich zur Bearbeitung Ihrer Anfrage.</p>
+          </form>
+        </div>
+
+        <div class="mt-2" data-reveal>
+          <a class="back-link" href="index.html">← Zurück zur Startseite</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a href="index.html" class="brand"><img class="brand__logo" src="assets/logo-mark.webp" alt="" aria-hidden="true"><span>PrintLine&nbsp;Werbetechnik</span></a>
+          <p>Professionelle Werbetechnik aus Stendal seit fast 40 Jahren. Vom Werbeaufdruck bis zur Fahrzeugbeschriftung – alles aus einer Hand.</p>
+          <p class="muted">Magdeburger Straße 5A · 39576 Stendal</p>
+          <p class="muted"><a href="tel:+4915203016900">+49 152 03016900</a> · <a href="mailto:print2002@gmx.de">print2002@gmx.de</a></p>
+          <p class="muted">Mo–Fr 10:00–18:00 Uhr</p>
+        </div>
+        <div class="footer__col">
+          <h3>Leistungen</h3>
+          <a href="beschriftungen.html">Beschriftungen</a>
+          <a href="druck.html">Digitaldruck</a>
+          <a href="schilder.html">Schilder</a>
+          <a href="folientechnik.html">Folientechnik</a>
+          <a href="textildruck-flex-und-flock.html">Textildruck</a>
+          <a href="fassaden.html">Fassadenwerbung</a>
+          <a href="fahnen.html">Fahnen</a>
+          <a href="aufsteller-pylonen.html">Aufsteller &amp; Pylone</a>
+          <a href="werbeartikel.html">Werbeartikel</a>
+          <a href="planen-banner.html">Werbebanner &amp; Planen</a>
+          <a href="leistungen.html">Alle Leistungen →</a>
+        </div>
+        <div class="footer__col">
+          <h3>Navigation</h3>
+          <a href="index.html#portfolio">Portfolio</a>
+          <a href="index.html#ueber-uns">Über uns</a>
+          <a href="Archiv.html">Archiv</a>
+          <a href="index.html#kontakt">Kontakt</a>
+          <a href="impressum.html">Impressum</a>
+          <a href="datenschutz.html">Datenschutz</a>
+          <a href="agb.html">AGB</a>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2026 PrintLine Werbetechnik. Alle Rechte vorbehalten.</span>
+        <span>
+          <a href="impressum.html">Impressum</a> ·
+          <a href="datenschutz.html">Datenschutz</a> ·
+          <a href="agb.html">AGB</a> ·
+          <a href="#" data-cookie="open">Cookie-Einstellungen</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="vendor/motion.js" defer></script>
+  <script src="theme.js?v=17" defer></script>
+  <script src="assistant.js?v=7" defer></script>
+  <script src="forms.js?v=1" defer></script>
+  <script src="cookie-banner.js?v=8" defer></script>
+  <script src="tracking.js" defer></script>
 </body>
 </html>

@@ -2,6 +2,8 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com https://formspree.io https://printline-chat-api.vercel.app; base-uri 'self'; form-action 'self' mailto: https://formspree.io; object-src 'none'">
+  <meta name="robots" content="noindex, nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bilder Ladezeiten & Größen Check</title>
   <style>
@@ -13,9 +15,6 @@
     tr.large { background: #fff3cd; }
     img { max-width: 120px; max-height: 80px; }
   </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <h1>Bilder Ladezeiten & Größen Check</h1>
@@ -32,15 +31,13 @@
     // Hier alle Bildpfade aus leistungen.html eintragen (ggf. automatisch generieren)
     const images = [
       'bilder-leistung-hintergrund/beschriftungen.jpg',
-      'bilder-leistung-hintergrund/druck.jpg',
       'bilder-leistung-hintergrund/schilder.jpg',
       'bilder-leistung-hintergrund/planen.jpg',
       'bilder-leistung-hintergrund/werbeartikel.jpg',
       'bilder-leistung-hintergrund/folientechnik.jpg',
       'bilder-leistung-hintergrund/fahnen.jpg',
-      'bilder-leistung-hintergrund/geruestplanen-werbebanner.jpg',
-      'bilder-leistung-hintergrund/textildruck.JPG',
-      'bilder-leistung-hintergrund/aufsteller-pylonen.jpg'
+      'bilder-leistung-hintergrund/geruestplanen.jpg',
+      'bilder-leistung-hintergrund/textildruck.JPG'
     ];
     const table = document.getElementById('imgTable');
     images.forEach(src => {

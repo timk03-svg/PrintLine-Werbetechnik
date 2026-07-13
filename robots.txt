@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Interne Werkzeug-Seiten (nicht indexieren)
+Disallow: /bilder-check.html
+Disallow: /bilder-check-leistungen.html
+
+# Rechnungs-App (privat, passwortgeschützt – nicht indexieren)
+Disallow: /rechnungen/
+
+# Sitemap
+Sitemap: https://www.werbung-kroner.de/sitemap.xml

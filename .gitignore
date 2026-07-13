@@ -1,0 +1,13 @@
+node_modules/
+package-lock.json
+tmp/
+.DS_Store
+
+# Lokale Daten & Routine-Ergebnisse – NICHT committen/deployen
+# (auf GitHub Pages läuft die /data/-Sperre aus server.js nicht → wären sonst öffentlich)
+data/
+routine/
+# Interne Marketing-/Strategie-Dokumente – duerfen NICHT oeffentlich werden
+marketing/
+# Backup-Dateien
+*.bak

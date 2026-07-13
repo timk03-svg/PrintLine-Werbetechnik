@@ -2,6 +2,8 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com https://formspree.io https://printline-chat-api.vercel.app; base-uri 'self'; form-action 'self' mailto: https://formspree.io; object-src 'none'">
+  <meta name="robots" content="noindex, nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bilder-Check: Größe & Ladezeit</title>
   <style>
@@ -14,9 +16,6 @@
     .warn { color: orange; font-weight: bold; }
     .bad { color: red; font-weight: bold; }
   </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <h1 style="text-align:center">Bilder-Check: Größe & Ladezeit</h1>
@@ -26,23 +25,16 @@
   <script>
     const bilder = [
       "bilder-leistung-hintergrund/cpc.jpg",
-      "bilder-leistung-hintergrund/elbeshirts.JPG",
-      "bilder-leistung-hintergrund/elektroliesecke (1).JPG",
+      "bilder-leistung-hintergrund/elektroliesecke1.JPG",
       "bilder-leistung-hintergrund/elberadweg2.JPG",
-      "bilder-leistung-hintergrund/druck.jpg",
       "bilder-leistung-hintergrund/drkscheibesdl.jpg",
       "bilder-leistung-hintergrund/drkgroß.JPG",
-      "bilder-leistung-hintergrund/drkaußenschild.jpg",
       "bilder-leistung-hintergrund/favicon_256.png",
-      "bilder-leistung-hintergrund/fahnenschröter.jpg",
       "bilder-leistung-hintergrund/fahnen.jpg",
       "bilder-leistung-hintergrund/drkautohaus.jpg",
-      "bilder-leistung-hintergrund/chatgptl.png",
       "bilder-leistung-hintergrund/boot.jpg",
       "bilder-leistung-hintergrund/beschriftungen.jpg",
-      "bilder-leistung-hintergrund/aufstellercafeneu123.jpg",
-      "bilder-leistung-hintergrund/aufstellercafeneu1.jpg",
-      "bilder-leistung-hintergrund/aufstellercafe.jpg",
+      "bilder-leistung-hintergrund/aufstellercafeneu1234.jpg",
       "bilder-leistung-hintergrund/maxauto1.jpg",
       "bilder-leistung-hintergrund/schilder.jpg"
     ];
