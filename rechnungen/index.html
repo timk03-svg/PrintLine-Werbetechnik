@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#3761B5">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -529,7 +530,11 @@
   body.exporting [contenteditable]:focus{background:none !important;box-shadow:none !important;}
   body.exporting .noprint{display:none !important;}
   body.exporting .exp-add{display:none !important;}
-  body.exporting .page{box-shadow:none;}
+  body.exporting .page{box-shadow:none;min-height:0;}
+  /* Im PDF fließt der Fußblock direkt hinter dem Inhalt (kein margin-top:auto, das ihn an den
+     Seitenrand drückt und eine fast leere Extra-Seite erzeugen würde). Er bleibt als Ganzes
+     zusammen (pagebreak.avoid) und landet bei vollen Seiten von selbst unten. */
+  body.exporting .docfoot{margin-top:0;}
   body.exporting #viewHistory,body.exporting #viewFinance{max-width:none;padding:0;}
   body.exporting .panel{box-shadow:none;border:none;padding:0;margin:0 0 12px;break-inside:avoid;}
   body.exporting .card{box-shadow:none;}
@@ -623,7 +628,7 @@
 
 <!-- Werkzeugleiste -->
 <div class="toolbar noprint">
-  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-07-09 · Unterschrift</span></div>
+  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-07-14 · PDF-Umbruch</span></div>
   <button class="btn iconbtn" id="btnUndo" title="Rückgängig (Cmd+Z)" disabled>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-1"/></svg>Zurück
   </button>
@@ -2325,38 +2330,82 @@ function hideEmptyOptional(root){
   });
 }
 const DOC_MT=8, DOC_MB=8;   // mm Rand oben/unten im Dokument-PDF (auch Abstand auf Folgeseiten)
-// Fußblock (.docfoot = AGB-Hinweis + blaue Fußzeile) wird beim PDF-Export IMMER komplett auf
-// eine EIGENE letzte Seite gelegt und dort GANZ UNTEN verankert – so wird er garantiert nie
-// über einen Seitenumbruch zerschnitten (Wunsch: „immer gebunden auf die nächste Seite, ganz unten").
-// Zwei-Pass: 1) echte Render-Höhe des Inhalts OHNE Fußblock messen (toCanvas, scale 1) → Seitenzahl
-// des Inhalts; 2) Seite auf (Inhaltsseiten+1) volle A4-Seiten setzen, den Block per Flex ans untere
-// Ende pinnen und html2canvas diese Höhe FEST vorgeben (Klon rastert exakt so viele Seiten).
-// Gibt eine Aufräum-Funktion zurück.
-async function positionDocFootForExport(pageEl, opt){
-  const docfoot=pageEl.querySelector(".docfoot");
-  if(!docfoot) return ()=>{};
-  const prevMinH=pageEl.style.minHeight, prevMT=docfoot.style.marginTop, prevDisp=docfoot.style.display;
-  const prevH=opt.html2canvas.height, prevWH=opt.html2canvas.windowHeight;
-  const restore=()=>{ pageEl.style.minHeight=prevMinH; docfoot.style.marginTop=prevMT; docfoot.style.display=prevDisp;
-                      opt.html2canvas.height=prevH; opt.html2canvas.windowHeight=prevWH; };
-  // Pass 1: Höhe des Inhalts OHNE den Fußblock ermitteln (scale 1 reicht – Layout ist auflösungsunabhängig)
-  pageEl.style.minHeight="0px"; docfoot.style.display="none";
-  let contentH;
-  try{
-    const probeOpt=Object.assign({},opt,{html2canvas:Object.assign({},opt.html2canvas,{scale:1,height:null,windowHeight:null})});
-    const wkr=html2pdf().set(probeOpt).from(pageEl).toCanvas();
-    await wkr;
-    contentH=wkr.prop.canvas.height;                  // CSS-px (scale 1)
-  }catch(e){ restore(); return ()=>{}; }
-  docfoot.style.display=prevDisp||"";                  // Fußblock wieder einblenden
-  if(!contentH || !isFinite(contentH)){ restore(); return ()=>{}; }   // Schutz: ungültige Messung
-  const PAGE_PX=(297-DOC_MT-DOC_MB)/25.4*96;            // Inhaltshöhe je A4-Seite in CSS-px (≈1062)
-  const contentPages=Math.max(1, Math.ceil((contentH-2)/PAGE_PX));   // Seiten, die der Inhalt belegt
-  const H=Math.round((contentPages+1)*PAGE_PX-2);      // +1 eigene Seite ganz für den Fußblock
-  pageEl.style.minHeight=H+"px";                       // Seite auf (Inhaltsseiten+1) A4-Seiten hochsetzen
-  docfoot.style.marginTop="auto";                      // Block per Flex ans untere Ende pinnen
-  opt.html2canvas.height=H; opt.html2canvas.windowHeight=H;   // Render-Höhe FEST -> exakt diese Seitenzahl
-  return restore;
+const PAGE_PX=(297-DOC_MT-DOC_MB)/25.4*96;   // nutzbare Inhaltshöhe je A4-Seite in CSS-px (≈1062)
+
+// Leere optionale Felder auf dem LIVE-Dokument ausblenden (damit die Messung dem gerenderten
+// Bild entspricht, das html2pdf per onclone ebenfalls bereinigt). Gibt eine Wiederherstell-Funktion zurück.
+function hideEmptyOptionalLive(root){
+  const hidden=[];
+  const hide=(e)=>{ if(e && e.style.display!=="none"){ hidden.push([e,e.style.display]); e.style.display="none"; } };
+  root.querySelectorAll(".betreff,.intro,.schluss,.hinweis").forEach(e=>{ if(!e.textContent.trim()) hide(e); });
+  root.querySelectorAll(".meta .v[data-field]").forEach(e=>{
+    if(!e.textContent.trim() && ["kundennr","extra","lieferdatum"].includes(e.dataset.field)){ const tr=e.closest("tr"); if(tr) hide(tr); }
+  });
+  return ()=>hidden.forEach(([e,d])=>{ e.style.display=d; });
+}
+
+// Deterministischer Seitenumbruch VOR dem Rendern. html2pdfs eigene avoid-Logik bricht hohe Zeilen
+// unzuverlässig um (schneidet mitten durch); deshalb setzen wir die Umbrüche selbst: jeden
+// zusammenhängenden Block (Meta, Titel, Intro, jede Positionszeile, Summen, Hinweis, Schluss und
+// den kompletten Fußblock) messen – ragt er über eine A4-Seitengrenze, davor einen Abstandshalter
+// einfügen, der ihn KOMPLETT an den Anfang der nächsten Seite schiebt (die weiße Fläche darüber ist
+// gewollt: „egal ob weiße Fläche dazwischen ist, es soll nur geordnet wirken"). html2pdf rastert danach
+// nur noch in gleich hohe Seiten (pagebreak css), sodass die Schnitte immer in leere Bereiche fallen.
+// Gibt eine Aufräum-Funktion zurück, die alle Änderungen zurücknimmt.
+function layoutDocForExport(pageEl){
+  const body=pageEl.querySelector(".body");
+  if(!body) return ()=>{};
+  const cleanups=[ hideEmptyOptionalLive(pageEl) ];
+  const pageTop=()=>pageEl.getBoundingClientRect().top;
+  const topOf=(el)=>el.getBoundingClientRect().top - pageTop();
+  const botOf=(el)=>el.getBoundingClientRect().bottom - pageTop();
+  const visible=(el)=>getComputedStyle(el).display!=="none" && el.getBoundingClientRect().height>0;
+
+  // Zusammenhängende Blöcke in Fluss-Reihenfolge (Positionstabelle → Kopf + Einzelzeilen; .docfoot inkl.)
+  const units=[];
+  Array.from(body.children).forEach(ch=>{
+    if(ch.classList.contains("noprint")) return;         // Buttons o. Ä. werden nicht gedruckt
+    if(ch.matches("table.pos")){
+      const thead=ch.querySelector("thead"); if(thead) units.push({el:thead,kind:"thead"});
+      Array.from(ch.querySelectorAll("#rows > tr")).forEach(tr=>units.push({el:tr,kind:"row"}));
+    } else {
+      units.push({el:ch,kind:"block"});
+    }
+  });
+
+  const addSpacer=(u,px)=>{
+    px=Math.max(0,Math.round(px)); if(px<1) return;
+    if(u.kind==="row"){
+      const tr=document.createElement("tr");
+      const td=document.createElement("td"); td.setAttribute("colspan","7");
+      td.style.cssText="padding:0;border:none;height:"+px+"px;";
+      tr.appendChild(td); u.el.parentNode.insertBefore(tr,u.el);
+      cleanups.push(()=>{ tr.remove(); });
+    } else if(u.kind==="thead"){
+      const tbl=u.el.closest("table"); const prev=tbl.style.marginTop;
+      tbl.style.marginTop=((parseFloat(prev)||0)+px)+"px";
+      cleanups.push(()=>{ tbl.style.marginTop=prev; });
+    } else {
+      const el=u.el; const prev=el.style.marginTop;
+      const base=parseFloat(getComputedStyle(el).marginTop)||0;
+      el.style.marginTop=(base+px)+"px";
+      cleanups.push(()=>{ el.style.marginTop=prev; });
+    }
+  };
+
+  for(const u of units){
+    if(!visible(u.el)) continue;
+    const top=topOf(u.el), bot=botOf(u.el), h=bot-top;
+    const startPage=Math.floor((top+0.5)/PAGE_PX), endPage=Math.floor((bot-0.5)/PAGE_PX);
+    if(endPage<=startPage) continue;                     // passt komplett auf eine Seite → nichts tun
+    const intoPage=top-startPage*PAGE_PX;
+    if(h>PAGE_PX){                                        // höher als eine Seite: Teilung unvermeidbar
+      if(intoPage>4) addSpacer(u,(startPage+1)*PAGE_PX-top+2);   // wenigstens am Seitenanfang beginnen
+      continue;
+    }
+    addSpacer(u,(startPage+1)*PAGE_PX-top+2);             // ganzer Block auf die nächste Seite
+  }
+  return ()=>{ cleanups.reverse().forEach(fn=>{ try{fn();}catch(e){} }); };
 }
 function downloadPDF(){
   if(typeof html2pdf==="undefined"){ alert("PDF-Bibliothek nicht geladen."); return; }
@@ -2378,7 +2427,7 @@ function downloadPDF(){
     isDoc=true;
     el=document.getElementById("page"); switchView("doc"); archiveCurrent();
     margin=[DOC_MT,0,DOC_MB,0];
-    // min-height / Fußblock-Position regelt positionDocFootForExport() direkt vor dem Rendern.
+    // Seitenumbruch setzt layoutDocForExport() deterministisch vor dem Rendern (Abstandshalter je Block).
   }
   // onclone sorgt dafür, dass im gerenderten Klon die Export-Regeln WIRKLICH greifen
   // (leere Felder zusammenfallen, keine Platzhalter) – sonst rendert html2canvas zu hoch.
@@ -2393,14 +2442,14 @@ function downloadPDF(){
     image:{type:"jpeg",quality:0.98},
     html2canvas:{scale:4,useCORS:true,backgroundColor:"#ffffff",windowWidth:el.scrollWidth,onclone},
     jsPDF:{unit:"mm",format:"a4",orientation:"portrait"},
-    // .docfoot/.legal/.footer NICHT mehr hier vermeiden – der Fußblock wird von positionDocFootForExport()
-    // deterministisch ans Seitenende gesetzt; html2pdfs eigene Logik würde ihn sonst falsch umbrechen/zerschneiden.
-    pagebreak:{mode:["css","legacy"],avoid:["tr",".head-row",".totals-box"]}
+    // Dokument: Umbruch setzt layoutDocForExport() deterministisch VOR dem Rendern (Abstandshalter je
+    // Block), html2pdf rastert nur noch in gleich hohe Seiten. Listen-Ansichten: Zeilen/Panels vermeiden.
+    pagebreak: isDoc ? {mode:["css"]} : {mode:["css","legacy"],avoid:["tr",".head-row",".totals-box"]}
   };
   let footCleanup=null;
   const done=()=>{ if(footCleanup) footCleanup(); document.body.classList.remove("exporting"); if(restore) restore(); if(wasDark) document.body.classList.add("dark"); };
-  setTimeout(async ()=>{
-    if(isDoc) footCleanup=await positionDocFootForExport(el, opt);   // Fußblock ans Seitenende (Zwei-Pass)
+  setTimeout(()=>{
+    if(isDoc) footCleanup=layoutDocForExport(el);   // feste Seitenhöhe: Blöcke ganz auf die nächste Seite
     html2pdf().set(opt).from(el).save().then(done,done);
   },60);
 }
