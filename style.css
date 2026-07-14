@@ -559,6 +559,19 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; line-height: 1.12; font-weight
 .ai-input button:disabled { opacity: .5; cursor: not-allowed; }
 .ai-disclaimer { font-size: .72rem; color: var(--text-mute); text-align: center; padding: 0 1rem .7rem; }
 
+/* Mobil: Chat als Vollbild; Höhe folgt dem sichtbaren Fenster (--ai-vh wird
+   per JS aus visualViewport gesetzt), damit die Bildschirmtastatur das
+   Eingabefeld nicht verdeckt. Fallback 100dvh, falls JS/visualViewport fehlt. */
+@media (max-width: 560px) {
+  .ai-panel {
+    inset: 0 0 auto 0; width: 100%;
+    height: var(--ai-vh, 100dvh); max-height: var(--ai-vh, 100dvh);
+    border-radius: 0;
+    transform: translateY(100%); transform-origin: center bottom;
+  }
+  .ai-panel.open { transform: none; }
+}
+
 /* ── 19. COOKIE-BANNER ─────────────────────────────────────── */
 .cookie-bar {
   position: fixed; left: 50%; bottom: 1rem; transform: translateX(-50%) translateY(150%); z-index: 1200;

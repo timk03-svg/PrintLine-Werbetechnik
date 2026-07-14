@@ -4,15 +4,15 @@
    - Robuste Installation: einzelne fehlende Dateien brechen nicht alles ab
    - Cacht NUR erfolgreiche Antworten (kein 404-Poisoning) → keine „toten" Bilder/Seiten
 */
-const CACHE_NAME = 'printline-cache-v38';
+const CACHE_NAME = 'printline-cache-v39';
 
 // Nur Kern-Assets vorab cachen (die sicher existieren)
 const CORE = [
   '/',
   '/index.html',
-  '/style.css?v=18',
+  '/style.css?v=19',
   '/theme.js?v=17',
-  '/assistant.js?v=7',
+  '/assistant.js?v=8',
   '/cookie-banner.js?v=8',
   '/tracking.js',
   '/vendor/motion.js',

@@ -74,6 +74,22 @@
     const form = panel.querySelector('#aiForm');
     const input = panel.querySelector('#aiInput');
 
+    // Mobil: Panelhöhe an den sichtbaren Bereich koppeln, damit die
+    // Bildschirmtastatur das Eingabefeld nicht verdeckt. visualViewport
+    // schrumpft bei geöffneter Tastatur, 100vh/dvh dagegen nicht.
+    function syncViewportHeight() {
+      const vv = window.visualViewport;
+      const h = vv ? vv.height : window.innerHeight;
+      panel.style.setProperty('--ai-vh', Math.round(h) + 'px');
+      if (panel.classList.contains('open')) body.scrollTop = body.scrollHeight;
+    }
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', syncViewportHeight);
+      window.visualViewport.addEventListener('scroll', syncViewportHeight);
+    }
+    window.addEventListener('resize', syncViewportHeight);
+    syncViewportHeight();
+
     let openAt = 0;
     let openScrollY = 0;
 
@@ -91,6 +107,7 @@
       if (panel.classList.contains('open')) return;
       panel.classList.add('open');
       fab.classList.add('hidden');
+      syncViewportHeight();
       if (!body.childElementCount) renderHistory();
       input.value = draft;
       openAt = Date.now();
