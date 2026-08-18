@@ -79,7 +79,10 @@
     // schrumpft bei geöffneter Tastatur, 100vh/dvh dagegen nicht.
     function syncViewportHeight() {
       const vv = window.visualViewport;
-      const h = vv ? vv.height : window.innerHeight;
+      // iOS meldet vv.height beim Tastatur-Öffnen transient 0 → verwerfen,
+      // sonst kollabiert das Panel (max-height:0) und verschwindet. > 120 lässt
+      // echte, tastatur-verkleinerte Höhen durch, fängt nur den 0-/near-0-Fall ab.
+      const h = (vv && vv.height > 120) ? vv.height : (window.innerHeight || 640);
       panel.style.setProperty('--ai-vh', Math.round(h) + 'px');
       if (panel.classList.contains('open')) body.scrollTop = body.scrollHeight;
     }
@@ -112,7 +115,7 @@
       input.value = draft;
       openAt = Date.now();
       openScrollY = window.scrollY || window.pageYOffset || 0;
-      setTimeout(function () { input.focus({ preventScroll: true }); }, 250);
+      setTimeout(function () { input.focus({ preventScroll: true }); }, 450);
     }
     // Minimieren: Panel ausblenden, Zustand bleibt erhalten (kein Reset)
     function minimize() {
