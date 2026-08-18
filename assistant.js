@@ -79,11 +79,14 @@
     // schrumpft bei geöffneter Tastatur, 100vh/dvh dagegen nicht.
     function syncViewportHeight() {
       const vv = window.visualViewport;
-      // iOS meldet vv.height beim Tastatur-Öffnen transient 0 → verwerfen,
-      // sonst kollabiert das Panel (max-height:0) und verschwindet. > 120 lässt
-      // echte, tastatur-verkleinerte Höhen durch, fängt nur den 0-/near-0-Fall ab.
+      // iOS meldet vv.height beim Tastatur-Öffnen transient 0 → verwerfen (>120),
+      // sonst kollabiert das Panel. Zusätzlich offsetTop mitführen: iOS versetzt
+      // bei geöffneter Tastatur den sichtbaren Bereich — das fixierte Panel muss
+      // folgen (top:var(--ai-top)), sonst rutscht es aus dem Bild ("verschwindet").
       const h = (vv && vv.height > 120) ? vv.height : (window.innerHeight || 640);
+      const top = vv ? Math.max(0, Math.round(vv.offsetTop)) : 0;
       panel.style.setProperty('--ai-vh', Math.round(h) + 'px');
+      panel.style.setProperty('--ai-top', top + 'px');
       if (panel.classList.contains('open')) body.scrollTop = body.scrollHeight;
     }
     if (window.visualViewport) {
@@ -110,6 +113,7 @@
       if (panel.classList.contains('open')) return;
       panel.classList.add('open');
       fab.classList.add('hidden');
+      document.documentElement.classList.add('ai-chat-open');
       syncViewportHeight();
       if (!body.childElementCount) renderHistory();
       input.value = draft;
@@ -122,6 +126,7 @@
       if (!panel.classList.contains('open')) return;
       panel.classList.remove('open');
       fab.classList.remove('hidden');
+      document.documentElement.classList.remove('ai-chat-open');
     }
 
     fab.addEventListener('click', open);

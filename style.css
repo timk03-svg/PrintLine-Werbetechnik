@@ -564,12 +564,15 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; line-height: 1.12; font-weight
    Eingabefeld nicht verdeckt. Fallback 100dvh, falls JS/visualViewport fehlt. */
 @media (max-width: 560px) {
   .ai-panel {
-    inset: 0 0 auto 0; width: 100%;
+    top: var(--ai-top, 0px); right: 0; bottom: auto; left: 0; width: 100%;
     height: var(--ai-vh, 100dvh); max-height: var(--ai-vh, 100dvh);
     border-radius: 0;
     transform: translateY(100%); transform-origin: center bottom;
   }
   .ai-panel.open { transform: none; }
+  /* Hintergrund-Scroll sperren, solange der Chat offen ist – verhindert, dass
+     iOS beim Tastatur-Öffnen die Seite (und das fixierte Panel) wegscrollt. */
+  html.ai-chat-open, html.ai-chat-open body { overflow: hidden; }
 }
 
 /* ── 19. COOKIE-BANNER ─────────────────────────────────────── */
