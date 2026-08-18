@@ -131,7 +131,7 @@
     }
 
     /* ── 5b. ARCHIV-LIGHTBOX (Smooth-Zoom) ─────────────────── */
-    var archivBilder = Array.prototype.slice.call(document.querySelectorAll('.acard__media, .grid-cards .card__media')).filter(function (c) { return !c.closest('a') && c.querySelector('img'); });
+    var archivBilder = Array.prototype.slice.call(document.querySelectorAll('.acard__media, .grid-cards .card__media, .portfolio-grid figure.pcard')).filter(function (c) { return !c.closest('a') && c.querySelector('img'); });
     if (archivBilder.length) {
       var lb = document.createElement('div');
       lb.className = 'lightbox';
