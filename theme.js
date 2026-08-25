@@ -132,7 +132,8 @@
 
     /* ── 5b. ARCHIV-LIGHTBOX (Smooth-Zoom) ─────────────────── */
     var archivBilder = Array.prototype.slice.call(document.querySelectorAll('.acard__media, .grid-cards .card__media, .portfolio-grid figure.pcard')).filter(function (c) { return !c.closest('a') && c.querySelector('img'); });
-    if (archivBilder.length) {
+    var zoomButtons = Array.prototype.slice.call(document.querySelectorAll('.pcard__zoom'));
+    if (archivBilder.length || zoomButtons.length) {
       var lb = document.createElement('div');
       lb.className = 'lightbox';
       lb.setAttribute('role', 'dialog');
@@ -157,6 +158,18 @@
         document.body.style.overflow = '';
         if (lbOpener && typeof lbOpener.focus === 'function') { lbOpener.focus(); lbOpener = null; } // Fokus zurückgeben
       }
+      // Portfolio-Kacheln sind <a>-Links zu den Fallseiten. Der Lupen-Button
+      // oeffnet stattdessen das Bild in der Lightbox, ohne dem Link zu folgen —
+      // so ist beides moeglich: durchklicken ODER vergroessern.
+      zoomButtons.forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+          e.preventDefault(); e.stopPropagation();
+          var karte = btn.closest('.pcard');
+          var bild = karte && karte.querySelector('img');
+          if (bild) lbOpen(bild.currentSrc || bild.src, bild.alt, btn);
+        });
+      });
+
       archivBilder.forEach(function (media) {
         media.style.cursor = 'zoom-in';
         media.setAttribute('tabindex', '0');          // per Tab erreichbar
