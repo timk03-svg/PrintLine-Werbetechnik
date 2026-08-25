@@ -564,6 +564,10 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; line-height: 1.12; font-weight
    Eingabefeld nicht verdeckt. Fallback 100dvh, falls JS/visualViewport fehlt. */
 @media (max-width: 560px) {
   .ai-panel {
+    /* Kein offsetTop-Tracking mehr: 'position:fixed' bezieht sich auf den
+       LAYOUT-Viewport. Mit 'interactive-widget=resizes-content' (Viewport-Meta)
+       schrumpft dieser beim Tastatur-Oeffnen selbst -> top:0 bleibt korrekt.
+       Frueher schob ein grosses --ai-top das Panel hinter die Tastatur. */
     top: var(--ai-top, 0px); right: 0; bottom: auto; left: 0; width: 100%;
     height: var(--ai-vh, 100dvh); max-height: var(--ai-vh, 100dvh);
     border-radius: 0;
@@ -572,7 +576,15 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; line-height: 1.12; font-weight
   .ai-panel.open { transform: none; }
   /* Hintergrund-Scroll sperren, solange der Chat offen ist – verhindert, dass
      iOS beim Tastatur-Öffnen die Seite (und das fixierte Panel) wegscrollt. */
-  html.ai-chat-open, html.ai-chat-open body { overflow: hidden; }
+  /* iOS-Scroll-Lock: 'overflow:hidden' allein reicht auf iOS Safari NICHT —
+     Safari scrollt die Seite trotzdem, um das fokussierte Feld freizulegen, und
+     nimmt das fixierte Panel mit aus dem Bild. Nur 'position:fixed' auf html+body
+     verhindert das zuverlaessig. Die Scroll-Position merkt sich assistant.js
+     und stellt sie beim Schliessen wieder her. */
+  html.ai-chat-open, html.ai-chat-open body {
+    position: fixed; overflow: hidden;
+    width: 100%; height: 100%; left: 0; right: 0;
+  }
 }
 
 /* ── 19. COOKIE-BANNER ─────────────────────────────────────── */

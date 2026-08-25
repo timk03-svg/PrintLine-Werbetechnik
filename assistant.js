@@ -84,9 +84,11 @@
       // bei geöffneter Tastatur den sichtbaren Bereich — das fixierte Panel muss
       // folgen (top:var(--ai-top)), sonst rutscht es aus dem Bild ("verschwindet").
       const h = (vv && vv.height > 120) ? vv.height : (window.innerHeight || 640);
+      // iOS versetzt bei offener Tastatur den visuellen gegenueber dem Layout-
+      // Viewport. Ohne Ausgleich rutscht das fixierte Panel nach oben aus dem Bild.
       const top = vv ? Math.max(0, Math.round(vv.offsetTop)) : 0;
-      panel.style.setProperty('--ai-vh', Math.round(h) + 'px');
       panel.style.setProperty('--ai-top', top + 'px');
+      panel.style.setProperty('--ai-vh', Math.round(h) + 'px');
       if (panel.classList.contains('open')) body.scrollTop = body.scrollHeight;
     }
     if (window.visualViewport) {
@@ -109,10 +111,18 @@
       }
     }
 
+    var scrollY_gemerkt = 0;
+
     function open() {
       if (panel.classList.contains('open')) return;
       panel.classList.add('open');
       fab.classList.add('hidden');
+      // Scroll-Position nur MERKEN (fuer die Wiederherstellung beim Schliessen).
+      // Bewusst KEIN 'body.style.top = -scrollY': auf iOS verschiebt ein versetzter
+      // fixierter body auch das fixierte Chat-Panel mit — es rutscht dann nach oben
+      // aus dem Bild. Der Sprung nach oben stoert nicht, weil der Chat auf dem
+      // Handy bildschirmfuellend ist und den Hintergrund komplett verdeckt.
+      scrollY_gemerkt = window.scrollY || window.pageYOffset || 0;
       document.documentElement.classList.add('ai-chat-open');
       syncViewportHeight();
       if (!body.childElementCount) renderHistory();
@@ -127,16 +137,26 @@
       panel.classList.remove('open');
       fab.classList.remove('hidden');
       document.documentElement.classList.remove('ai-chat-open');
+      window.scrollTo(0, scrollY_gemerkt);
     }
 
     fab.addEventListener('click', open);
     panel.querySelector('.ai-head__close').addEventListener('click', minimize);
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') minimize(); });
 
-    // Bei Seiten-Scroll minimieren (nicht beim Scrollen im Chat selbst)
+    // Bei Seiten-Scroll minimieren — ABER NIE, waehrend der Chat offen ist.
+    // Grund (Bug 25.08.2026): iOS Safari loest beim Oeffnen der Bildschirmtastatur
+    // ein scroll-Event aus. Der alte Handler hielt das fuer "Nutzer scrollt weg"
+    // und schloss den Chat, sobald man ins Eingabefeld tippte. Zusaetzlich springt
+    // window.scrollY auf 0, sobald der Scroll-Lock (position:fixed) greift — was
+    // die Bedingung ebenfalls ausgeloest haette.
+    // Da der Hintergrund bei offenem Chat ohnehin gesperrt ist, kann echtes
+    // Weg-Scrollen gar nicht mehr vorkommen; der Handler ist damit verzichtbar.
     window.addEventListener('scroll', function () {
       if (!panel.classList.contains('open')) return;
       if (Date.now() - openAt < 350) return;
+      if (document.documentElement.classList.contains('ai-chat-open')) return; // Scroll-Lock aktiv
+      if (document.activeElement === input) return;                            // Nutzer tippt
       var y = window.scrollY || window.pageYOffset || 0;
       if (Math.abs(y - openScrollY) > 24) minimize();
     }, { passive: true });

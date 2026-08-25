@@ -321,6 +321,7 @@ function serveStatic(req, res) {
   let urlPath = decodeURIComponent(req.url.split('?')[0]);
   if (urlPath === '/') urlPath = '/index.html';
   // Pfad-Traversal verhindern
+  // nosemgrep: javascript.lang.security.audit.path-traversal.path-join-resolve-traversal.path-join-resolve-traversal -- direkt darunter durch startsWith(ROOT + path.sep)-Containment-Check abgesichert (FP)
   const safe = path.normalize(path.join(ROOT, urlPath));
   // Pfad-Traversal: nur Pfade GENAU unter ROOT erlauben (Trailing-Separator gegen Geschwister-Ordner-Bypass)
   if (safe !== ROOT && !safe.startsWith(ROOT + path.sep)) { res.statusCode = 403; return res.end('Forbidden'); }
@@ -331,6 +332,7 @@ function serveStatic(req, res) {
   fs.stat(safe, (err, stat) => {
     let file = safe;
     if (err || stat.isDirectory()) {
+      // nosemgrep: javascript.lang.security.audit.path-traversal.path-join-resolve-traversal.path-join-resolve-traversal -- `safe` ist bereits ROOT-validiert, 'index.html' ist konstant (FP)
       if (!err && stat.isDirectory()) file = path.join(safe, 'index.html');
       else if (fs.existsSync(safe + '.html')) file = safe + '.html';
       else { res.statusCode = 404; res.setHeader('content-type', 'text/html; charset=utf-8'); return res.end('<h1>404 – Seite nicht gefunden</h1><p><a href="/">Zur Startseite</a></p>'); }
@@ -345,6 +347,7 @@ function serveStatic(req, res) {
 }
 
 /* ── Server ────────────────────────────────────────────────── */
+// nosemgrep: problem-based-packs.insecure-transport.js-node.using-http-server.using-http-server -- lokaler Backend-/Proxy-Server; TLS terminiert der Host, öffentliche Seite läuft über GitHub Pages/HTTPS (FP)
 const server = http.createServer((req, res) => {
   setSecurity(res);
   if (req.method === 'POST' && req.url === '/api/chat') return handleChat(req, res);
