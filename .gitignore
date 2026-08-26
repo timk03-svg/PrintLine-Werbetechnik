@@ -11,3 +11,7 @@ routine/
 marketing/
 # Backup-Dateien
 *.bak
+
+# Testdateien - niemals ins Repo
+_test-*
+*_test-mats.json

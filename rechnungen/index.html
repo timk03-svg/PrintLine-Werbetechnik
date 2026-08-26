@@ -3166,6 +3166,18 @@ function matAbleiten(m){
     if(serie) g=serie[1].trim();
     m.gruppe=g; geaendert=true;
   }
+  // Bestandsfelder saeubern: "40m" -> "40". Die Einheit steht in der eigenen
+  // Spalte; Buchstaben im Zahlenfeld sind nur eine Stolperfalle. Wird nur
+  // angefasst, wenn danach noch eine Zahl uebrig bleibt.
+  ["lagerbestand","mindestbestand","reserve"].forEach(f=>{
+    const roh=String(m[f]||"");
+    if(roh.trim()==="" || !/[^0-9,.\s-]/.test(roh)) return;
+    // Erste Zahl herausziehen statt Zeichen zu streichen - sonst wuerde aus
+    // "ca. 8 Stk" ein ".8" statt einer 8.
+    const t=roh.match(/-?\d+(?:[.,]\d+)?/);
+    if(t && t[0]!==roh.trim()){ m[f]=t[0]; geaendert=true; }
+  });
+
   // PVC-Hartschaum bekommt eine eigene Kategorie, statt unter "Platten" zu liegen
   if(/pvc[- ]?hartschaum|forex/i.test(bez) && /^platten$/i.test(String(m.kategorie||"").trim())){
     m.kategorie="PVC-Hartschaum"; geaendert=true;
