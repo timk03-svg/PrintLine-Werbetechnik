@@ -252,6 +252,12 @@ body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a2
   .totals .line.grand .lbl{color:var(--text);}
 
   .hinweis{font-size:11px;color:var(--text);margin-top:4mm;white-space:pre-wrap;}
+  /* Leistungsumfang: macht sichtbar, was im Preis steckt. Nur auf Angeboten. */
+  .leistung{font-size:11.5px;line-height:1.55;color:var(--text);margin-top:6mm;
+    padding:3mm 4mm;border-left:2.5pt solid var(--accent);background:var(--accent-soft);
+    border-radius:0 2mm 2mm 0;white-space:pre-wrap;}
+  .leistung::first-line{font-weight:700;}
+  .leistung:empty{display:none;}
   .schluss{font-size:13px;margin:9mm 0 0;white-space:pre-wrap;}
 
   /* AGB-Hinweis + blaue Fußzeile bilden den Dokument-Fuß und stehen immer ganz unten auf der Seite */
@@ -888,6 +894,8 @@ vielen Dank für Ihre Anfrage. Gerne unterbreiten wir Ihnen folgendes Angebot:">
           <div class="totals" id="totals"></div>
         </div>
       </div>
+
+      <div class="leistung" contenteditable="true" data-field="leistung"></div>
 
       <div class="hinweis" contenteditable="true" data-field="hinweis" data-ph="Hinweis (optional)"></div>
 
@@ -1716,6 +1724,19 @@ function setVal(id,v){ const el=document.getElementById(id); if(el) el.value=v; 
    auf Rechnungen und Mahnungen bleiben sie draussen. */
 const ANGEBOT_INTRO   = "Sehr geehrte Damen und Herren,\n\nvielen Dank f\u00fcr Ihre Anfrage. Gerne unterbreiten wir Ihnen folgendes Angebot:";
 const ANGEBOT_SCHLUSS = "Wir freuen uns auf Ihren Auftrag.\nMit freundlichen Gr\u00fc\u00dfen";
+/* Leistungsumfang: Angebote nennen bisher nur Positionen und Preis. Verlorene
+   Angebote sind im Schnitt ein Vielfaches groesser als gewonnene - beim
+   Vorgang STRABAG hat auch ein Nachlass von 35 % nichts geaendert. Dieser
+   Block sagt dem Kunden, was er fuer den Preis bekommt. */
+const ANGEBOT_LEISTUNG = [
+  "In diesem Angebot enthalten",
+  "\u00b7 Beratung und Abstimmung vor der Produktion",
+  "\u00b7 Gestaltung und Entwurf bis zu Ihrer Freigabe",
+  "\u00b7 Produktion im eigenen Haus in Stendal",
+  "\u00b7 Witterungs- und UV-best\u00e4ndige Materialien",
+  "\u00b7 Ein fester Ansprechpartner von der Anfrage bis zur \u00dcbergabe",
+  "Montage und Anfahrt sind nur enthalten, wenn sie oben als Position aufgef\u00fchrt sind."
+].join("\n");
 
 function applyAngebotstexte(){
   const istAngebot = state.docType==="Angebot";
@@ -1740,6 +1761,7 @@ function applyAngebotstexte(){
   };
   setze("intro", ANGEBOT_INTRO);
   setze("schluss", ANGEBOT_SCHLUSS);
+  setze("leistung", ANGEBOT_LEISTUNG);
   if(geaendert) save();
 }
 
