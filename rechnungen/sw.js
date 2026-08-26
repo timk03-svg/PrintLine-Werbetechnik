@@ -4,7 +4,7 @@
       (automatische Updates ohne Neu-Download). Nur wenn offline, kommt die
       zwischengespeicherte Version zum Einsatz. Nutzerdaten liegen in
       localStorage/IndexedDB und werden vom Cache NICHT berührt. */
-const CACHE = "printline-rechnungen-v9";
+const CACHE = "printline-rechnungen-v10";
 const ASSETS = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", (e) => {

@@ -106,6 +106,20 @@
   .mat-grp td{font-weight:600;font-size:12.5px;padding-top:7px;padding-bottom:3px;
     border-bottom:1px solid var(--line);}
   .mat-grp-n{float:right;font-weight:400;font-size:11px;opacity:.7;}
+  .mat-sel{font:inherit;padding:3px 6px;border:1px solid var(--line);border-radius:6px;
+    background:var(--card,#fff);color:var(--text);max-width:150px;cursor:pointer;}
+  .mat-sel:focus{outline:2px solid var(--accent);outline-offset:1px;}
+  .mat-vsub{margin:3px 0 0;font-size:11px;opacity:.75;}
+  .mat-sel-ausf{max-width:230px;font-size:11.5px;}
+  .mat-vn{font-size:10px;font-weight:600;opacity:.6;letter-spacing:.03em;}
+  .mat-knapp{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;
+    font-size:10px;font-weight:600;background:#fde8e8;color:#9b1c1c;border:1px solid #f5c2c2;}
+  body.dark .mat-knapp{background:#4a1d1d;color:#ffb4b4;border-color:#6b2b2b;}
+  .mat-alle{margin:8px 0 0;font-size:12px;}
+  .mat-alle label{display:inline-flex;align-items:center;gap:7px;cursor:pointer;}
+  .mat-alle .sub{margin:0;font-size:11px;opacity:.7;}
+  body.dark .mat-sel{background:#222834;}
+  @media print{ .mat-sel{border:none;background:none;appearance:none;-webkit-appearance:none;padding:0;} }
   .mat-grp + .mat-var td:first-child,
   .mat-var + .mat-var td:first-child{padding-left:18px;}
 body.dark .mat-dubl{background:#4a1d1d;color:#ffb4b4;border-color:#6b2b2b;}
@@ -1208,9 +1222,10 @@ USt-IdNr. …"></div>
       <input type="file" id="matImportFile" accept=".csv,text/csv" hidden>
     </div>
     <div class="mat-tools noprint"><input type="text" id="matSearch" placeholder="Suche: Artikel-Nr., Bezeichnung, Kategorie, Lieferant …"></div>
+    <div class="mat-alle noprint"><label><input type="checkbox" id="matAlleVarianten"> Alle Varianten einzeln auflisten <span class="sub">(für Ausdruck und PDF)</span></label></div>
     <div id="matDublHinweis" class="mat-dubl-hinweis noprint" style="display:none;"></div>
     <table class="list">
-      <thead><tr><th>Artikel-Nr.</th><th>Bezeichnung</th><th class="r">Stärke</th><th>Maße / Format</th><th>Einheit</th><th class="r">Einkauf</th><th class="r">VK (auto)</th><th class="r">Bestand</th><th class="noprint"></th><th class="noprint"></th><th class="noprint"></th></tr></thead>
+      <thead><tr><th>Produkt</th><th>Maße / Format</th><th>Stärke</th><th>Artikel-Nr.</th><th>Einheit</th><th class="r">Einkauf</th><th class="r">VK (auto)</th><th class="r">Bestand</th><th class="noprint"></th><th class="noprint"></th><th class="noprint"></th></tr></thead>
       <tbody id="matRows"></tbody>
     </table>
   </div>
@@ -3164,11 +3179,36 @@ function fillGruppeList(){
   dl.innerHTML=gs.map(g=>'<option value="'+escapeHtml(g)+'">').join("");
 }
 
+/* Auswahl je Produktgruppe: {"Kategorie||Gruppe": {format, staerke}}.
+   Nur fuer die Ansicht, wird nicht gespeichert. */
+let matWahl={}, matAlle=false;
+
+function matGrpKey(m){ return (m.kategorie||"Ohne Kategorie").trim()+"||"+((m.gruppe||m.bezeichnung||"").trim()); }
+function matWert(m,f){ return String(m[f]||"").trim(); }
+
+/* Waehlt aus den Varianten einer Gruppe die passende aus. Kaskade: erst Maß,
+   dann Staerke. Passt nichts, wird die erste noch moegliche genommen. */
+function matVariante(varianten, wahl){
+  let k=varianten;
+  if(wahl && wahl.format!=null){ const f=k.filter(m=>matWert(m,"format")===wahl.format); if(f.length) k=f; }
+  if(wahl && wahl.staerke!=null){ const t=k.filter(m=>matWert(m,"staerke")===wahl.staerke); if(t.length) k=t; }
+  return k[0]||varianten[0];
+}
+
+function matSelect(key,feld,werte,aktuell,label){
+  if(werte.length<=1){
+    const w=werte[0]||"";
+    return w?escapeHtml(w+(feld==="staerke"?" mm":"")):"—";
+  }
+  return '<select class="mat-sel" data-matwahl="'+escapeHtml(key)+'" data-feld="'+feld+'" aria-label="'+label+'">'+
+    werte.map(w=>'<option value="'+escapeHtml(w)+'"'+(w===aktuell?" selected":"")+'>'+
+      (w?escapeHtml(w+(feld==="staerke"?" mm":"")):"—")+"</option>").join("")+"</select>";
+}
+
 function renderMaterial(){
   const tb=document.getElementById("matRows"); if(!tb) return;
   const pd=document.getElementById("matPrintDate"); if(pd) pd.textContent="Stand: "+todayStr();
 
-  // Einmalige Ableitung fuer den Altbestand
   let abgeleitet=false;
   appData.materials.forEach(m=>{ if(matAbleiten(m)) abgeleitet=true; });
   if(abgeleitet){ saveApp(); fillKatList(); fillGruppeList(); }
@@ -3185,7 +3225,6 @@ function renderMaterial(){
     return;
   }
 
-  // Doppelt vergebene Artikelnummern - der Verbrauch landet sonst auf dem falschen Datensatz
   const nrZaehler={};
   appData.materials.forEach(m=>{ const k=String(m.artikelnr||"").trim().toLowerCase(); if(k) nrZaehler[k]=(nrZaehler[k]||0)+1; });
   const dubl=Object.keys(nrZaehler).filter(k=>nrZaehler[k]>1);
@@ -3203,44 +3242,92 @@ function renderMaterial(){
   list.sort((a,b)=> txt(a.kategorie,b.kategorie) || txt(a.gruppe||a.bezeichnung,b.gruppe||b.bezeichnung)
                  || (parseNum(a.staerke)-parseNum(b.staerke)) || txt(a.bezeichnung,b.bezeichnung));
 
-  const zeile=m=>{
-    const ek=parseNum(m.einkaufspreis), hasEk=String(m.einkaufspreis||"").trim()!=="";
-    const auf=String(m.materialaufschlag||"").trim()!==""?parseNum(m.materialaufschlag):defAuf;
-    const hasBestand=String(m.lagerbestand||"").trim()!=="";
-    const low=hasBestand && String(m.mindestbestand||"").trim()!=="" && parseNum(m.lagerbestand)<parseNum(m.mindestbestand);
-    const istDubl=dubl.indexOf(String(m.artikelnr||"").trim().toLowerCase())>-1;
-    return '<tr class="mat-var"><td>'+escapeHtml(m.artikelnr||"—")+
-      (istDubl?' <span class="mat-dubl" title="Diese Artikelnummer ist doppelt vergeben">doppelt</span>':"")+"</td>"+
-      "<td>"+escapeHtml(m.bezeichnung||"—")+(m.notiz?'<div class="sub" style="margin:0;font-size:11px;">'+escapeHtml(m.notiz)+"</div>":"")+"</td>"+
-      '<td class="r">'+(String(m.staerke||"").trim()?escapeHtml(String(m.staerke))+"&nbsp;mm":"—")+"</td>"+
-      "<td>"+escapeHtml(m.format||"—")+"</td>"+
-      "<td>"+escapeHtml(m.einheit||"—")+"</td>"+
-      '<td class="r">'+(hasEk?euro.format(ek):"—")+"</td>"+
-      '<td class="r">'+(hasEk?euro.format(ek*(1+auf/100)):"—")+"</td>"+
-      '<td class="r'+(low?" mat-low":"")+'">'+(hasBestand?escapeHtml(String(m.lagerbestand)):"—")+"</td>"+
-      '<td class="noprint"><button class="linkbtn" data-matzugang="'+m.id+'" title="Wareneingang buchen">+ Zugang</button></td>'+
-      '<td class="noprint"><button class="linkbtn" data-matedit="'+m.id+'">Bearbeiten</button></td>'+
-      '<td class="noprint"><button class="delbtn" data-matdel="'+m.id+'" title="Material in den Papierkorb">×</button></td></tr>';
-  };
+  // Gruppen in Reihenfolge sammeln
+  const gruppen=[], nach={};
+  list.forEach(m=>{ const k=matGrpKey(m); if(!nach[k]){ nach[k]=[]; gruppen.push(k); } nach[k].push(m); });
 
-  let html="", katJetzt=null, grpJetzt=null;
-  list.forEach((m,i)=>{
-    const kat=(m.kategorie||"Ohne Kategorie").trim();
-    const grp=(m.gruppe||m.bezeichnung||"").trim();
+  const uniq=arr=>Array.from(new Set(arr));
+  let html="", katJetzt=null;
+
+  gruppen.forEach(key=>{
+    const varianten=nach[key];
+    const kat=key.split("||")[0], grp=key.split("||")[1];
     if(kat!==katJetzt){
       const n=list.filter(x=>(x.kategorie||"Ohne Kategorie").trim()===kat).length;
       html+='<tr class="mat-kat"><td colspan="11">'+escapeHtml(kat)+
-            '<span class="mat-kat-n">'+n+(n===1?" Artikel":" Artikel")+"</span></td></tr>";
-      katJetzt=kat; grpJetzt=null;
+            '<span class="mat-kat-n">'+n+" Artikel</span></td></tr>";
+      katJetzt=kat;
     }
-    // Gruppenzeile nur, wenn die Serie mehrere Varianten hat
-    const varianten=list.filter(x=>(x.kategorie||"Ohne Kategorie").trim()===kat && (x.gruppe||x.bezeichnung||"").trim()===grp).length;
-    if(varianten>1 && grp!==grpJetzt){
-      html+='<tr class="mat-grp"><td colspan="11">'+escapeHtml(grp)+
-            '<span class="mat-grp-n">'+varianten+" Stärken/Varianten</span></td></tr>";
-      grpJetzt=grp;
-    }else if(varianten<=1){ grpJetzt=null; }
-    html+=zeile(m);
+
+    const zeigeAlle = matAlle || varianten.length===1;
+    const ziele = zeigeAlle ? varianten : [null];
+
+    ziele.forEach((fix,idx)=>{
+      let m, formatSel, staerkeSel, rest=[];
+      if(fix){
+        m=fix;
+        formatSel = matWert(m,"format") ? escapeHtml(matWert(m,"format")) : "—";
+        staerkeSel = matWert(m,"staerke") ? escapeHtml(matWert(m,"staerke"))+" mm" : "—";
+      }else{
+        const wahl=matWahl[key]||{};
+        const formate=uniq(varianten.map(v=>matWert(v,"format")));
+        if(wahl.format==null||formate.indexOf(wahl.format)<0) wahl.format=formate[0];
+        const passend=varianten.filter(v=>matWert(v,"format")===wahl.format);
+        const staerken=uniq(passend.map(v=>matWert(v,"staerke")));
+        if(wahl.staerke==null||staerken.indexOf(wahl.staerke)<0) wahl.staerke=staerken[0];
+        // Bleiben danach mehrere uebrig (z. B. Farben derselben Folie), kommt
+        // ein drittes Feld dazu - sonst waere die Variante nicht waehlbar.
+        rest=passend.filter(v=>matWert(v,"staerke")===wahl.staerke);
+        if(rest.length>1){
+          if(wahl.id==null||!rest.some(v=>v.id===wahl.id)) wahl.id=rest[0].id;
+          m=rest.find(v=>v.id===wahl.id)||rest[0];
+        }else{ wahl.id=null; m=rest[0]||matVariante(varianten,wahl); }
+        matWahl[key]=wahl;
+        formatSel = matSelect(key,"format",formate,wahl.format,"Maße wählen");
+        staerkeSel= matSelect(key,"staerke",staerken,wahl.staerke,"Stärke wählen");
+      }
+
+      const ek=parseNum(m.einkaufspreis), hasEk=String(m.einkaufspreis||"").trim()!=="";
+      const auf=String(m.materialaufschlag||"").trim()!==""?parseNum(m.materialaufschlag):defAuf;
+      const hasBestand=String(m.lagerbestand||"").trim()!=="";
+      const low=hasBestand && String(m.mindestbestand||"").trim()!=="" && parseNum(m.lagerbestand)<parseNum(m.mindestbestand);
+      const istDubl=dubl.indexOf(String(m.artikelnr||"").trim().toLowerCase())>-1;
+      let kopf;
+      if(fix||varianten.length===1){
+        kopf=escapeHtml(m.bezeichnung||"—");
+      }else{
+        const ausf = rest.length>1
+          ? '<select class="mat-sel mat-sel-ausf" data-matwahl="'+escapeHtml(key)+'" data-feld="id" aria-label="Ausführung wählen">'+
+            rest.map(v=>'<option value="'+escapeHtml(v.id)+'"'+(v.id===m.id?" selected":"")+">"+
+              escapeHtml(v.bezeichnung||"—")+"</option>").join("")+"</select>"
+          : '<span class="mat-vsub">'+escapeHtml(m.bezeichnung||"")+"</span>";
+        // In der kompakten Ansicht sieht man nur die gewaehlte Variante. Damit
+        // Nachbestellbedarf anderer Staerken nicht untergeht, wird er hier gemeldet.
+        const knapp=varianten.filter(v=>{
+          const b=String(v.lagerbestand||"").trim(), mb=String(v.mindestbestand||"").trim();
+          return b!=="" && mb!=="" && parseNum(b)<parseNum(mb);
+        });
+        const warn=knapp.length
+          ? ' <span class="mat-knapp" title="'+escapeHtml(knapp.map(v=>v.bezeichnung).join(" · "))+
+            '">'+knapp.length+"&times; unter Minimum</span>" : "";
+        kopf="<b>"+escapeHtml(grp||"—")+"</b> <span class=\"mat-vn\">"+varianten.length+" Varianten</span>"+warn+
+             '<div class="mat-vsub">'+ausf+"</div>";
+      }
+
+      html+='<tr class="mat-var"><td>'+kopf+
+        (m.notiz?'<div class="sub" style="margin:0;font-size:11px;">'+escapeHtml(m.notiz)+"</div>":"")+"</td>"+
+        "<td>"+formatSel+"</td>"+
+        "<td>"+staerkeSel+"</td>"+
+        "<td>"+escapeHtml(m.artikelnr||"—")+
+          (istDubl?' <span class="mat-dubl" title="Diese Artikelnummer ist doppelt vergeben">doppelt</span>':"")+"</td>"+
+        "<td>"+escapeHtml(m.einheit||"—")+"</td>"+
+        '<td class="r">'+(hasEk?euro.format(ek):"—")+"</td>"+
+        '<td class="r">'+(hasEk?euro.format(ek*(1+auf/100)):"—")+"</td>"+
+        '<td class="r'+(low?" mat-low":"")+'">'+(hasBestand?escapeHtml(String(m.lagerbestand)):"—")+"</td>"+
+        '<td class="noprint"><button class="linkbtn" data-matzugang="'+m.id+'" title="Wareneingang buchen">+ Zugang</button></td>'+
+        '<td class="noprint"><button class="linkbtn" data-matedit="'+m.id+'">Bearbeiten</button></td>'+
+        '<td class="noprint"><button class="delbtn" data-matdel="'+m.id+'" title="Material in den Papierkorb">×</button></td></tr>';
+    });
   });
   tb.innerHTML=html;
 }
@@ -3299,6 +3386,20 @@ document.getElementById("matSave").addEventListener("click",saveMatEditor);
 document.getElementById("matCancel").addEventListener("click",closeMatModal);
 document.getElementById("matModal").addEventListener("click",e=>{ if(e.target.id==="matModal") closeMatModal(); });
 document.getElementById("matSearch").addEventListener("input",e=>{ matFilter=e.target.value; renderMaterial(); });
+document.getElementById("matRows").addEventListener("change",e=>{
+  const sel=e.target.closest("select[data-matwahl]"); if(!sel) return;
+  const key=sel.dataset.matwahl, feld=sel.dataset.feld;
+  matWahl[key]=Object.assign({},matWahl[key]);
+  matWahl[key][feld]=sel.value;
+  // Maß geaendert -> Staerke neu bestimmen lassen (Kaskade)
+  if(feld==="format"){ matWahl[key].staerke=null; matWahl[key].id=null; }
+  if(feld==="staerke") matWahl[key].id=null;
+  renderMaterial();
+});
+(function(){
+  const cb=document.getElementById("matAlleVarianten");
+  if(cb) cb.addEventListener("change",()=>{ matAlle=cb.checked; renderMaterial(); });
+})();
 document.getElementById("matRows").addEventListener("click",e=>{
   const zg=e.target.closest("[data-matzugang]");
   if(zg){
