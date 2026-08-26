@@ -15,3 +15,9 @@ marketing/
 # Testdateien - niemals ins Repo
 _test-*
 *_test-mats.json
+
+# Sicherungen und App-Daten - das Repo ist oeffentlich
+*Sicherung*.json
+*sicherung*.json
+*backup*.json
+*.bak

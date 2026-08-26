@@ -1,0 +1,62 @@
+#!/bin/sh
+# Sperre gegen versehentlich eingecheckte Betriebsdaten.
+# Das Repo ist OEFFENTLICH. Am 26.08.2026 landete eine App-Sicherung mit
+# Bankverbindung, Steuernummer und eingescannter Unterschrift darin.
+# Diese Pruefung laeuft vor jedem Commit und bricht ihn ab, wenn etwas
+# davon wieder auftaucht.
+
+rot()  { printf '\033[31m%s\033[0m\n' "$1"; }
+gelb() { printf '\033[33m%s\033[0m\n' "$1"; }
+
+fehler=0
+melde() { rot "  ✗ $1"; fehler=1; }
+
+# Nur neu hinzugefuegte oder geaenderte Dateien pruefen
+dateien=$(git diff --cached --name-only --diff-filter=ACM)
+[ -z "$dateien" ] && exit 0
+
+for f in $dateien; do
+  [ -f "$f" ] || continue
+  # Die Pruefdatei selbst enthaelt naturgemaess die Suchmuster
+  case "$f" in .githooks/*) continue ;; esac
+
+  # 1) Datei-Namen, die nie ins Repo gehoeren
+  case "$(basename "$f")" in
+    _test*|*Sicherung*|*sicherung*|*backup*|*Backup*|*.bak)
+      melde "$f — sieht nach Test- oder Sicherungsdatei aus" ;;
+  esac
+
+  # 2) Grosse JSON-Dateien (App-Sicherungen sind ~350 KB)
+  case "$f" in
+    *.json)
+      gr=$(wc -c < "$f" | tr -d ' ')
+      [ "$gr" -gt 250000 ] && melde "$f — JSON groesser als 250 KB ($((gr/1024)) KB)"
+      # 3) Struktur einer App-Sicherung
+      if grep -q '"archive"' "$f" 2>/dev/null && grep -q '"firma"' "$f" 2>/dev/null; then
+        melde "$f — enthaelt die Struktur einer Rechnungs-App-Sicherung"
+      fi ;;
+  esac
+
+  # 4) IBAN im Klartext
+  if grep -Eq '\bDE[0-9]{2}[[:space:]]?([0-9]{4}[[:space:]]?){4}[0-9]{2}\b' "$f" 2>/dev/null; then
+    melde "$f — enthaelt eine IBAN"
+  fi
+
+  # 5) Steuernummer im Format NNN-schraegstrich-NNN-schraegstrich-NNNNN
+  if grep -Eq '[0-9]{3}/[0-9]{3}/[0-9]{5}' "$f" 2>/dev/null; then
+    melde "$f — enthaelt eine Steuernummer"
+  fi
+done
+
+if [ "$fehler" -ne 0 ]; then
+  echo
+  rot  "COMMIT ABGEBROCHEN — schuetzenswerte Daten erkannt."
+  gelb "Das Repo timk03-svg/PrintLine-Werbetechnik ist oeffentlich."
+  echo
+  echo "  Datei aus dem Index nehmen:   git restore --staged <datei>"
+  echo "  Testdateien gehoeren nach:    /private/tmp/... (Scratchpad), nie ins Repo"
+  echo
+  gelb "Nur wenn du sicher bist, dass es ein Fehlalarm ist:  git commit --no-verify"
+  exit 1
+fi
+exit 0
