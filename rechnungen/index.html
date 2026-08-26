@@ -768,7 +768,8 @@
     <div style="font-size:12.5px;color:var(--muted);margin:3px 0 9px;line-height:1.5;">
       Stundenlohn 45 &euro; (25 Positionen belegt) &middot; Material-Aufschlag 50 %
       (aus Angebot AG2622 gegen das Lieferantenangebot gerechnet) &middot; Verschnitt 10 % (Richtwert).
-      Gemeinkosten, Risiko und Maschinensatz bleiben leer &ndash; daf&uuml;r fehlen die Fixkosten- und Maschinendaten.
+      Gemeinkosten, Risiko und Maschinensatz bleiben bewusst leer: Ihr rechnet sie nicht getrennt,
+      sie stecken bereits im Stundensatz und im Materialaufschlag.
     </div>
     <button class="btn" id="btnCsVorschlag" type="button">Diese Werte eintragen</button>
   </div>
@@ -2721,6 +2722,7 @@ document.getElementById("matPickCancel").addEventListener("click",closeMatPick);
     setz("csVerschnitt","10");
     alert("Werte eingetragen:\n\n• Stundenlohn 45 €\n• Material-Aufschlag 50 %\n• Verschnitt 10 %\n\n"
         + "Bereits ausgefüllte Felder wurden nicht überschrieben.\n"
+        + "Gemeinkosten, Risiko und Maschinensatz bleiben bewusst leer.\n\n"
         + "Zum Übernehmen bitte noch speichern.");
   });
 })();
