@@ -368,9 +368,18 @@
     font-size:12px;padding:3px 12px;border-radius:20px;letter-spacing:.3px;}
 
   /* Auswahl-Dialog (z. B. Rechnung aus Angebot) */
-  #modalBg,#searchModal,#matModal,#sdModal,#verModal{position:fixed;inset:0;z-index:300;display:none;align-items:flex-start;justify-content:center;
+  #modalBg,#searchModal,#matModal,#sdModal,#verModal,#lostModal,#matPickModal{position:fixed;inset:0;z-index:300;display:none;align-items:flex-start;justify-content:center;
     background:rgba(20,30,60,.32);padding:60px 16px;overflow:auto;}
-  #modalBg.open,#searchModal.open,#matModal.open,#sdModal.open,#verModal.open{display:flex;}
+  #modalBg.open,#searchModal.open,#matModal.open,#sdModal.open,#verModal.open,#lostModal.open,#matPickModal.open{display:flex;}
+  /* Ablehnungsgrund-Dialog */
+  #lostList .pick.sel{border-color:var(--accent);background:var(--accent-soft);font-weight:600;}
+  #lostNote{width:100%;margin-top:12px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;}
+  .lost-hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.45;}
+  #matPickSearch{width:100%;margin-bottom:12px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;}
+  #matPickList{max-height:46vh;overflow:auto;}
+  #matPickList .pick .k{font-size:12px;color:var(--muted);}
+  #matPickList .lowb{color:#b45309;font-weight:600;}
+  #matPickList .empty{color:var(--muted);font-size:13px;padding:14px 4px;}
   .modal{background:#fff;border-radius:16px;max-width:640px;width:100%;padding:22px 24px;box-shadow:0 20px 60px rgba(20,30,60,.3);}
   .modal h3{margin:0 0 4px;font-size:18px;}
   .modal .sub{color:var(--muted);font-size:13px;margin:0 0 16px;}
@@ -1167,7 +1176,7 @@ USt-IdNr. …"></div>
     </div>
     <div class="mat-tools noprint"><input type="text" id="matSearch" placeholder="Suche: Artikel-Nr., Bezeichnung, Kategorie, Lieferant …"></div>
     <table class="list">
-      <thead><tr><th>Artikel-Nr.</th><th>Bezeichnung</th><th>Kategorie</th><th>Einheit</th><th class="r">Einkauf</th><th class="r">VK (auto)</th><th class="r">Bestand</th><th class="noprint"></th><th class="noprint"></th></tr></thead>
+      <thead><tr><th>Artikel-Nr.</th><th>Bezeichnung</th><th>Kategorie</th><th>Einheit</th><th class="r">Einkauf</th><th class="r">VK (auto)</th><th class="r">Bestand</th><th class="noprint"></th><th class="noprint"></th><th class="noprint"></th></tr></thead>
       <tbody id="matRows"></tbody>
     </table>
   </div>
@@ -1379,6 +1388,36 @@ USt-IdNr. …"></div>
     <div class="actions">
       <button class="btn" id="modalBlank">Leere Rechnung</button>
       <button class="btn" id="modalCancel">Abbrechen</button>
+    </div>
+  </div>
+</div>
+
+<!-- Ablehnungsgrund: erscheint, wenn ein Angebot auf "Abgelehnt" gesetzt wird -->
+<div id="lostModal" class="noprint">
+  <div class="modal">
+    <h3>Warum wurde das Angebot abgelehnt?</h3>
+    <p class="sub" id="lostSub">Angebot</p>
+    <div id="lostList"></div>
+    <input id="lostNote" type="text" placeholder="Ergänzung, falls hilfreich (optional)">
+    <p class="lost-hint">Diese Angabe wird nur intern ausgewertet. Sie beantwortet die Frage,
+      warum Aufträge verloren gehen – besonders die großen. Ohne sie bleibt das Muster unsichtbar.</p>
+    <div class="actions">
+      <button class="btn" id="lostSkip">Ohne Angabe</button>
+      <button class="btn" id="lostSave">Speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- Material in eine Position übernehmen (Positionskatalog) -->
+<div id="matPickModal" class="noprint">
+  <div class="modal">
+    <h3>Material auswählen</h3>
+    <p class="sub">Füllt Bezeichnung, Einheit und Verkaufspreis. Der Verbrauch wird beim Erstellen der Rechnung automatisch vom Bestand abgezogen.</p>
+    <input id="matPickSearch" type="text" placeholder="Suchen (Bezeichnung, Artikel-Nr., Kategorie) …">
+    <div id="matPickList"></div>
+    <div class="actions">
+      <button class="btn" id="matPickClear">Verknüpfung lösen</button>
+      <button class="btn" id="matPickCancel">Abbrechen</button>
     </div>
   </div>
 </div>
@@ -1743,6 +1782,7 @@ function rowTemplate(r,i){
       <span class="drag-handle" draggable="true" data-drag title="Ziehen, um die Position zu verschieben">⠿</span>
       <button class="rmove" data-up="${i}" title="nach oben verschieben">▲</button>
       <button class="rmove" data-down="${i}" title="nach unten verschieben">▼</button>
+      <button class="rtog${r.matId?" on":""}" data-matpick="${i}" title="Material aus dem Lager wählen – füllt Bezeichnung, Einheit und Preis und bucht den Verbrauch">📦</button>
       <button class="rtog${hasRab?" on":""}" data-rabtoggle="${i}" title="Rabatt für diese Position">%</button>
       <button data-del="${i}" title="Position löschen">×</button>
     </td>`;
@@ -2239,7 +2279,10 @@ function archiveCurrent(skipCustomer){
     kunde:kundeName(), netto:currentNet(), brutto:currentGross(), neukunde:!!state.neukunde,
     snapshot:{docType:state.docType,fields:Object.assign({},state.fields),rows:structuredClone(state.rows),discount:Object.assign({},state.discount),vat:Object.assign({},state.vat),mahnstufe:state.mahnstufe,settings:Object.assign({},state.settings),logo:state.logo,neukunde:!!state.neukunde}
   };
-  if(state.docType==="Rechnung") entry.status=(prev&&prev.status)?prev.status:"offen";
+  if(state.docType==="Rechnung"){
+    entry.status=(prev&&prev.status)?prev.status:"offen";
+    if(prev&&prev.verbrauchGebucht) entry.verbrauchGebucht=prev.verbrauchGebucht;
+  }
   if(state.docType==="Angebot"){
     entry.angebotStatus=(prev&&prev.angebotStatus)?prev.angebotStatus:"entwurf";
     entry.version=(prev&&prev.version)?prev.version:1;
@@ -2249,6 +2292,7 @@ function archiveCurrent(skipCustomer){
   if(i>=0) appData.archive[i]=entry; else appData.archive.unshift(entry);
   if(!skipCustomer) upsertCustomer();
   saveApp();
+  if(typeof bucheVerbrauch==="function") bucheVerbrauch(entry);
 }
 /* ---------- Automatische Sicherung in den Verlauf (ohne Download) ---------- */
 // Nur sichern, wenn das Dokument echten Inhalt hat (Kunde ODER mind. eine ausgefüllte Position)
@@ -2519,11 +2563,160 @@ document.getElementById("historyRows").addEventListener("click",e=>{
   if(o){ const a=appData.archive.find(x=>x.id==o.dataset.open); if(a){ loadSnapshot(a.snapshot); switchView("doc"); } }
   if(d && confirm("Diesen Eintrag in den Papierkorb verschieben?")){ const a=appData.archive.find(x=>x.id==d.dataset.delarch); if(a) trashItem("archive",a,a.docType+" "+(a.nummer||"")+" · "+(a.kunde||"")); appData.archive=appData.archive.filter(x=>x.id!=d.dataset.delarch); saveApp(); renderHistory(); }
 });
+/* Ablehnungsgründe – werden abgefragt, sobald ein Angebot auf "Abgelehnt" geht.
+   Zweck: Die Abschlussquote nach Anzahl ist gut, nach Wert nicht – große Angebote
+   gehen verloren. Ohne den Grund bleibt unklar, ob das ein Preis-, Wert-, Lead-
+   oder Timing-Problem ist. Die Auswertung passiert in der Management-Routine. */
+const ABLEHNUNGSGRUENDE=[
+  ["preis","Preis zu hoch"],
+  ["wettbewerb","Wettbewerber bekam den Auftrag"],
+  ["verschoben","Projekt verschoben"],
+  ["budget","Kein Budget vorhanden"],
+  ["keine_rueckmeldung","Keine Rückmeldung erhalten"],
+  ["lieferzeit","Lieferzeit oder Termin passte nicht"],
+  ["gestaltung","Gestaltung/Umsetzung passte nicht"],
+  ["kein_bedarf","Bedarf ist entfallen"],
+  ["sonstiges","Sonstiges"]
+];
+function ablehnungsgrundLabel(k){ const e=ABLEHNUNGSGRUENDE.find(x=>x[0]===k); return e?e[1]:""; }
+
+/* ═══ LAGER: Position ↔ Material verknüpfen, Verbrauch automatisch buchen ═══
+   Warum: Ohne Verknuepfung kann der Bestand nicht mitlaufen — freier Text laesst
+   sich keinem Artikel zuordnen. Das Auswaehlen ersetzt das Tippen, spart also
+   Zeit statt welche zu kosten. Abgezogen wird ERST bei der Rechnung, denn dann
+   ist das Material tatsaechlich verbraucht (nicht schon beim Angebot). */
+function matVK(m){
+  const ek=parseNum(m.einkaufspreis);
+  const defAuf=parseNum((appData.calcSettings||{}).materialaufschlag)||0;
+  const auf=String(m.materialaufschlag||"").trim()!==""?parseNum(m.materialaufschlag):defAuf;
+  return ek*(1+auf/100);
+}
+let matPickZiel=null, matPickFilter="";
+function renderMatPickList(){
+  const box=document.getElementById("matPickList");
+  const q=matPickFilter.toLowerCase().trim();
+  let list=(appData.materials||[]).slice()
+    .sort((a,b)=>(a.bezeichnung||"").localeCompare(b.bezeichnung||"","de",{sensitivity:"base"}));
+  if(q) list=list.filter(m=>["artikelnr","bezeichnung","kategorie","lieferant"]
+    .some(k=>String(m[k]||"").toLowerCase().indexOf(q)>-1));
+  if(!list.length){
+    box.innerHTML='<div class="empty">'+((appData.materials||[]).length
+      ? 'Kein Treffer.'
+      : 'Noch keine Materialien angelegt. Lege sie unter „Material" an — danach kannst du sie hier auswählen.')+'</div>';
+    return;
+  }
+  box.innerHTML=list.map(m=>{
+    const b=String(m.lagerbestand||"").trim(), mb=String(m.mindestbestand||"").trim();
+    const low=b!=="" && mb!=="" && parseNum(b)<parseNum(mb);
+    const best=b!==""?(parseNum(b)+" "+(m.einheit||"")+(low?" ⚠ unter Mindestbestand":"")):"kein Bestand geführt";
+    return '<div class="pick" data-matpickid="'+m.id+'"><span>'+escapeHtml(m.bezeichnung||"—")+
+      (m.artikelnr?' <span class="k">('+escapeHtml(m.artikelnr)+')</span>':'')+
+      '<br><span class="k'+(low?' lowb':'')+'">'+escapeHtml(best)+' · VK '+euro.format(matVK(m))+'</span></span></div>';
+  }).join("");
+}
+function openMatPick(i){
+  matPickZiel=i; matPickFilter="";
+  document.getElementById("matPickSearch").value="";
+  renderMatPickList();
+  document.getElementById("matPickModal").classList.add("open");
+}
+function closeMatPick(){ document.getElementById("matPickModal").classList.remove("open"); matPickZiel=null; }
+document.getElementById("matPickSearch").addEventListener("input",e=>{ matPickFilter=e.target.value; renderMatPickList(); });
+document.getElementById("matPickList").addEventListener("click",e=>{
+  const el=e.target.closest("[data-matpickid]"); if(!el||matPickZiel===null) return;
+  const m=(appData.materials||[]).find(x=>x.id===el.dataset.matpickid); if(!m) return;
+  const r=state.rows[matPickZiel]; if(!r) return;
+  r.matId=m.id;
+  r.bez=m.bezeichnung||r.bez||"";
+  if(m.einheit) r.einheit=m.einheit;
+  const vk=matVK(m);
+  if(vk>0) r.preis=vk.toFixed(2).replace(".",",");
+  closeMatPick(); renderRows(); save();
+});
+document.getElementById("matPickClear").addEventListener("click",()=>{
+  if(matPickZiel!==null && state.rows[matPickZiel]) delete state.rows[matPickZiel].matId;
+  closeMatPick(); renderRows(); save();
+});
+document.getElementById("matPickCancel").addEventListener("click",closeMatPick);
+document.getElementById("matPickModal").addEventListener("click",e=>{ if(e.target.id==="matPickModal") closeMatPick(); });
+
+/* Verbrauch buchen: wird beim Archivieren einer RECHNUNG aufgerufen.
+   Bucht nur einmal je Beleg (Merker verbrauchGebucht), damit ein erneutes
+   Speichern denselben Bestand nicht mehrfach abzieht. */
+function bucheVerbrauch(entry){
+  if(!entry || entry.docType!=="Rechnung" || entry.verbrauchGebucht) return;
+  const rows=((entry.snapshot||{}).rows)||[];
+  const gebucht=[];
+  rows.forEach(r=>{
+    if(!r.matId) return;
+    const m=(appData.materials||[]).find(x=>x.id===r.matId); if(!m) return;
+    const menge=parseNum(r.menge); if(!menge) return;
+    const alt=parseNum(m.lagerbestand);
+    m.lagerbestand=String(+(alt-menge).toFixed(3)).replace(".",",");
+    gebucht.push((m.bezeichnung||"?")+" −"+menge+" "+(m.einheit||""));
+  });
+  if(gebucht.length){
+    entry.verbrauchGebucht=new Date().toISOString().slice(0,10);
+    saveApp();
+    logAudit("Lagerverbrauch gebucht","Rechnung "+(entry.nummer||""),gebucht.join(" · "));
+    const unter=(appData.materials||[]).filter(m=>{
+      const b=String(m.lagerbestand||"").trim(), mb=String(m.mindestbestand||"").trim();
+      return b!=="" && mb!=="" && parseNum(b)<parseNum(mb);
+    });
+    if(unter.length){
+      alert("Lagerbestand gebucht.\n\n⚠ "+unter.length+" Material(ien) unter Mindestbestand:\n"
+            +unter.map(m=>"• "+(m.bezeichnung||"?")+": "+m.lagerbestand+" "+(m.einheit||"")
+                          +" (Minimum "+m.mindestbestand+")").join("\n"));
+    }
+  }
+}
+
+let lostZiel=null, lostWahl=null;
+function openLostModal(a){
+  lostZiel=a; lostWahl=a.ablehnungsgrund||null;
+  document.getElementById("lostSub").textContent=
+    "Angebot "+(a.nummer||"")+" · "+(a.kunde||"")+" · "+euro.format(Number(a.netto)||0);
+  const box=document.getElementById("lostList");
+  box.innerHTML=ABLEHNUNGSGRUENDE.map(g=>
+    '<div class="pick'+(lostWahl===g[0]?" sel":"")+'" data-lost="'+g[0]+'"><span>'+g[1]+'</span></div>').join("");
+  document.getElementById("lostNote").value=a.ablehnungsnotiz||"";
+  document.getElementById("lostModal").classList.add("open");
+}
+function closeLostModal(){ document.getElementById("lostModal").classList.remove("open"); lostZiel=null; lostWahl=null; }
+
+document.getElementById("lostList").addEventListener("click",e=>{
+  const el=e.target.closest("[data-lost]"); if(!el) return;
+  lostWahl=el.dataset.lost;
+  [...document.querySelectorAll("#lostList .pick")].forEach(x=>x.classList.toggle("sel",x.dataset.lost===lostWahl));
+});
+document.getElementById("lostSave").addEventListener("click",()=>{
+  if(!lostZiel) return closeLostModal();
+  lostZiel.ablehnungsgrund=lostWahl||"";
+  lostZiel.ablehnungsnotiz=document.getElementById("lostNote").value.trim();
+  lostZiel.ablehnungsDatum=new Date().toISOString().slice(0,10);
+  saveApp();
+  logAudit("Ablehnungsgrund", "Angebot "+(lostZiel.nummer||""),
+           ablehnungsgrundLabel(lostWahl)||"ohne Angabe");
+  closeLostModal(); renderHistory();
+});
+document.getElementById("lostSkip").addEventListener("click",closeLostModal);
+document.getElementById("lostModal").addEventListener("click",e=>{ if(e.target.id==="lostModal") closeLostModal(); });
+
+document.getElementById("rows").addEventListener("click",e=>{
+  const mp=e.target.closest("[data-matpick]"); if(mp) openMatPick(+mp.dataset.matpick);
+});
+
+document.getElementById("rows").addEventListener("click",e=>{
+  const mp=e.target.closest("[data-matpick]"); if(mp) openMatPick(+mp.dataset.matpick);
+});
+
 document.getElementById("historyRows").addEventListener("change",e=>{
   const s=e.target.closest("[data-angstatus]"); if(!s) return;
   const a=appData.archive.find(x=>x.id==s.dataset.angstatus); if(!a) return;
   a.angebotStatus=s.value; saveApp();
   logAudit("Status geändert", "Angebot "+(a.nummer||""), "→ "+angStatusLabel(s.value));
+  if(s.value==="abgelehnt") openLostModal(a);
+  else if(a.ablehnungsgrund){ delete a.ablehnungsgrund; delete a.ablehnungsnotiz; delete a.ablehnungsDatum; saveApp(); }
 });
 function loadSnapshot(s){
   flushAutoArchive();   // aktuelles Dokument sichern, bevor ein anderes geladen wird
@@ -2778,6 +2971,7 @@ function renderMaterial(){
       '<td class="r">'+(hasEk?euro.format(ek):"—")+"</td>"+
       '<td class="r">'+(hasEk?euro.format(vk):"—")+"</td>"+
       '<td class="r'+(low?" mat-low":"")+'">'+(hasBestand?escapeHtml(String(m.lagerbestand)):"—")+"</td>"+
+      '<td class="noprint"><button class="linkbtn" data-matzugang="'+m.id+'" title="Wareneingang buchen">+ Zugang</button></td>'+
       '<td class="noprint"><button class="linkbtn" data-matedit="'+m.id+'">Bearbeiten</button></td>'+
       '<td class="noprint"><button class="delbtn" data-matdel="'+m.id+'" title="Material in den Papierkorb">×</button></td></tr>';
   }).join("");
@@ -2837,6 +3031,27 @@ document.getElementById("matCancel").addEventListener("click",closeMatModal);
 document.getElementById("matModal").addEventListener("click",e=>{ if(e.target.id==="matModal") closeMatModal(); });
 document.getElementById("matSearch").addEventListener("input",e=>{ matFilter=e.target.value; renderMaterial(); });
 document.getElementById("matRows").addEventListener("click",e=>{
+  const zg=e.target.closest("[data-matzugang]");
+  if(zg){
+    // Wareneingang: bewusst schlank gehalten — eine Eingabe, fertig.
+    const m=appData.materials.find(x=>x.id===zg.dataset.matzugang);
+    if(m){
+      const ein=prompt("Wareneingang für „"+(m.bezeichnung||"?")+"\n\nAktueller Bestand: "
+        +(m.lagerbestand||"0")+" "+(m.einheit||"")+"\n\nWie viel ist dazugekommen?","");
+      if(ein!==null && String(ein).trim()!==""){
+        const menge=parseNum(ein);
+        if(menge){
+          const alt=parseNum(m.lagerbestand);
+          m.lagerbestand=String(+(alt+menge).toFixed(3)).replace(".",",");
+          m.letzterZugang=new Date().toISOString().slice(0,10);
+          saveApp();
+          logAudit("Wareneingang",(m.bezeichnung||"Material"),"+"+menge+" "+(m.einheit||"")+" → "+m.lagerbestand);
+          renderMaterial();
+        } else alert("Bitte eine Zahl eingeben.");
+      }
+    }
+    return;
+  }
   const ed=e.target.closest("[data-matedit]"), dl=e.target.closest("[data-matdel]");
   if(ed) return openMatEditor(ed.dataset.matedit);
   if(dl){
