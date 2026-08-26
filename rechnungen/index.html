@@ -1899,9 +1899,10 @@ function renderSignature(){
   // Namenszeile nur zeigen, wenn ein Name hinterlegt ist - sonst stuende dort
   // ein leerer Unterstrich unter der Unterschrift.
   const sigName = String(f.name||"").trim();
+  // Reihenfolge: Stempel/Logo links, Unterschrift rechts.
+  if(f.stempel && mitSig) html+='<div class="sig-col"><img src="'+f.stempel+'" alt="Firmenstempel"></div>';
   if(f.unterschrift && mitSig) html+='<div class="sig-col"><img src="'+f.unterschrift+'" alt="Unterschrift">'+
     (sigName?'<div class="sig-line">'+escapeHtml(sigName)+'</div>':'')+'</div>';
-  if(f.stempel && mitSig) html+='<div class="sig-col"><img src="'+f.stempel+'" alt="Firmenstempel"></div>';
   el.innerHTML=html; el.style.display=html?"":"none";
 }
 function renderAll(){ applySettings(); renderDocType(); renderFields(); renderLogo(); renderRows(); renderNeukunde(); renderSignature(); }
