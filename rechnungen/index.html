@@ -1710,6 +1710,39 @@ function applySettings(){
 }
 function setVal(id,v){ const el=document.getElementById(id); if(el) el.value=v; }
 
+/* Feste Angebotstexte. Sie sind KEIN Platzhalter, sondern echter Inhalt:
+   Platzhalter (data-ph) werden beim PDF-Export ausgeblendet, standen also
+   nur am Bildschirm. Auf Angeboten werden die Texte deshalb eingesetzt,
+   auf Rechnungen und Mahnungen bleiben sie draussen. */
+const ANGEBOT_INTRO   = "Sehr geehrte Damen und Herren,\n\nvielen Dank f\u00fcr Ihre Anfrage. Gerne unterbreiten wir Ihnen folgendes Angebot:";
+const ANGEBOT_SCHLUSS = "Wir freuen uns auf Ihren Auftrag.\nMit freundlichen Gr\u00fc\u00dfen";
+
+function applyAngebotstexte(){
+  const istAngebot = state.docType==="Angebot";
+  let geaendert = false;
+  const setze = (feld, text) => {
+    const el = document.querySelector('[data-field="'+feld+'"]');
+    const aktuell = String(state.fields[feld]||"").trim();
+    if(istAngebot){
+      // Fest verankern: nur fuellen, wenn leer - eigene Formulierungen bleiben stehen.
+      if(aktuell===""){ state.fields[feld]=text; geaendert=true; }
+      if(el) el.setAttribute("data-ph", text);
+    }else{
+      // Auf Rechnungen/Mahnungen raus, aber nur der Standardtext -
+      // selbst geschriebene Zeilen werden nicht geloescht.
+      if(aktuell===text.trim()){ state.fields[feld]=""; geaendert=true; }
+      // Kein Platzhalter, sonst stuende dort weiter "folgendes Angebot:".
+      if(el) el.removeAttribute("data-ph");
+    }
+    // renderDocType wird auch ohne folgendes renderFields aufgerufen -
+    // deshalb das Feld hier direkt mitziehen (nie waehrend des Tippens).
+    if(geaendert && el && document.activeElement!==el) el.textContent=state.fields[feld]||"";
+  };
+  setze("intro", ANGEBOT_INTRO);
+  setze("schluss", ANGEBOT_SCHLUSS);
+  if(geaendert) save();
+}
+
 function renderDocType(){
   const t=state.docType, invoiceLike=(t==="Rechnung"||t==="Mahnung");
   const title = t==="Mahnung" ? mahnTitle(state.mahnstufe) : t;
@@ -1717,6 +1750,7 @@ function renderDocType(){
   document.getElementById("lblNummer").textContent = t==="Rechnung"?"Rechnung-Nr.":t==="Mahnung"?"Mahnung-Nr.":"Angebot-Nr.";
   document.getElementById("lblGueltig").textContent=invoiceLike?"Zahlbar bis":"Gültig bis";
   document.title=title+" · "+(state.fields.nummer||"");
+  applyAngebotstexte();
   renderGueltig();
   renderLegal();
 }
