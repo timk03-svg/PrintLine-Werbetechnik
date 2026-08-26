@@ -95,6 +95,13 @@
   .mat-tools{margin:6px 0 12px;}
   .mat-tools input{width:100%;max-width:440px;border:1px solid var(--line-strong);border-radius:8px;padding:8px 11px;font:inherit;}
   td.mat-low{color:#e5484d;font-weight:700;}
+.mat-dubl{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;
+  font-size:10px;font-weight:600;letter-spacing:.02em;
+  background:#fde8e8;color:#9b1c1c;border:1px solid #f5c2c2;}
+.mat-dubl-hinweis{margin:8px 0 4px;padding:9px 12px;border-radius:8px;font-size:13px;
+  line-height:1.45;background:#fff6e5;color:#7a4a00;border:1px solid #f0d9a8;}
+body.dark .mat-dubl{background:#4a1d1d;color:#ffb4b4;border-color:#6b2b2b;}
+body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a24;}
   .modal-wide{max-width:780px;max-height:88vh;overflow:auto;}
   .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px 18px;margin:4px 0 10px;}
   .form-grid .field-wide{grid-column:1/-1;}
@@ -1185,6 +1192,7 @@ USt-IdNr. …"></div>
       <input type="file" id="matImportFile" accept=".csv,text/csv" hidden>
     </div>
     <div class="mat-tools noprint"><input type="text" id="matSearch" placeholder="Suche: Artikel-Nr., Bezeichnung, Kategorie, Lieferant …"></div>
+    <div id="matDublHinweis" class="mat-dubl-hinweis noprint" style="display:none;"></div>
     <table class="list">
       <thead><tr><th>Artikel-Nr.</th><th>Bezeichnung</th><th>Kategorie</th><th>Einheit</th><th class="r">Einkauf</th><th class="r">VK (auto)</th><th class="r">Bestand</th><th class="noprint"></th><th class="noprint"></th><th class="noprint"></th></tr></thead>
       <tbody id="matRows"></tbody>
@@ -3046,6 +3054,23 @@ function renderMaterial(){
   if(q) list=list.filter(m=>["artikelnr","bezeichnung","kategorie","lieferant"].some(k=>String(m[k]||"").toLowerCase().indexOf(q)>-1));
   if(!list.length){ tb.innerHTML='<tr><td colspan="9" class="empty">'+(appData.materials.length?"Keine Treffer.":'Noch kein Material. Lege oben mit „+ Material" den ersten Artikel an.')+'</td></tr>'; return; }
   const defAuf=parseNum(appData.calcSettings.materialaufschlag);
+  // Doppelt vergebene Artikelnummern finden - sie fuehren beim Materialabzug
+  // dazu, dass der Verbrauch auf dem falschen Datensatz landet.
+  const nrZaehler={};
+  appData.materials.forEach(m=>{
+    const k=String(m.artikelnr||"").trim().toLowerCase();
+    if(k) nrZaehler[k]=(nrZaehler[k]||0)+1;
+  });
+  const dubl=Object.keys(nrZaehler).filter(k=>nrZaehler[k]>1);
+  const hw=document.getElementById("matDublHinweis");
+  if(hw){
+    hw.innerHTML = dubl.length
+      ? '<b>Doppelte Artikelnummern:</b> '+dubl.map(escapeHtml).join(", ")+
+        ' — jeweils einen der beiden Eintraege loeschen, sonst wird der Verbrauch '+
+        'vom falschen Bestand abgezogen.'
+      : "";
+    hw.style.display = dubl.length ? "" : "none";
+  }
   tb.innerHTML=list.map(m=>{
     const ek=parseNum(m.einkaufspreis);
     const hasEk=String(m.einkaufspreis||"").trim()!=="";
@@ -3053,7 +3078,9 @@ function renderMaterial(){
     const vk=ek*(1+auf/100);
     const hasBestand=String(m.lagerbestand||"").trim()!=="";
     const low=hasBestand && String(m.mindestbestand||"").trim()!=="" && parseNum(m.lagerbestand)<parseNum(m.mindestbestand);
-    return "<tr><td>"+escapeHtml(m.artikelnr||"—")+"</td>"+
+    const istDubl=dubl.indexOf(String(m.artikelnr||"").trim().toLowerCase())>-1;
+    return "<tr><td>"+escapeHtml(m.artikelnr||"—")+
+      (istDubl?' <span class="mat-dubl" title="Diese Artikelnummer ist doppelt vergeben">doppelt</span>':"")+"</td>"+
       "<td><b>"+escapeHtml(m.bezeichnung||"—")+"</b>"+(m.notiz?'<div class="sub" style="margin:0;font-size:11px;">'+escapeHtml(m.notiz)+"</div>":"")+"</td>"+
       "<td>"+escapeHtml(m.kategorie||"—")+"</td><td>"+escapeHtml(m.einheit||"—")+"</td>"+
       '<td class="r">'+(hasEk?euro.format(ek):"—")+"</td>"+
