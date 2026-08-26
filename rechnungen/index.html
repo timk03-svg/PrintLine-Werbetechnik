@@ -100,6 +100,14 @@
   background:#fde8e8;color:#9b1c1c;border:1px solid #f5c2c2;}
 .mat-dubl-hinweis{margin:8px 0 4px;padding:9px 12px;border-radius:8px;font-size:13px;
   line-height:1.45;background:#fff6e5;color:#7a4a00;border:1px solid #f0d9a8;}
+  .mat-kat td{background:var(--accent-soft);font-weight:700;font-size:11px;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--accent);padding-top:10px;padding-bottom:6px;}
+  .mat-kat-n{float:right;font-weight:600;letter-spacing:0;text-transform:none;opacity:.75;}
+  .mat-grp td{font-weight:600;font-size:12.5px;padding-top:7px;padding-bottom:3px;
+    border-bottom:1px solid var(--line);}
+  .mat-grp-n{float:right;font-weight:400;font-size:11px;opacity:.7;}
+  .mat-grp + .mat-var td:first-child,
+  .mat-var + .mat-var td:first-child{padding-left:18px;}
 body.dark .mat-dubl{background:#4a1d1d;color:#ffb4b4;border-color:#6b2b2b;}
 body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a24;}
   .modal-wide{max-width:780px;max-height:88vh;overflow:auto;}
@@ -1202,7 +1210,7 @@ USt-IdNr. …"></div>
     <div class="mat-tools noprint"><input type="text" id="matSearch" placeholder="Suche: Artikel-Nr., Bezeichnung, Kategorie, Lieferant …"></div>
     <div id="matDublHinweis" class="mat-dubl-hinweis noprint" style="display:none;"></div>
     <table class="list">
-      <thead><tr><th>Artikel-Nr.</th><th>Bezeichnung</th><th>Kategorie</th><th>Einheit</th><th class="r">Einkauf</th><th class="r">VK (auto)</th><th class="r">Bestand</th><th class="noprint"></th><th class="noprint"></th><th class="noprint"></th></tr></thead>
+      <thead><tr><th>Artikel-Nr.</th><th>Bezeichnung</th><th class="r">Stärke</th><th>Maße / Format</th><th>Einheit</th><th class="r">Einkauf</th><th class="r">VK (auto)</th><th class="r">Bestand</th><th class="noprint"></th><th class="noprint"></th><th class="noprint"></th></tr></thead>
       <tbody id="matRows"></tbody>
     </table>
   </div>
@@ -1256,6 +1264,9 @@ USt-IdNr. …"></div>
       <div class="field"><label>Artikel-Nr.</label><input type="text" id="mfArtikelnr"></div>
       <div class="field"><label>Bezeichnung *</label><input type="text" id="mfBezeichnung"></div>
       <div class="field"><label>Kategorie</label><input type="text" id="mfKategorie" list="matKatList"></div>
+      <div class="field"><label>Produktgruppe / Serie</label><input type="text" id="mfGruppe" list="matGrpList" placeholder="z. B. Dilite-Aluverbundplatte weiß"></div>
+      <div class="field"><label>Stärke (mm)</label><input type="text" id="mfStaerke" placeholder="z. B. 3"></div>
+      <div class="field"><label>Maße / Format</label><input type="text" id="mfFormat" placeholder="z. B. 126 cm oder 100 m x 50 cm"></div>
       <div class="field"><label>Einheit</label><select id="mfEinheit"></select></div>
       <div class="field"><label>Einkaufspreis (€ / Einheit)</label><input type="text" id="mfEinkaufspreis" placeholder="0,00"></div>
       <div class="field"><label>Material-Aufschlag % (VK-Anzeige)</label><input type="text" id="mfMaterialaufschlag" placeholder="leer = Standard"></div>
@@ -1276,6 +1287,7 @@ USt-IdNr. …"></div>
   </div>
 </div>
 <datalist id="matKatList"></datalist>
+<datalist id="matGrpList"></datalist>
 <datalist id="kalkKundenList"></datalist>
 
 <!-- Ansicht: Projekte / Anfragen (Workflow Anfrage → Auftrag) -->
@@ -3108,50 +3120,129 @@ function kpEinzel(p){ const m=parseNum(p.menge)||1; return kpVerkauf(p)/m; }
 
 /* ---------- Materialdatenbank ---------- */
 let matFilter="", matEditId=null;
+/* Leitet Produktgruppe, Staerke und Maasse aus der Bezeichnung ab. Fuellt nur
+   leere Felder - was von Hand eingetragen wurde, bleibt unangetastet. Laeuft
+   einmalig beim Rendern, damit der Altbestand nicht per Hand nachgepflegt
+   werden muss. */
+function matAbleiten(m){
+  const bez=String(m.bezeichnung||""); let geaendert=false;
+  const leer=k=>String(m[k]||"").trim()==="";
+  if(leer("staerke")){
+    // "3 mm" als Materialstaerke, aber nicht die Breitenangabe in "50 lfm x 3,5 mm"
+    if(!/x\s*\d+(?:[.,]\d+)?\s*mm/i.test(bez)){
+      const t=bez.match(/(\d+(?:[.,]\d+)?)\s*mm\b/);
+      if(t){ m.staerke=t[1]; geaendert=true; }
+    }
+  }
+  if(leer("format")){
+    // "bis 200 cm" ist eine Obergrenze, kein Format - deshalb ausgenommen
+    const f=bez.match(/(\d+(?:[.,]\d+)?\s*(?:m|cm|mm)\s*x\s*\d+(?:[.,]\d+)?\s*(?:m|cm|mm))/i)
+          ||bez.match(/(?:^|[^a-zäöüß])(?<!bis\s)(\d+(?:[.,]\d+)?\s*cm)\b/i);
+    if(f && !/\bbis\s+\d/i.test(bez)){ m.format=(f[1]||f[0]).trim(); geaendert=true; }
+  }
+  if(leer("gruppe")){
+    const teile=bez.split(",");
+    const letzter=teile[teile.length-1]||"";
+    let g=(teile.length>1 && /\d|zuschnitt/i.test(letzter))
+      ? teile.slice(0,-1).join(",").trim() : bez.trim();
+    // Serien wie "Oracal 651-010 weiss" auf "Oracal 651" zusammenfassen,
+    // damit die Farbvarianten unter einem Eintrag stehen
+    const serie=g.match(/^(.+?\s\d+)-\d+\b/);
+    if(serie) g=serie[1].trim();
+    m.gruppe=g; geaendert=true;
+  }
+  // PVC-Hartschaum bekommt eine eigene Kategorie, statt unter "Platten" zu liegen
+  if(/pvc[- ]?hartschaum|forex/i.test(bez) && /^platten$/i.test(String(m.kategorie||"").trim())){
+    m.kategorie="PVC-Hartschaum"; geaendert=true;
+  }
+  return geaendert;
+}
+
+function fillGruppeList(){
+  const dl=document.getElementById("matGrpList"); if(!dl) return;
+  const gs=Array.from(new Set(appData.materials.map(m=>m.gruppe).filter(Boolean))).sort();
+  dl.innerHTML=gs.map(g=>'<option value="'+escapeHtml(g)+'">').join("");
+}
+
 function renderMaterial(){
   const tb=document.getElementById("matRows"); if(!tb) return;
   const pd=document.getElementById("matPrintDate"); if(pd) pd.textContent="Stand: "+todayStr();
+
+  // Einmalige Ableitung fuer den Altbestand
+  let abgeleitet=false;
+  appData.materials.forEach(m=>{ if(matAbleiten(m)) abgeleitet=true; });
+  if(abgeleitet){ saveApp(); fillKatList(); fillGruppeList(); }
+
   const q=matFilter.toLowerCase().trim();
-  let list=appData.materials.slice().sort((a,b)=>(a.bezeichnung||"").localeCompare(b.bezeichnung||"","de",{sensitivity:"base"}));
-  if(q) list=list.filter(m=>["artikelnr","bezeichnung","kategorie","lieferant"].some(k=>String(m[k]||"").toLowerCase().indexOf(q)>-1));
-  if(!list.length){ tb.innerHTML='<tr><td colspan="9" class="empty">'+(appData.materials.length?"Keine Treffer.":'Noch kein Material. Lege oben mit „+ Material" den ersten Artikel an.')+'</td></tr>'; return; }
-  const defAuf=parseNum(appData.calcSettings.materialaufschlag);
-  // Doppelt vergebene Artikelnummern finden - sie fuehren beim Materialabzug
-  // dazu, dass der Verbrauch auf dem falschen Datensatz landet.
+  let list=appData.materials.slice();
+  if(q) list=list.filter(m=>["artikelnr","bezeichnung","kategorie","gruppe","staerke","format","lieferant"]
+    .some(k=>String(m[k]||"").toLowerCase().indexOf(q)>-1));
+  if(!list.length){
+    tb.innerHTML='<tr><td colspan="11" class="empty">'+(appData.materials.length
+      ? "Keine Treffer."
+      : 'Noch kein Material. Lege oben mit „+ Material" den ersten Artikel an.')+"</td></tr>";
+    const hw0=document.getElementById("matDublHinweis"); if(hw0) hw0.style.display="none";
+    return;
+  }
+
+  // Doppelt vergebene Artikelnummern - der Verbrauch landet sonst auf dem falschen Datensatz
   const nrZaehler={};
-  appData.materials.forEach(m=>{
-    const k=String(m.artikelnr||"").trim().toLowerCase();
-    if(k) nrZaehler[k]=(nrZaehler[k]||0)+1;
-  });
+  appData.materials.forEach(m=>{ const k=String(m.artikelnr||"").trim().toLowerCase(); if(k) nrZaehler[k]=(nrZaehler[k]||0)+1; });
   const dubl=Object.keys(nrZaehler).filter(k=>nrZaehler[k]>1);
   const hw=document.getElementById("matDublHinweis");
   if(hw){
-    hw.innerHTML = dubl.length
-      ? '<b>Doppelte Artikelnummern:</b> '+dubl.map(escapeHtml).join(", ")+
-        ' — jeweils einen der beiden Eintraege loeschen, sonst wird der Verbrauch '+
-        'vom falschen Bestand abgezogen.'
+    hw.innerHTML=dubl.length
+      ? "<b>Doppelte Artikelnummern:</b> "+dubl.map(escapeHtml).join(", ")+
+        " — jeweils einen der beiden Eintraege loeschen, sonst wird der Verbrauch vom falschen Bestand abgezogen."
       : "";
-    hw.style.display = dubl.length ? "" : "none";
+    hw.style.display=dubl.length?"":"none";
   }
-  tb.innerHTML=list.map(m=>{
-    const ek=parseNum(m.einkaufspreis);
-    const hasEk=String(m.einkaufspreis||"").trim()!=="";
+
+  const defAuf=parseNum(appData.calcSettings.materialaufschlag);
+  const txt=(a,b)=>String(a||"").localeCompare(String(b||""),"de",{sensitivity:"base"});
+  list.sort((a,b)=> txt(a.kategorie,b.kategorie) || txt(a.gruppe||a.bezeichnung,b.gruppe||b.bezeichnung)
+                 || (parseNum(a.staerke)-parseNum(b.staerke)) || txt(a.bezeichnung,b.bezeichnung));
+
+  const zeile=m=>{
+    const ek=parseNum(m.einkaufspreis), hasEk=String(m.einkaufspreis||"").trim()!=="";
     const auf=String(m.materialaufschlag||"").trim()!==""?parseNum(m.materialaufschlag):defAuf;
-    const vk=ek*(1+auf/100);
     const hasBestand=String(m.lagerbestand||"").trim()!=="";
     const low=hasBestand && String(m.mindestbestand||"").trim()!=="" && parseNum(m.lagerbestand)<parseNum(m.mindestbestand);
     const istDubl=dubl.indexOf(String(m.artikelnr||"").trim().toLowerCase())>-1;
-    return "<tr><td>"+escapeHtml(m.artikelnr||"—")+
+    return '<tr class="mat-var"><td>'+escapeHtml(m.artikelnr||"—")+
       (istDubl?' <span class="mat-dubl" title="Diese Artikelnummer ist doppelt vergeben">doppelt</span>':"")+"</td>"+
-      "<td><b>"+escapeHtml(m.bezeichnung||"—")+"</b>"+(m.notiz?'<div class="sub" style="margin:0;font-size:11px;">'+escapeHtml(m.notiz)+"</div>":"")+"</td>"+
-      "<td>"+escapeHtml(m.kategorie||"—")+"</td><td>"+escapeHtml(m.einheit||"—")+"</td>"+
+      "<td>"+escapeHtml(m.bezeichnung||"—")+(m.notiz?'<div class="sub" style="margin:0;font-size:11px;">'+escapeHtml(m.notiz)+"</div>":"")+"</td>"+
+      '<td class="r">'+(String(m.staerke||"").trim()?escapeHtml(String(m.staerke))+"&nbsp;mm":"—")+"</td>"+
+      "<td>"+escapeHtml(m.format||"—")+"</td>"+
+      "<td>"+escapeHtml(m.einheit||"—")+"</td>"+
       '<td class="r">'+(hasEk?euro.format(ek):"—")+"</td>"+
-      '<td class="r">'+(hasEk?euro.format(vk):"—")+"</td>"+
+      '<td class="r">'+(hasEk?euro.format(ek*(1+auf/100)):"—")+"</td>"+
       '<td class="r'+(low?" mat-low":"")+'">'+(hasBestand?escapeHtml(String(m.lagerbestand)):"—")+"</td>"+
       '<td class="noprint"><button class="linkbtn" data-matzugang="'+m.id+'" title="Wareneingang buchen">+ Zugang</button></td>'+
       '<td class="noprint"><button class="linkbtn" data-matedit="'+m.id+'">Bearbeiten</button></td>'+
       '<td class="noprint"><button class="delbtn" data-matdel="'+m.id+'" title="Material in den Papierkorb">×</button></td></tr>';
-  }).join("");
+  };
+
+  let html="", katJetzt=null, grpJetzt=null;
+  list.forEach((m,i)=>{
+    const kat=(m.kategorie||"Ohne Kategorie").trim();
+    const grp=(m.gruppe||m.bezeichnung||"").trim();
+    if(kat!==katJetzt){
+      const n=list.filter(x=>(x.kategorie||"Ohne Kategorie").trim()===kat).length;
+      html+='<tr class="mat-kat"><td colspan="11">'+escapeHtml(kat)+
+            '<span class="mat-kat-n">'+n+(n===1?" Artikel":" Artikel")+"</span></td></tr>";
+      katJetzt=kat; grpJetzt=null;
+    }
+    // Gruppenzeile nur, wenn die Serie mehrere Varianten hat
+    const varianten=list.filter(x=>(x.kategorie||"Ohne Kategorie").trim()===kat && (x.gruppe||x.bezeichnung||"").trim()===grp).length;
+    if(varianten>1 && grp!==grpJetzt){
+      html+='<tr class="mat-grp"><td colspan="11">'+escapeHtml(grp)+
+            '<span class="mat-grp-n">'+varianten+" Stärken/Varianten</span></td></tr>";
+      grpJetzt=grp;
+    }else if(varianten<=1){ grpJetzt=null; }
+    html+=zeile(m);
+  });
+  tb.innerHTML=html;
 }
 function fillKatList(){
   const dl=document.getElementById("matKatList"); if(!dl) return;
@@ -3174,6 +3265,7 @@ function openMatEditor(id){
   fillEinheitSelect(document.getElementById("mfEinheit"), m?m.einheit:"Stück");
   const v=(eid,val)=>{ const e=document.getElementById(eid); if(e) e.value=(val==null?"":val); };
   v("mfArtikelnr",m&&m.artikelnr); v("mfBezeichnung",m&&m.bezeichnung); v("mfKategorie",m&&m.kategorie);
+  v("mfGruppe",m&&m.gruppe); v("mfStaerke",m&&m.staerke); v("mfFormat",m&&m.format); fillGruppeList();
   v("mfEinkaufspreis",m&&m.einkaufspreis); v("mfMaterialaufschlag",m&&m.materialaufschlag);
   v("mfStandardverschnitt",m&&m.standardverschnitt);
   v("mfLagerbestand",m&&m.lagerbestand); v("mfMindestbestand",m&&m.mindestbestand); v("mfReserve",m&&m.reserve);
@@ -3189,7 +3281,7 @@ function saveMatEditor(){
   if(!bez){ alert("Bitte eine Bezeichnung eingeben."); return; }
   const ekNew=g("mfEinkaufspreis");
   const lieferantId=g("mfLieferant");
-  const fields={ artikelnr:g("mfArtikelnr"), bezeichnung:bez, kategorie:g("mfKategorie"), einheit:document.getElementById("mfEinheit").value, einkaufspreis:ekNew, materialaufschlag:g("mfMaterialaufschlag"), standardverschnitt:g("mfStandardverschnitt"), lagerbestand:g("mfLagerbestand"), mindestbestand:g("mfMindestbestand"), reserve:g("mfReserve"), lieferzeit:g("mfLieferzeit"), alternativmaterial:g("mfAlternativmaterial"), lieferantId:lieferantId, lieferant:lieferantName(lieferantId), notiz:g("mfNotiz") };
+  const fields={ artikelnr:g("mfArtikelnr"), bezeichnung:bez, kategorie:g("mfKategorie"), gruppe:g("mfGruppe"), staerke:g("mfStaerke"), format:g("mfFormat"), einheit:document.getElementById("mfEinheit").value, einkaufspreis:ekNew, materialaufschlag:g("mfMaterialaufschlag"), standardverschnitt:g("mfStandardverschnitt"), lagerbestand:g("mfLagerbestand"), mindestbestand:g("mfMindestbestand"), reserve:g("mfReserve"), lieferzeit:g("mfLieferzeit"), alternativmaterial:g("mfAlternativmaterial"), lieferantId:lieferantId, lieferant:lieferantName(lieferantId), notiz:g("mfNotiz") };
   if(matEditId){
     const m=appData.materials.find(x=>x.id===matEditId); if(!m){ closeMatModal(); return; }
     const ekOld=m.einkaufspreis||"";
@@ -3768,7 +3860,7 @@ function parseCSV(text){
   if(cur!==""||row.length){ row.push(cur); rows.push(row); }
   return rows;
 }
-const MAT_COLS=[["artikelnr","Artikel-Nr."],["bezeichnung","Bezeichnung"],["kategorie","Kategorie"],["einheit","Einheit"],["einkaufspreis","Einkaufspreis"],["standardverschnitt","Standardverschnitt"],["materialaufschlag","Materialaufschlag"],["lagerbestand","Lagerbestand"],["mindestbestand","Mindestbestand"],["reserve","Reserve"],["lieferzeit","Lieferzeit"],["alternativmaterial","Alternativmaterial"],["lieferant","Lieferant"],["notiz","Notiz"]];
+const MAT_COLS=[["artikelnr","Artikel-Nr."],["bezeichnung","Bezeichnung"],["kategorie","Kategorie"],["gruppe","Produktgruppe"],["staerke","Stärke mm"],["format","Maße/Format"],["einheit","Einheit"],["einkaufspreis","Einkaufspreis"],["standardverschnitt","Standardverschnitt"],["materialaufschlag","Materialaufschlag"],["lagerbestand","Lagerbestand"],["mindestbestand","Mindestbestand"],["reserve","Reserve"],["lieferzeit","Lieferzeit"],["alternativmaterial","Alternativmaterial"],["lieferant","Lieferant"],["notiz","Notiz"]];
 const KUNDE_COLS=[["firma","Firma"],["nummer","Kunden-Nr."],["ansprechpartner","Ansprechpartner"],["strasse","Straße"],["plz","PLZ"],["ort","Ort"],["land","Land"],["telefon","Telefon"],["mobil","Mobil"],["email","E-Mail"],["website","Website"],["kundengruppe","Kundengruppe"],["rabattgruppe","Rabattgruppe"],["notizen","Notizen"]];
 function exportData(coll, cols, fmt){
   const headers=cols.map(c=>c[1]);
