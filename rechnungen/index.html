@@ -763,6 +763,15 @@
 
   <h3 style="margin:20px 0 6px;font-size:15px;">Kalkulation – Standard-Aufschläge</h3>
   <p class="sub" style="margin:6px 0 10px;">Diese Werte werden bei jeder neuen Kalkulationsposition vorausgefüllt (pro Position überschreibbar). Leer lassen = 0 %.</p>
+  <div style="margin:0 0 12px;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:var(--accent-soft);">
+    <strong style="font-size:13px;">Aus euren eigenen Belegen abgeleitet</strong>
+    <div style="font-size:12.5px;color:var(--muted);margin:3px 0 9px;line-height:1.5;">
+      Stundenlohn 45 &euro; (25 Positionen belegt) &middot; Material-Aufschlag 50 %
+      (aus Angebot AG2622 gegen das Lieferantenangebot gerechnet) &middot; Verschnitt 10 % (Richtwert).
+      Gemeinkosten, Risiko und Maschinensatz bleiben leer &ndash; daf&uuml;r fehlen die Fixkosten- und Maschinendaten.
+    </div>
+    <button class="btn" id="btnCsVorschlag" type="button">Diese Werte eintragen</button>
+  </div>
   <div class="grid">
     <div class="field"><label>Gemeinkosten %</label><input type="text" id="csGemein" placeholder="z. B. 15"></div>
     <div class="field"><label>Risikozuschlag %</label><input type="text" id="csRisiko" placeholder="z. B. 5"></div>
@@ -1188,6 +1197,7 @@ USt-IdNr. …"></div>
     <div class="panel">
       <div class="finance-head">
         <div><h2>Kalkulationen</h2><p class="sub" style="margin:0;">Kosten kalkulieren (Material, Arbeit, Maschine, Nebenkosten + Aufschläge) und als Angebot übernehmen.</p></div>
+        <button class="btn" id="btnKalkBeispiele" title="Drei Kalkulationen aus euren echten Belegen anlegen">Beispiele aus euren Belegen</button>
         <button class="btn primary" id="btnKalkNew">+ Neue Kalkulation</button>
       </div>
       <table class="list">
@@ -2638,6 +2648,82 @@ document.getElementById("matPickClear").addEventListener("click",()=>{
   closeMatPick(); renderRows(); save();
 });
 document.getElementById("matPickCancel").addEventListener("click",closeMatPick);
+
+/* Beispiel-Kalkulationen aus den echten Belegen.
+   Zweck: Das Kalkulationsmodul ist leer und dadurch unsichtbar. Diese drei
+   Vorlagen zeigen die tatsaechlich verwendeten Saetze (45 EUR/Std, 50 %
+   Aufschlag, 10 % Verschnitt) an echten Vorgaengen und sind frei anpassbar.
+   Materialpreise: Welle Folienhandel, Stand 08/2026. */
+(function(){
+  const b=document.getElementById("btnKalkBeispiele"); if(!b) return;
+  /* Wichtig zur Logik: Die App rechnet VK = Selbstkosten x (1+Gemeinkosten) x
+     (1+Risiko) x (1+Gewinn) — je Position. Der belegte 50-%-Aufschlag gilt fuer
+     MATERIAL. Arbeitszeit wird mit 45 EUR/Std angesetzt, und das ist bereits der
+     Verkaufssatz, kein Kostensatz — dort also 0 % Aufschlag, sonst zaehlt man doppelt. */
+  function matPos(o){ return Object.assign(newKalkPos(), {
+    stundenlohn:"45", verschnitt:"10", anzahlMA:"1", einheit:"Stück", menge:"1",
+    gemeinkosten:"", risiko:"", gewinn:"50" }, o); }
+  function zeitPos(o){ return Object.assign(newKalkPos(), {
+    stundenlohn:"45", verschnitt:"0", anzahlMA:"1", einheit:"Std", menge:"1",
+    einkaufspreis:"", gemeinkosten:"", risiko:"", gewinn:"" }, o); }
+  b.addEventListener("click",function(){
+    if(!confirm("Drei Beispiel-Kalkulationen aus euren echten Belegen anlegen?\n\n"
+      +"• Flucht- und Rettungsplan A3 (Vorlage AG2622)\n"
+      +"• Fahrzeugbeschriftung Transporter\n"
+      +"• Glastueren-Folierung (Vorgang STRABAG)\n\n"
+      +"Vorhandene Kalkulationen bleiben unveraendert.")) return;
+    const heute=todayStr();
+    const neu=[
+      { id:"k"+Date.now()+"a", ts:Date.now(), datum:heute, kundeFirma:"",
+        name:"Flucht- und Rettungsplan A3 auf Alu-Dibond 3 mm",
+        positionen:[
+          matPos({bez:"Dilite-Aluverbundplatte 3 mm, Zuschnitt A3", menge:"1", einkaufspreis:"3,05"}),
+          matPos({bez:"Digitaldruck A3 (Erfahrungswert aus AG2622)", menge:"1", einkaufspreis:"1,90", verschnitt:"0"}),
+          zeitPos({bez:"Produktion und Endverarbeitung, anteilig", arbeitszeit:"0,04"})
+        ]},
+      { id:"k"+Date.now()+"b", ts:Date.now()+1, datum:heute, kundeFirma:"",
+        name:"Fahrzeugbeschriftung Transporter (Front, Seiten, Heck)",
+        positionen:[
+          matPos({bez:"Oracal 651 schwarz, 126 cm", menge:"8", einheit:"lfm", einkaufspreis:"5,01"}),
+          matPos({bez:"Application-Tape 4050", menge:"6", einheit:"m²", einkaufspreis:"0,89"}),
+          zeitPos({bez:"Design und Druckdaten", arbeitszeit:"2"}),
+          zeitPos({bez:"Reinigung der Flaechen", arbeitszeit:"0,75"}),
+          zeitPos({bez:"Beschriftung vor Ort, 2 Personen", arbeitszeit:"4", anzahlMA:"2"})
+        ]},
+      { id:"k"+Date.now()+"c", ts:Date.now()+2, datum:heute, kundeFirma:"STRABAG AG",
+        name:"Glastueren-Folierung, 12 Tueren (Vorgang AG-2615)",
+        positionen:[
+          matPos({bez:"Milchglas-/Sichtschutzfolie", menge:"14", einheit:"m²", einkaufspreis:"8,00"}),
+          zeitPos({bez:"Beschriftung vor Ort, 2 Personen", arbeitszeit:"6", anzahlMA:"2"}),
+          zeitPos({bez:"Anfahrt 98 km x 2 (0,30 EUR/km)", fahrtkosten:"58,80"})
+        ]}
+    ];
+    neu.forEach(k=>appData.kalkulationen.push(k));
+    saveApp();
+    logAudit("Beispiel-Kalkulationen angelegt","Kalkulation",neu.length+" Vorlagen");
+    renderKalkulation();
+    alert(neu.length+" Kalkulationen angelegt.\n\nSie liegen jetzt in der Liste und koennen "
+        + "bearbeitet oder als Vorlage fuer ein Angebot uebernommen werden.");
+  });
+})();
+
+/* Kalkulationswerte aus den eigenen Belegen vorschlagen.
+   Bewusst nur EINTRAGEN, nicht automatisch speichern — der Nutzer sieht die Werte
+   in den Feldern und bestaetigt sie mit dem regulaeren Speichern-Knopf.
+   Herkunft: Stundenlohn aus 25 Positionen, Aufschlag aus AG2622 gegen
+   Welle-Angebot 130116 (EK 3,23 EUR/Stk -> VK 4,87 EUR = 51 %). */
+(function(){
+  const b=document.getElementById("btnCsVorschlag"); if(!b) return;
+  b.addEventListener("click",function(){
+    const setz=(id,wert)=>{ const el=document.getElementById(id); if(el && !String(el.value).trim()) el.value=wert; };
+    setz("csStundenlohn","45");
+    setz("csMaterialaufschlag","50");
+    setz("csVerschnitt","10");
+    alert("Werte eingetragen:\n\n• Stundenlohn 45 €\n• Material-Aufschlag 50 %\n• Verschnitt 10 %\n\n"
+        + "Bereits ausgefüllte Felder wurden nicht überschrieben.\n"
+        + "Zum Übernehmen bitte noch speichern.");
+  });
+})();
 document.getElementById("matPickModal").addEventListener("click",e=>{ if(e.target.id==="matPickModal") closeMatPick(); });
 
 /* Verbrauch buchen: wird beim Archivieren einer RECHNUNG aufgerufen.
