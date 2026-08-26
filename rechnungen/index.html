@@ -744,7 +744,7 @@ body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a2
   </p>
 
   <h3 style="margin:20px 0 6px;font-size:15px;">Firmendaten (für Fußzeile &amp; PDF)</h3>
-  <p class="sub" style="margin:6px 0 10px;">Werden im Backup gesichert. Mit dem Knopf unten füllst du Fußzeile + Absender des aktuellen Dokuments daraus. Stempel/Unterschrift werden ins Angebots-PDF eingebunden.</p>
+  <p class="sub" style="margin:6px 0 10px;">Werden im Backup gesichert. Mit dem Knopf unten füllst du Fußzeile + Absender des aktuellen Dokuments daraus. Stempel/Unterschrift werden in Angebote und Rechnungen eingebunden (nicht in Mahnungen).</p>
   <div class="grid">
     <div class="field"><label>Firmenname</label><input type="text" id="fa_name"></div>
     <div class="field"><label>Rechtsform</label><input type="text" id="fa_rechtsform"></div>
@@ -1894,9 +1894,14 @@ function renderSignature(){
   const el=document.getElementById("sigblock"); if(!el) return;
   const f=appData.firma||{};
   let html="";
-  // Unterschrift NUR auf Angeboten (nicht auf Rechnungen/Mahnungen)
-  if(f.unterschrift && state.docType==="Angebot") html+='<div class="sig-col"><img src="'+f.unterschrift+'" alt="Unterschrift"><div class="sig-line">'+escapeHtml(f.name||"")+'</div></div>';
-  if(f.stempel && state.docType==="Angebot") html+='<div class="sig-col"><img src="'+f.stempel+'" alt="Firmenstempel"></div>';
+  // Unterschrift und Stempel auf Angeboten und Rechnungen, nicht auf Mahnungen.
+  const mitSig = (state.docType==="Angebot" || state.docType==="Rechnung");
+  // Namenszeile nur zeigen, wenn ein Name hinterlegt ist - sonst stuende dort
+  // ein leerer Unterstrich unter der Unterschrift.
+  const sigName = String(f.name||"").trim();
+  if(f.unterschrift && mitSig) html+='<div class="sig-col"><img src="'+f.unterschrift+'" alt="Unterschrift">'+
+    (sigName?'<div class="sig-line">'+escapeHtml(sigName)+'</div>':'')+'</div>';
+  if(f.stempel && mitSig) html+='<div class="sig-col"><img src="'+f.stempel+'" alt="Firmenstempel"></div>';
   el.innerHTML=html; el.style.display=html?"":"none";
 }
 function renderAll(){ applySettings(); renderDocType(); renderFields(); renderLogo(); renderRows(); renderNeukunde(); renderSignature(); }
