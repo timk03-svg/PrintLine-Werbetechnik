@@ -165,9 +165,15 @@ body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a2
   .proj-file{display:flex;align-items:center;gap:8px;}
   .dropzone.drag{border-color:var(--accent);background:var(--accent-soft);}
   body.dark .proj-thumb{background:#1b2029;}
-  .sigblock{display:flex;gap:46px;margin:16px 0 6px;flex-wrap:wrap;}
-  .sig-col{display:flex;flex-direction:column;align-items:flex-start;}
-  .sig-col img{max-height:74px;max-width:210px;object-fit:contain;}
+  /* break-inside:avoid haelt Unterschrift+Stempel beim Drucken und im PDF
+     als Ganzes zusammen - sie werden nicht mehr an der Seitengrenze zerschnitten.
+     Feste Bildhoehe (statt max-height), damit die Export-Paginierung die Hoehe
+     schon VOR dem Dekodieren des Data-URI-Bildes korrekt misst. */
+  .sigblock{display:flex;gap:46px;margin:16px 0 6px;flex-wrap:wrap;
+    break-inside:avoid;page-break-inside:avoid;}
+  .sig-col{display:flex;flex-direction:column;align-items:flex-start;
+    break-inside:avoid;page-break-inside:avoid;}
+  .sig-col img{height:74px;width:auto;max-width:210px;object-fit:contain;break-inside:avoid;}
   .sig-line{border-top:1px solid var(--text);margin-top:2px;padding-top:3px;font-size:12px;min-width:170px;}
   body.dark .form-grid textarea{background:#222834;}
   .mat-hist{margin:10px 0 4px;}
