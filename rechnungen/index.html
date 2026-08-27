@@ -120,8 +120,15 @@
   .mat-alle .sub{margin:0;font-size:11px;opacity:.7;}
   body.dark .mat-sel{background:#222834;}
   @media print{ .mat-sel{border:none;background:none;appearance:none;-webkit-appearance:none;padding:0;} }
-  .mat-grp + .mat-var td:first-child,
-  .mat-var + .mat-var td:first-child{padding-left:18px;}
+  /* Notiz einzeilig gekuerzt - voller Text im Tooltip (title). Verhindert,
+     dass lange Belegnotizen die Zeilen aufblaehen. */
+  .mat-notiz{margin:2px 0 0;font-size:11px;color:var(--muted);opacity:.85;
+    max-width:340px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:help;}
+  /* Einrueckung NUR fuer Varianten, die wirklich unter einer Gruppenzeile
+     stehen. Die frueheren Nachbar-Regeln haben auch eigenstaendige Artikel
+     eingerueckt. */
+  tr.mat-grp + tr.mat-var td:first-child,
+  tr.mat-var.mat-eingerueckt td:first-child{padding-left:18px;}
 body.dark .mat-dubl{background:#4a1d1d;color:#ffb4b4;border-color:#6b2b2b;}
 body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a24;}
   .modal-wide{max-width:780px;max-height:88vh;overflow:auto;}
@@ -1758,7 +1765,7 @@ const ANGEBOT_SCHLUSS = "Wir freuen uns auf Ihren Auftrag.\nMit freundlichen Gr\
 const ANGEBOT_LEISTUNG = [
   "In diesem Angebot enthalten",
   "\u00b7 Beratung und Abstimmung vor der Produktion",
-  "\u00b7 Gestaltung und Entwurf bis zu Ihrer Freigabe",
+  "\u00b7 Gestaltung und Entwurf bis zu Ihrer Freigabe \u2013 oder Aufbereitung Ihrer gelieferten Daten druck- bzw. plottfertig",
   "\u00b7 Produktion im eigenen Haus in Stendal",
   "\u00b7 Witterungs- und UV-best\u00e4ndige Materialien",
   "\u00b7 Ein fester Ansprechpartner von der Anfrage bis zur \u00dcbergabe",
@@ -3326,8 +3333,9 @@ function renderMaterial(){
              '<div class="mat-vsub">'+ausf+"</div>";
       }
 
-      html+='<tr class="mat-var"><td>'+kopf+
-        (m.notiz?'<div class="sub" style="margin:0;font-size:11px;">'+escapeHtml(m.notiz)+"</div>":"")+"</td>"+
+      const eingerueckt = fix && varianten.length>1;   // echte Variante unter einer Serie
+      html+='<tr class="mat-var'+(eingerueckt?" mat-eingerueckt":"")+'"><td>'+kopf+
+        (m.notiz?'<div class="mat-notiz" title="'+escapeHtml(m.notiz)+'">'+escapeHtml(m.notiz)+"</div>":"")+"</td>"+
         "<td>"+formatSel+"</td>"+
         "<td>"+staerkeSel+"</td>"+
         "<td>"+escapeHtml(m.artikelnr||"—")+
