@@ -131,6 +131,15 @@
   tr.mat-var.mat-eingerueckt td:first-child{padding-left:18px;}
 body.dark .mat-dubl{background:#4a1d1d;color:#ffb4b4;border-color:#6b2b2b;}
 body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a24;}
+  .ki-box{border:1px solid var(--accent);background:var(--accent-soft);border-radius:10px;
+    padding:12px 14px;margin:12px 0 16px;}
+  .ki-head{display:flex;flex-direction:column;gap:2px;margin-bottom:8px;}
+  .ki-head .sub{margin:0;font-size:12px;}
+  .ki-box textarea{width:100%;border:1px solid var(--line-strong);border-radius:8px;padding:9px 11px;
+    font:inherit;resize:vertical;min-height:76px;background:var(--card,#fff);color:var(--text);}
+  .ki-actions{display:flex;align-items:center;gap:12px;margin-top:8px;}
+  #kiStatus{font-size:12px;}
+  body.dark .ki-box textarea{background:#222834;}
   .modal-wide{max-width:780px;max-height:88vh;overflow:auto;}
   .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px 18px;margin:4px 0 10px;}
   .form-grid .field-wide{grid-column:1/-1;}
@@ -1332,6 +1341,17 @@ USt-IdNr. …"></div>
       <div class="finance-head">
         <div><h2 id="projEditorTitle">Neue Anfrage</h2><p class="sub" id="projNrSub" style="margin:0;"></p></div>
         <button class="btn" id="projBack">← zur Liste</button>
+      </div>
+      <div class="ki-box noprint">
+        <div class="ki-head">
+          <b>🪄 Anfrage einfügen und automatisch aufschlüsseln</b>
+          <span class="sub">Text der Anfrage (E-Mail, Telefonnotiz) hier einfügen – die Felder werden ausgefüllt.</span>
+        </div>
+        <textarea id="pf_kiText" rows="4" placeholder="z. B. „Hallo, wir brauchen für unseren Transporter eine Beschriftung mit Logo auf beiden Seiten, Logo liefern wir als PDF, bis Ende September …“"></textarea>
+        <div class="ki-actions">
+          <button class="btn primary" id="btnKiAnfrage" type="button">Aufschlüsseln</button>
+          <span id="kiStatus" class="sub"></span>
+        </div>
       </div>
       <div class="kp-sub">Status &amp; Bearbeiter</div>
       <div class="kp-grid">
@@ -4197,6 +4217,66 @@ function projToAngebot(){
   if(typeof logAudit==="function") logAudit("Angebot erzeugt", "Projekt "+(pr?pr.nummer:""), "→ "+(state.fields.nummer||""));
 }
 document.getElementById("btnProjNew").addEventListener("click",()=>openProjekt(null));
+
+// ── KI: Anfragetext aufschluesseln und Felder fuellen ────────────────────
+const KI_ANFRAGE_URL="https://printline-chat-api.vercel.app/api/anfrage";
+function kiSetzeFeld(id,wert,nurWennLeer){
+  const e=document.getElementById(id); if(!e||!wert) return false;
+  if(nurWennLeer && String(e.value).trim()!=="") return false;
+  e.value=wert; return true;
+}
+function kiSelectSetzen(id,wert){
+  const e=document.getElementById(id); if(!e||!wert) return false;
+  const treffer=[...e.options].find(o=>o.value.toLowerCase()===String(wert).toLowerCase()
+    || o.textContent.toLowerCase()===String(wert).toLowerCase());
+  if(treffer && !e.value){ e.value=treffer.value; return true; }
+  return false;
+}
+async function kiAnfrageAufschluesseln(){
+  const ta=document.getElementById("pf_kiText");
+  const status=document.getElementById("kiStatus");
+  const btn=document.getElementById("btnKiAnfrage");
+  const text=(ta.value||"").trim();
+  if(!text){ status.textContent="Bitte zuerst den Anfragetext einfügen."; return; }
+  btn.disabled=true; const alt=btn.textContent; btn.textContent="Schlüssele auf …"; status.textContent="";
+  try{
+    const res=await fetch(KI_ANFRAGE_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text})});
+    const j=await res.json();
+    if(!res.ok || !j.ok){ status.textContent="⚠ "+((j&&j.fehler)||("Fehler "+res.status)); return; }
+    const d=j.daten||{};
+    let gefuellt=0;
+    // Textfelder (nur leere ueberschreiben, damit nichts verlorengeht)
+    const map={ leistungsbeschreibung:"pf_leistungsbeschreibung", umfang:"pf_umfang",
+      abgrenzung:"pf_abgrenzung", besonderheiten:"pf_besonderheiten", risiken:"pf_risiken",
+      anfrageDatum:"pf_anfrageDatum", angebotsfrist:"pf_angebotsfrist",
+      ausfuehrungstermin:"pf_ausfuehrungstermin", budget:"pf_budget" };
+    Object.keys(map).forEach(k=>{ if(kiSetzeFeld(map[k],d[k],true)) gefuellt++; });
+    // Kunde nur, wenn Feld leer
+    if(kiSetzeFeld("pf_kunde",d.kunde,true)) gefuellt++;
+    // Selects
+    if(kiSelectSetzen("pf_kanal",d.kanal)) gefuellt++;
+    if(kiSelectSetzen("pf_prioritaet",d.prioritaet)) gefuellt++;
+    if(kiSelectSetzen("pf_projektart",d.projektart)) gefuellt++;
+    // Kontakt an die Besonderheiten anhaengen (kein eigenes Feld)
+    if(d.kontakt){ const bf=document.getElementById("pf_besonderheiten");
+      if(bf && bf.value.indexOf(d.kontakt)<0){ bf.value=(bf.value?bf.value+"\n":"")+"Kontakt: "+d.kontakt; gefuellt++; } }
+    // Rueckfragen an die Risiken/offenen Punkte anhaengen
+    if(Array.isArray(d.rueckfragen) && d.rueckfragen.length){
+      const rf=document.getElementById("pf_risiken");
+      if(rf){ const zeilen=d.rueckfragen.map(x=>"• "+x).join("\n");
+        if(rf.value.indexOf(d.rueckfragen[0])<0){ rf.value=(rf.value?rf.value+"\n":"")+"Offene Punkte:\n"+zeilen; gefuellt++; } }
+    }
+    // Masse in die Aufmaß-Tabelle uebernehmen
+    if(Array.isArray(d.masse) && d.masse.length && projDraft){
+      d.masse.forEach(m=>{ if(m && (m.bezeichnung||m.wert))
+        projDraft.aufmass.push({bez:((m.bezeichnung||"")+(m.wert?" ("+m.wert+")":"")).trim(),l:"",b:"",h:""}); });
+      renderProjAufmass(); gefuellt++;
+    }
+    status.textContent="✓ "+gefuellt+" Felder befüllt. Bitte prüfen und ergänzen.";
+  }catch(e){ status.textContent="⚠ Netzwerkfehler. Ist die Anfrage online gestellt?"; }
+  finally{ btn.disabled=false; btn.textContent=alt; }
+}
+(function(){ const b=document.getElementById("btnKiAnfrage"); if(b) b.addEventListener("click",kiAnfrageAufschluesseln); })();
 document.getElementById("projBack").addEventListener("click",showProjList);
 document.getElementById("projSearch").addEventListener("input",showProjList);
 document.getElementById("projSave").addEventListener("click",()=>{ if(saveProjekt()){ showProjList(); } });
