@@ -3990,15 +3990,37 @@ function importCSVData(coll, cols, file){
     const idx={}; cols.forEach(c=>{ const li=head.indexOf(c[1].toLowerCase()); if(li>-1) idx[c[0]]=li; });
     const keyf= coll==="materials"?"bezeichnung":"firma";
     if(idx[keyf]==null){ alert("Spalte „"+(cols.find(c=>c[0]===keyf)[1])+"“ nicht gefunden – bitte CSV mit passender Kopfzeile (am besten vorher exportieren als Vorlage)."); return; }
-    let n=0;
+    let n=0, akt=0;
     rows.slice(1).forEach(rw=>{ if(!rw.length || rw.every(x=>!String(x).trim())) return;
       const obj={}; cols.forEach(c=>{ if(idx[c[0]]!=null) obj[c[0]]=(rw[idx[c[0]]]||"").trim(); });
       if(!obj[keyf]) return;
-      if(coll==="materials"){ obj.id="m"+Date.now()+"_"+Math.round(Math.random()*1e6); obj.ts=Date.now(); obj.preisHistorie=obj.einkaufspreis?[{datum:todayStr(),preis:obj.einkaufspreis}]:[]; appData.materials.push(obj); }
-      else { obj.ts=Date.now(); appData.customers.push(obj); }
-      n++;
+      if(coll==="materials"){
+        // Gibt es die Artikelnummer schon, wird der vorhandene Satz ergaenzt
+        // statt ein zweiter angelegt. Sonst entstehen beim zweiten Import
+        // Dubletten, und der Lagerabzug trifft den falschen Bestand.
+        const nr=String(obj.artikelnr||"").trim().toLowerCase();
+        const vorhanden = nr ? appData.materials.find(m=>String(m.artikelnr||"").trim().toLowerCase()===nr) : null;
+        if(vorhanden){
+          const ekAlt=vorhanden.einkaufspreis||"";
+          // Nur gefuellte Spalten uebernehmen - leere Zellen loeschen nichts,
+          // damit gepflegte Bestaende nicht verlorengehen.
+          Object.keys(obj).forEach(k=>{ if(String(obj[k]).trim()!=="") vorhanden[k]=obj[k]; });
+          if(!Array.isArray(vorhanden.preisHistorie)) vorhanden.preisHistorie=[];
+          if(obj.einkaufspreis && parseNum(obj.einkaufspreis)!==parseNum(ekAlt))
+            vorhanden.preisHistorie.push({datum:todayStr(),preis:obj.einkaufspreis});
+          akt++;
+        }else{
+          obj.id="m"+Date.now()+"_"+Math.round(Math.random()*1e6); obj.ts=Date.now();
+          obj.preisHistorie=obj.einkaufspreis?[{datum:todayStr(),preis:obj.einkaufspreis}]:[];
+          appData.materials.push(obj); n++;
+        }
+      }
+      else { obj.ts=Date.now(); appData.customers.push(obj); n++; }
     });
-    saveApp(); alert(n+" Einträge importiert.");
+    saveApp();
+    alert(coll==="materials"
+      ? n+" neu angelegt, "+akt+" vorhandene ergänzt.\n\nBestände und Mindestbestände wurden nicht überschrieben."
+      : n+" Einträge importiert.");
     if(coll==="materials") renderMaterial(); else renderKunden();
   };
   r.readAsText(file,"utf-8");
