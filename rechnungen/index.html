@@ -93,6 +93,14 @@
 
   /* ---------- Material & Kalkulation ---------- */
   .mat-tools{margin:6px 0 12px;}
+  /* Materialtabelle in einen scrollbaren Rahmen, damit sie bei vielen
+     Spalten nicht ueber den Panel-Rand hinauslaeuft (sonst enden die
+     Zeilenlinien abrupt am Bildschirmrand). */
+  .table-scroll{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;
+    border-radius:8px;}
+  .table-scroll .mat-table{min-width:760px;}
+  @media print{ .table-scroll{overflow:visible;} .table-scroll .mat-table{min-width:0;} }
+
   .mat-tools input{width:100%;max-width:440px;border:1px solid var(--line-strong);border-radius:8px;padding:8px 11px;font:inherit;}
   td.mat-low{color:#e5484d;font-weight:700;}
 .mat-dubl{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:999px;
@@ -373,7 +381,10 @@ body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a2
   body.view-kalkulation #viewKalkulation{display:block;}
   body.view-stammdaten #viewStammdaten{display:block;}
   body.view-projekte #viewProjekte{display:block;}
-  #viewMaterial,#viewKalkulation,#viewStammdaten,#viewProjekte{max-width:1080px;}
+  #viewKalkulation,#viewStammdaten,#viewProjekte{max-width:1080px;}
+  /* Material hat 3 Spalten mehr - mehr Breite, damit auf grossen Schirmen
+     nicht gescrollt werden muss; auf kleinen faengt der table-scroll ab. */
+  #viewMaterial{max-width:min(1400px,97vw);}
 
   /* Startseite */
   #viewStart{max-width:1040px;}
@@ -1240,10 +1251,12 @@ USt-IdNr. …"></div>
     <div class="mat-tools noprint"><input type="text" id="matSearch" placeholder="Suche: Artikel-Nr., Bezeichnung, Kategorie, Lieferant …"></div>
     <div class="mat-alle noprint"><label><input type="checkbox" id="matAlleVarianten"> Alle Varianten einzeln auflisten <span class="sub">(für Ausdruck und PDF)</span></label></div>
     <div id="matDublHinweis" class="mat-dubl-hinweis noprint" style="display:none;"></div>
-    <table class="list">
+    <div class="table-scroll">
+    <table class="list mat-table">
       <thead><tr><th>Produkt</th><th>Maße / Format</th><th>Stärke</th><th>Artikel-Nr.</th><th>Einheit</th><th class="r">Einkauf</th><th class="r">VK (auto)</th><th class="r">Bestand</th><th class="noprint"></th><th class="noprint"></th><th class="noprint"></th></tr></thead>
       <tbody id="matRows"></tbody>
     </table>
+    </div>
   </div>
 </div>
 
