@@ -705,7 +705,7 @@ body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a2
 
 <!-- Werkzeugleiste -->
 <div class="toolbar noprint">
-  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-07-14 · PDF-Umbruch</span></div>
+  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-08-28 · ZUGFeRD</span></div>
   <button class="btn iconbtn" id="btnUndo" title="Rückgängig (Cmd+Z)" disabled>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-1"/></svg>Zurück
   </button>
@@ -755,6 +755,9 @@ body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a2
   </button>
   <button class="btn primary" id="btnDownload" title="Direkt als PDF-Datei herunterladen">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>PDF herunterladen
+  </button>
+  <button class="btn" id="btnZugferd" style="display:none;" title="Diese Rechnung als ZUGFeRD-E-Rechnung herunterladen (PDF mit eingebettetem XML nach EN 16931)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h5M8 17h3"/></svg>ZUGFeRD
   </button>
   <button class="btn" id="btnLogout" style="display:none;" title="Abmelden">Abmelden</button>
 </div>
@@ -1848,6 +1851,7 @@ function renderDocType(){
   applyAngebotstexte();
   renderGueltig();
   renderLegal();
+  const zb=document.getElementById("btnZugferd"); if(zb) zb.style.display=(t==="Rechnung")?"":"none";
 }
 
 // Gültigkeit (Angebot +4 Wochen) bzw. Zahlungsziel (Rechnung/Mahnung +7 Tage) aus dem Datum
@@ -2657,6 +2661,252 @@ function downloadPDF(){
   },60);
 }
 document.getElementById("btnDownload").addEventListener("click",downloadPDF);
+
+/* ============================================================
+   ZUGFeRD / Factur-X – E-Rechnung (PDF/A-3 mit eingebettetem CII-XML, EN 16931)
+   Erzeugt aus der aktuell bearbeiteten Rechnung eine Hybrid-PDF:
+   sichtbares PDF + maschinenlesbares XML (factur-x.xml). Alles im Browser,
+   keine Daten verlassen das Gerät. §19-Kleinunternehmer wird korrekt abgebildet.
+   ============================================================ */
+function zNum(x){ if(x==null) return 0; if(typeof x==="number") return x;
+  let s=String(x).replace(/[^0-9,.\-]/g,"").trim(); if(s==="") return 0;
+  if(s.indexOf(",")>-1) s=s.replace(/\./g,"").replace(",","."); const n=parseFloat(s); return isNaN(n)?0:n; }
+function z2(n){ return (Math.round(n*100)/100).toFixed(2); }
+function z4(n){ return (Math.round(n*10000)/10000).toFixed(4); }
+function zEsc(t){ return String(t==null?"":t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function zDate(s){ const m=String(s||"").trim().match(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{2,4})$/); if(!m) return null;
+  let[_,d,mo,y]=m; if(y.length===2) y="20"+y; return y+String(mo).padStart(2,"0")+String(d).padStart(2,"0"); }
+function zUnit(e){ const k=String(e||"").toLowerCase().replace(/[.\s]/g,"");
+  const map={ stk:"H87",stück:"H87",stueck:"H87",st:"H87",stck:"H87", std:"HUR",stunde:"HUR",stunden:"HUR",h:"HUR",
+    "m²":"MTK",m2:"MTK",qm:"MTK",quadratmeter:"MTK", lfm:"MTR",m:"MTR",meter:"MTR",lfdm:"MTR",laufmeter:"MTR",
+    platte:"H87",rolle:"NAR", sdg:"C62",sendung:"C62",einh:"C62",einheit:"C62", pauschal:"LS",psch:"LS",pau:"LS" };
+  return map[k]||"C62"; }
+function zSeller(kb){ kb=kb||{};
+  const f1=(kb.footer1||"").split("\n").map(s=>s.trim()).filter(Boolean); const f2=(kb.footer2||""), f3=(kb.footer3||"");
+  const name=f1[0]||"PrintLine Werbetechnik"; let strasse="",plz="",ort="";
+  f1.slice(1).forEach(l=>{ const p=l.match(/^(\d{5})\s+(.+)$/); if(p){ plz=p[1]; ort=p[2].trim(); }
+    else if(/\d/.test(l) || /stra|weg|platz|allee|ring/i.test(l)) strasse=l; });
+  const iban=(f3.match(/IBAN:?\s*([A-Z]{2}[0-9A-Z ]{13,32})/i)||[])[1]||"";
+  const bic=(f3.match(/BIC:?\s*([A-Z0-9]{8,11})/i)||[])[1]||"";
+  const steuernr=(f3.match(/Steuernr\.?:?\s*([\d\/]+)/i)||[])[1]||"";
+  const ustid=(f3.match(/USt-?IdNr\.?:?\s*(DE\d+)/i)||[])[1]||"";
+  return { name,strasse,plz,ort,land:"DE", iban:(iban||"").replace(/\s/g,""), bic:(bic||"").trim(), steuernr:steuernr.trim(), ustid:ustid.trim() }; }
+function zBuyer(text){ const lines=String(text||"").split("\n").map(s=>s.trim()).filter(Boolean);
+  let plz="",ort="",strasse="",name="",kontakt="",plzIdx=-1;
+  for(let i=lines.length-1;i>=0;i--){ const p=lines[i].match(/^(\d{5})\s+(.+)$/); if(p){ plz=p[1]; ort=p[2].trim(); plzIdx=i; break; } }
+  const rest=plzIdx>=0?lines.slice(0,plzIdx):lines.slice();
+  for(let i=rest.length-1;i>=0;i--){ if(/\d/.test(rest[i]) || /stra|weg|platz|allee|ring/i.test(rest[i])){ strasse=rest[i]; rest.splice(i,1); break; } }
+  const namen=[]; rest.forEach(l=>{ if(/^(z\.?\s?hd\.?|z\.?\s?h\.?|c\/o|ansprech|herrn?|frau)/i.test(l)) kontakt=l.replace(/^z\.?\s?hd\.?\s*/i,"").trim(); else namen.push(l); });
+  name=namen.join(" ").trim()||lines[0]||"Kunde"; return { name,strasse,plz,ort,land:"DE",kontakt }; }
+
+function zugferdXML(inv){
+  const seller=zSeller(inv.kbFooters);
+  const buyer=zBuyer((inv.fields&&inv.fields.empfaenger)||"");
+  const nummer=(inv.fields&&inv.fields.nummer)||"";
+  const datum=zDate((inv.fields&&inv.fields.datum)||"");
+  const rows=(inv.rows||[]).filter(r=>r&&(String(r.bez||"").trim()!=="" || zNum(r.preis)!==0));
+  const klein=!(inv.vat&&inv.vat.on);
+  const satz=klein?0:zNum((inv.vat&&inv.vat.rate)||19);
+  let lineXml="",lineSum=0;
+  rows.forEach((r,i)=>{
+    const menge=zNum(r.menge)||1, einzel=zNum(r.preis), rab=zNum(r.rabatt);
+    const netto=Math.round(menge*einzel*(1-rab/100)*100)/100; const nettoEinzel=rab>0?einzel*(1-rab/100):einzel;
+    lineSum+=netto; const bez=String(r.bez||"Position").replace(/\s+/g," ").trim()||"Position";
+    const preisXml=rab>0
+      ? `<ram:GrossPriceProductTradePrice><ram:ChargeAmount>${z4(einzel)}</ram:ChargeAmount><ram:AppliedTradeAllowanceCharge><ram:ChargeIndicator><udt:Indicator>false</udt:Indicator></ram:ChargeIndicator><ram:ActualAmount>${z4(einzel-nettoEinzel)}</ram:ActualAmount></ram:AppliedTradeAllowanceCharge></ram:GrossPriceProductTradePrice><ram:NetPriceProductTradePrice><ram:ChargeAmount>${z4(nettoEinzel)}</ram:ChargeAmount></ram:NetPriceProductTradePrice>`
+      : `<ram:NetPriceProductTradePrice><ram:ChargeAmount>${z4(einzel)}</ram:ChargeAmount></ram:NetPriceProductTradePrice>`;
+    lineXml+=`
+    <ram:IncludedSupplyChainTradeLineItem>
+      <ram:AssociatedDocumentLineDocument><ram:LineID>${i+1}</ram:LineID></ram:AssociatedDocumentLineDocument>
+      <ram:SpecifiedTradeProduct><ram:Name>${zEsc(bez).slice(0,500)}</ram:Name></ram:SpecifiedTradeProduct>
+      <ram:SpecifiedLineTradeAgreement>${preisXml}</ram:SpecifiedLineTradeAgreement>
+      <ram:SpecifiedLineTradeDelivery><ram:BilledQuantity unitCode="${zUnit(r.einheit)}">${z2(menge)}</ram:BilledQuantity></ram:SpecifiedLineTradeDelivery>
+      <ram:SpecifiedLineTradeSettlement>
+        <ram:ApplicableTradeTax><ram:TypeCode>VAT</ram:TypeCode><ram:CategoryCode>${klein?"E":"S"}</ram:CategoryCode><ram:RateApplicablePercent>${z2(satz)}</ram:RateApplicablePercent></ram:ApplicableTradeTax>
+        <ram:SpecifiedTradeSettlementLineMonetarySummation><ram:LineTotalAmount>${z2(netto)}</ram:LineTotalAmount></ram:SpecifiedTradeSettlementLineMonetarySummation>
+      </ram:SpecifiedLineTradeSettlement>
+    </ram:IncludedSupplyChainTradeLineItem>`;
+  });
+  const docRab=(inv.discount&&inv.discount.on)?Math.round(lineSum*zNum(inv.discount.percent)/100*100)/100:0;
+  const basis=Math.round((lineSum-docRab)*100)/100;
+  const steuer=klein?0:Math.round(basis*satz/100*100)/100;
+  const gesamt=Math.round((basis+steuer)*100)/100;
+  const adr=(p)=>`<ram:PostalTradeAddress>${p.plz?`<ram:PostcodeCode>${zEsc(p.plz)}</ram:PostcodeCode>`:""}${p.strasse?`<ram:LineOne>${zEsc(p.strasse)}</ram:LineOne>`:""}${p.ort?`<ram:CityName>${zEsc(p.ort)}</ram:CityName>`:""}<ram:CountryID>${p.land||"DE"}</ram:CountryID></ram:PostalTradeAddress>`;
+  const allowXml=docRab>0?`
+      <ram:SpecifiedTradeAllowanceCharge><ram:ChargeIndicator><udt:Indicator>false</udt:Indicator></ram:ChargeIndicator><ram:ActualAmount>${z2(docRab)}</ram:ActualAmount><ram:CategoryTradeTax><ram:TypeCode>VAT</ram:TypeCode><ram:CategoryCode>${klein?"E":"S"}</ram:CategoryCode><ram:RateApplicablePercent>${z2(satz)}</ram:RateApplicablePercent></ram:CategoryTradeTax></ram:SpecifiedTradeAllowanceCharge>`:"";
+  const taxXml=`
+      <ram:ApplicableTradeTax>
+        <ram:CalculatedAmount>${z2(steuer)}</ram:CalculatedAmount>
+        <ram:TypeCode>VAT</ram:TypeCode>${klein?`
+        <ram:ExemptionReason>Steuerbefreiung gemäß § 19 UStG (Kleinunternehmer)</ram:ExemptionReason>`:""}
+        <ram:BasisAmount>${z2(basis)}</ram:BasisAmount>
+        <ram:CategoryCode>${klein?"E":"S"}</ram:CategoryCode>
+        <ram:RateApplicablePercent>${z2(satz)}</ram:RateApplicablePercent>
+      </ram:ApplicableTradeTax>`;
+  const payXml=seller.iban?`
+      <ram:SpecifiedTradeSettlementPaymentMeans>
+        <ram:TypeCode>58</ram:TypeCode>
+        <ram:PayeePartyCreditorFinancialAccount><ram:IBANID>${zEsc(seller.iban)}</ram:IBANID></ram:PayeePartyCreditorFinancialAccount>${seller.bic?`
+        <ram:PayeeSpecifiedCreditorFinancialInstitution><ram:BICID>${zEsc(seller.bic)}</ram:BICID></ram:PayeeSpecifiedCreditorFinancialInstitution>`:""}
+      </ram:SpecifiedTradeSettlementPaymentMeans>`:"";
+  const taxReg=seller.ustid?`<ram:SpecifiedTaxRegistration><ram:ID schemeID="VA">${zEsc(seller.ustid)}</ram:ID></ram:SpecifiedTaxRegistration>`
+               :(seller.steuernr?`<ram:SpecifiedTaxRegistration><ram:ID schemeID="FC">${zEsc(seller.steuernr)}</ram:ID></ram:SpecifiedTaxRegistration>`:"");
+  const sellerId=(seller.ustid||seller.steuernr)?`<ram:ID>${zEsc(seller.ustid||seller.steuernr)}</ram:ID>
+        `:"";
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<rsm:CrossIndustryInvoice xmlns:rsm="urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100" xmlns:ram="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100" xmlns:udt="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:100">
+  <rsm:ExchangedDocumentContext>
+    <ram:GuidelineSpecifiedDocumentContextParameter><ram:ID>urn:cen.eu:en16931:2017</ram:ID></ram:GuidelineSpecifiedDocumentContextParameter>
+  </rsm:ExchangedDocumentContext>
+  <rsm:ExchangedDocument>
+    <ram:ID>${zEsc(nummer)}</ram:ID>
+    <ram:TypeCode>380</ram:TypeCode>
+    <ram:IssueDateTime><udt:DateTimeString format="102">${datum||""}</udt:DateTimeString></ram:IssueDateTime>
+  </rsm:ExchangedDocument>
+  <rsm:SupplyChainTradeTransaction>${lineXml}
+    <ram:ApplicableHeaderTradeAgreement>
+      <ram:SellerTradeParty>
+        ${sellerId}<ram:Name>${zEsc(seller.name)}</ram:Name>
+        ${adr(seller)}
+        ${taxReg}
+      </ram:SellerTradeParty>
+      <ram:BuyerTradeParty>
+        <ram:Name>${zEsc(buyer.name)}</ram:Name>
+        ${adr(buyer)}
+      </ram:BuyerTradeParty>
+    </ram:ApplicableHeaderTradeAgreement>
+    <ram:ApplicableHeaderTradeDelivery/>
+    <ram:ApplicableHeaderTradeSettlement>
+      <ram:InvoiceCurrencyCode>EUR</ram:InvoiceCurrencyCode>${payXml}${taxXml}${allowXml}
+      <ram:SpecifiedTradeSettlementHeaderMonetarySummation>
+        <ram:LineTotalAmount>${z2(lineSum)}</ram:LineTotalAmount>${docRab>0?`
+        <ram:AllowanceTotalAmount>${z2(docRab)}</ram:AllowanceTotalAmount>`:""}
+        <ram:TaxBasisTotalAmount>${z2(basis)}</ram:TaxBasisTotalAmount>
+        <ram:TaxTotalAmount currencyID="EUR">${z2(steuer)}</ram:TaxTotalAmount>
+        <ram:GrandTotalAmount>${z2(gesamt)}</ram:GrandTotalAmount>
+        <ram:DuePayableAmount>${z2(gesamt)}</ram:DuePayableAmount>
+      </ram:SpecifiedTradeSettlementHeaderMonetarySummation>
+    </ram:ApplicableHeaderTradeSettlement>
+  </rsm:SupplyChainTradeTransaction>
+</rsm:CrossIndustryInvoice>`;
+}
+
+// XMP-Metadaten: PDF/A-3B-Kennung + Factur-X-Schema (inkl. Extension-Schema für den fx-Namensraum)
+function zugferdXMP(meta){ meta=meta||{}; const title=meta.nummer?("Rechnung "+meta.nummer):"Rechnung";
+  return `<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/">
+ <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Description rdf:about="" xmlns:pdfaid="http://www.aiim.org/pdfa/ns/id/">
+   <pdfaid:part>3</pdfaid:part>
+   <pdfaid:conformance>B</pdfaid:conformance>
+  </rdf:Description>
+  <rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/">
+   <dc:title><rdf:Alt><rdf:li xml:lang="x-default">${zEsc(title)}</rdf:li></rdf:Alt></dc:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="" xmlns:fx="urn:factur-x:pdfa:CrossIndustryDocument:invoice:1p0#">
+   <fx:DocumentType>INVOICE</fx:DocumentType>
+   <fx:DocumentFileName>factur-x.xml</fx:DocumentFileName>
+   <fx:Version>1.0</fx:Version>
+   <fx:ConformanceLevel>EN 16931</fx:ConformanceLevel>
+  </rdf:Description>
+  <rdf:Description rdf:about="" xmlns:pdfaExtension="http://www.aiim.org/pdfa/ns/extension/" xmlns:pdfaSchema="http://www.aiim.org/pdfa/ns/schema#" xmlns:pdfaProperty="http://www.aiim.org/pdfa/ns/property#">
+   <pdfaExtension:schemas>
+    <rdf:Bag>
+     <rdf:li rdf:parseType="Resource">
+      <pdfaSchema:schema>Factur-X PDFA Extension Schema</pdfaSchema:schema>
+      <pdfaSchema:namespaceURI>urn:factur-x:pdfa:CrossIndustryDocument:invoice:1p0#</pdfaSchema:namespaceURI>
+      <pdfaSchema:prefix>fx</pdfaSchema:prefix>
+      <pdfaSchema:property>
+       <rdf:Seq>
+        <rdf:li rdf:parseType="Resource"><pdfaProperty:name>DocumentFileName</pdfaProperty:name><pdfaProperty:valueType>Text</pdfaProperty:valueType><pdfaProperty:category>external</pdfaProperty:category><pdfaProperty:description>Name des eingebetteten XML-Rechnungsdokuments</pdfaProperty:description></rdf:li>
+        <rdf:li rdf:parseType="Resource"><pdfaProperty:name>DocumentType</pdfaProperty:name><pdfaProperty:valueType>Text</pdfaProperty:valueType><pdfaProperty:category>external</pdfaProperty:category><pdfaProperty:description>INVOICE</pdfaProperty:description></rdf:li>
+        <rdf:li rdf:parseType="Resource"><pdfaProperty:name>Version</pdfaProperty:name><pdfaProperty:valueType>Text</pdfaProperty:valueType><pdfaProperty:category>external</pdfaProperty:category><pdfaProperty:description>Version des Factur-X-Schemas</pdfaProperty:description></rdf:li>
+        <rdf:li rdf:parseType="Resource"><pdfaProperty:name>ConformanceLevel</pdfaProperty:name><pdfaProperty:valueType>Text</pdfaProperty:valueType><pdfaProperty:category>external</pdfaProperty:category><pdfaProperty:description>Konformitätsstufe der eingebetteten Daten</pdfaProperty:description></rdf:li>
+       </rdf:Seq>
+      </pdfaSchema:property>
+     </rdf:li>
+    </rdf:Bag>
+   </pdfaExtension:schemas>
+  </rdf:Description>
+ </rdf:RDF>
+</x:xmpmeta>
+<?xpacket end="w"?>`;
+}
+
+const SRGB_ICC_B64="AAAB4GxjbXMEIAAAbW50clJHQiBYWVogB+IAAwAUAAkADgAdYWNzcE1TRlQAAAAAc2F3c2N0cmwAAAAAAAAAAAAAAAAAAPbWAAEAAAAA0y1oYW5keem/Vlo+AbaDI4VVRvdPqgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKZGVzYwAAAPwAAAAkY3BydAAAASAAAAAid3RwdAAAAUQAAAAUY2hhZAAAAVgAAAAsclhZWgAAAYQAAAAUZ1hZWgAAAZgAAAAUYlhZWgAAAawAAAAUclRSQwAAAcAAAAAgZ1RSQwAAAcAAAAAgYlRSQwAAAcAAAAAgbWx1YwAAAAAAAAABAAAADGVuVVMAAAAIAAAAHABzAFIARwBCbWx1YwAAAAAAAAABAAAADGVuVVMAAAAGAAAAHABDAEMAMAAAWFlaIAAAAAAAAPbWAAEAAAAA0y1zZjMyAAAAAAABDD8AAAXd///zJgAAB5AAAP2S///7of///aIAAAPcAADAcVhZWiAAAAAAAABvoAAAOPIAAAOPWFlaIAAAAAAAAGKWAAC3iQAAGNpYWVogAAAAAAAAJKAAAA+FAAC2xHBhcmEAAAAAAAMAAAACZmkAAPKnAAANWQAAE9AAAApb";
+function zB64ToU8(b64){ const bin=atob(b64); const a=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) a[i]=bin.charCodeAt(i); return a; }
+
+// pdf-lib nur bei Bedarf laden (rund 0,5 MB) – blockiert den normalen App-Start nicht
+let _pdfLibLoading=null;
+function ensurePdfLib(){ if(window.PDFLib) return Promise.resolve(window.PDFLib);
+  if(_pdfLibLoading) return _pdfLibLoading;
+  _pdfLibLoading=new Promise((res,rej)=>{ const s=document.createElement("script"); s.src="vendor/pdf-lib.min.js";
+    s.onload=()=>window.PDFLib?res(window.PDFLib):rej(new Error("pdf-lib nicht verfügbar"));
+    s.onerror=()=>rej(new Error("pdf-lib konnte nicht geladen werden")); document.head.appendChild(s); });
+  return _pdfLibLoading; }
+
+// sRGB-OutputIntent (für PDF/A-3, da die Bild-PDF im RGB-Farbraum liegt)
+function zAddOutputIntent(doc){ const { PDFName, PDFString }=window.PDFLib;
+  const icc=doc.context.stream(zB64ToU8(SRGB_ICC_B64), { N:3 }); const iccRef=doc.context.register(icc);
+  const oi=doc.context.obj({ Type:"OutputIntent", S:"GTS_PDFA1",
+    OutputConditionIdentifier: PDFString.of("sRGB"), Info: PDFString.of("sRGB IEC61966-2.1"), DestOutputProfile: iccRef });
+  const oiRef=doc.context.register(oi); doc.catalog.set(PDFName.of("OutputIntents"), doc.context.obj([oiRef])); }
+
+async function zEmbed(pdfBytes, xml, meta){
+  const { PDFDocument, AFRelationship, PDFName }=window.PDFLib;
+  const doc=await PDFDocument.load(pdfBytes);
+  const xmlBytes=new TextEncoder().encode(xml);
+  await doc.attach(xmlBytes, "factur-x.xml", { mimeType:"application/xml", description:"Factur-X Rechnung", afRelationship:AFRelationship.Alternative });
+  const md=doc.context.stream(new TextEncoder().encode(zugferdXMP(meta)), { Type:"Metadata", Subtype:"XML" });
+  doc.catalog.set(PDFName.of("Metadata"), doc.context.register(md));
+  try{ zAddOutputIntent(doc); }catch(e){ console.warn("OutputIntent übersprungen:",e); }
+  return await doc.save({ useObjectStreams:false });
+}
+
+// Rechnung als Bild-PDF rendern und die Bytes zurückgeben (spiegelt den Dokument-Zweig von downloadPDF)
+function zRenderRechnungBytes(){
+  return new Promise((resolve,reject)=>{
+    blurActive(); const el=document.getElementById("page"); switchView("doc");
+    const wasDark=document.body.classList.contains("dark"); if(wasDark) document.body.classList.remove("dark");
+    document.body.classList.add("exporting");
+    const onclone=(d)=>{ d.body.classList.add("exporting"); hideEmptyOptional(d);
+      d.querySelectorAll("[data-ph]").forEach(e=>{ if(!e.textContent.trim()) e.removeAttribute("data-ph"); }); };
+    const opt={ margin:[DOC_MT,0,DOC_MB,0], filename:pdfFileName("doc")+".pdf", image:{type:"jpeg",quality:0.98},
+      html2canvas:{scale:4,useCORS:true,backgroundColor:"#ffffff",windowWidth:el.scrollWidth,onclone},
+      jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}, pagebreak:{mode:["css"]} };
+    let footCleanup=null;
+    const restore=()=>{ if(footCleanup) footCleanup(); if(wasDark) document.body.classList.add("dark"); };
+    setTimeout(()=>{ footCleanup=layoutDocForExport(el);
+      html2pdf().set(opt).from(el).outputPdf("arraybuffer").then(buf=>{ restore(); resolve({buf,filename:opt.filename}); },
+        e=>{ restore(); reject(e); });
+    },60);
+  });
+}
+
+async function exportZugferd(){
+  if(state.docType!=="Rechnung"){ alert("ZUGFeRD ist nur für Rechnungen möglich. Bitte zuerst eine Rechnung öffnen."); return; }
+  if(typeof html2pdf==="undefined"){ alert("PDF-Bibliothek nicht geladen."); return; }
+  const busy=document.getElementById("pdfBusy"); const setBusy=(t)=>{ if(busy) busy.textContent=t; };
+  try{
+    document.body.classList.add("exporting"); setBusy("ZUGFeRD wird vorbereitet …");
+    await ensurePdfLib();
+    setBusy("Rechnung wird gerendert …");
+    const { buf, filename }=await zRenderRechnungBytes();
+    setBusy("E-Rechnung wird eingebettet …");
+    const inv={ fields:state.fields, rows:state.rows, discount:state.discount, vat:state.vat,
+      kbFooters:{ footer1:state.fields.footer1, footer2:state.fields.footer2, footer3:state.fields.footer3 } };
+    const xml=zugferdXML(inv);
+    const bytes=await zEmbed(new Uint8Array(buf), xml, { nummer:state.fields.nummer, datum:state.fields.datum });
+    const name=(filename||"Rechnung.pdf").replace(/\.pdf$/i,"")+"-ZUGFeRD.pdf";
+    saveBlob(new Blob([bytes],{type:"application/pdf"}), name);
+    if(typeof logAudit==="function") logAudit("zugferd","Rechnung",state.fields.nummer||"");
+  }catch(e){
+    console.error("ZUGFeRD:",e); alert("ZUGFeRD-Erstellung fehlgeschlagen: "+((e&&e.message)||e));
+  }finally{
+    document.body.classList.remove("exporting"); setBusy("PDF wird erstellt …");
+  }
+}
+{ const zb=document.getElementById("btnZugferd"); if(zb) zb.addEventListener("click",exportZugferd); }
 
 /* ---------- Verlauf ---------- */
 const ANGEBOT_STATUS=[["entwurf","Entwurf"],["gesendet","Gesendet"],["angenommen","Angenommen"],["abgelehnt","Abgelehnt"],["abgeschlossen","Abgeschlossen"]];
