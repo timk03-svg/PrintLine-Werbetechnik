@@ -2874,7 +2874,7 @@ async function zEmbed(pdfBytes, xml, meta){
   const { PDFDocument, AFRelationship, PDFName }=window.PDFLib;
   const doc=await PDFDocument.load(pdfBytes);
   const xmlBytes=new TextEncoder().encode(xml);
-  await doc.attach(xmlBytes, "factur-x.xml", { mimeType:"application/xml", description:"Factur-X Rechnung", afRelationship:AFRelationship.Alternative });
+  await doc.attach(xmlBytes, "factur-x.xml", { mimeType:"text/xml", description:"Factur-X Rechnung", afRelationship:AFRelationship.Alternative });
   const md=doc.context.stream(new TextEncoder().encode(zugferdXMP(meta)), { Type:"Metadata", Subtype:"XML" });
   doc.catalog.set(PDFName.of("Metadata"), doc.context.register(md));
   try{ zAddOutputIntent(doc); }catch(e){ console.warn("OutputIntent übersprungen:",e); }
