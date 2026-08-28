@@ -2676,6 +2676,9 @@ function z4(n){ return (Math.round(n*10000)/10000).toFixed(4); }
 function zEsc(t){ return String(t==null?"":t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 function zDate(s){ const m=String(s||"").trim().match(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{2,4})$/); if(!m) return null;
   let[_,d,mo,y]=m; if(y.length===2) y="20"+y; return y+String(mo).padStart(2,"0")+String(d).padStart(2,"0"); }
+function zDatePlus(s,tage){ const m=String(s||"").trim().match(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{2,4})$/); if(!m) return null;
+  let[_,d,mo,y]=m; if(y.length===2) y="20"+y; const dt=new Date(Date.UTC(+y,+mo-1,+d)); dt.setUTCDate(dt.getUTCDate()+(tage||0));
+  return ""+dt.getUTCFullYear()+String(dt.getUTCMonth()+1).padStart(2,"0")+String(dt.getUTCDate()).padStart(2,"0"); }
 function zUnit(e){ const k=String(e||"").toLowerCase().replace(/[.\s]/g,"");
   const map={ stk:"H87",stück:"H87",stueck:"H87",st:"H87",stck:"H87", std:"HUR",stunde:"HUR",stunden:"HUR",h:"HUR",
     "m²":"MTK",m2:"MTK",qm:"MTK",quadratmeter:"MTK", lfm:"MTR",m:"MTR",meter:"MTR",lfdm:"MTR",laufmeter:"MTR",
@@ -2759,8 +2762,14 @@ function zugferdXML(inv){
   const deliveryXml=liefer
     ? `<ram:ApplicableHeaderTradeDelivery><ram:ActualDeliverySupplyChainEvent><ram:OccurrenceDateTime><udt:DateTimeString format="102">${liefer}</udt:DateTimeString></ram:OccurrenceDateTime></ram:ActualDeliverySupplyChainEvent></ram:ApplicableHeaderTradeDelivery>`
     : `<ram:ApplicableHeaderTradeDelivery/>`;
+  // Zahlungsbedingungen (BT-20) + Faelligkeit (BT-9): bei positivem Betrag von BR-CO-25 verlangt.
+  // Faelligkeit = Rechnungsdatum + 7 Tage (wie der sichtbare Beleg "Zahlbar bis").
+  const faellig=zDatePlus((inv.fields&&inv.fields.datum)||"",7);
+  const zahlText="Zahlbar innerhalb von 7 Tagen ohne Abzug.";
+  const termsXml=(gesamt>0)?`
+      <ram:SpecifiedTradePaymentTerms><ram:Description>${zEsc(zahlText)}</ram:Description>${faellig?`<ram:DueDateDateTime><udt:DateTimeString format="102">${faellig}</udt:DateTimeString></ram:DueDateDateTime>`:""}</ram:SpecifiedTradePaymentTerms>`:"";
   return `<?xml version="1.0" encoding="UTF-8"?>
-<rsm:CrossIndustryInvoice xmlns:rsm="urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100" xmlns:ram="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100" xmlns:udt="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:100">
+<rsm:CrossIndustryInvoice xmlns:rsm="urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100" xmlns:ram="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100" xmlns:qdt="urn:un:unece:uncefact:data:standard:QualifiedDataType:100" xmlns:udt="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:100">
   <rsm:ExchangedDocumentContext>
     <ram:GuidelineSpecifiedDocumentContextParameter><ram:ID>urn:cen.eu:en16931:2017</ram:ID></ram:GuidelineSpecifiedDocumentContextParameter>
   </rsm:ExchangedDocumentContext>
@@ -2783,7 +2792,7 @@ function zugferdXML(inv){
     </ram:ApplicableHeaderTradeAgreement>
     ${deliveryXml}
     <ram:ApplicableHeaderTradeSettlement>
-      <ram:InvoiceCurrencyCode>EUR</ram:InvoiceCurrencyCode>${payXml}${taxXml}${allowXml}
+      <ram:InvoiceCurrencyCode>EUR</ram:InvoiceCurrencyCode>${payXml}${taxXml}${allowXml}${termsXml}
       <ram:SpecifiedTradeSettlementHeaderMonetarySummation>
         <ram:LineTotalAmount>${z2(lineSum)}</ram:LineTotalAmount>${docRab>0?`
         <ram:AllowanceTotalAmount>${z2(docRab)}</ram:AllowanceTotalAmount>`:""}
