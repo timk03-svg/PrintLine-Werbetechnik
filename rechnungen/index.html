@@ -2689,7 +2689,10 @@ function zSeller(kb){ kb=kb||{};
   const name=f1[0]||"PrintLine Werbetechnik"; let strasse="",plz="",ort="";
   f1.slice(1).forEach(l=>{ const p=l.match(/^(\d{5})\s+(.+)$/); if(p){ plz=p[1]; ort=p[2].trim(); }
     else if(/\d/.test(l) || /stra|weg|platz|allee|ring/i.test(l)) strasse=l; });
-  const iban=(f3.match(/IBAN:?\s*([A-Z]{2}[0-9A-Z ]{13,32})/i)||[])[1]||"";
+  // Nur Länderkürzel + 2 Prüfziffern + Ziffern/Leerzeichen erfassen – stoppt vor "BIC" o. Ä.
+  let iban=(f3.match(/IBAN[:\s]*([A-Z]{2}\d{2}[\d ]{10,30})/i)||[])[1]||"";
+  iban=iban.replace(/\s/g,"");
+  if(!/^[A-Z]{2}\d{2}\d{8,28}$/.test(iban)) iban="";   // unplausible IBAN lieber weglassen als falsch einbetten
   const bic=(f3.match(/BIC:?\s*([A-Z0-9]{8,11})/i)||[])[1]||"";
   const steuernr=(f3.match(/Steuernr\.?:?\s*([\d\/]+)/i)||[])[1]||"";
   const ustid=(f3.match(/USt-?IdNr\.?:?\s*(DE\d+)/i)||[])[1]||"";
