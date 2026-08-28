@@ -2021,6 +2021,11 @@ function updateTotalsAmounts(){
 
 function renderSignature(){
   const el=document.getElementById("sigblock"); if(!el) return;
+  // Unterschrift und Stempel werden auf Wunsch NICHT mehr in den Beleg gedruckt
+  // (verursachten beim Drucken aus Safari einen Seitenumbruch mitten im Bild).
+  // Block bleibt leer und ausgeblendet. Zum Reaktivieren: die naechste Zeile
+  // entfernen; die alte Logik darunter ist erhalten.
+  el.innerHTML=""; el.style.display="none"; return;
   const f=appData.firma||{};
   let html="";
   // Unterschrift und Stempel auf Angeboten und Rechnungen, nicht auf Mahnungen.
