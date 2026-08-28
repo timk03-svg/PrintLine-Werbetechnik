@@ -2753,6 +2753,12 @@ function zugferdXML(inv){
                :(seller.steuernr?`<ram:SpecifiedTaxRegistration><ram:ID schemeID="FC">${zEsc(seller.steuernr)}</ram:ID></ram:SpecifiedTaxRegistration>`:"");
   const sellerId=(seller.ustid||seller.steuernr)?`<ram:ID>${zEsc(seller.ustid||seller.steuernr)}</ram:ID>
         `:"";
+  // Liefer-/Leistungsdatum (BT-72): Lieferdatum-Feld, sonst Rechnungsdatum. Fuellt das
+  // sonst leere ApplicableHeaderTradeDelivery (PEPPOL-EN16931-R008 verbietet leere Elemente).
+  const liefer=zDate((inv.fields&&inv.fields.lieferdatum)||"")||datum;
+  const deliveryXml=liefer
+    ? `<ram:ApplicableHeaderTradeDelivery><ram:ActualDeliverySupplyChainEvent><ram:OccurrenceDateTime><udt:DateTimeString format="102">${liefer}</udt:DateTimeString></ram:OccurrenceDateTime></ram:ActualDeliverySupplyChainEvent></ram:ApplicableHeaderTradeDelivery>`
+    : `<ram:ApplicableHeaderTradeDelivery/>`;
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rsm:CrossIndustryInvoice xmlns:rsm="urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100" xmlns:ram="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100" xmlns:udt="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:100">
   <rsm:ExchangedDocumentContext>
@@ -2775,7 +2781,7 @@ function zugferdXML(inv){
         ${adr(buyer)}
       </ram:BuyerTradeParty>
     </ram:ApplicableHeaderTradeAgreement>
-    <ram:ApplicableHeaderTradeDelivery/>
+    ${deliveryXml}
     <ram:ApplicableHeaderTradeSettlement>
       <ram:InvoiceCurrencyCode>EUR</ram:InvoiceCurrencyCode>${payXml}${taxXml}${allowXml}
       <ram:SpecifiedTradeSettlementHeaderMonetarySummation>
