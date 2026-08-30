@@ -491,6 +491,9 @@ body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a2
   .st-month{margin-top:12px;}
   .st-month-head{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;font-weight:700;color:var(--muted);margin:8px 0 2px;text-transform:capitalize;}
   .st-month-head span:last-child{color:var(--text);}
+  .st-mh-right{display:inline-flex;align-items:center;gap:8px;}
+  .st-mpdf{border:1px solid var(--line-strong);background:#fff;color:var(--accent);border-radius:7px;padding:2px 9px;font-size:11px;font-weight:700;cursor:pointer;text-transform:none;}
+  .st-mpdf:hover{background:var(--accent-soft);border-color:var(--accent);}
   .cards.st4{grid-template-columns:repeat(4,1fr);}
   .st-soll{display:flex;align-items:center;gap:10px;margin:4px 0 6px;font-size:13px;flex-wrap:wrap;}
   .st-soll label{font-weight:600;}
@@ -1219,7 +1222,7 @@ USt-IdNr. …"></div>
   <div class="panel">
     <div class="finance-head">
       <div><h2>Stundenzettel</h2></div>
-      <button class="btn noprint" id="btnStundenPdf">Als PDF</button>
+      <button class="btn noprint" id="btnStundenPdf" title="Jeden Monat als eigene PDF-Datei speichern">Alle Monate einzeln</button>
     </div>
     <div class="st-soll noprint">
       <label>Wochenstundensatz (Soll-Std/Woche):</label>
@@ -2619,6 +2622,7 @@ function downloadPDF(){
   blurActive();
   const v=currentView();
   if(v==="start"||v==="trash"){ alert("Bitte zuerst ein Dokument oder eine Liste öffnen."); return; }
+  if(v==="stunden"){ exportAllStundenMonths(); return; }   // Stunden: je Monat eine eigene PDF, kein Sammeldokument
   let el, margin, restore=null, isDoc=false;
   const wasDark=document.body.classList.contains("dark");
   if(wasDark) document.body.classList.remove("dark");   // PDF immer hell rendern
@@ -4636,7 +4640,7 @@ function renderStunden(){
     Object.keys(years[y]).sort().reverse().forEach(ym=>{
       const arr=years[y][ym]; let mSum=0; arr.forEach(e=>mSum+=stHours(e));
       const mName=/^\d{4}-\d{2}$/.test(ym)? new Date(ym+"-01T00:00:00").toLocaleDateString("de-DE",{month:"long",year:"numeric"}) : ym;
-      html+=`<div class="st-month"><div class="st-month-head"><span>${escapeHtml(mName)}</span><span>${hfmt.format(mSum)} Std</span></div>`;
+      html+=`<div class="st-month" data-ym="${ym}"><div class="st-month-head"><span>${escapeHtml(mName)}</span><span class="st-mh-right">${hfmt.format(mSum)} Std <button class="st-mpdf noprint" data-stpdf="${ym}" title="Diesen Monat als PDF herunterladen">Als PDF</button></span></div>`;
       // Summe nach Tätigkeit (absteigend) – für mehr Übersicht
       const actMap={}; arr.forEach(e=>{ const a=(e.notiz||"").trim()||"– ohne Tätigkeit –"; actMap[a]=(actMap[a]||0)+stHours(e); });
       const actChips=Object.entries(actMap).sort((a,b)=>b[1]-a[1]).map(([a,h])=>`<span class="st-chip">${escapeHtml(a)} <b>${hfmt.format(h)}</b></span>`).join("");
@@ -4674,6 +4678,8 @@ document.getElementById("btnStAdd").addEventListener("click",()=>{
   renderStunden();
 });
 document.getElementById("stundenList").addEventListener("click",e=>{
+  const pd=e.target.closest("[data-stpdf]");
+  if(pd){ renderStundenPdf(pd.dataset.stpdf).catch(()=>{}); return; }
   const d=e.target.closest("[data-delst]"); if(!d) return;
   const id=d.dataset.delst, en=appData.stunden.find(x=>x.id==id); if(!en) return;
   if(confirm("Stundeneintrag in den Papierkorb verschieben?")){
@@ -4681,7 +4687,42 @@ document.getElementById("stundenList").addEventListener("click",e=>{
     appData.stunden=appData.stunden.filter(x=>x.id!=id); saveApp(); renderStunden();
   }
 });
-document.getElementById("btnStundenPdf").addEventListener("click",()=>{ if(currentView()!=="stunden") switchView("stunden"); downloadPDF(); });
+
+// ---- Stunden-Export je Monat: eine PDF pro Monat, nicht alles in einem Dokument ----
+function hideOtherMonths(ym){
+  const box=document.getElementById("stundenList"); const changed=[];
+  box.querySelectorAll(".st-month").forEach(m=>{ if(m.dataset.ym!==ym){ changed.push([m,m.style.display]); m.style.display="none"; } });
+  box.querySelectorAll(".st-year").forEach(yd=>{ const vis=Array.from(yd.querySelectorAll(".st-month")).some(m=>m.style.display!=="none"); if(!vis){ changed.push([yd,yd.style.display]); yd.style.display="none"; } });
+  return ()=>{ changed.forEach(([el,d])=>{ el.style.display=d; }); };
+}
+// Rendert genau einen Monat als eigene PDF (blendet die anderen Monate für den Export aus).
+function renderStundenPdf(ym){
+  return new Promise((resolve,reject)=>{
+    if(typeof html2pdf==="undefined"){ alert("PDF-Bibliothek nicht geladen."); return reject(new Error("html2pdf")); }
+    if(!document.querySelector('.st-month[data-ym="'+ym+'"]')){ alert("Für diesen Monat sind keine Stunden vorhanden."); return reject(new Error("leer")); }
+    blurActive();
+    if(currentView()!=="stunden") switchView("stunden");
+    const el=document.getElementById("viewStunden");
+    const wasDark=document.body.classList.contains("dark"); if(wasDark) document.body.classList.remove("dark");
+    document.body.classList.add("exporting");
+    const restore=hideOtherMonths(ym);
+    const opt={ margin:10, filename:"Stundenzettel_"+ym+".pdf", image:{type:"jpeg",quality:0.98},
+      html2canvas:{scale:4,useCORS:true,backgroundColor:"#ffffff",windowWidth:el.scrollWidth},
+      jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}, pagebreak:{mode:["css","legacy"],avoid:["tr",".st-sum",".st-month-head"]} };
+    const done=()=>{ restore(); document.body.classList.remove("exporting"); if(wasDark) document.body.classList.add("dark"); };
+    setTimeout(()=>{ html2pdf().set(opt).from(el).save().then(()=>{done();resolve();},(e)=>{done();reject(e);}); },60);
+  });
+}
+// Lädt jeden Monat als eigene Datei (nacheinander), statt alles in ein Dokument zu packen.
+async function exportAllStundenMonths(){
+  if(currentView()!=="stunden") switchView("stunden");
+  const box=document.getElementById("stundenList");
+  const months=Array.from(box.querySelectorAll(".st-month")).map(m=>m.dataset.ym).filter(Boolean);
+  if(!months.length){ alert("Noch keine Stunden erfasst."); return; }
+  if(months.length>1 && !confirm(months.length+" Monate werden als "+months.length+" einzelne PDF-Dateien gespeichert. Fortfahren?")) return;
+  for(const ym of months){ try{ await renderStundenPdf(ym); }catch(e){} await new Promise(r=>setTimeout(r,400)); }
+}
+document.getElementById("btnStundenPdf").addEventListener("click",exportAllStundenMonths);
 document.getElementById("stSoll").addEventListener("input",e=>{ appData.stundenSoll=e.target.value; saveApp(); renderStunden(); });
 
 /* ---------- Kassenbuch ---------- */
