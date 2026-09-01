@@ -120,6 +120,19 @@
   <style>
     .req { color: #d6451f; }
     .form-note { font-size: .85em; opacity: .7; margin: 0 0 1rem; }
+    .termin-hinweis {
+      display: flex; gap: var(--s-3, 12px); align-items: flex-start;
+      padding: var(--s-3, 12px) var(--s-4, 16px);
+      margin: 0 0 var(--s-4, 16px);
+      border-radius: var(--r-s, 12px);
+      border: 1px solid color-mix(in srgb, var(--tuerkis-tief) 38%, transparent);
+      border-left: 4px solid var(--tuerkis-tief);
+      background: color-mix(in srgb, var(--tuerkis) 9%, transparent);
+      font-size: var(--fs-sm, .9rem);
+    }
+    .termin-hinweis .th-icon { font-size: 1.15rem; line-height: 1.35; flex: none; }
+    .termin-hinweis .th-title { margin: 0 0 .15rem; font-size: 1rem; font-weight: 600; }
+    .termin-hinweis p:last-child { margin: 0; }
   </style>
 </head>
 <body>
@@ -180,6 +193,13 @@
     <!-- ══ KONTAKTDATEN ══ -->
     <section class="section">
       <div class="wrap">
+        <div class="termin-hinweis" data-reveal>
+          <span class="th-icon" aria-hidden="true">📅</span>
+          <div>
+            <p class="th-title">Beratung nach Terminvereinbarung</p>
+            <p>Persönliche Beratungsgespräche vor Ort erfolgen <strong>ausschließlich nach vorheriger Terminvereinbarung</strong>. Bitte stimmen Sie Ihren Wunschtermin vorab telefonisch oder per E-Mail mit uns ab – so nehmen wir uns gezielt Zeit für Ihr Anliegen.</p>
+          </div>
+        </div>
         <div class="prose-card" data-reveal>
           <h2>Wir sind auch telefonisch oder per E-Mail zu erreichen:</h2>
           <ul class="ticks">
