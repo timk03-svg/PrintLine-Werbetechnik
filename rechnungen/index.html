@@ -2949,7 +2949,9 @@ function logAudit(action, entity, detail){
 function renderHistory(){
   document.getElementById("histPrintDate").textContent="Stand: "+todayStr();
   const tb=document.getElementById("historyRows");
-  const list=appData.archive.slice().sort((a,b)=>b.ts-a.ts);
+  // Nach Dokument-Datum sortieren (neuestes oben); bei gleichem/fehlendem Datum nach Speicherzeit
+  const sortKey=x=>{ const d=parseDate(x.datum); return d?d.getTime():(x.ts||0); };
+  const list=appData.archive.slice().sort((a,b)=>{ const kb=sortKey(b), ka=sortKey(a); return kb!==ka ? kb-ka : (b.ts||0)-(a.ts||0); });
   if(!list.length){ tb.innerHTML='<tr><td colspan="8" class="empty">Noch keine gespeicherten Dokumente. Erstelle ein PDF („Als PDF speichern“), dann erscheint es hier.</td></tr>'; return; }
   tb.innerHTML=list.map(a=>{
     const badge=a.docType==="Rechnung"?'<span class="badge re">Rechnung</span>':(a.docType==="Mahnung"?'<span class="badge">Mahnung</span>':'<span class="badge an">Angebot</span>');
