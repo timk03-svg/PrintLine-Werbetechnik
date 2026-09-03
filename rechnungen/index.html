@@ -917,7 +917,7 @@ PLZ Ort"></div>
             <tr><td class="k">Datum</td><td class="v" contenteditable="true" data-field="datum"></td></tr>
             <tr><td class="k">Kunden-Nr.</td><td class="v" contenteditable="true" data-field="kundennr" data-ph="–"></td></tr>
             <tr><td class="k" id="lblExtra">Bearbeiter</td><td class="v" contenteditable="true" data-field="extra" data-ph="–"></td></tr>
-            <tr id="rowGueltig"><td class="k" id="lblGueltig">Gültig bis</td><td class="v" id="valGueltig"></td></tr>
+            <tr id="rowGueltig"><td class="k" id="lblGueltig">Gültig bis</td><td class="v" id="valGueltig" contenteditable="true" data-field="gueltig" data-ph="autom."></td></tr>
             <tr><td class="k">Lieferdatum</td><td class="v" contenteditable="true" data-field="lieferdatum" data-ph="–"></td></tr>
           </table>
         </div>
@@ -1857,14 +1857,19 @@ function renderDocType(){
   const zb=document.getElementById("btnZugferd"); if(zb) zb.style.display=(t==="Rechnung")?"":"none";
 }
 
-// Gültigkeit (Angebot +4 Wochen) bzw. Zahlungsziel (Rechnung/Mahnung +7 Tage) aus dem Datum
+// Gültigkeit (Angebot +4 Wochen) bzw. Zahlungsziel (Rechnung/Mahnung +7 Tage) aus dem Datum;
+// ein manuell eingetragener Wert hat Vorrang und wird NICHT automatisch überschrieben.
 function renderGueltig(){
   const row=document.getElementById("rowGueltig");
+  const el=document.getElementById("valGueltig");
+  const manual=(state.fields.gueltig||"").trim();
   const d=parseDate(state.fields.datum);
-  if(!d){ row.style.display="none"; return; }
+  if(!d && !manual){ row.style.display="none"; return; }
   row.style.display="";
+  if(document.activeElement===el) return;          // beim Tippen nicht überschreiben
+  if(manual){ el.textContent=manual; return; }      // manueller Wert hat Vorrang
   const plus=(state.docType==="Rechnung"||state.docType==="Mahnung")?7:28;
-  document.getElementById("valGueltig").textContent=fmtDate(addDays(d,plus));
+  el.textContent=fmtDate(addDays(d,plus));           // sonst automatisch aus dem Datum
 }
 
 function renderLegal(){ document.getElementById("legal").innerHTML=((state.settings.kopfbogen||"printline")==="timecom")?"":legalHTML(state.docType); }
@@ -1873,6 +1878,7 @@ function renderFields(){
   document.querySelectorAll("[data-field]").forEach(el=>{
     const f=el.dataset.field;
     if(document.activeElement===el) return; // nicht überschreiben beim Tippen
+    if(f==="gueltig"){ renderGueltig(); return; } // Sonderfall: Auto/Manuell übernimmt renderGueltig
     el.textContent=state.fields[f]||"";
   });
 }
