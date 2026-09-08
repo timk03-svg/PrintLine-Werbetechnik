@@ -2412,7 +2412,8 @@ document.getElementById("btnNewAngebot").addEventListener("click",()=>{
 // Neue Rechnung: optional aus einem Angebot übernehmen (Auswahl-Dialog)
 document.getElementById("btnNewRechnung").addEventListener("click",openRechnungModal);
 function openRechnungModal(){
-  const angebote=appData.archive.filter(a=>a.docType==="Angebot").sort((a,b)=>b.ts-a.ts);
+  const sortKey=x=>{ const d=parseDate(x.datum); return d?d.getTime():(x.ts||0); };
+  const angebote=appData.archive.filter(a=>a.docType==="Angebot").sort((a,b)=>{ const kb=sortKey(b), ka=sortKey(a); return kb!==ka ? kb-ka : (b.ts||0)-(a.ts||0); });
   const list=document.getElementById("modalList");
   list.innerHTML = angebote.length
     ? angebote.map(a=>`<div class="pick" data-pick="${a.id}"><span><b>${escapeHtml(a.nummer||"—")}</b> · ${escapeHtml(a.kunde)}</span><span class="k">${escapeHtml(a.datum||"")} · ${euro.format(a.netto||0)}</span></div>`).join("")
