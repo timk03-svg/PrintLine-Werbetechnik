@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#3761B5">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -664,6 +663,32 @@ body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a2
     #historyRows td:last-child,#historyRows td:nth-last-child(2){display:none;}
     #expRows td:last-child,#fixRows td:last-child{display:none;}
   }
+
+  /* ==================== MOBILE / iPhone (nur Bildschirm; Druck & PDF unberuehrt) ==================== */
+  @media screen and (max-width:760px){
+    .toolbar{padding:8px 10px;gap:7px;}
+    .savehint{min-width:0;}
+    /* Reiter horizontal scrollbar statt rechts abgeschnitten */
+    #viewSeg{display:flex;flex-wrap:nowrap;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+    #viewSeg::-webkit-scrollbar{display:none;}
+    #viewSeg button{flex:0 0 auto;white-space:nowrap;}
+    /* KPI-Karten & Kacheln stapeln, statt zu ueberlaufen */
+    .cards{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+    .tiles{grid-template-columns:1fr;gap:10px;}
+    .grid,.form-grid{grid-template-columns:1fr;}
+    .settings{padding:14px;}
+    /* Eingaben >=16px, damit iOS beim Fokus nicht automatisch reinzoomt */
+    input,select,textarea{font-size:16px;}
+    /* Dokument (A4) auf Bildschirmbreite einpassen, statt rauszoomen zu muessen */
+    .stage{padding:10px 6px 40px;justify-content:flex-start;width:100%;max-width:100vw;overflow-x:hidden;}
+    #viewDoc .page{zoom:var(--docZoom,1);}
+    /* Uebrige Ansichten: breite Inhalte horizontal scrollen statt die Seite zu sprengen */
+    #viewHistory,#viewFinance,#viewKunden,#viewProjekte,#viewRechnungen,#viewKasse,#viewStunden,#viewStammdaten{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    .modal-wide{max-width:100vw;}
+  }
+  /* PDF/Export & Druck nie mit dem mobilen Zoom rendern */
+  body.exporting #viewDoc .page{zoom:1 !important;}
+  @media print{ #viewDoc .page{zoom:1 !important;} }
 </style>
 </head>
 <body>
@@ -5109,6 +5134,31 @@ function backupReminder(){
   }catch(e){}
 }
 backupReminder();
+</script>
+<script>
+/* Dokument (A4) am Handy auf Bildschirmbreite einpassen — nur Bildschirm <=760px, Druck/PDF unberuehrt */
+(function(){
+  function fitDoc(){
+    try{
+      var page=document.querySelector('#viewDoc .page'); if(!page) return;
+      var root=document.documentElement;
+      if(!window.matchMedia('(max-width:760px)').matches){ root.style.setProperty('--docZoom','1'); return; }
+      if(document.body.classList.contains('exporting')) return;
+      root.style.setProperty('--docZoom','1');                 /* zum Messen ohne Zoom */
+      var natural=page.getBoundingClientRect().width; if(!natural) return;
+      var avail=(root.clientWidth||window.innerWidth)-12;
+      var z=avail/natural; if(z>1) z=1; if(z<0.35) z=0.35;
+      root.style.setProperty('--docZoom', z.toFixed(4));
+    }catch(e){}
+  }
+  window.fitDoc=fitDoc;
+  var t; function schedule(){ clearTimeout(t); t=setTimeout(fitDoc,80); }
+  window.addEventListener('resize', schedule, {passive:true});
+  window.addEventListener('orientationchange', function(){ setTimeout(fitDoc,160); });
+  try{ new MutationObserver(schedule).observe(document.body,{attributes:true,attributeFilter:['class']}); }catch(e){}
+  window.addEventListener('load', function(){ setTimeout(fitDoc,120); });
+  setTimeout(fitDoc,60);
+})();
 </script>
 </body>
 </html>
