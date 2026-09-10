@@ -34,7 +34,7 @@
   }
 
   *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
+  html,body{margin:0;padding:0;-webkit-text-size-adjust:100%;text-size-adjust:100%;}
   body{
     background:var(--bg);
     color:var(--text);
@@ -676,14 +676,22 @@ body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a2
     .cards{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
     .tiles{grid-template-columns:1fr;gap:10px;}
     .grid,.form-grid{grid-template-columns:1fr;}
+    /* Erfassungs-Formulare mit festen px-Spalten (Kasse/Stunden) auf eine Spalte stapeln */
+    .kb-add,.st-add{grid-template-columns:1fr !important;}
     .settings{padding:14px;}
     /* Eingaben >=16px, damit iOS beim Fokus nicht automatisch reinzoomt */
     input,select,textarea{font-size:16px;}
+    /* ALLE Ansichten: nie breiter als der Bildschirm (breite Tabellen scrollen im Rahmen, sprengen aber nicht mehr die Seite) */
+    #viewHistory,#viewFinance,#viewKunden,#viewProjekte,#viewRechnungen,#viewKasse,#viewStunden,#viewStammdaten,#viewMaterial,#viewKalkulation,#viewTrash,#viewStart{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    /* Fest verdrahtete Breiten (z. B. Kasse-Dropzone 552px, Stunden-Notizfeld 565px) auf Bildschirmbreite bringen */
+    .full,.dropzone{width:100% !important;max-width:100% !important;box-sizing:border-box;}
+    #viewKasse input,#viewKasse select,#viewStunden input,#viewStunden select{max-width:100% !important;}
+    /* Datentabellen kompakter, damit sie eher passen statt zu scrollen */
+    table.list{font-size:12px;}
+    table.list td,table.list th{padding:7px 6px;}
     /* Dokument (A4) auf Bildschirmbreite einpassen, statt rauszoomen zu muessen */
     .stage{padding:10px 6px 40px;justify-content:flex-start;width:100%;max-width:100vw;overflow-x:hidden;}
     #viewDoc .page{zoom:var(--docZoom,1);}
-    /* Uebrige Ansichten: breite Inhalte horizontal scrollen statt die Seite zu sprengen */
-    #viewHistory,#viewFinance,#viewKunden,#viewProjekte,#viewRechnungen,#viewKasse,#viewStunden,#viewStammdaten{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
     .modal-wide{max-width:100vw;}
   }
   /* PDF/Export & Druck nie mit dem mobilen Zoom rendern */
