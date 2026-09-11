@@ -5142,6 +5142,148 @@ function backupReminder(){
   }catch(e){}
 }
 backupReminder();
+
+/* ================= PrintLine Zentral-Sync (Mac mini via Tailscale) ================= */
+(function(){
+  var BASE  = (localStorage.getItem('pl_sync_base')  || '').replace(/\/+$/,'');
+  var TOKEN = localStorage.getItem('pl_sync_token') || '';
+  if(!BASE || !TOKEN){ console.info('[sync] deaktiviert (pl_sync_base/pl_sync_token fehlen)'); return; }
+
+  var SEEN_KEY = 'pl_sync_seen_ts';
+  var lastSeenTs = parseInt(localStorage.getItem(SEEN_KEY)||'0',10) || 0;
+  function setSeen(ts){ lastSeenTs = ts||0; try{ localStorage.setItem(SEEN_KEY,String(lastSeenTs)); }catch(_){} }
+
+  // Persistentes "noch nicht gepusht"-Flag -> ueberlebt Reload und Offline.
+  var PENDING_KEY = 'pl_sync_pending';
+  function setPending(v){ try{ v ? localStorage.setItem(PENDING_KEY,'1') : localStorage.removeItem(PENDING_KEY); }catch(_){} }
+  function hasPending(){ try{ return localStorage.getItem(PENDING_KEY)==='1'; }catch(_){ return false; } }
+
+  var pushTimer=null, pushInFlight=false, pushQueued=false, bannerShown=false;
+  function authHdr(extra){ return Object.assign({'Authorization':'Bearer '+TOKEN}, extra||{}); }
+
+  // --- Bundle bauen: identisch zu downloadBackup() (Zeilen 5070-5072) ---
+  async function buildBundle(){
+    var belege=[];
+    try{
+      var r=await idbGetAll('belege');
+      for(var i=0;i<r.vals.length;i++){ belege.push({id:r.keys[i],name:r.vals[i].name,type:r.vals[i].type,b64:await blobToB64(r.vals[i].blob)}); }
+    }catch(_){}
+    return {_app:'PrintLine',_v:1,ts:Date.now(),state:localStorage.getItem(LS_KEY),app:localStorage.getItem(LS_KEY+'_app'),belege:belege};
+  }
+
+  // --- Bundle anwenden: gespiegelt aus dem Restore-Handler (Zeilen 5086-5090) ---
+  async function applyBundle(data){
+    if(!data || data._app!=='PrintLine') return false;
+    if(data.state) localStorage.setItem(LS_KEY,data.state); else localStorage.removeItem(LS_KEY);
+    if(data.app)   localStorage.setItem(LS_KEY+'_app',data.app); else localStorage.removeItem(LS_KEY+'_app');
+    try{ if(Array.isArray(data.belege)) for(var k=0;k<data.belege.length;k++){ var b=data.belege[k]; await belegPutRaw(b.id,b.name,b.type,b64ToBlob(b.b64,b.type)); } }catch(_){}
+    return true;
+  }
+
+  // --- DIRTY-GUARD: ungespeicherte/aktive ODER noch nicht gepushte Aenderungen? ---
+  function isDirty(){
+    if(hasPending()) return true;                                      // persistente unsynct-Aenderungen (auch nach Reload/offline)
+    if(pushInFlight || pushQueued || pushTimer) return true;            // Push geplant/laeuft
+    try{ if(typeof histBase!=='undefined' && histBase!==null && JSON.stringify(state)!==histBase) return true; }catch(_){}
+    var ae=document.activeElement;
+    if(ae && (ae.tagName==='INPUT' || ae.tagName==='TEXTAREA' || ae.isContentEditable)) return true;
+    return false;
+  }
+
+  // --- Banner "neuer Stand" (kein lautloses Ueberschreiben bei Dirty) ---
+  function showBanner(serverTs, opts){
+    if(bannerShown) return; bannerShown=true;
+    opts=opts||{};
+    var bar=document.createElement('div');
+    bar.id='plSyncBanner';
+    bar.style.cssText='position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:99999;background:#1f2937;color:#fff;padding:12px 16px;border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.35);font:14px/1.4 system-ui,-apple-system,sans-serif;display:flex;gap:10px;align-items:center;max-width:92vw';
+    var msg=document.createElement('span'); msg.textContent=opts.conflict?'Neuer Stand vom anderen Gerät am Server – deine ungespeicherten Änderungen kollidieren.':'Neuer Stand vom anderen Gerät verfügbar.';
+    var bLoad=document.createElement('button'); bLoad.textContent='Jetzt laden'; bLoad.style.cssText='background:#22c55e;color:#03210f;border:0;border-radius:8px;padding:7px 12px;font-weight:600;cursor:pointer';
+    bLoad.onclick=async function(){ try{ await pullAndApply(true); }catch(_){}}; // laedt Server-Stand
+    var bKeep=document.createElement('button'); bKeep.textContent=opts.conflict?'Meinen Stand behalten':'Später'; bKeep.style.cssText='background:transparent;color:#cbd5e1;border:1px solid #475569;border-radius:8px;padding:7px 12px;cursor:pointer';
+    bKeep.onclick=async function(){ if(opts.conflict){ try{ await pushToServer(true); }catch(_){}} bar.remove(); bannerShown=false; };
+    bar.appendChild(msg); bar.appendChild(bLoad); bar.appendChild(bKeep);
+    document.body.appendChild(bar);
+  }
+  function hideBanner(){ var b=document.getElementById('plSyncBanner'); if(b) b.remove(); bannerShown=false; }
+
+  // --- Server-Stand ziehen und anwenden (reload wie beim Restore) ---
+  async function pullAndApply(force){
+    try{
+      var res=await fetch(BASE+'/api/data',{headers:authHdr(),cache:'no-store'});
+      if(!res.ok) return false;
+      var j=await res.json();
+      if(!j || j.bundle===undefined) return false;
+      if(!force && j.ts<=lastSeenTs) return false;                     // nichts Neues
+      if(!force && isDirty()){ showBanner(j.ts); return false; }        // Guard
+      if(j.bundle){ await applyBundle(j.bundle); }
+      setSeen(j.ts||0); setPending(false);                             // Server-Stand ist jetzt lokal -> nichts mehr offen
+      hideBanner();
+      location.reload();                                                // wie der Restore-Pfad (5090)
+      return true;
+    }catch(_){ return false; }                                          // offline -> still weiter
+  }
+
+  // --- Push (debounced Ausloeser + eigentlicher Upload) ---
+  function schedulePush(){
+    setPending(true);                                                   // ab jetzt gilt: lokale Aenderung noch nicht gesichert
+    clearTimeout(pushTimer);
+    pushTimer=setTimeout(function(){ pushTimer=null; pushToServer(false); }, 2500);
+  }
+  async function pushToServer(force){
+    if(pushInFlight){ pushQueued=true; return; }
+    pushInFlight=true;
+    try{
+      var bundle=await buildBundle();
+      var res=await fetch(BASE+'/api/data',{
+        method:'POST',
+        headers:authHdr({'Content-Type':'application/json','X-PrintLine-Base-Ts':String(lastSeenTs), 'X-PrintLine-Force': force?'1':'0'}),
+        body:JSON.stringify(bundle)
+      });
+      if(res.status===409){                                            // Server ist neuer -> Flag bewusst NICHT loeschen
+        var jc=await res.json().catch(function(){return null;});
+        if(jc && Number.isFinite(jc.ts)) showBanner(jc.ts,{conflict:true});
+      }else if(res.ok){
+        var j=await res.json();
+        if(j && Number.isFinite(j.ts)){ setSeen(j.ts); setPending(false); }   // erst JETZT ist alles sicher am Server
+      }
+    }catch(_){ /* offline -> Flag bleibt, naechster Poll/Save pusht erneut */ }
+    finally{
+      pushInFlight=false;
+      if(pushQueued){ pushQueued=false; schedulePush(); }
+    }
+  }
+
+  // --- Poll /api/version (~10 s) + focus/visibility; pausiert bei hidden & push ---
+  async function checkVersion(){
+    if(document.hidden) return;                                        // pausiert bei hidden
+    if(pushInFlight || pushTimer || pushQueued) return;                // kein Ping-Pong
+    if(hasPending()){ schedulePush(); return; }                        // offene lokale Aenderung -> PUSHEN statt ziehen (kein Clobber)
+    try{
+      var res=await fetch(BASE+'/api/version',{headers:authHdr(),cache:'no-store'});
+      if(!res.ok) return;
+      var j=await res.json();
+      if(!j || !Number.isFinite(j.ts)) return;
+      if(j.ts>lastSeenTs){
+        if(isDirty() || lastSeenTs===0){ showBanner(j.ts); }           // Erststart/Dirty -> Banner, nie lautlos
+        else{ await pullAndApply(false); }                             // sauber -> still anwenden
+      }
+    }catch(_){ /* offline -> still weiter */ }
+  }
+  setInterval(checkVersion, 10000);
+  document.addEventListener('visibilitychange', function(){ if(!document.hidden) checkVersion(); });
+  window.addEventListener('focus', checkVersion);
+
+  // --- Wrapper um die vorhandenen Speicher-Funktionen (minimal-invasiv) ---
+  if(typeof save==='function'){    var _save=save;       save=function(){ var r=_save.apply(this,arguments); schedulePush(); return r; }; }
+  if(typeof saveApp==='function'){ var _saveApp=saveApp; saveApp=function(){ var r=_saveApp.apply(this,arguments); schedulePush(); return r; }; }
+  if(typeof applyHist==='function'){ var _ah=applyHist;  applyHist=function(){ var r=_ah.apply(this,arguments); schedulePush(); return r; }; }
+
+  // --- Start-Pull kurz nach dem Erststart ---
+  setTimeout(function(){ checkVersion(); }, 1500);
+  console.info('[sync] aktiv gegen', BASE, 'seenTs=', lastSeenTs, 'pending=', hasPending());
+})();
+/* =============================================================================== */
 </script>
 <script>
 /* Dokument (A4) am Handy auf Bildschirmbreite einpassen — nur Bildschirm <=760px, Druck/PDF unberuehrt */
