@@ -249,34 +249,9 @@
       if (op) op.style.maxHeight = op.scrollHeight + 'px';
     });
 
-    /* ── 7. MOTION ONE: Hero-Mikrointeraktionen ────────────── */
-    var reduceMo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var heroEls = document.querySelectorAll('[data-hero-stagger] > *');
-    // Endzustand fest sichtbar machen (falls per CSS .reveal-on vorab versteckt)
-    var lockHero = function () { heroEls.forEach(function (el) { el.style.opacity = '1'; el.style.transform = 'none'; }); };
-    if (window.Motion && window.Motion.animate && !reduceMo) {
-      const M = window.Motion;
-      // Hero sanft einfahren. Startzustand (unsichtbar) kommt aus CSS (.reveal-on) → kein Aufblitzen beim Reload.
-      if (heroEls.length) {
-        var heroAnim = M.animate(heroEls,
-          { opacity: [0, 1], transform: ['translateY(24px)', 'translateY(0px)'] },
-          { delay: M.stagger ? M.stagger(0.09, { start: 0.15 }) : 0.15, duration: 0.8, easing: [0.16, 1, 0.3, 1] }
-        );
-        if (heroAnim && heroAnim.finished && heroAnim.finished.then) { heroAnim.finished.then(lockHero).catch(lockHero); }
-      }
-      // Schwebende Karten sanft pendeln
-      document.querySelectorAll('[data-float]').forEach(function (el, i) {
-        if (M.animate) {
-          M.animate(el,
-            { transform: ['translateY(0px)', 'translateY(-12px)', 'translateY(0px)'] },
-            { duration: 5 + i, repeat: Infinity, easing: 'ease-in-out' }
-          );
-        }
-      });
-    } else {
-      // Kein Motion / reduce-motion → Hero sofort sichtbar (kein Stecken bleiben, falls vorab versteckt)
-      lockHero();
-    }
+    /* ── 7. Hero-Einblendung und schwebende Karten laufen als reine CSS-Animation
+       (style.css: heroIn/floatY, nur mit .reveal-on). Keine JS-Bibliothek mehr nötig →
+       Text ist sofort da (schnelleres LCP) und 135 KB weniger JavaScript je Seite. */
   });
 })();
 

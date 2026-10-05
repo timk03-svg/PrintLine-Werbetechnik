@@ -372,8 +372,8 @@ body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a2
   .head-row,.totals-wrap,.totals-box,.hinweis,.schluss,.docfoot,.footer,.legal p,.legal h4{break-inside:avoid;}
 
   /* ---------- Listen-Ansichten ---------- */
-  #viewHistory,#viewFinance,#viewKunden,#viewRechnungen,#viewKasse,#viewStunden,#viewStart,#viewTrash,#viewMaterial,#viewKalkulation,#viewStammdaten,#viewProjekte{display:none;max-width:1000px;margin:0 auto;padding:26px 22px 70px;}
-  body:is(.view-history,.view-finance,.view-kunden,.view-rechnungen,.view-kasse,.view-stunden,.view-start,.view-trash,.view-material,.view-kalkulation,.view-stammdaten,.view-projekte) #viewDoc{display:none;}
+  #viewHistory,#viewFinance,#viewKunden,#viewRechnungen,#viewKasse,#viewStunden,#viewStart,#viewTrash,#viewMaterial,#viewKalkulation,#viewStammdaten,#viewProjekte,#viewAnfragen{display:none;max-width:1000px;margin:0 auto;padding:26px 22px 70px;}
+  body:is(.view-history,.view-finance,.view-kunden,.view-rechnungen,.view-kasse,.view-stunden,.view-start,.view-trash,.view-material,.view-kalkulation,.view-stammdaten,.view-projekte,.view-anfragen) #viewDoc{display:none;}
   body.view-history #viewHistory{display:block;}
   body.view-finance #viewFinance{display:block;}
   body.view-kunden #viewKunden{display:block;}
@@ -386,7 +386,36 @@ body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a2
   body.view-kalkulation #viewKalkulation{display:block;}
   body.view-stammdaten #viewStammdaten{display:block;}
   body.view-projekte #viewProjekte{display:block;}
-  #viewKalkulation,#viewStammdaten,#viewProjekte{max-width:1080px;}
+  body.view-anfragen #viewAnfragen{display:block;}
+
+  /* ── Konfigurator-Anfragen ── */
+  .kfa-count{display:inline-block;min-width:18px;margin-left:6px;padding:0 6px;border-radius:10px;background:#b4413c;color:#fff;font-size:11px;font-weight:700;line-height:18px;text-align:center;vertical-align:1px;}
+  .tile.wide{grid-column:1/-1;flex-direction:row;align-items:center;gap:14px;}
+  .tile.wide .wtxt{flex:1;min-width:0;}
+  .tile.wide .t{margin-top:0;}
+  .tile.wide .kfa-count{margin:0;font-size:12px;line-height:22px;min-width:22px;border-radius:11px;}
+  .tile.wide .wgo{font-size:12.5px;font-weight:700;color:var(--accent);white-space:nowrap;}
+  .tile.wide.has-new{border-color:#b4413c;box-shadow:inset 4px 0 0 #b4413c;}
+  #viewAnfragen [hidden]{display:none !important;}
+  .kfa-connect{max-width:560px;display:grid;gap:10px;margin-top:6px;}
+  .kfa-connect .row{display:flex;gap:8px;flex-wrap:wrap;}
+  .kfa-connect input{flex:1 1 240px;}
+  .kfa-msg{margin:8px 0;font-size:13px;color:var(--muted);}
+  .kfa-msg.err{color:#b4413c;font-weight:600;}
+  .kfa-tools{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px;}
+  .kfa-tools input{flex:1 1 220px;}
+  tr.kfa-neu td:first-child{box-shadow:inset 3px 0 0 #b4413c;}
+  .kfa-status{font:inherit;font-size:12px;padding:3px 6px;border-radius:7px;border:1px solid var(--line-strong);background:transparent;color:var(--text);}
+  .kfa-detail td{background:var(--accent-soft);}
+  .kfa-box{padding:6px 4px 10px;}
+  .kfa-grid{display:grid;grid-template-columns:minmax(150px,max-content) 1fr;gap:5px 16px;font-size:13px;margin:0 0 10px;}
+  .kfa-grid dt{color:var(--muted);}
+  .kfa-grid dd{margin:0;white-space:pre-wrap;word-break:break-word;}
+  .kfa-sub{font-weight:700;font-size:13px;margin:12px 0 6px;}
+  .kfa-files{display:flex;gap:6px;flex-wrap:wrap;}
+  .kfa-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+  @media (max-width:760px){ .kfa-grid{grid-template-columns:1fr;gap:2px;} .kfa-grid dd{margin-bottom:6px;} }
+  #viewKalkulation,#viewStammdaten,#viewProjekte,#viewAnfragen{max-width:1080px;}
   /* Material hat 3 Spalten mehr - mehr Breite, damit auf grossen Schirmen
      nicht gescrollt werden muss; auf kleinen faengt der table-scroll ab. */
   #viewMaterial{max-width:min(1400px,97vw);}
@@ -466,6 +495,7 @@ body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a2
   body.role-mitarbeiter [data-view="kalkulation"],
   body.role-mitarbeiter [data-view="stammdaten"],
   body.role-mitarbeiter [data-view="projekte"],
+  body.role-mitarbeiter [data-view="anfragen"],
   body.role-mitarbeiter #btnSettings,
   body.role-mitarbeiter .delbtn{display:none !important;}
   .userrow{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 0;border-bottom:1px solid var(--line);}
@@ -646,8 +676,8 @@ body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a2
     .c-pos,.c-menge,.c-einheit,.c-preis,.c-gesamt{padding-left:0;}
     /* Listen-Ansichten als sauberen Report drucken */
     #viewHistory,#viewFinance,#viewKunden,#viewRechnungen,#viewKasse,#viewStunden{max-width:none;margin:0;padding:0;}
-    body:is(.view-history,.view-finance,.view-kunden,.view-rechnungen,.view-kasse,.view-stunden,.view-start,.view-trash,.view-material,.view-kalkulation,.view-stammdaten,.view-projekte) #viewDoc{display:none !important;}
-    #viewStart,#viewTrash,#viewMaterial,#viewKalkulation,#viewStammdaten,#viewProjekte{display:none !important;}
+    body:is(.view-history,.view-finance,.view-kunden,.view-rechnungen,.view-kasse,.view-stunden,.view-start,.view-trash,.view-material,.view-kalkulation,.view-stammdaten,.view-projekte,.view-anfragen) #viewDoc{display:none !important;}
+    #viewStart,#viewTrash,#viewMaterial,#viewKalkulation,#viewStammdaten,#viewProjekte,#viewAnfragen{display:none !important;}
     body.view-history #viewHistory{display:block !important;}
     body.view-finance #viewFinance{display:block !important;}
     body.view-kunden #viewKunden{display:block !important;}
@@ -682,7 +712,7 @@ body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a2
     /* Eingaben >=16px, damit iOS beim Fokus nicht automatisch reinzoomt */
     input,select,textarea{font-size:16px;}
     /* ALLE Ansichten: nie breiter als der Bildschirm (breite Tabellen scrollen im Rahmen, sprengen aber nicht mehr die Seite) */
-    #viewHistory,#viewFinance,#viewKunden,#viewProjekte,#viewRechnungen,#viewKasse,#viewStunden,#viewStammdaten,#viewMaterial,#viewKalkulation,#viewTrash,#viewStart{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    #viewHistory,#viewFinance,#viewKunden,#viewProjekte,#viewRechnungen,#viewKasse,#viewStunden,#viewStammdaten,#viewMaterial,#viewKalkulation,#viewTrash,#viewStart,#viewAnfragen{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
     /* Fest verdrahtete Breiten (z. B. Kasse-Dropzone 552px, Stunden-Notizfeld 565px) auf Bildschirmbreite bringen */
     .full,.dropzone{width:100% !important;max-width:100% !important;box-sizing:border-box;}
     #viewKasse input,#viewKasse select,#viewStunden input,#viewStunden select{max-width:100% !important;}
@@ -741,7 +771,7 @@ body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a2
 
 <!-- Werkzeugleiste -->
 <div class="toolbar noprint">
-  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-08-28 · ZUGFeRD</span></div>
+  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-09-25 · Anfragen</span></div>
   <button class="btn iconbtn" id="btnUndo" title="Rückgängig (Cmd+Z)" disabled>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-1"/></svg>Zurück
   </button>
@@ -753,6 +783,7 @@ body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a2
     <button data-view="doc" class="active">Dokument</button>
     <button data-view="kunden">Kunden</button>
     <button data-view="projekte">Projekte</button>
+    <button data-view="anfragen">Anfragen<span class="kfa-count" id="kfaNavCount" hidden></span></button>
     <button data-view="material">Material</button>
     <button data-view="kalkulation">Kalkulation</button>
     <button data-view="stammdaten">Stammdaten</button>
@@ -1380,6 +1411,35 @@ USt-IdNr. …"></div>
 <datalist id="kalkKundenList"></datalist>
 
 <!-- Ansicht: Projekte / Anfragen (Workflow Anfrage → Auftrag) -->
+<!-- Ansicht: Konfigurator-Anfragen -->
+<div id="viewAnfragen">
+  <div class="panel">
+    <div class="finance-head">
+      <div><h2>Konfigurator-Anfragen</h2><p class="sub" style="margin:0;">Anfragen aus dem Online-Konfigurator – ansehen, Status setzen, als Projekt oder Angebot übernehmen.</p></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;" id="kfaHeadBtns" hidden>
+        <button class="btn" id="kfaReload">Aktualisieren</button>
+        <button class="btn" id="kfaDisconnect" title="Zugang auf diesem Gerät entfernen">Trennen</button>
+      </div>
+    </div>
+    <div id="kfaConnect" class="kfa-connect" hidden>
+      <p class="sub" style="margin:0;">Einmalig mit dem Konfigurator verbinden: Gib das Admin-Passwort des Konfigurators ein. Gespeichert wird nur ein Zugangsschlüssel (90 Tage gültig), nicht das Passwort.</p>
+      <div class="row"><input type="password" id="kfaPw" placeholder="Admin-Passwort des Konfigurators" autocomplete="current-password"><button class="btn primary" id="kfaConnectBtn">Verbinden</button></div>
+      <div class="kfa-msg" id="kfaConnectMsg"></div>
+    </div>
+    <div id="kfaListWrap" hidden>
+      <div class="kfa-tools">
+        <select id="kfaFilter"><option value="">Alle Status</option><option value="NEU">Neu</option><option value="IN_ARBEIT">In Bearbeitung</option><option value="ANGEBOT">Angebot erstellt</option><option value="ERLEDIGT">Erledigt</option></select>
+        <input type="text" id="kfaSearch" placeholder="Suche: Name, Firma, Leistung, E-Mail …">
+      </div>
+      <div class="kfa-msg" id="kfaMsg"></div>
+      <table class="list">
+        <thead><tr><th>Eingang</th><th>Kunde</th><th>Leistung</th><th>Status</th><th></th></tr></thead>
+        <tbody id="kfaRows"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 <div id="viewProjekte">
   <div id="projList">
     <div class="panel">
@@ -2202,7 +2262,7 @@ document.getElementById("rows").addEventListener("keydown",e=>{
 // Ansichten umschalten (Dokument / Kunden / Rechnungen / Verlauf / Finanzen)
 function switchView(v){
   if(currentView()==="doc" && v!=="doc") flushAutoArchive();   // angefangenes Dokument vor dem Wechsel sichern
-  document.body.classList.remove("view-doc","view-history","view-finance","view-kunden","view-rechnungen","view-kasse","view-start","view-trash","view-stunden","view-material","view-kalkulation","view-stammdaten","view-projekte");
+  document.body.classList.remove("view-doc","view-history","view-finance","view-kunden","view-rechnungen","view-kasse","view-start","view-trash","view-stunden","view-material","view-kalkulation","view-stammdaten","view-projekte","view-anfragen");
   document.body.classList.add("view-"+v);
   // Einstellungen sind ein Overlay über der jeweiligen Ansicht – beim Navigieren immer schließen,
   // damit sie nicht auf der Startseite / anderen Ansichten "hängen bleiben".
@@ -2223,9 +2283,10 @@ function switchView(v){
   if(v==="kalkulation") renderKalkulation();
   if(v==="stammdaten") renderStammdaten();
   if(v==="projekte") renderProjekte();
+  if(v==="anfragen") renderAnfragen();
 }
 function currentView(){
-  for(const v of ["finance","history","kunden","rechnungen","kasse","stunden","start","trash","material","kalkulation","stammdaten","projekte"]) if(document.body.classList.contains("view-"+v)) return v;
+  for(const v of ["finance","history","kunden","rechnungen","kasse","stunden","start","trash","material","kalkulation","stammdaten","projekte","anfragen"]) if(document.body.classList.contains("view-"+v)) return v;
   return "doc";
 }
 document.getElementById("viewSeg").addEventListener("click",e=>{
@@ -2239,6 +2300,7 @@ function renderStart(){
   const mit = currentUser && currentUser.role==="mitarbeiter";
   const offen=appData.archive.filter(a=>a.docType==="Rechnung"&&a.status!=="bezahlt").length;
   const tiles=[
+    {act:"anfragen", role:1, wide:1, t:"Konfigurator-Anfragen", d:kfaTileText(), badge:kfaNeuCount(), i:'<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>'},
     {act:"newAngebot", cls:"primary", t:"Neues Angebot", d:"Angebot mit nächster Nummer", i:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6M9 15h6"/>'},
     {act:"newRechnung", cls:"primary", t:"Neue Rechnung", d:"leer oder aus einem Angebot", i:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h6"/>'},
     {act:"search", t:"Kunde suchen", d:"Name/Nr. → Angebot oder Rechnung", i:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>'},
@@ -2257,7 +2319,10 @@ function renderStart(){
     {act:"settings", role:1, t:"Einstellungen", d:"Kopf, Benutzer, Sicherung", i:'<circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.5-2-3.5-2.4 1a7 7 0 0 0-1.7-1L16 2h-4l-.8 2.5a7 7 0 0 0-1.7 1l-2.4-1-2 3.5L4.1 11a7 7 0 0 0 0 2l-2 1.5 2 3.5 2.4-1a7 7 0 0 0 1.7 1L12 22h4l-.8-2.5"/>'}
   ];
   document.getElementById("startTiles").innerHTML = tiles.filter(x=>!(mit&&x.role)).map(x=>
-    `<button class="tile ${x.cls||""}" data-go="${x.act}">${svg(x.i)}<div class="t">${x.t}</div><div class="d">${x.d}</div></button>`).join("");
+    x.wide
+      ? `<button class="tile wide${x.badge?" has-new":""}" data-go="${x.act}">${svg(x.i)}<div class="wtxt"><div class="t">${x.t}</div><div class="d">${x.d}</div></div>${x.badge?'<span class="kfa-count">'+x.badge+'</span>':""}<span class="wgo">Öffnen →</span></button>`
+      : `<button class="tile ${x.cls||""}" data-go="${x.act}">${svg(x.i)}<div class="t">${x.t}</div><div class="d">${x.d}</div></button>`).join("");
+  if(!mit) kfaAutoLoad();
   const sc=document.getElementById("startCards");
   if(sc){
     if(mit){ sc.innerHTML=""; }
@@ -4555,6 +4620,194 @@ function projToAngebot(){
   if(typeof logAudit==="function") logAudit("Angebot erzeugt", "Projekt "+(pr?pr.nummer:""), "→ "+(state.fields.nummer||""));
 }
 document.getElementById("btnProjNew").addEventListener("click",()=>openProjekt(null));
+
+/* ---------- Konfigurator-Anfragen (Online-Konfigurator → Rechnungs-App) ----------
+   Holt die Anfragen per App-Token (Bearer) vom Konfigurator. Das Passwort wird nie
+   gespeichert, nur der Zugangsschlüssel (90 Tage) im localStorage dieses Geräts.
+   Die Anfrageliste selbst wird NICHT gespeichert (personenbezogene Daten) – nur die
+   Zahl neuer Anfragen für die Kachel. Übernommene Anfragen landen als Projekt. */
+const KFA_BASE_DEFAULT="https://konfigurator.werbung-kroner.de";
+const KFA_STATUS=[["NEU","Neu"],["IN_ARBEIT","In Bearbeitung"],["ANGEBOT","Angebot erstellt"],["ERLEDIGT","Erledigt"]];
+let kfaList=null, kfaOpenId=null, kfaLoading=false, kfaErr="", kfaLastTry=0;
+function kfaLS(k,v){ try{ if(v===undefined) return localStorage.getItem(k); if(v===null) localStorage.removeItem(k); else localStorage.setItem(k,v); }catch(_){ return null; } }
+function kfaBase(){ return String(kfaLS("pl_konfig_base")||KFA_BASE_DEFAULT).replace(/\/+$/,""); }
+function kfaToken(){ const t=kfaLS("pl_konfig_token")||"", exp=Number(kfaLS("pl_konfig_exp")||0); return (t && exp>Date.now())?t:""; }
+function kfaNeuCount(){ return Number(kfaLS("pl_konfig_neu")||0)||0; }
+function kfaTileText(){ if(!kfaToken()) return "mit dem Konfigurator verbinden"; const n=kfaNeuCount(); return n?(n===1?"1 neue Anfrage":n+" neue Anfragen"):"keine neuen Anfragen"; }
+function kfaStatusLabel(v){ const x=KFA_STATUS.find(s=>s[0]===v); return x?x[1]:v; }
+function kfaNetErr(e){ const m=(e&&e.message)||""; return /Failed to fetch|NetworkError|Load failed|network/i.test(m)?"Keine Verbindung zum Konfigurator – bitte Internet prüfen.":(m||"Unbekannter Fehler"); }
+async function kfaFetch(path,opt){
+  const o=Object.assign({},opt||{}); o.headers=Object.assign({"Authorization":"Bearer "+kfaToken()},o.headers||{});
+  const r=await fetch(kfaBase()+path,o);
+  if(r.status===401){ kfaLS("pl_konfig_token",null); kfaLS("pl_konfig_exp",null); kfaList=null; throw new Error("Der Zugang ist abgelaufen – bitte neu verbinden."); }
+  return r;
+}
+function kfaSetCount(){
+  const n=(kfaList||[]).filter(r=>r.status==="NEU").length;
+  kfaLS("pl_konfig_neu",String(n));
+  const c=document.getElementById("kfaNavCount"); if(c){ c.hidden=!n; c.textContent=String(n); }
+  if(currentView()==="start") renderStart();
+}
+async function kfaLoad(){
+  if(!kfaToken()){ renderAnfragen(); return; }
+  kfaLoading=true; kfaErr=""; kfaLastTry=Date.now(); renderAnfragenList();
+  try{
+    const r=await kfaFetch("/api/admin/requests",{cache:"no-store"});
+    const d=await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(d.error||("Fehler "+r.status));
+    kfaList=Array.isArray(d.requests)?d.requests:[];
+    kfaSetCount();
+  }catch(e){ kfaErr=kfaNetErr(e); }
+  kfaLoading=false;
+  if(!kfaToken()) renderAnfragen(); else renderAnfragenList();
+}
+function kfaAutoLoad(){ if(kfaToken() && !kfaLoading && Date.now()-kfaLastTry>60000) kfaLoad(); }
+function renderAnfragen(){
+  const ok=!!kfaToken();
+  document.getElementById("kfaConnect").hidden=ok;
+  document.getElementById("kfaListWrap").hidden=!ok;
+  document.getElementById("kfaHeadBtns").hidden=!ok;
+  const c=document.getElementById("kfaNavCount"); if(c){ const n=ok?kfaNeuCount():0; c.hidden=!n; c.textContent=String(n); }
+  if(ok){ renderAnfragenList(); if(!kfaLoading) kfaLoad(); }
+}
+function kfaDate(iso){ const d=new Date(iso); return isNaN(d)?"—":fmtDate(d)+" "+("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2); }
+function kfaKunde(r){ return (r.firma||"").trim()||(r.name||"").trim()||"—"; }
+function renderAnfragenList(){
+  const tb=document.getElementById("kfaRows"), msg=document.getElementById("kfaMsg"); if(!tb) return;
+  msg.className="kfa-msg"+(kfaErr?" err":""); msg.textContent=kfaErr||(kfaLoading?"Lade Anfragen …":"");
+  if(!kfaList){ tb.innerHTML='<tr><td colspan="5" class="empty">'+(kfaLoading?"Lade …":"Noch nicht geladen.")+'</td></tr>'; return; }
+  const f=document.getElementById("kfaFilter").value, q=(document.getElementById("kfaSearch").value||"").toLowerCase().trim();
+  let list=kfaList.slice();
+  if(f) list=list.filter(r=>r.status===f);
+  if(q) list=list.filter(r=>[r.name,r.firma,r.email,r.telefon,r.serviceName,r.description].concat((r.details||[]).map(d=>d.value)).some(x=>String(x||"").toLowerCase().indexOf(q)>-1));
+  if(!list.length){ tb.innerHTML='<tr><td colspan="5" class="empty">'+(kfaList.length?"Keine Treffer.":"Noch keine Anfragen aus dem Konfigurator.")+'</td></tr>'; return; }
+  tb.innerHTML=list.map(r=>{
+    const proj=appData.projekte.find(p=>p.konfigId===r.id);
+    const sel='<select class="kfa-status" data-kfastatus="'+r.id+'" aria-label="Status">'+KFA_STATUS.map(s=>'<option value="'+s[0]+'"'+(s[0]===r.status?" selected":"")+'>'+s[1]+'</option>').join("")+'</select>';
+    let row='<tr'+(r.status==="NEU"?' class="kfa-neu"':'')+'><td>'+kfaDate(r.createdAt)+'</td><td><b>'+escapeHtml(kfaKunde(r))+'</b>'+(r.firma&&r.name?'<br><span class="sub">'+escapeHtml(r.name)+'</span>':'')+'</td>'+
+      '<td>'+escapeHtml(r.serviceName||r.service||"—")+(proj?'<br><span class="sub">Projekt '+escapeHtml(proj.nummer||"")+'</span>':'')+'</td><td>'+sel+'</td>'+
+      '<td><button class="linkbtn" data-kfaopen="'+r.id+'">'+(kfaOpenId===r.id?"Schließen":"Details")+'</button></td></tr>';
+    if(kfaOpenId===r.id) row+='<tr class="kfa-detail"><td colspan="5">'+kfaDetailHtml(r,proj)+'</td></tr>';
+    return row;
+  }).join("");
+}
+function kfaDetailHtml(r,proj){
+  const dl=(pairs)=>'<dl class="kfa-grid">'+pairs.filter(p=>p[1]).map(p=>'<dt>'+escapeHtml(p[0])+'</dt><dd>'+p[1]+'</dd>').join("")+'</dl>';
+  const kontakt=dl([
+    ["Name",escapeHtml(r.name||"")],["Firma",escapeHtml(r.firma||"")],
+    ["E-Mail",r.email?'<a href="mailto:'+escapeHtml(r.email)+'">'+escapeHtml(r.email)+'</a>':""],
+    ["Telefon",r.telefon?'<a href="tel:'+escapeHtml(String(r.telefon).replace(/[^\d+]/g,""))+'">'+escapeHtml(r.telefon)+'</a>':""],
+    ["Eingang",kfaDate(r.createdAt)],["Leistung",escapeHtml(r.serviceName||r.service||"")]]);
+  const det=(r.details||[]).length?dl((r.details||[]).map(d=>[String(d.label||""),escapeHtml(String(d.value||""))])):'<p class="sub">Keine Detailangaben.</p>';
+  const c=r.colors||{}, ff=Array.isArray(c.firmenfarben)?c.firmenfarben.filter(Boolean):[];
+  const farben=ff.length?dl([["Firmenfarben",escapeHtml(ff.join(", "))]]):"";
+  const files=(r.uploads||[]).length?'<div class="kfa-files">'+r.uploads.map(u=>'<button class="pill" data-kfafile="'+r.id+'" data-i="'+u.i+'"'+(u.verfuegbar?"":" disabled title=\"Datei liegt nicht im Speicher\"")+'>'+escapeHtml(u.name)+(u.size?" ("+Math.max(1,Math.round(u.size/1024))+" KB)":"")+'</button>').join("")+'</div>':'<p class="sub">Keine Dateien.</p>';
+  return '<div class="kfa-box">'+
+    '<div class="kfa-sub">Kontakt</div>'+kontakt+
+    '<div class="kfa-sub">Angaben</div>'+det+farben+
+    (r.description?'<div class="kfa-sub">Beschreibung</div><dl class="kfa-grid"><dd style="grid-column:1/-1">'+escapeHtml(r.description)+'</dd></dl>':'')+
+    '<div class="kfa-sub">Dateien</div>'+files+
+    '<div class="kfa-actions">'+
+      (proj?'<button class="btn primary" data-kfaproj="'+r.id+'">Projekt '+escapeHtml(proj.nummer||"")+' öffnen</button>':'<button class="btn primary" data-kfaproj="'+r.id+'">Als Projekt übernehmen</button>')+
+      '<button class="btn" data-kfaangebot="'+r.id+'">Angebot erstellen</button>'+
+      '<button class="btn" data-kfapdf="'+r.id+'">PDF der Anfrage</button>'+
+    '</div></div>';
+}
+async function kfaSetStatus(r,status){
+  const alt=r.status; r.status=status; renderAnfragenList(); kfaSetCount();
+  try{
+    const res=await kfaFetch("/api/admin/requests/"+encodeURIComponent(r.id),{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({status})});
+    if(!res.ok){ const d=await res.json().catch(()=>({})); throw new Error(d.error||("Fehler "+res.status)); }
+  }catch(e){ r.status=alt; kfaErr="Status konnte nicht gespeichert werden: "+kfaNetErr(e); renderAnfragenList(); kfaSetCount(); }
+}
+function kfaUpsertCustomer(r){
+  const firma=((r.firma||"").trim()||(r.name||"").trim()); if(!firma) return;
+  const add={ansprechpartner:(r.firma&&r.name)?r.name:"", email:r.email||"", telefon:r.telefon||""};
+  const i=appData.customers.findIndex(c=>(c.firma||"").toLowerCase()===firma.toLowerCase());
+  if(i>=0){ const c=appData.customers[i]; Object.keys(add).forEach(k=>{ if(add[k] && !c[k]) c[k]=add[k]; }); }
+  else appData.customers.push(Object.assign({firma, nummer:"", ts:Date.now()}, add));
+}
+function kfaToProjekt(r){
+  const ex=appData.projekte.find(p=>p.konfigId===r.id);
+  if(ex){ switchView("projekte"); openProjekt(ex.id); return; }
+  const p=newProjekt();
+  p.id="p"+Date.now()+"_"+Math.round(Math.random()*1e6); p.ts=Date.now(); p.nummer=nextNumber("Projekt");
+  p.status="anfrage"; p.kanal="Website"; p.kundeKey=kfaKunde(r)==="—"?"":kfaKunde(r);
+  const d=new Date(r.createdAt); if(!isNaN(d)) p.anfrageDatum=fmtDate(d);
+  p.projektart=r.serviceName||"";
+  p.leistungsbeschreibung=[r.serviceName||""].concat((r.details||[]).map(x=>String(x.label||"")+": "+String(x.value||""))).filter(Boolean).join("\n");
+  p.besonderheiten=[
+    "Kontakt: "+[r.name,r.firma].filter(Boolean).join(" · "),
+    r.email?"E-Mail: "+r.email:"", r.telefon?"Telefon: "+r.telefon:"",
+    r.description?"Nachricht: "+r.description:""].filter(Boolean).join("\n");
+  p.notizen="Aus Konfigurator-Anfrage vom "+kfaDate(r.createdAt)+((r.uploads||[]).length?" · "+r.uploads.length+" Datei(en) unter „Anfragen“ abrufbar":"");
+  p.konfigId=r.id;
+  appData.projekte.push(p);
+  kfaUpsertCustomer(r);
+  saveApp();
+  if(r.status==="NEU") kfaSetStatus(r,"IN_ARBEIT");
+  if(typeof logAudit==="function") logAudit("Projekt aus Konfigurator", p.nummer, kfaKunde(r));
+  switchView("projekte"); openProjekt(p.id);
+}
+function kfaToAngebot(r){
+  kfaUpsertCustomer(r); saveApp();
+  freshState("Angebot");
+  state.fields.empfaenger=[(r.firma||"").trim(),(r.name||"").trim()].filter(Boolean).join("\n");
+  state.fields.betreff="Ihre Anfrage: "+(r.serviceName||r.service||"");
+  const proj=appData.projekte.find(p=>p.konfigId===r.id);
+  if(proj){ state.projektNummer=proj.nummer||""; proj.angebotNummer=state.fields.nummer||""; if(proj.status==="anfrage"||proj.status==="in_arbeit") proj.status="angebot"; saveApp(); }
+  if(r.status==="NEU"||r.status==="IN_ARBEIT") kfaSetStatus(r,"ANGEBOT");
+  switchView("doc"); renderAll(); save();
+}
+async function kfaOpenBlob(path,fallbackName,asDownload){
+  // Fenster vorab öffnen (sonst blockt der Popup-Blocker nach dem await)
+  const w=asDownload?null:window.open("","_blank");
+  try{
+    const res=await kfaFetch(path);
+    if(!res.ok) throw new Error(res.status===404?"Datei nicht gefunden.":"Fehler "+res.status);
+    const blob=await res.blob(), url=URL.createObjectURL(blob);
+    const cd=res.headers.get("content-disposition")||"", m=cd.match(/filename="([^"]+)"/);
+    if(w){ w.location.href=url; }
+    else { const a=document.createElement("a"); a.href=url; a.download=(m&&m[1])||fallbackName; document.body.appendChild(a); a.click(); a.remove(); }
+    setTimeout(()=>URL.revokeObjectURL(url),60000);
+  }catch(e){ if(w) w.close(); kfaErr=kfaNetErr(e); renderAnfragenList(); }
+}
+document.getElementById("kfaConnectBtn").addEventListener("click",async()=>{
+  const pw=document.getElementById("kfaPw").value, msg=document.getElementById("kfaConnectMsg");
+  if(!pw){ msg.className="kfa-msg err"; msg.textContent="Bitte das Passwort eingeben."; return; }
+  msg.className="kfa-msg"; msg.textContent="Verbinde …";
+  try{
+    const r=await fetch(kfaBase()+"/api/admin/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:pw,mode:"app"})});
+    const d=await r.json().catch(()=>({}));
+    if(!r.ok||!d.token) throw new Error(d.error||("Fehler "+r.status));
+    kfaLS("pl_konfig_token",d.token); kfaLS("pl_konfig_exp",String(d.exp||0));
+    document.getElementById("kfaPw").value=""; msg.textContent="";
+    kfaList=null; renderAnfragen();
+  }catch(e){ msg.className="kfa-msg err"; msg.textContent=kfaNetErr(e); }
+});
+document.getElementById("kfaPw").addEventListener("keydown",e=>{ if(e.key==="Enter") document.getElementById("kfaConnectBtn").click(); });
+document.getElementById("kfaReload").addEventListener("click",()=>kfaLoad());
+document.getElementById("kfaDisconnect").addEventListener("click",()=>{
+  if(!confirm("Verbindung zum Konfigurator auf diesem Gerät trennen?")) return;
+  ["pl_konfig_token","pl_konfig_exp","pl_konfig_neu"].forEach(k=>kfaLS(k,null)); kfaList=null; kfaOpenId=null; renderAnfragen();
+});
+document.getElementById("kfaFilter").addEventListener("change",renderAnfragenList);
+document.getElementById("kfaSearch").addEventListener("input",renderAnfragenList);
+document.getElementById("kfaRows").addEventListener("change",e=>{
+  const s=e.target.closest("[data-kfastatus]"); if(!s) return;
+  const r=(kfaList||[]).find(x=>x.id===s.dataset.kfastatus); if(r && s.value!==r.status) kfaSetStatus(r,s.value);
+});
+document.getElementById("kfaRows").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  const find=id=>(kfaList||[]).find(x=>x.id===id);
+  if(b.dataset.kfaopen){ kfaOpenId=(kfaOpenId===b.dataset.kfaopen)?null:b.dataset.kfaopen; renderAnfragenList(); return; }
+  if(b.dataset.kfaproj){ const r=find(b.dataset.kfaproj); if(r) kfaToProjekt(r); return; }
+  if(b.dataset.kfaangebot){ const r=find(b.dataset.kfaangebot); if(r) kfaToAngebot(r); return; }
+  if(b.dataset.kfapdf){ kfaOpenBlob("/api/admin/requests/"+encodeURIComponent(b.dataset.kfapdf)+"/pdf","Anfrage.pdf",false); return; }
+  if(b.dataset.kfafile){ const r=find(b.dataset.kfafile), u=r&&r.uploads.find(x=>String(x.i)===b.dataset.i);
+    kfaOpenBlob("/api/admin/blob?id="+encodeURIComponent(b.dataset.kfafile)+"&kind=upload&i="+encodeURIComponent(b.dataset.i),(u&&u.name)||"datei",true); return; }
+});
+(function(){ const c=document.getElementById("kfaNavCount"), n=kfaToken()?kfaNeuCount():0; if(c){ c.hidden=!n; c.textContent=String(n); } })();
 
 // ── KI: Anfragetext aufschluesseln und Felder fuellen ────────────────────
 const KI_ANFRAGE_URL="https://printline-chat-api.vercel.app/api/anfrage";

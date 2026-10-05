@@ -4,7 +4,7 @@
   <!-- Startseite -->
   <url>
     <loc>https://www.werbung-kroner.de/</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -12,7 +12,7 @@
   <!-- Leistungsübersicht -->
   <url>
     <loc>https://www.werbung-kroner.de/leistungen.html</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -20,73 +20,73 @@
   <!-- Service-Seiten -->
   <url>
     <loc>https://www.werbung-kroner.de/beschriftungen.html</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/druck.html</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/schilder.html</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/folientechnik.html</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/textildruck-flex-und-flock.html</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/fahnen.html</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/fassaden.html</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/planen-banner.html</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.werbung-kroner.de/plakatwerbung.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/werbeartikel.html</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/aufsteller-pylonen.html</loc>
-    <lastmod>2026-08-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
-  </url>
-  <url>
-    <loc>https://www.werbung-kroner.de/geruestplanen-werbebanner.html</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/webdesign.html</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
@@ -94,43 +94,49 @@
   <!-- Standorte / Stadt-Landingpages -->
   <url>
     <loc>https://www.werbung-kroner.de/werbetechnik-tangermuende.html</loc>
-    <lastmod>2026-06-24</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/werbetechnik-osterburg.html</loc>
-    <lastmod>2026-06-24</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/werbetechnik-havelberg.html</loc>
-    <lastmod>2026-06-24</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/werbetechnik-gardelegen.html</loc>
-    <lastmod>2026-06-24</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/werbetechnik-salzwedel.html</loc>
-    <lastmod>2026-06-24</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/werbetechnik-magdeburg.html</loc>
-    <lastmod>2026-06-24</lastmod>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://www.werbung-kroner.de/banner-drucken-magdeburg.html</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/fahrzeugbeschriftung-magdeburg.html</loc>
-    <lastmod>2026-07-14</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -139,25 +145,25 @@
   <!-- Portfolio & Referenzen -->
   <url>
     <loc>https://www.werbung-kroner.de/portfolio.html</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/cpc-germania.html</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.65</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/zeitfracht.html</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.65</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/Archiv.html</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.55</priority>
   </url>
@@ -165,13 +171,13 @@
   <!-- Unternehmen & Kontakt -->
   <url>
     <loc>https://www.werbung-kroner.de/ueber-uns.html</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/kontakt.html</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.75</priority>
   </url>
@@ -179,25 +185,25 @@
   <!-- Rechtliches (niedrige Priorität) -->
   <url>
     <loc>https://www.werbung-kroner.de/impressum.html</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.20</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/datenschutz.html</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.20</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/widerruf.html</loc>
-    <lastmod>2026-06-25</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.30</priority>
   </url>
   <url>
     <loc>https://www.werbung-kroner.de/agb.html</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.20</priority>
   </url>

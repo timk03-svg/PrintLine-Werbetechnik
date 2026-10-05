@@ -5,8 +5,8 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com https://formspree.io https://printline-chat-api.vercel.app; base-uri 'self'; form-action 'self' mailto: https://formspree.io; object-src 'none'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
   <meta name="google-site-verification" content="SKgxVfrD79VqodibERPLdrnZ2fA4z87KeQHV8eemouM">
-  <title>Werbetechnik Stendal – Beschriftung &amp; Druck | PrintLine Werbetechnik</title>
-  <meta name="description" content="Werbetechnik aus Stendal (Sachsen-Anhalt): Fahrzeugbeschriftung, Digitaldruck, Schilder &amp; Fassadenwerbung – seit 1986, alles aus einer Hand. Jetzt anfragen!">
+  <title>Beschriftung &amp; Druck – Werbetechnik Stendal | PrintLine</title>
+  <meta name="description" content="Werbetechnik aus Stendal seit 1986: Fahrzeugbeschriftung, Digitaldruck, Schilder, Banner – von der Beratung bis zur Montage. Jetzt kostenlos anfragen.">
   <link rel="canonical" href="https://www.werbung-kroner.de/">
   <link rel="alternate" hreflang="de-DE" href="https://www.werbung-kroner.de/">
   <link rel="alternate" hreflang="x-default" href="https://www.werbung-kroner.de/">
@@ -18,13 +18,13 @@
   <meta property="og:type"        content="website">
   <meta property="og:site_name"   content="PrintLine Werbetechnik">
   <meta property="og:url"         content="https://www.werbung-kroner.de/">
-  <meta property="og:title"       content="PrintLine Werbetechnik. Ihr Projekt, unser Handwerk.">
-  <meta property="og:description" content="Ihre Werbefirma aus Stendal: Schilder, Fahrzeugbeschriftungen, Fassadenwerbung und individuelle Werbelösungen – kreativ und zuverlässig.">
+  <meta property="og:title"       content="Beschriftung &amp; Druck – Werbetechnik Stendal | PrintLine">
+  <meta property="og:description" content="Werbetechnik aus Stendal seit 1986: Fahrzeugbeschriftung, Digitaldruck, Schilder, Banner – von der Beratung bis zur Montage. Jetzt kostenlos anfragen.">
   <meta property="og:image"       content="https://www.werbung-kroner.de/bilder-leistung-hintergrund/beschriftungen.jpg">
   <meta property="og:locale"      content="de_DE">
   <meta name="twitter:card"        content="summary_large_image">
-  <meta name="twitter:title"       content="PrintLine Werbetechnik. Ihr Projekt, unser Handwerk.">
-  <meta name="twitter:description" content="Ihre Werbefirma aus Stendal: Schilder, Fahrzeugbeschriftungen, Fassadenwerbung und individuelle Werbelösungen – kreativ und zuverlässig.">
+  <meta name="twitter:title"       content="Beschriftung &amp; Druck – Werbetechnik Stendal | PrintLine">
+  <meta name="twitter:description" content="Werbetechnik aus Stendal seit 1986: Fahrzeugbeschriftung, Digitaldruck, Schilder, Banner – von der Beratung bis zur Montage. Jetzt kostenlos anfragen.">
   <meta name="twitter:image"       content="https://www.werbung-kroner.de/bilder-leistung-hintergrund/beschriftungen.jpg">
 
   <link rel="icon" href="favicon.ico?v=3" sizes="any">
@@ -33,8 +33,71 @@
   <!-- Theme früh setzen (kein Aufblitzen) -->
   <script>(function(){try{var t=localStorage.getItem('pl-theme')||'light';document.documentElement.setAttribute('data-theme',t);if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('reveal-on');}}catch(e){document.documentElement.setAttribute('data-theme','light');}})();</script>
 
-  <link rel="stylesheet" href="/assets/fonts/fonts.css">
-  <link rel="stylesheet" href="style.css?v=21">
+  <link rel="preload" href="/assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/sora-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/fonts/fonts.css?v=3">
+  <link rel="stylesheet" href="style.css?v=32">
+
+  <!-- Leistungssuche (reine Suchleiste, Betriebssystem-neutral, folgt [data-theme]) -->
+  <style>
+    /* variabel: kompakt am Anfang, wächst beim Anklicken (Fokus) */
+    .lsuche { max-width: 320px; margin: 0 0 1.4rem; position: relative; z-index: 30; transition: max-width .3s var(--ease); }
+    .lsuche:focus-within { max-width: 520px; z-index: 1200; }
+    .reveal-on [data-hero-stagger] > .lsuche { opacity: 1; } /* nie unsichtbar, auch wenn Stagger-JS sie nicht erfasst */
+    .lsuche__box { position: relative; display: flex; align-items: center; }
+    .lsuche__icon { position: absolute; left: 1rem; width: 20px; height: 20px; color: var(--text-mute); pointer-events: none; }
+    #lsuche {
+      width: 100%; padding: .66rem 2.5rem .66rem 2.7rem; border-radius: var(--r-m);
+      background: var(--surface); border: 1.5px solid var(--border); color: var(--text);
+      font: inherit; font-size: 1rem; box-shadow: var(--sh-s);
+      transition: padding .28s var(--ease), font-size .28s var(--ease), border-color var(--ease-fast), box-shadow var(--ease-fast);
+    }
+    #lsuche::placeholder { color: var(--text-mute); }
+    #lsuche:focus { outline: none; border-color: var(--tuerkis); box-shadow: 0 0 0 4px color-mix(in srgb, var(--tuerkis) 18%, transparent); padding: .9rem 2.7rem .9rem 2.9rem; font-size: 1.05rem; }
+    #lsuche-clear {
+      position: absolute; right: .55rem; border: none; background: var(--border-soft); color: var(--text-mute);
+      width: 30px; height: 30px; border-radius: var(--r-xs); cursor: pointer; font-size: 1rem; line-height: 1;
+      display: none; align-items: center; justify-content: center;
+    }
+    #lsuche-clear:hover { color: var(--text); }
+    /* Dropdown in Betriebssystem-Optik (wie das native Auswahlmenü im Konfigurator):
+       Systemschrift, Kategorie als Abschnittstitel, eingerückte Einträge, blaue Markierung.
+       Folgt dem Hell/Dunkel-Schalter der Website – nicht dem Betriebssystem –, damit Menü und Seite zusammenpassen. */
+    .lsuche__dd {
+      position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 1150; margin: 0;
+      list-style: none; padding: 5px; border-radius: 10px;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, Roboto, sans-serif;
+      background: rgba(246,246,246,.97); border: 1px solid rgba(0,0,0,.12);
+      box-shadow: 0 12px 32px -8px rgba(0,0,0,.22), 0 2px 6px rgba(0,0,0,.08);
+      -webkit-backdrop-filter: blur(24px) saturate(1.6); backdrop-filter: blur(24px) saturate(1.6);
+      max-height: min(60vh, 340px); overflow: auto; overscroll-behavior: contain;
+    }
+    .lsuche__dd li[role="option"] {
+      padding: 5px 10px 5px 22px; border-radius: 5px; cursor: pointer;
+      font-size: 14px; line-height: 1.35; color: #1d1d1f;
+    }
+    .lsuche__dd li[role="option"] .nm { display: block; }
+    .lsuche__dd li[role="option"].active, .lsuche__dd li[role="option"]:hover { background: #0a7cff; color: #fff; }
+    .lsuche__dd .optgroup {
+      position: sticky; top: -5px; z-index: 1; margin: 0 -5px; padding: 9px 15px 4px;
+      background: #f6f6f6; cursor: default;
+      font-size: 12.5px; font-weight: 600; letter-spacing: 0; text-transform: none; color: #6e6e73;
+    }
+    .lsuche__dd .optgroup:not(:first-child) { margin-top: 5px; border-top: 1px solid rgba(0,0,0,.1); }
+    .lsuche__dd li mark { background: rgba(10,124,255,.16); color: inherit; font-weight: 600; border-radius: 3px; padding: 0 1px; }
+    .lsuche__dd li[role="option"].active mark, .lsuche__dd li[role="option"]:hover mark { background: rgba(255,255,255,.28); }
+    .lsuche__dd .empty { padding: 12px 10px; color: #6e6e73; text-align: center; cursor: default; font-size: 14px; }
+    .lsuche__dd .empty:hover { background: transparent; }
+    .lsuche__dd .note { margin: 3px 2px 5px; padding: 8px 10px; border-radius: 7px; background: rgba(0,0,0,.05); color: #3a3a3c; font-size: 13px; line-height: 1.4; cursor: default; }
+    [data-theme="dark"] .lsuche__dd { background: rgba(40,40,44,.97); border-color: rgba(255,255,255,.14); box-shadow: 0 14px 36px -8px rgba(0,0,0,.7); }
+    [data-theme="dark"] .lsuche__dd li[role="option"] { color: #f5f5f7; }
+    [data-theme="dark"] .lsuche__dd li[role="option"].active, [data-theme="dark"] .lsuche__dd li[role="option"]:hover { background: #0a84ff; color: #fff; }
+    [data-theme="dark"] .lsuche__dd .optgroup { background: #28282c; color: #a1a1a6; }
+    [data-theme="dark"] .lsuche__dd .optgroup:not(:first-child) { border-top-color: rgba(255,255,255,.12); }
+    [data-theme="dark"] .lsuche__dd .empty { color: #a1a1a6; }
+    [data-theme="dark"] .lsuche__dd .note { background: rgba(255,255,255,.08); color: #d1d1d6; }
+    [data-theme="dark"] .lsuche__dd li mark { background: rgba(10,132,255,.32); }
+  </style>
 
   <!-- Schema.org -->
   <script type="application/ld+json">
@@ -101,7 +164,6 @@
         "areaServed": "DE",
         "availableLanguage": "German"
       },
-      "priceRange": "€€",
       "foundingDate": "1986",
       "slogan": "Ihr Projekt, unser Handwerk.",
       "sameAs": [
@@ -122,7 +184,13 @@
           "opens": "10:00",
           "closes": "18:00"
         }
-      ]
+      ],
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 52.5966,
+        "longitude": 11.8652
+      },
+      "hasMap": "https://www.google.com/maps/search/?api=1&query=Magdeburger+Stra%C3%9Fe+5A%2C+39576+Stendal"
     },
     {
       "@type": "WebSite",
@@ -162,7 +230,7 @@
           "name": "Welche Leistungen bietet PrintLine Werbetechnik?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Beschriftungen, Digitaldruck, Schilder, Fassaden, Werbeartikel, Folientechnik, Textildruck, Fahnen, Aufsteller & Pylonen, Werbebanner & Planen sowie Webentwicklung – alles aus einer Hand. Im Detail gehören dazu u. a.: Fahrzeugbeschriftungen aller Art, Beschriftung und Kennzeichen von Wasserfahrzeugen, Beschriftung von Klein- und Leichtflugzeugen, Visitenkarten, Briefpapier, Stempel und Flyer, Wegweiser, Türbeschilderung und Schaufensterbeschriftung, Ausstattung für Messen und Eventveranstaltungen, Sichtschutz- und Schutzfolien wie Milchglas-, Spiegel-, Splitterschutz- und Sonnenschutzfolie, Magnetfolien sowie Folienplott zur Selbstanbringung."
+            "text": "Beschriftungen, Digitaldruck, Schilder, Fassaden, Werbeartikel, Folientechnik, Textildruck, Fahnen & Displays, Aufsteller & Pylonen, Werbebanner & Planen, Plakatwerbung sowie Webentwicklung – alles aus einer Hand. Im Detail gehören dazu u. a.: Beschriftung von PKW, Transportern, LKW, Anhängern und Baumaschinen (keine Vollfolierung), Beschriftung von Booten und Jetski einschließlich amtlicher Kennzeichen sowie von Klein- und Leichtflugzeugen, Großformat- und Plattendruck, UV-Direktdruck auf Holz, Acryl und Metall, Schilder aus Alu-Dibond und Acrylglas, Visitenkarten, Flyer und Stempel, Schaufensterbeschriftung sowie Sichtschutz-, Sonnenschutz- und Splitterschutzfolien, Textildruck in Flex, Flock und Sublimation, Ausstattung für Messen und Events sowie Flucht- und Rettungspläne nach ASR A2.3 und Sicherheitskennzeichnung nach DIN EN ISO 7010."
           }
         },
         {
@@ -170,7 +238,7 @@
           "name": "Wo ist PrintLine Werbetechnik ansässig?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "In Stendal, Sachsen-Anhalt. Wir arbeiten in der gesamten Altmark und Region und nehmen Aufträge auch überregional und deutschlandweit an."
+            "text": "In Stendal, Sachsen-Anhalt: Magdeburger Straße 5A, 39576 Stendal."
           }
         },
         {
@@ -178,12 +246,12 @@
           "name": "Wie lange gibt es PrintLine Werbetechnik bereits?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Seit fast 40 Jahren – gestartet als Werbeabteilung eines Malerbetriebs, seit 2002 eigenständig und mit unzähligen umgesetzten Projekten."
+            "text": "Seit 1986 – gestartet als Werbeabteilung eines familiengeführten Malerbetriebs, seit 2002 eigenständig und mit zahlreichen umgesetzten Projekten."
           }
         },
         {
           "@type": "Question",
-          "name": "Arbeitet PrintLine nur in der Region oder auch deutschlandweit?",
+          "name": "Arbeiten Sie nur in der Region oder auch deutschlandweit?",
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Unser Sitz ist Stendal – im Einsatz sind wir in der gesamten Altmark und darüber hinaus. Aufträge nehmen wir auch überregional und deutschlandweit an: Druck, Beschriftungen, Schilder, Banner, Fahnen und vieles mehr fertigen und versenden wir auf Anfrage bundesweit. Auch die Montage übernehmen wir bundesweit nach Absprache."
@@ -191,26 +259,26 @@
         },
         {
           "@type": "Question",
-          "name": "Was kostet ein Auftrag und wie bekomme ich ein Angebot?",
+          "name": "Was kostet ein Auftrag, und wie bekomme ich ein Angebot?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Preise hängen vom Projekt ab – von Material, Format und Aufwand. Pauschale Festpreise gibt es daher nicht. Sie erhalten ein kostenloses, unverbindliches Angebot: über das Kontaktformular anfragen oder unter +49 152 03016900 anrufen."
+            "text": "Preise hängen vom Projekt ab – von Material, Format und Aufwand. Pauschale Festpreise gibt es daher nicht. Sie erhalten von uns ein kostenloses, unverbindliches Angebot: einfach über das Kontaktformular anfragen oder unter +49 152 03016900 anrufen."
           }
         },
         {
           "@type": "Question",
-          "name": "Wie läuft eine Anfrage ab?",
+          "name": "Wie läuft eine Anfrage bei Ihnen ab?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Anfrage stellen, kostenloses Angebot erhalten, Gestaltung und Freigabe, Produktion und am Ende Lieferung oder Montage vor Ort. Auf Anfragen melden wir uns in der Regel innerhalb eines Werktages."
+            "text": "Anfrage stellen, kostenloses Angebot erhalten, Gestaltung und Freigabe, Produktion – und am Ende Lieferung, Abholung in Stendal oder Montage vor Ort. Auf Ihre Anfrage melden wir uns in der Regel innerhalb eines Werktages."
           }
         },
         {
           "@type": "Question",
-          "name": "Bietet PrintLine Fahrzeug-Vollfolierung an?",
+          "name": "Übernehmen Sie auch die Gestaltung?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Eine Vollfolierung – also die komplette Flächenverklebung eines Fahrzeugs – bieten wir nicht an. Teilfolierungen sind nach Absprache möglich; unser Schwerpunkt ist die hochwertige Fahrzeugbeschriftung. Glas- und Fensterfolien setzen wir ebenfalls um."
+            "text": "Ja. Fertige Druckdaten nehmen wir am besten als PDF oder Vektordatei entgegen und prüfen sie vor dem Druck. Vor der Produktion erhalten Sie den Entwurf zur Freigabe."
           }
         },
         {
@@ -225,7 +293,7 @@
     }
   ]
 }
-  </script>
+</script>
 </head>
 <body>
   <a class="skip-link" href="#main">Zum Inhalt springen</a>
@@ -276,9 +344,17 @@
       <div class="wrap">
         <div class="hero__grid">
           <div data-hero-stagger>
-            <span class="hero__badge"><span class="dot"></span> Werbetechnik aus Stendal · seit 1986</span>
-            <h1 class="hero__title">Ihr Projekt – <span class="text-grad">unser Handwerk</span>.</h1>
-            <p class="hero__lead"><strong>Werbetechnik aus Stendal</strong> – von Fahrzeugbeschriftung über Schilder und Folierung bis Digital- und Textildruck: alles aus einer Hand. Mit Erfahrung in Familientradition seit 1986. Kostenloses, unverbindliches Angebot innerhalb von 24&nbsp;Stunden.</p>
+            <span class="hero__badge"><span class="dot"></span> Beschriftungen · Schilder · Digitaldruck · seit 1986</span>
+            <h1 class="hero__title">Werbetechnik in Stendal – Ihr Projekt, <span class="text-grad">unser Handwerk</span>.</h1>
+            <p class="hero__lead">Von Fahrzeugbeschriftung über Schilder und Fensterfolien bis Digital- und Textildruck: <strong>alles aus einer Hand</strong>. Mit Erfahrung in Familientradition seit 1986. Kostenloses, unverbindliches Angebot – Rückmeldung in der Regel innerhalb eines Werktages.</p>
+            <div class="lsuche">
+              <div class="lsuche__box">
+                <svg class="lsuche__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+                <input id="lsuche" type="search" role="combobox" aria-expanded="false" aria-controls="lsuche-dd" aria-autocomplete="list" autocomplete="off" placeholder="Leistung suchen …" aria-label="Leistung suchen">
+                <button id="lsuche-clear" type="button" aria-label="Suche löschen">✕</button>
+                <ul id="lsuche-dd" class="lsuche__dd" role="listbox" aria-label="Leistungen" hidden></ul>
+              </div>
+            </div>
             <div class="hero__cta">
               <a href="#kontakt" class="btn btn-primary btn-lg">Jetzt unverbindlich anfragen
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -319,7 +395,7 @@
     <section class="section--tight" style="padding-top:0">
       <div class="wrap">
         <div class="trust-bar" data-reveal>
-          <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6 4.5 2.3 7.1L12 16.5 5.7 21l2.3-7.1-6-4.5h7.6z"/></svg> <span class="num">Fast 40 Jahre</span> Erfahrung</span>
+          <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6 4.5 2.3 7.1L12 16.5 5.7 21l2.3-7.1-6-4.5h7.6z"/></svg> Erfahrung <span class="num">seit 1986</span></span>
           <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Alles aus einer Hand</span>
           <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Kostenlose Erstberatung</span>
           <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Antwort in 24 h</span>
@@ -337,7 +413,7 @@
             <div class="stat__label">Jahre Erfahrung</div>
           </div>
           <div class="stat" data-reveal data-reveal-delay="1">
-            <div class="stat__num"><span data-count="11">11</span></div>
+            <div class="stat__num"><span data-count="12">12</span></div>
             <div class="stat__label">Leistungsbereiche</div>
           </div>
           <div class="stat" data-reveal data-reveal-delay="2">
@@ -359,16 +435,16 @@
 
         <div class="grid-cards mt-2">
           <a class="card" href="beschriftungen.html" data-reveal>
-            <div class="card__media"><img src="bilder-leistung-hintergrund/drkautohaus.webp" alt="Fahrzeugbeschriftung von PrintLine Werbetechnik" loading="lazy"></div>
+            <div class="card__media"><img src="bilder-leistung-hintergrund/drkautohaus.webp" srcset="bilder-leistung-hintergrund/drkautohaus-800w.webp 800w, bilder-leistung-hintergrund/drkautohaus.webp 1600w" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 560px" alt="Fahrzeugbeschriftung von PrintLine Werbetechnik" loading="lazy"></div>
             <div class="card__body">
               <span class="card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l2-5a2 2 0 0 1 2-1h10a2 2 0 0 1 2 1l2 5"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg></span>
               <h3>Beschriftungen</h3>
-              <p>Vom Firmenwagen bis zum Schaufenster: Wir bringen Ihren Schriftzug sauber und dauerhaft auf jede Fläche.</p>
+              <p>Vom Firmenwagen über LKW und Anhänger bis zu Boot, Flugzeug und Maschine – Ihr Schriftzug, sauber und dauerhaft angebracht.</p>
               <span class="card__link">Mehr erfahren <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
             </div>
           </a>
           <a class="card" href="druck.html" data-reveal data-reveal-delay="1">
-            <div class="card__media"><img src="bilder-leistung-hintergrund/elberadweg2.webp" alt="Großformat-Digitaldruck von PrintLine Werbetechnik" loading="lazy"></div>
+            <div class="card__media"><img src="bilder-leistung-hintergrund/elberadweg2.webp" srcset="bilder-leistung-hintergrund/elberadweg2-800w.webp 800w, bilder-leistung-hintergrund/elberadweg2.webp 1200w" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 560px" alt="Großformat-Digitaldruck von PrintLine Werbetechnik" loading="lazy"></div>
             <div class="card__body">
               <span class="card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="7"/></svg></span>
               <h3>Digitaldruck</h3>
@@ -377,7 +453,7 @@
             </div>
           </a>
           <a class="card" href="schilder.html" data-reveal data-reveal-delay="2">
-            <div class="card__media"><img src="bilder-leistung-hintergrund/SchildPC.webp" alt="Firmen- und Praxisschilder von PrintLine Werbetechnik" loading="lazy"></div>
+            <div class="card__media"><img src="bilder-leistung-hintergrund/SchildPC.webp" srcset="bilder-leistung-hintergrund/SchildPC-800w.webp 800w, bilder-leistung-hintergrund/SchildPC.webp 1600w" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 560px" alt="Firmen- und Praxisschilder von PrintLine Werbetechnik" loading="lazy"></div>
             <div class="card__body">
               <span class="card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M12 16v4M8 20h8"/></svg></span>
               <h3>Schilder</h3>
@@ -386,11 +462,11 @@
             </div>
           </a>
           <a class="card" href="fassaden.html" data-reveal>
-            <div class="card__media"><img src="bilder-leistung-hintergrund/hansehotel.webp" alt="Fassadenwerbung Hanse Hotel – großflächige Fassadenbeschriftung von PrintLine Werbetechnik" loading="lazy"></div>
+            <div class="card__media"><img src="bilder-leistung-hintergrund/hansehotel.webp" srcset="bilder-leistung-hintergrund/hansehotel-800w.webp 800w, bilder-leistung-hintergrund/hansehotel.webp 1200w" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 560px" alt="Fassadenwerbung Hanse Hotel – großflächige Fassadenbeschriftung von PrintLine Werbetechnik" loading="lazy"></div>
             <div class="card__body">
               <span class="card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14"/><path d="M9 9h.01M15 9h.01M9 13h.01M15 13h.01M9 17h.01M15 17h.01"/></svg></span>
               <h3>Fassaden</h3>
-              <p>Fassadenwerbung und Außenbeschriftung – die ganze Gebäudefront wird zum Blickfang.</p>
+              <p>Schriftzüge und Logos, traditionell mit hochwertiger Dispersionsfarbe direkt auf die Wand aufgetragen – ohne Folie. Dazu Bautafeln, Bauzaunbanner und Rolltor-Beschriftung.</p>
               <span class="card__link">Mehr erfahren <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
             </div>
           </a>
@@ -404,7 +480,7 @@
             </div>
           </a>
           <a class="card" href="folientechnik.html" data-reveal data-reveal-delay="2">
-            <div class="card__media"><img src="bilder-leistung-hintergrund/folientechnik.webp" alt="Folierung und Folientechnik von PrintLine Werbetechnik" loading="lazy"></div>
+            <div class="card__media"><img src="bilder-leistung-hintergrund/folientechnik.webp" srcset="bilder-leistung-hintergrund/folientechnik-800w.webp 800w, bilder-leistung-hintergrund/folientechnik.webp 1200w" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 560px" alt="Glastür mit Sichtschutzfolie und Türbeschriftung – Folientechnik von PrintLine Werbetechnik" loading="lazy"></div>
             <div class="card__body">
               <span class="card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5z"/><path d="M2 12l10 5 10-5M2 17l10 5 10-5"/></svg></span>
               <h3>Folientechnik</h3>
@@ -413,11 +489,11 @@
             </div>
           </a>
           <a class="card" href="textildruck-flex-und-flock.html" data-reveal>
-            <div class="card__media"><img src="bilder-leistung-hintergrund/Trikot.webp" alt="Textildruck Flex und Flock von PrintLine Werbetechnik" loading="lazy"></div>
+            <div class="card__media"><img src="bilder-leistung-hintergrund/Trikot.webp" srcset="bilder-leistung-hintergrund/Trikot-800w.webp 800w, bilder-leistung-hintergrund/Trikot.webp 1200w" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 560px" alt="Textildruck Flex und Flock von PrintLine Werbetechnik" loading="lazy"></div>
             <div class="card__body">
               <span class="card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3l4 2-2 5-2-1v12H8V9L6 10 4 5l4-2 1 2a3 3 0 0 0 6 0z"/></svg></span>
-              <h3>Textildruck (Flex/Flock)</h3>
-              <p>Trikots, Workwear und Shirts, veredelt mit Flex- und Flockfolie – ein einheitlicher Look für Team und Verein.</p>
+              <h3>Textildruck</h3>
+              <p>Trikots, Arbeitskleidung und Shirts, veredelt im Flex-, Flock- und Sublimationsdruck – ein einheitlicher Look für Team und Verein.</p>
               <span class="card__link">Mehr erfahren <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
             </div>
           </a>
@@ -425,13 +501,13 @@
             <div class="card__media"><img src="bilder-leistung-hintergrund/maxautohandel.webp" alt="Bedruckte Fahnen von PrintLine Werbetechnik" loading="lazy"></div>
             <div class="card__body">
               <span class="card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3v18M4 4h12l-2 4 2 4H4"/></svg></span>
-              <h3>Fahnen</h3>
-              <p>Hiss-, Ausleger- und Beachflags, die drinnen wie draußen Flagge zeigen – kräftig bedruckt und wetterfest.</p>
+              <h3>Fahnen &amp; Displays</h3>
+              <p>Hiss-, Ausleger- und Beachflags, dazu Roll-Ups, Faltdisplays und Pop-Up-Messewände – kräftig bedruckt im Digitaldruck.</p>
               <span class="card__link">Mehr erfahren <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
             </div>
           </a>
           <a class="card" href="aufsteller-pylonen.html" data-reveal data-reveal-delay="2">
-            <div class="card__media"><img src="bilder-leistung-hintergrund/aufstellercafeneu123.webp" alt="Aufsteller und Pylonen von PrintLine Werbetechnik" loading="lazy"></div>
+            <div class="card__media"><img src="bilder-leistung-hintergrund/aufstellercafeneu123.webp" srcset="bilder-leistung-hintergrund/aufstellercafeneu123-800w.webp 800w, bilder-leistung-hintergrund/aufstellercafeneu123.webp 960w" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 560px" alt="Aufsteller und Pylonen von PrintLine Werbetechnik" loading="lazy"></div>
             <div class="card__body">
               <span class="card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="14" rx="1"/><path d="M12 17v4M8 21h8"/></svg></span>
               <h3>Aufsteller &amp; Pylonen</h3>
@@ -440,11 +516,20 @@
             </div>
           </a>
           <a class="card" href="planen-banner.html" data-reveal>
-            <div class="card__media"><img src="bilder-leistung-hintergrund/planen.webp" alt="Werbebanner und Planen von PrintLine Werbetechnik" loading="lazy"></div>
+            <div class="card__media"><img src="bilder-leistung-hintergrund/planen.webp" srcset="bilder-leistung-hintergrund/planen-800w.webp 800w, bilder-leistung-hintergrund/planen.webp 1600w" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 560px" alt="Werbebanner und Planen von PrintLine Werbetechnik" loading="lazy"></div>
             <div class="card__body">
               <span class="card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v12H3z"/><path d="M3 4v16M21 4v16"/></svg></span>
               <h3>Werbebanner &amp; Planen</h3>
               <p>Banner, Planen und Gerüstplanen im XXL-Format – Werbung, die schon von Weitem ins Auge fällt.</p>
+              <span class="card__link">Mehr erfahren <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </div>
+          </a>
+          <a class="card" href="plakatwerbung.html" data-reveal data-reveal-delay="1">
+            <div class="card__media"><img src="bilder-leistung-hintergrund/plakatwerbung-ki.webp" srcset="bilder-leistung-hintergrund/plakatwerbung-ki-800w.webp 800w, bilder-leistung-hintergrund/plakatwerbung-ki.webp 1264w" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 560px" alt="Symbolbild Plakatwerbung: Veranstaltungsplakate an den Laternen einer Kleinstadtstraße" loading="lazy"></div>
+            <div class="card__body">
+              <span class="card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 22V3M16 3h3"/><rect x="4" y="6" width="10" height="12" rx="1"/><path d="M14 8h2M14 16h2"/></svg></span>
+              <h3>Plakatwerbung</h3>
+              <p>Plakate an Laternen für Ihre Veranstaltung – von der Genehmigung über Druck und Anbringung bis zum Abbau.</p>
               <span class="card__link">Mehr erfahren <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
             </div>
           </a>
@@ -467,14 +552,48 @@
         <div class="prose-card">
           <h2>Werbetechnik in Ihrer Stadt</h2>
           <p>Aus Stendal sind wir in der ganzen Altmark und in Magdeburg für Sie unterwegs – mit persönlicher Beratung und Montage vor Ort:</p>
-          <ul class="ticks">
-            <li><a href="werbetechnik-tangermuende.html">Werbetechnik Tangermünde</a></li>
-            <li><a href="werbetechnik-osterburg.html">Werbetechnik Osterburg</a></li>
-            <li><a href="werbetechnik-havelberg.html">Werbetechnik Havelberg</a></li>
-            <li><a href="werbetechnik-gardelegen.html">Werbetechnik Gardelegen</a></li>
-            <li><a href="werbetechnik-salzwedel.html">Werbetechnik Salzwedel</a></li>
-            <li><a href="werbetechnik-magdeburg.html">Werbetechnik Magdeburg</a></li>
-          </ul>
+          <div class="leist-grid leist-grid--tiles">
+            <div class="leist-card leist-card--link">
+              <div class="leist-card__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+              <h3><a href="werbetechnik-tangermuende.html">Werbetechnik Tangermünde</a></h3>
+              <p>Rund 10 km von Stendal, etwa 15 Minuten.</p>
+            </div>
+            <div class="leist-card leist-card--link">
+              <div class="leist-card__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+              <h3><a href="werbetechnik-osterburg.html">Werbetechnik Osterburg</a></h3>
+              <p>Rund 25 km von Stendal, etwa 25 Minuten.</p>
+            </div>
+            <div class="leist-card leist-card--link">
+              <div class="leist-card__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+              <h3><a href="werbetechnik-havelberg.html">Werbetechnik Havelberg</a></h3>
+              <p>Rund 45 km von Stendal, etwa 50 Minuten.</p>
+            </div>
+            <div class="leist-card leist-card--link">
+              <div class="leist-card__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+              <h3><a href="werbetechnik-gardelegen.html">Werbetechnik Gardelegen</a></h3>
+              <p>Rund 35 km von Stendal, etwa 40 Minuten.</p>
+            </div>
+            <div class="leist-card leist-card--link">
+              <div class="leist-card__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+              <h3><a href="werbetechnik-salzwedel.html">Werbetechnik Salzwedel</a></h3>
+              <p>Rund 65 km von Stendal, gut eine Stunde.</p>
+            </div>
+            <div class="leist-card leist-card--link">
+              <div class="leist-card__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+              <h3><a href="werbetechnik-magdeburg.html">Werbetechnik Magdeburg</a></h3>
+              <p>Außenwerbung, Schilder und Beschriftung, rund 65 km von Stendal.</p>
+            </div>
+            <div class="leist-card leist-card--link">
+              <div class="leist-card__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+              <h3><a href="fahrzeugbeschriftung-magdeburg.html">Fahrzeugbeschriftung Magdeburg</a></h3>
+              <p>Firmenfahrzeuge und ganze Flotten für Betriebe in Magdeburg.</p>
+            </div>
+            <div class="leist-card leist-card--link">
+              <div class="leist-card__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="1"/><circle cx="5.5" cy="9.5" r=".9"/><circle cx="18.5" cy="9.5" r=".9"/><circle cx="5.5" cy="14.5" r=".9"/><circle cx="18.5" cy="14.5" r=".9"/></svg></div>
+              <h3><a href="banner-drucken-magdeburg.html">Banner drucken Magdeburg</a></h3>
+              <p>Werbebanner, Planen und Bauzaunbanner nach Maß.</p>
+            </div>
+          </div>
           <p><strong>Ihr Standort ist nicht dabei?</strong> Kein Problem – wir sind nicht auf die Region beschränkt. Druck, Beschriftungen, Schilder, Banner, Fahnen &amp; Co. fertigen und versenden wir auf Anfrage <strong>bundesweit</strong>; auch die Montage übernehmen wir bundesweit nach Absprache. <a href="index.html#kontakt">Fragen Sie einfach an</a> – wir finden eine Lösung.</p>
         </div>
       </div>
@@ -510,52 +629,28 @@
 
         <div class="portfolio-grid mt-2">
           <a class="pcard" href="zeitfracht.html" data-reveal data-reveal-delay="1">
-            <img src="bilder-leistung-hintergrund/zeitfracht1.webp" alt="Fahrzeugbeschriftung – Zeitfracht – Flottenbeschriftung, PrintLine Werbetechnik Stendal" loading="lazy">
+            <img src="bilder-leistung-hintergrund/zeitfracht1.webp" srcset="bilder-leistung-hintergrund/zeitfracht1-800w.webp 800w, bilder-leistung-hintergrund/zeitfracht1.webp 1600w" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 560px" alt="Fahrzeugbeschriftung – Zeitfracht – Flottenbeschriftung, PrintLine Werbetechnik Stendal" loading="lazy">
             <div class="pcard__overlay"><span class="pcard__tag">Fahrzeugbeschriftung</span><h3>Zeitfracht – Flottenbeschriftung</h3></div>
           <button type="button" class="pcard__zoom" aria-label="Bild vergrößern" title="Bild vergrößern"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"></path></svg></button></a>
-          <a class="pcard" href="beschriftungen.html" data-reveal data-reveal-delay="2">
-            <img src="bilder-leistung-hintergrund/drkautohaus.webp" alt="Fahrzeugbeschriftung – DRK – Fahrzeugbeschriftung, PrintLine Werbetechnik Stendal" loading="lazy">
-            <div class="pcard__overlay"><span class="pcard__tag">Fahrzeugbeschriftung</span><h3>DRK – Fahrzeugbeschriftung</h3></div>
-          <button type="button" class="pcard__zoom" aria-label="Bild vergrößern" title="Bild vergrößern"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"></path></svg></button></a>
-          <a class="pcard" href="beschriftungen.html" data-reveal data-reveal-delay="3">
-            <img src="bilder-leistung-hintergrund/Altmark umzüge.webp" alt="Fahrzeugbeschriftung – Altmark Umzüge, PrintLine Werbetechnik Stendal" loading="lazy">
-            <div class="pcard__overlay"><span class="pcard__tag">Fahrzeugbeschriftung</span><h3>Altmark Umzüge</h3></div>
-          <button type="button" class="pcard__zoom" aria-label="Bild vergrößern" title="Bild vergrößern"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"></path></svg></button></a>
-          <a class="pcard" href="beschriftungen.html" data-reveal data-reveal-delay="1">
-            <img src="bilder-leistung-hintergrund/elektroliesecke1.webp" alt="Fahrzeugbeschriftung – Elektro Liesecke, PrintLine Werbetechnik Stendal" loading="lazy">
-            <div class="pcard__overlay"><span class="pcard__tag">Fahrzeugbeschriftung</span><h3>Elektro Liesecke</h3></div>
-          <button type="button" class="pcard__zoom" aria-label="Bild vergrößern" title="Bild vergrößern"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"></path></svg></button></a>
-          <a class="pcard" href="beschriftungen.html" data-reveal data-reveal-delay="2">
-            <img src="bilder-leistung-hintergrund/boot.webp" alt="Bootsbeschriftung – Jetski, PrintLine Werbetechnik Stendal" loading="lazy">
-            <div class="pcard__overlay"><span class="pcard__tag">Bootsbeschriftung</span><h3>Jetski</h3></div>
-          <button type="button" class="pcard__zoom" aria-label="Bild vergrößern" title="Bild vergrößern"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"></path></svg></button></a>
-          <a class="pcard" href="cpc-germania.html" data-reveal data-reveal-delay="3">
-            <img src="bilder-leistung-hintergrund/cpc.webp" alt="Industriebeschriftung – CPC Germania, PrintLine Werbetechnik Stendal" loading="lazy">
+          <a class="pcard" href="cpc-germania.html" data-reveal data-reveal-delay="2">
+            <img src="bilder-leistung-hintergrund/cpc.webp" srcset="bilder-leistung-hintergrund/cpc-800w.webp 800w, bilder-leistung-hintergrund/cpc.webp 1200w" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 560px" style="object-position:50% 80%" alt="Industriebeschriftung – CPC Germania, PrintLine Werbetechnik Stendal" loading="lazy">
             <div class="pcard__overlay"><span class="pcard__tag">Industriebeschriftung</span><h3>CPC Germania</h3></div>
           <button type="button" class="pcard__zoom" aria-label="Bild vergrößern" title="Bild vergrößern"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"></path></svg></button></a>
-          <a class="pcard" href="schilder.html" data-reveal data-reveal-delay="1">
-            <img src="bilder-leistung-hintergrund/SchildPC.webp" alt="Schilder – Praxis- & Firmenschild, PrintLine Werbetechnik Stendal" loading="lazy">
-            <div class="pcard__overlay"><span class="pcard__tag">Schilder</span><h3>Praxis- & Firmenschild</h3></div>
+          <a class="pcard" href="beschriftungen.html" data-reveal data-reveal-delay="3">
+            <img src="bilder-leistung-hintergrund/Altmark umzüge.webp" srcset="bilder-leistung-hintergrund/Altmark%20umz%C3%BCge-800w.webp 800w, bilder-leistung-hintergrund/Altmark%20umz%C3%BCge.webp 1600w" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 560px" alt="Fahrzeugbeschriftung – Altmark Umzüge, PrintLine Werbetechnik Stendal" loading="lazy">
+            <div class="pcard__overlay"><span class="pcard__tag">Fahrzeugbeschriftung</span><h3>Altmark Umzüge</h3></div>
           <button type="button" class="pcard__zoom" aria-label="Bild vergrößern" title="Bild vergrößern"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"></path></svg></button></a>
-          <a class="pcard" href="druck.html" data-reveal data-reveal-delay="2">
-            <img src="bilder-leistung-hintergrund/elberadweg2.webp" alt="Digitaldruck – Großformat-Digitaldruck, PrintLine Werbetechnik Stendal" loading="lazy">
-            <div class="pcard__overlay"><span class="pcard__tag">Digitaldruck</span><h3>Großformat-Digitaldruck</h3></div>
-          <button type="button" class="pcard__zoom" aria-label="Bild vergrößern" title="Bild vergrößern"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"></path></svg></button></a>
-          <a class="pcard" href="planen-banner.html" data-reveal data-reveal-delay="3">
-            <img src="bilder-leistung-hintergrund/planen.webp" alt="Werbebanner & Planen – Werbeplane, PrintLine Werbetechnik Stendal" loading="lazy">
-            <div class="pcard__overlay"><span class="pcard__tag">Werbebanner & Planen</span><h3>Werbeplane</h3></div>
-          <button type="button" class="pcard__zoom" aria-label="Bild vergrößern" title="Bild vergrößern"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"></path></svg></button></a>
-          <a class="pcard" href="textildruck-flex-und-flock.html" data-reveal data-reveal-delay="1">
-            <img src="bilder-leistung-hintergrund/Trikot.webp" alt="Textildruck – Vereinstrikots, PrintLine Werbetechnik Stendal" loading="lazy">
-            <div class="pcard__overlay"><span class="pcard__tag">Textildruck</span><h3>Vereinstrikots</h3></div>
-          <button type="button" class="pcard__zoom" aria-label="Bild vergrößern" title="Bild vergrößern"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"></path></svg></button></a>
-          <a class="pcard" href="folientechnik.html" data-reveal data-reveal-delay="2">
-            <img src="bilder-leistung-hintergrund/drkscheibesdl.webp" alt="Folientechnik – Schaufensterfolie DRK Seniorenberatung, PrintLine Werbetechnik Stendal" loading="lazy">
+          <a class="pcard" href="folientechnik.html" data-reveal data-reveal-delay="1">
+            <img src="bilder-leistung-hintergrund/drkscheibesdl.webp" srcset="bilder-leistung-hintergrund/drkscheibesdl-800w.webp 800w, bilder-leistung-hintergrund/drkscheibesdl.webp 1101w" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 560px" alt="Folientechnik – Schaufensterfolie DRK Seniorenberatung, PrintLine Werbetechnik Stendal" loading="lazy">
             <div class="pcard__overlay"><span class="pcard__tag">Folientechnik</span><h3>Schaufenster-Folie</h3></div>
           <button type="button" class="pcard__zoom" aria-label="Bild vergrößern" title="Bild vergrößern"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"></path></svg></button></a>
-          <a class="pcard" href="fahnen.html" data-reveal data-reveal-delay="3">
-            <img src="bilder-leistung-hintergrund/maxautohandel.webp" alt="Fahnen – Max Car Autohandel, PrintLine Werbetechnik Stendal" loading="lazy">
-            <div class="pcard__overlay"><span class="pcard__tag">Fahnen</span><h3>Max Car Autohandel</h3></div>
+          <a class="pcard" href="beschriftungen.html" data-reveal data-reveal-delay="2">
+            <img src="bilder-leistung-hintergrund/boot.webp" srcset="bilder-leistung-hintergrund/boot-800w.webp 800w, bilder-leistung-hintergrund/boot.webp 1600w" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 560px" alt="Bootsbeschriftung – Jetski, PrintLine Werbetechnik Stendal" loading="lazy">
+            <div class="pcard__overlay"><span class="pcard__tag">Bootsbeschriftung</span><h3>Jetski</h3></div>
+          <button type="button" class="pcard__zoom" aria-label="Bild vergrößern" title="Bild vergrößern"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"></path></svg></button></a>
+          <a class="pcard" href="beschriftungen.html" data-reveal data-reveal-delay="3">
+            <img src="bilder-leistung-hintergrund/elektroliesecke1.webp" srcset="bilder-leistung-hintergrund/elektroliesecke1-800w.webp 800w, bilder-leistung-hintergrund/elektroliesecke1.webp 1200w" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 560px" alt="Fahrzeugbeschriftung – Elektro Liesecke, PrintLine Werbetechnik Stendal" loading="lazy">
+            <div class="pcard__overlay"><span class="pcard__tag">Fahrzeugbeschriftung</span><h3>Elektro Liesecke</h3></div>
           <button type="button" class="pcard__zoom" aria-label="Bild vergrößern" title="Bild vergrößern"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"></path></svg></button></a>
         </div>
         <p style="text-align:center;margin-top:2rem"><a href="portfolio.html">Alle Referenzen im Portfolio ansehen →</a></p>
@@ -569,7 +664,7 @@
           <div data-reveal>
             <span class="eyebrow">Über uns</span>
             <h2 class="section-title">Handwerk mit echter Hingabe</h2>
-            <p class="section-intro">PrintLine Werbetechnik entstand vor fast 40 Jahren als Werbeabteilung in einem familiengeführten Malerbetrieb — mit dem Fokus auf Qualität und kreative Kommunikation.</p>
+            <p class="section-intro">PrintLine Werbetechnik entstand 1986 als Werbeabteilung in einem familiengeführten Malerbetrieb – mit dem Fokus auf Qualität und kreative Kommunikation.</p>
             <p style="color:var(--text-soft);margin-top:1rem">2002 wurde die Werbeabteilung eigenständig gegründet. Seitdem haben wir unser Leistungsspektrum auf über zehn Bereiche ausgebaut, mit dem Anspruch, jedes Projekt mit derselben Sorgfalt umzusetzen. Wir nehmen uns die Zeit, Ihr Projekt zu verstehen, und begleiten es vom ersten Gespräch bis zur Montage.</p>
             <p style="margin-top:1rem"><a href="ueber-uns.html">Mehr über uns erfahren →</a></p>
 
@@ -621,72 +716,35 @@
         <div data-reveal>
           <span class="eyebrow">Archiv</span>
           <h2 class="section-title">Projekt&shy;archiv</h2>
-          <p class="section-intro">Ausgewählte Arbeiten aus über drei Jahrzehnten Werbetechnik in Stendal und der Altmark.</p>
+          <p class="section-intro">Ausgewählte Arbeiten aus den Anfangsjahren 1986 bis 2001 – realisiert in Stendal und der Altmark.</p>
         </div>
-        <div class="filterbar mt-1" data-reveal>
-          <button class="chip active" data-filter="alle">Alle Projekte</button>
-          <button class="chip" data-filter="fahrzeug">Fahrzeugbeschriftung</button>
-          <button class="chip" data-filter="schild">Schilder</button>
-          <button class="chip" data-filter="planen">Planen</button>
-        </div>
-        <div class="archive-grid">
+        <div class="archive-grid mt-2">
           <div class="acard acard--photo" data-cat="fahrzeug" data-reveal data-reveal-delay="1">
-            <div class="acard__media"><img src="bilder-leistung-hintergrund/Opa Malerbetrieb Firmenauto Archiv Angepasst.webp" alt="Fahrzeugbeschriftung – Firmenauto – Malerfachbetrieb (1990–2001), PrintLine Werbetechnik Stendal" loading="lazy"></div>
-            <div class="acard__cap"><span class="acard__tag">Fahrzeugbeschriftung</span><h3>Firmenauto – Malerfachbetrieb (1990–2001)</h3></div>
+            <div class="acard__media"><img src="bilder-leistung-hintergrund/Lodders Archivbilder Angepasst.webp" srcset="bilder-leistung-hintergrund/Lodders%20Archivbilder%20Angepasst-800w.webp 800w, bilder-leistung-hintergrund/Lodders%20Archivbilder%20Angepasst.webp 1588w" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 560px" style="--z:1.12" alt="Flugzeugbeschriftung – Lodders Immobilien, PrintLine Werbetechnik Stendal" loading="lazy"></div>
+            <div class="acard__cap"><span class="acard__tag">Flugzeugbeschriftung</span><h3>Lodders Immobilien</h3></div>
           </div>
           <div class="acard acard--photo" data-cat="fahrzeug" data-reveal data-reveal-delay="2">
-            <div class="acard__media"><img src="bilder-leistung-hintergrund/Borstel Flugplatz Aero Club 2 Archiv Angepasst 2.webp" alt="Fahrzeugbeschriftung – Aero Club – Transporter (1999), PrintLine Werbetechnik Stendal" loading="lazy"></div>
-            <div class="acard__cap"><span class="acard__tag">Fahrzeugbeschriftung</span><h3>Aero Club – Transporter (1999)</h3></div>
+            <div class="acard__media"><img src="bilder-leistung-hintergrund/Rats-Apotheke Archivbild Angepasst.webp" srcset="bilder-leistung-hintergrund/Rats-Apotheke%20Archivbild%20Angepasst-800w.webp 800w, bilder-leistung-hintergrund/Rats-Apotheke%20Archivbild%20Angepasst.webp 1600w" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 560px" style="--z:1.10" alt="Fahrzeugbeschriftung – Rats-Apotheke, PrintLine Werbetechnik Stendal" loading="lazy"></div>
+            <div class="acard__cap"><span class="acard__tag">Fahrzeugbeschriftung</span><h3>Rats-Apotheke</h3></div>
           </div>
-          <div class="acard acard--photo" data-cat="fahrzeug" data-reveal data-reveal-delay="3">
-            <div class="acard__media"><img src="bilder-leistung-hintergrund/Stendaler Fleisch und Wurstwaren Archiv Angepasst.webp" alt="Fahrzeugbeschriftung – Stendaler Fleisch- & Wurstwaren, PrintLine Werbetechnik Stendal" loading="lazy"></div>
-            <div class="acard__cap"><span class="acard__tag">Fahrzeugbeschriftung</span><h3>Stendaler Fleisch- & Wurstwaren</h3></div>
+          <div class="acard acard--photo" data-cat="schild" data-reveal data-reveal-delay="3">
+            <div class="acard__media"><img src="bilder-leistung-hintergrund/frank.webp" srcset="bilder-leistung-hintergrund/frank-800w.webp 800w, bilder-leistung-hintergrund/frank.webp 1119w" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 560px" style="--z:1.09" alt="Schildbeschriftung – Tischlermeister Frank Hilse, PrintLine Werbetechnik Stendal" loading="lazy"></div>
+            <div class="acard__cap"><span class="acard__tag">Schildbeschriftung</span><h3>Tischlermeister Frank Hilse</h3></div>
           </div>
           <div class="acard acard--photo" data-cat="planen" data-reveal data-reveal-delay="1">
-            <div class="acard__media"><img src="bilder-leistung-hintergrund/Stadtwerke Stendal Archivbilder Angepasst 4.webp" alt="Planen – Stadtwerke Stendal, PrintLine Werbetechnik Stendal" loading="lazy"></div>
+            <div class="acard__media"><img src="bilder-leistung-hintergrund/Stadtwerke Stendal Archivbilder Angepasst 4.webp" srcset="bilder-leistung-hintergrund/Stadtwerke%20Stendal%20Archivbilder%20Angepasst%204-800w.webp 800w, bilder-leistung-hintergrund/Stadtwerke%20Stendal%20Archivbilder%20Angepasst%204.webp 1481w" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 560px" alt="Planen – Stadtwerke Stendal, PrintLine Werbetechnik Stendal" loading="lazy"></div>
             <div class="acard__cap"><span class="acard__tag">Planen</span><h3>Stadtwerke Stendal</h3></div>
           </div>
           <div class="acard acard--photo" data-cat="fahrzeug" data-reveal data-reveal-delay="2">
-            <div class="acard__media"><img src="bilder-leistung-hintergrund/Stadtwerke Stendal Archivbilder Angepasst 2.webp" alt="Fahrzeugbeschriftung – Stadtwerke Stendal, PrintLine Werbetechnik Stendal" loading="lazy"></div>
-            <div class="acard__cap"><span class="acard__tag">Fahrzeugbeschriftung</span><h3>Stadtwerke Stendal</h3></div>
-          </div>
-          <div class="acard acard--photo" data-cat="fahrzeug" data-reveal data-reveal-delay="3">
-            <div class="acard__media"><img src="bilder-leistung-hintergrund/Stadtwerke Stendal Archivbilder Angepasst 1.webp" alt="Fahrzeugbeschriftung – Stadtwerke Stendal, PrintLine Werbetechnik Stendal" loading="lazy"></div>
-            <div class="acard__cap"><span class="acard__tag">Fahrzeugbeschriftung</span><h3>Stadtwerke Stendal</h3></div>
-          </div>
-          <div class="acard acard--photo" data-cat="fahrzeug" data-reveal data-reveal-delay="1">
-            <div class="acard__media"><img src="bilder-leistung-hintergrund/Lodders Archivbilder Angepasst.webp" alt="Flugzeugbeschriftung – Lodders Immobilien, PrintLine Werbetechnik Stendal" loading="lazy"></div>
-            <div class="acard__cap"><span class="acard__tag">Flugzeugbeschriftung</span><h3>Lodders Immobilien</h3></div>
-          </div>
-          <div class="acard acard--photo" data-cat="schild" data-reveal data-reveal-delay="2">
-            <div class="acard__media"><img src="bilder-leistung-hintergrund/frank.webp" alt="Schildbeschriftung – Tischlermeister Frank Hilse, PrintLine Werbetechnik Stendal" loading="lazy"></div>
-            <div class="acard__cap"><span class="acard__tag">Schildbeschriftung</span><h3>Tischlermeister Frank Hilse</h3></div>
-          </div>
-          <div class="acard acard--photo" data-cat="fahrzeug" data-reveal data-reveal-delay="3">
-            <div class="acard__media"><img src="bilder-leistung-hintergrund/CAfe Müller Archivbilder Angepasst 2.webp" alt="Fahrzeugbeschriftung – Cafe Müller (1996), PrintLine Werbetechnik Stendal" loading="lazy"></div>
-            <div class="acard__cap"><span class="acard__tag">Fahrzeugbeschriftung</span><h3>Cafe Müller (1996)</h3></div>
-          </div>
-          <div class="acard acard--photo" data-cat="fahrzeug" data-reveal data-reveal-delay="1">
-            <div class="acard__media"><img src="bilder-leistung-hintergrund/bba 1.webp" alt="Fahrzeugbeschriftung – BBA Altmark, PrintLine Werbetechnik Stendal" loading="lazy"></div>
-            <div class="acard__cap"><span class="acard__tag">Fahrzeugbeschriftung</span><h3>BBA Altmark</h3></div>
-          </div>
-          <div class="acard acard--photo" data-cat="fahrzeug" data-reveal data-reveal-delay="2">
-            <div class="acard__media"><img src="bilder-leistung-hintergrund/Rats-Apotheke Archivbild Angepasst.webp" alt="Fahrzeugbeschriftung – Rats-Apotheke, PrintLine Werbetechnik Stendal" loading="lazy"></div>
-            <div class="acard__cap"><span class="acard__tag">Fahrzeugbeschriftung</span><h3>Rats-Apotheke</h3></div>
-          </div>
-          <div class="acard acard--photo" data-cat="fahrzeug" data-reveal data-reveal-delay="3">
-            <div class="acard__media"><img src="bilder-leistung-hintergrund/Winckelmann Apotheke Archiv Neu Angepasst.webp" alt="Fahrzeugbeschriftung – Winckelmann Apotheke, PrintLine Werbetechnik Stendal" loading="lazy"></div>
-            <div class="acard__cap"><span class="acard__tag">Fahrzeugbeschriftung</span><h3>Winckelmann Apotheke</h3></div>
-          </div>
-          <div class="acard acard--photo" data-cat="schild" data-reveal data-reveal-delay="1">
-            <div class="acard__media"><img src="bilder-leistung-hintergrund/Schützenkönig Archivbild Angepasst.webp" alt="Schildbeschriftung – Schützenkönig, PrintLine Werbetechnik Stendal" loading="lazy"></div>
-            <div class="acard__cap"><span class="acard__tag">Schildbeschriftung</span><h3>Schützenkönig</h3></div>
-          </div>
-          <div class="acard acard--photo" data-cat="fahrzeug" data-reveal data-reveal-delay="2">
-            <div class="acard__media"><img src="bilder-leistung-hintergrund/elektro 2.webp" alt="Fahrzeugbeschriftung – Elektro Glomb (1999), PrintLine Werbetechnik Stendal" loading="lazy"></div>
+            <div class="acard__media"><img src="bilder-leistung-hintergrund/elektro 2.webp" srcset="bilder-leistung-hintergrund/elektro%202-800w.webp 800w, bilder-leistung-hintergrund/elektro%202.webp 1106w" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 560px" style="--z:1.06" alt="Fahrzeugbeschriftung – Elektro Glomb (1999), PrintLine Werbetechnik Stendal" loading="lazy"></div>
             <div class="acard__cap"><span class="acard__tag">Fahrzeugbeschriftung</span><h3>Elektro Glomb (1999)</h3></div>
           </div>
+          <div class="acard acard--photo" data-cat="fahrzeug" data-reveal data-reveal-delay="3">
+            <div class="acard__media"><img src="bilder-leistung-hintergrund/Winckelmann Apotheke Archiv Neu Angepasst.webp" srcset="bilder-leistung-hintergrund/Winckelmann%20Apotheke%20Archiv%20Neu%20Angepasst-800w.webp 800w, bilder-leistung-hintergrund/Winckelmann%20Apotheke%20Archiv%20Neu%20Angepasst.webp 1600w" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 560px" style="--z:1.24" alt="Fahrzeugbeschriftung – Winckelmann Apotheke, PrintLine Werbetechnik Stendal" loading="lazy"></div>
+            <div class="acard__cap"><span class="acard__tag">Fahrzeugbeschriftung</span><h3>Winckelmann Apotheke</h3></div>
+          </div>
         </div>
+        <p style="text-align:center;margin-top:2rem"><a href="Archiv.html">Alle 12 Projekte im Archiv ansehen →</a></p>
       </div>
     </section>
 
@@ -702,22 +760,22 @@
             <button class="faq-q">Welche Leistungen bietet PrintLine Werbetechnik?
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
             </button>
-            <div class="faq-a"><p>Beschriftungen, Digitaldruck, Schilder, Fassaden, Werbeartikel, Folientechnik, Textildruck, Fahnen, Aufsteller &amp; Pylonen, Werbebanner &amp; Planen sowie Webentwicklung – alles aus einer Hand.</p><p>Im Detail gehören dazu u.&nbsp;a.: Fahrzeugbeschriftungen aller Art, Beschriftung und Kennzeichen von Wasserfahrzeugen, Beschriftung von Klein- und Leichtflugzeugen, Visitenkarten, Briefpapier, Stempel und Flyer, Wegweiser, Türbeschilderung und Schaufensterbeschriftung, Ausstattung für Messen und Eventveranstaltungen, Sichtschutz- und Schutzfolien wie Milchglas-, Spiegel-, Splitterschutz- und Sonnenschutzfolie, Magnetfolien sowie Folienplott zur Selbstanbringung.</p></div>
+            <div class="faq-a"><p>Beschriftungen, Digitaldruck, Schilder, Fassaden, Werbeartikel, Folientechnik, Textildruck, Fahnen &amp; Displays, Aufsteller &amp; Pylonen, Werbebanner &amp; Planen, Plakatwerbung sowie Webentwicklung – alles aus einer Hand.</p><p>Im Detail gehören dazu u.&nbsp;a.: Beschriftung von PKW, Transportern, LKW, Anhängern und Baumaschinen (keine Vollfolierung), Beschriftung von Booten und Jetski einschließlich amtlicher Kennzeichen sowie von Klein- und Leichtflugzeugen, Großformat- und Plattendruck, UV-Direktdruck auf Holz, Acryl und Metall, Schilder aus Alu-Dibond und Acrylglas, Visitenkarten, Flyer und Stempel, Schaufensterbeschriftung sowie Sichtschutz-, Sonnenschutz- und Splitterschutzfolien, Textildruck in Flex, Flock und Sublimation, Ausstattung für Messen und Events sowie Flucht- und Rettungspläne nach ASR A2.3 und Sicherheitskennzeichnung nach DIN EN ISO 7010.</p></div>
           </div>
           <div class="faq-item" data-reveal data-reveal-delay="1">
             <button class="faq-q">Wo ist PrintLine Werbetechnik ansässig?
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
             </button>
-            <div class="faq-a"><p>In Stendal, Sachsen-Anhalt. Wir arbeiten in der gesamten Altmark und Region und nehmen Aufträge auch überregional und deutschlandweit an.</p></div>
+            <div class="faq-a"><p>In Stendal, Sachsen-Anhalt: Magdeburger Straße 5A, 39576 Stendal.</p></div>
           </div>
           <div class="faq-item" data-reveal data-reveal-delay="3">
             <button class="faq-q">Wie lange gibt es PrintLine Werbetechnik bereits?
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
             </button>
-            <div class="faq-a"><p>Seit fast 40 Jahren – gestartet als Werbeabteilung eines Malerbetriebs, seit 2002 eigenständig und mit unzähligen umgesetzten Projekten.</p></div>
+            <div class="faq-a"><p>Seit 1986 – gestartet als Werbeabteilung eines familiengeführten Malerbetriebs, seit 2002 eigenständig und mit zahlreichen umgesetzten Projekten.</p></div>
           </div>
           <div class="faq-item" data-reveal>
-            <button class="faq-q">Arbeitet ihr nur in der Region oder auch deutschlandweit?
+            <button class="faq-q">Arbeiten Sie nur in der Region oder auch deutschlandweit?
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
             </button>
             <div class="faq-a"><p>Unser Sitz ist Stendal – im Einsatz sind wir in der gesamten Altmark und darüber hinaus. Aufträge nehmen wir auch überregional und deutschlandweit an: Druck, Beschriftungen, Schilder, Banner, Fahnen und vieles mehr fertigen und versenden wir auf Anfrage bundesweit. Auch die Montage übernehmen wir bundesweit nach Absprache.</p></div>
@@ -729,16 +787,16 @@
             <div class="faq-a"><p>Preise hängen vom Projekt ab – von Material, Format und Aufwand. Pauschale Festpreise gibt es daher nicht. Sie erhalten von uns ein kostenloses, unverbindliches Angebot: einfach über das Kontaktformular anfragen oder unter +49 152 03016900 anrufen.</p></div>
           </div>
           <div class="faq-item" data-reveal data-reveal-delay="3">
-            <button class="faq-q">Wie läuft eine Anfrage bei euch ab?
+            <button class="faq-q">Wie läuft eine Anfrage bei Ihnen ab?
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
             </button>
-            <div class="faq-a"><p>Anfrage stellen, kostenloses Angebot erhalten, Gestaltung und Freigabe, Produktion – und am Ende Lieferung oder Montage vor Ort. Auf Ihre Anfrage melden wir uns in der Regel innerhalb eines Werktages.</p></div>
+            <div class="faq-a"><p>Anfrage stellen, kostenloses Angebot erhalten, Gestaltung und Freigabe, Produktion – und am Ende Lieferung, Abholung in Stendal oder Montage vor Ort. Auf Ihre Anfrage melden wir uns in der Regel innerhalb eines Werktages.</p></div>
           </div>
           <div class="faq-item" data-reveal>
-            <button class="faq-q">Bietet ihr Fahrzeug-Vollfolierung an?
+            <button class="faq-q">Übernehmen Sie auch die Gestaltung?
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
             </button>
-            <div class="faq-a"><p>Eine Vollfolierung – also die komplette Flächenverklebung eines Fahrzeugs – bieten wir nicht an. Teilfolierungen sind nach Absprache möglich; unser Schwerpunkt ist die hochwertige Fahrzeugbeschriftung. Glas- und Fensterfolien setzen wir ebenfalls um.</p></div>
+            <div class="faq-a"><p>Ja. Fertige Druckdaten nehmen wir am besten als PDF oder Vektordatei entgegen und prüfen sie vor dem Druck. Vor der Produktion erhalten Sie den Entwurf zur Freigabe.</p></div>
           </div>
           <div class="faq-item" data-reveal>
             <button class="faq-q">Kann ich einfach vorbeikommen, oder sollte ich einen Termin vereinbaren?
@@ -807,10 +865,12 @@
                 <option>Schilder</option>
                 <option>Fassaden</option>
                 <option>Werbeartikel</option>
+                <option>Folientechnik</option>
                 <option>Textildruck</option>
                 <option>Fahnen</option>
                 <option>Aufsteller &amp; Pylonen</option>
                 <option>Werbebanner &amp; Planen</option>
+                <option>Plakatwerbung</option>
                 <option>Webentwicklung</option>
                 <option>Mehrere / Sonstiges</option>
               </select>
@@ -846,7 +906,7 @@
       <div class="footer__grid">
         <div class="footer__brand">
           <a href="/" class="brand"><img class="brand__logo" src="assets/logo-mark.webp" alt="" aria-hidden="true"><span>PrintLine&nbsp;Werbetechnik</span></a>
-          <p>Professionelle Werbetechnik aus Stendal seit fast 40 Jahren. Vom Werbeaufdruck bis zur Fahrzeugbeschriftung – alles aus einer Hand.</p>
+          <p>Werbetechnik aus Stendal seit 1986. Von der Fahrzeugbeschriftung bis zum Schild – Beratung, Gestaltung, Produktion und Montage aus einer Hand.</p>
           <p class="muted">Magdeburger Straße 5A · 39576 Stendal</p>
           <p class="muted"><a href="tel:+4915203016900">+49 152 03016900</a> · <a href="mailto:print2002@gmx.de">print2002@gmx.de</a></p>
           <p class="muted">Mo–Fr 10:00–18:00 Uhr</p>
@@ -860,12 +920,25 @@
           <a href="textildruck-flex-und-flock.html">Textildruck</a>
           <a href="fassaden.html">Fassadenwerbung</a>
           <a href="fahnen.html">Fahnen</a>
-          <a href="aufsteller-pylonen.html">Aufsteller &amp; Pylone</a>
+          <a href="aufsteller-pylonen.html">Aufsteller &amp; Pylonen</a>
           <a href="werbeartikel.html">Werbeartikel</a>
           <a href="planen-banner.html">Werbebanner &amp; Planen</a>
+          <a href="plakatwerbung.html">Plakatwerbung</a>
+          <a href="webdesign.html">Webentwicklung</a>
           <a href="leistungen.html">Alle Leistungen →</a>
         </div>
         <div class="footer__col">
+            <h3>Regionen</h3>
+            <a href="werbetechnik-magdeburg.html">Werbetechnik Magdeburg</a>
+            <a href="fahrzeugbeschriftung-magdeburg.html">Fahrzeugbeschriftung Magdeburg</a>
+            <a href="banner-drucken-magdeburg.html">Banner drucken Magdeburg</a>
+            <a href="werbetechnik-tangermuende.html">Werbetechnik Tangermünde</a>
+            <a href="werbetechnik-osterburg.html">Werbetechnik Osterburg</a>
+            <a href="werbetechnik-havelberg.html">Werbetechnik Havelberg</a>
+            <a href="werbetechnik-gardelegen.html">Werbetechnik Gardelegen</a>
+            <a href="werbetechnik-salzwedel.html">Werbetechnik Salzwedel</a>
+          </div>
+          <div class="footer__col">
           <h3>Navigation</h3>
           <a href="#portfolio">Portfolio</a>
           <a href="#ueber-uns">Über uns</a>
@@ -889,12 +962,12 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="vendor/motion.js" defer></script>
-  <script src="theme.js?v=19" defer></script>
+  <script src="theme.js?v=20" defer></script>
   <script src="assistant.js?v=11" defer></script>
   <script src="forms.js?v=1" defer></script>
-  <script src="cookie-banner.js?v=8" defer></script>
+  <script src="cookie-banner.js?v=9" defer></script>
   <script src="reviews.js?v=1" defer></script>
+  <script src="leistungssuche.js?v=7" defer></script>
   <script src="tracking.js" defer></script>
 </body>
 </html>

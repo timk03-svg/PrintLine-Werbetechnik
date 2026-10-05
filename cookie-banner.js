@@ -84,7 +84,7 @@
         '#plcb-ico{font-size:1.4rem;margin-top:2px;flex-shrink:0;}',
         '#plcb-hed{font-family:"Sora",sans-serif;font-weight:700;font-size:.95rem;color:var(--text,#16202e);margin:0 0 .15rem;}',
         '#plcb-sub{font-size:.82rem;color:var(--text-soft,#475569);margin:0;line-height:1.5;}',
-        '#plcb-sub a{color:var(--accent-ink,#0D9488);text-decoration:underline;}',
+        '#plcb-sub a{color:var(--accent-ink,#0e8278);text-decoration:underline;}',
         '#plcb-ctrl{display:flex;align-items:center;gap:.85rem;flex-wrap:wrap;}',
         '#plcb-checks{display:flex;gap:.75rem;}',
         '.plcb-lbl{display:flex;align-items:center;gap:.3rem;font-size:.82rem;color:var(--text-soft,#475569);cursor:pointer;white-space:nowrap;}',
@@ -97,7 +97,7 @@
         '}',
         '#plcb-btns button:hover{transform:translateY(-2px);}',
         /* "Ablehnen" gleich prominent wie "Alle akzeptieren" (DSGVO: kein Nudging); fixe Farbe → in Hell- und Dunkelmodus sichtbar */
-        '#plcb-no{background:#0D9488;border:none!important;color:#fff;}',
+        '#plcb-no{background:#0e8278;border:none!important;color:#fff;}',
         '#plcb-sv{background:transparent;border:1.5px solid var(--border,rgba(16,32,50,.28))!important;color:var(--text-soft,#475569);}',
         '#plcb-ok{background:linear-gradient(100deg,#40E0D0,#C084FC);color:#062e2a;box-shadow:0 8px 24px rgba(64,224,208,.32);}',
         '@media(max-width:600px){',
