@@ -483,7 +483,7 @@ const CSP = [
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
   "img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com",
-  "connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com https://formspree.io",
+  "connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com https://formspree.io https://printline-chat-api.vercel.app https://konfigurator.werbung-kroner.de",
   "frame-ancestors 'self'",
   "base-uri 'self'",
   "form-action 'self' mailto: https://formspree.io",

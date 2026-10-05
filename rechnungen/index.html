@@ -414,6 +414,10 @@ body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a2
   .kfa-sub{font-weight:700;font-size:13px;margin:12px 0 6px;}
   .kfa-files{display:flex;gap:6px;flex-wrap:wrap;}
   .kfa-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+  .kfa-actions .kfa-del{margin-left:auto;color:#b4413c;border-color:#e3b9b6;}
+  .kfa-actions .kfa-del:hover{background:#fdf1f0;border-color:#b4413c;}
+  body.dark .kfa-actions .kfa-del{color:#f2a49f;border-color:#6e3b38;background:transparent;}
+  body.dark .kfa-actions .kfa-del:hover{background:rgba(242,164,159,.1);border-color:#f2a49f;}
   @media (max-width:760px){ .kfa-grid{grid-template-columns:1fr;gap:2px;} .kfa-grid dd{margin-bottom:6px;} }
   #viewKalkulation,#viewStammdaten,#viewProjekte,#viewAnfragen{max-width:1080px;}
   /* Material hat 3 Spalten mehr - mehr Breite, damit auf grossen Schirmen
@@ -1415,7 +1419,7 @@ USt-IdNr. …"></div>
 <div id="viewAnfragen">
   <div class="panel">
     <div class="finance-head">
-      <div><h2>Konfigurator-Anfragen</h2><p class="sub" style="margin:0;">Anfragen aus dem Online-Konfigurator – ansehen, Status setzen, als Projekt oder Angebot übernehmen.</p></div>
+      <div><h2>Konfigurator-Anfragen</h2><p class="sub" style="margin:0;">Anfragen aus dem Online-Konfigurator und den Kontaktformularen der Website – ansehen, Status setzen, als Projekt oder Angebot übernehmen, löschen.</p></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;" id="kfaHeadBtns" hidden>
         <button class="btn" id="kfaReload">Aktualisieren</button>
         <button class="btn" id="kfaDisconnect" title="Zugang auf diesem Gerät entfernen">Trennen</button>
@@ -4670,8 +4674,18 @@ function renderAnfragen(){
   const c=document.getElementById("kfaNavCount"); if(c){ const n=ok?kfaNeuCount():0; c.hidden=!n; c.textContent=String(n); }
   if(ok){ renderAnfragenList(); if(!kfaLoading) kfaLoad(); }
 }
+// Nach einem Fehler neu zeichnen: ist der Zugang abgelaufen (401 hat das Token gelöscht),
+// erscheint wieder das Verbinden-Feld statt einer leeren Liste.
+function kfaRender(){ if(!kfaToken()) renderAnfragen(); else renderAnfragenList(); }
 function kfaDate(iso){ const d=new Date(iso); return isNaN(d)?"—":fmtDate(d)+" "+("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2); }
-function kfaKunde(r){ return (r.firma||"").trim()||(r.name||"").trim()||"—"; }
+function kfaKunde(r){ return (r.firma||"").trim()||(r.name||"").trim()||(r.email||"").trim()||"—"; }
+// Kontaktformular-Nachrichten (Leistung „kontakt“): gewählte Leistung steht in den Details.
+function kfaIstKontakt(r){ return r.service==="kontakt"; }
+function kfaLeistung(r){
+  if(!kfaIstKontakt(r)) return r.serviceName||r.service||"";
+  const d=(r.details||[]).find(x=>x.label==="Gewünschte Leistung");
+  return d&&d.value?String(d.value):"";
+}
 function renderAnfragenList(){
   const tb=document.getElementById("kfaRows"), msg=document.getElementById("kfaMsg"); if(!tb) return;
   msg.className="kfa-msg"+(kfaErr?" err":""); msg.textContent=kfaErr||(kfaLoading?"Lade Anfragen …":"");
@@ -4680,7 +4694,7 @@ function renderAnfragenList(){
   let list=kfaList.slice();
   if(f) list=list.filter(r=>r.status===f);
   if(q) list=list.filter(r=>[r.name,r.firma,r.email,r.telefon,r.serviceName,r.description].concat((r.details||[]).map(d=>d.value)).some(x=>String(x||"").toLowerCase().indexOf(q)>-1));
-  if(!list.length){ tb.innerHTML='<tr><td colspan="5" class="empty">'+(kfaList.length?"Keine Treffer.":"Noch keine Anfragen aus dem Konfigurator.")+'</td></tr>'; return; }
+  if(!list.length){ tb.innerHTML='<tr><td colspan="5" class="empty">'+(kfaList.length?"Keine Treffer.":"Noch keine Anfragen.")+'</td></tr>'; return; }
   tb.innerHTML=list.map(r=>{
     const proj=appData.projekte.find(p=>p.konfigId===r.id);
     const sel='<select class="kfa-status" data-kfastatus="'+r.id+'" aria-label="Status">'+KFA_STATUS.map(s=>'<option value="'+s[0]+'"'+(s[0]===r.status?" selected":"")+'>'+s[1]+'</option>').join("")+'</select>';
@@ -4711,6 +4725,7 @@ function kfaDetailHtml(r,proj){
       (proj?'<button class="btn primary" data-kfaproj="'+r.id+'">Projekt '+escapeHtml(proj.nummer||"")+' öffnen</button>':'<button class="btn primary" data-kfaproj="'+r.id+'">Als Projekt übernehmen</button>')+
       '<button class="btn" data-kfaangebot="'+r.id+'">Angebot erstellen</button>'+
       '<button class="btn" data-kfapdf="'+r.id+'">PDF der Anfrage</button>'+
+      '<button class="btn kfa-del" data-kfadel="'+r.id+'">Anfrage löschen</button>'+
     '</div></div>';
 }
 async function kfaSetStatus(r,status){
@@ -4718,7 +4733,26 @@ async function kfaSetStatus(r,status){
   try{
     const res=await kfaFetch("/api/admin/requests/"+encodeURIComponent(r.id),{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({status})});
     if(!res.ok){ const d=await res.json().catch(()=>({})); throw new Error(d.error||("Fehler "+res.status)); }
-  }catch(e){ r.status=alt; kfaErr="Status konnte nicht gespeichert werden: "+kfaNetErr(e); renderAnfragenList(); kfaSetCount(); }
+  }catch(e){ r.status=alt; kfaErr="Status konnte nicht gespeichert werden: "+kfaNetErr(e); kfaRender(); kfaSetCount(); }
+}
+// Löscht die Anfrage im Konfigurator (inkl. hochgeladener Dateien). Ein schon übernommenes
+// Projekt bleibt in der Rechnungs-App. Im Protokoll steht bewusst kein Name (Löschung).
+async function kfaDelete(r){
+  const proj=appData.projekte.find(p=>p.konfigId===r.id);
+  const frage="Anfrage von „"+kfaKunde(r)+"“ vom "+kfaDate(r.createdAt)+" endgültig löschen?\n\n"+
+    "Kontaktdaten, Angaben und hochgeladene Dateien werden im Konfigurator unwiderruflich entfernt."+
+    (proj?"\nDas Projekt "+(proj.nummer||"")+" in der Rechnungs-App bleibt erhalten.":"");
+  if(!confirm(frage)) return;
+  kfaErr="";
+  try{
+    const res=await kfaFetch("/api/admin/requests/"+encodeURIComponent(r.id),{method:"DELETE"});
+    if(!res.ok && res.status!==404){ const d=await res.json().catch(()=>({})); throw new Error(d.error||("Fehler "+res.status)); }
+    kfaList=(kfaList||[]).filter(x=>x.id!==r.id);
+    if(kfaOpenId===r.id) kfaOpenId=null;
+    kfaSetCount();
+    if(typeof logAudit==="function") logAudit("Anfrage gelöscht", kfaIstKontakt(r)?"Kontaktformular":"Konfigurator", "Eingang "+kfaDate(r.createdAt));
+  }catch(e){ kfaErr="Löschen hat nicht geklappt: "+kfaNetErr(e); }
+  kfaRender();
 }
 function kfaUpsertCustomer(r){
   const firma=((r.firma||"").trim()||(r.name||"").trim()); if(!firma) return;
@@ -4734,13 +4768,13 @@ function kfaToProjekt(r){
   p.id="p"+Date.now()+"_"+Math.round(Math.random()*1e6); p.ts=Date.now(); p.nummer=nextNumber("Projekt");
   p.status="anfrage"; p.kanal="Website"; p.kundeKey=kfaKunde(r)==="—"?"":kfaKunde(r);
   const d=new Date(r.createdAt); if(!isNaN(d)) p.anfrageDatum=fmtDate(d);
-  p.projektart=r.serviceName||"";
-  p.leistungsbeschreibung=[r.serviceName||""].concat((r.details||[]).map(x=>String(x.label||"")+": "+String(x.value||""))).filter(Boolean).join("\n");
+  p.projektart=kfaLeistung(r);
+  p.leistungsbeschreibung=[kfaLeistung(r)].concat((r.details||[]).map(x=>String(x.label||"")+": "+String(x.value||""))).filter(Boolean).join("\n");
   p.besonderheiten=[
     "Kontakt: "+[r.name,r.firma].filter(Boolean).join(" · "),
     r.email?"E-Mail: "+r.email:"", r.telefon?"Telefon: "+r.telefon:"",
     r.description?"Nachricht: "+r.description:""].filter(Boolean).join("\n");
-  p.notizen="Aus Konfigurator-Anfrage vom "+kfaDate(r.createdAt)+((r.uploads||[]).length?" · "+r.uploads.length+" Datei(en) unter „Anfragen“ abrufbar":"");
+  p.notizen=(kfaIstKontakt(r)?"Aus Kontaktformular-Nachricht vom ":"Aus Konfigurator-Anfrage vom ")+kfaDate(r.createdAt)+((r.uploads||[]).length?" · "+r.uploads.length+" Datei(en) unter „Anfragen“ abrufbar":"");
   p.konfigId=r.id;
   appData.projekte.push(p);
   kfaUpsertCustomer(r);
@@ -4753,7 +4787,7 @@ function kfaToAngebot(r){
   kfaUpsertCustomer(r); saveApp();
   freshState("Angebot");
   state.fields.empfaenger=[(r.firma||"").trim(),(r.name||"").trim()].filter(Boolean).join("\n");
-  state.fields.betreff="Ihre Anfrage: "+(r.serviceName||r.service||"");
+  state.fields.betreff=kfaLeistung(r)?"Ihre Anfrage: "+kfaLeistung(r):"Ihre Anfrage";
   const proj=appData.projekte.find(p=>p.konfigId===r.id);
   if(proj){ state.projektNummer=proj.nummer||""; proj.angebotNummer=state.fields.nummer||""; if(proj.status==="anfrage"||proj.status==="in_arbeit") proj.status="angebot"; saveApp(); }
   if(r.status==="NEU"||r.status==="IN_ARBEIT") kfaSetStatus(r,"ANGEBOT");
@@ -4770,7 +4804,7 @@ async function kfaOpenBlob(path,fallbackName,asDownload){
     if(w){ w.location.href=url; }
     else { const a=document.createElement("a"); a.href=url; a.download=(m&&m[1])||fallbackName; document.body.appendChild(a); a.click(); a.remove(); }
     setTimeout(()=>URL.revokeObjectURL(url),60000);
-  }catch(e){ if(w) w.close(); kfaErr=kfaNetErr(e); renderAnfragenList(); }
+  }catch(e){ if(w) w.close(); kfaErr=kfaNetErr(e); kfaRender(); }
 }
 document.getElementById("kfaConnectBtn").addEventListener("click",async()=>{
   const pw=document.getElementById("kfaPw").value, msg=document.getElementById("kfaConnectMsg");
@@ -4803,6 +4837,7 @@ document.getElementById("kfaRows").addEventListener("click",e=>{
   if(b.dataset.kfaopen){ kfaOpenId=(kfaOpenId===b.dataset.kfaopen)?null:b.dataset.kfaopen; renderAnfragenList(); return; }
   if(b.dataset.kfaproj){ const r=find(b.dataset.kfaproj); if(r) kfaToProjekt(r); return; }
   if(b.dataset.kfaangebot){ const r=find(b.dataset.kfaangebot); if(r) kfaToAngebot(r); return; }
+  if(b.dataset.kfadel){ const r=find(b.dataset.kfadel); if(r) kfaDelete(r); return; }
   if(b.dataset.kfapdf){ kfaOpenBlob("/api/admin/requests/"+encodeURIComponent(b.dataset.kfapdf)+"/pdf","Anfrage.pdf",false); return; }
   if(b.dataset.kfafile){ const r=find(b.dataset.kfafile), u=r&&r.uploads.find(x=>String(x.i)===b.dataset.i);
     kfaOpenBlob("/api/admin/blob?id="+encodeURIComponent(b.dataset.kfafile)+"&kind=upload&i="+encodeURIComponent(b.dataset.i),(u&&u.name)||"datei",true); return; }

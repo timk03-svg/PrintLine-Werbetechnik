@@ -1,11 +1,45 @@
 /* ══════════════════════════════════════════════════════════════
    PrintLine Werbetechnik — Formular-Versand
-   Sendet Formspree-Formulare per fetch (ohne Seitenwechsel) und
-   zeigt eine Inline-Erfolgs-/Fehlermeldung. Gilt für jedes Formular
-   mit action="...formspree.io...".
+   Sendet Kontaktformulare per fetch (ohne Seitenwechsel) und zeigt
+   eine Inline-Erfolgs-/Fehlermeldung. Gilt für jedes Formular mit
+   action="...formspree.io...".
+   Weg: zuerst in die Anfragen-Datenbank (Konfigurator-Server, dort
+   sichtbar in Admin und Rechnungs-App); klappt das nicht, ersatzweise
+   wie bisher über Formspree – so geht keine Nachricht verloren.
    ══════════════════════════════════════════════════════════════ */
 (function () {
   'use strict';
+
+  var KONTAKT_API = 'https://konfigurator.werbung-kroner.de/api/contact';
+
+  function sendeAnServer(form) {
+    var fd = new FormData(form);
+    fd.append('page', location.pathname);
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 10000) : null;
+    return fetch(KONTAKT_API, { method: 'POST', body: fd, credentials: 'omit', signal: ctrl ? ctrl.signal : undefined })
+      .then(function (res) {
+        if (timer) clearTimeout(timer);
+        if (!res.ok) throw new Error('Server ' + res.status);
+      }, function (err) {
+        if (timer) clearTimeout(timer);
+        throw err;
+      });
+  }
+
+  function sendeAnFormspree(form) {
+    return fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(function (res) {
+      if (res.ok) return;
+      return res.json().then(function (d) {
+        var msg = d && d.errors && d.errors.map(function (x) { return x.message; }).join(', ');
+        throw new Error(msg || 'Senden fehlgeschlagen');
+      });
+    });
+  }
 
   function enhance(form) {
     var status = document.createElement('p');
@@ -33,22 +67,12 @@
       status.className = 'form-status sending';
       status.textContent = 'Wird gesendet …';
 
-      fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
-      })
-        .then(function (res) {
-          if (res.ok) {
-            form.reset();
-            status.className = 'form-status ok';
-            status.textContent = '✓ Vielen Dank! Ihre Nachricht ist bei uns – wir melden uns innerhalb eines Werktages.';
-          } else {
-            return res.json().then(function (d) {
-              var msg = d && d.errors && d.errors.map(function (x) { return x.message; }).join(', ');
-              throw new Error(msg || 'Senden fehlgeschlagen');
-            });
-          }
+      sendeAnServer(form)
+        .catch(function () { return sendeAnFormspree(form); })
+        .then(function () {
+          form.reset();
+          status.className = 'form-status ok';
+          status.textContent = '✓ Vielen Dank! Ihre Nachricht ist bei uns – wir melden uns innerhalb eines Werktages.';
         })
         .catch(function () {
           status.className = 'form-status err';
