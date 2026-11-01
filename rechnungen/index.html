@@ -396,6 +396,20 @@ body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a2
     border-radius:0 2mm 2mm 0;white-space:pre-wrap;}
   .leistung::first-line{font-weight:700;}
   .leistung:empty{display:none;}
+  /* Bedingungen und Hinweise (nur Angebote): zweispaltige Tabelle wie im Beispielangebot */
+  .bedingungen{margin-top:6mm;}
+  .bed-kopf{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700;color:#14233a;padding-bottom:1.5mm;border-bottom:1.4px solid #14233a;margin-bottom:1mm;break-after:avoid;}
+  .bed-tab{width:100%;border-collapse:collapse;font-size:11.5px;line-height:1.45;}
+  .bed-tab td{padding:4px 6px;border-bottom:1px solid var(--line);vertical-align:top;white-space:pre-wrap;}
+  .bed-tab td.bk{width:28%;font-weight:600;color:#3d4757;}
+  .bed-tab td.bx{width:24mm;white-space:nowrap;text-align:right;}
+  .bed-tab td.bx button{border:0;background:transparent;color:#c2c8d2;cursor:pointer;font-size:14px;padding:2px 4px;border-radius:6px;}
+  .bed-tab td.bx button:hover{color:var(--accent);background:var(--accent-soft);}
+  .bed-tab td.bx button:disabled{opacity:.25;cursor:default;}
+  .bed-tab tr{break-inside:avoid;}
+  .bed-tools{margin-top:6px;}
+  body.exporting .bedingungen.leer, body.exporting .bed-tab tr.leer{display:none !important;}
+  @media print{ .bedingungen.leer, .bed-tab tr.leer{display:none !important;} }
   .schluss{font-size:13px;margin:9mm 0 0;white-space:pre-wrap;}
 
   /* AGB-Hinweis + blaue Fußzeile bilden den Dokument-Fuß und stehen immer ganz unten auf der Seite */
@@ -965,7 +979,7 @@ body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a2
 
 <!-- Werkzeugleiste -->
 <div class="toolbar noprint">
-  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-10-31 · Update</span></div>
+  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-11-02 · Update</span></div>
   <button class="btn iconbtn" id="btnUndo" title="Rückgängig (Cmd+Z)" disabled>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-1"/></svg>Zurück
   </button>
@@ -1226,10 +1240,11 @@ vielen Dank für Ihre Anfrage. Gerne unterbreiten wir Ihnen folgendes Angebot:">
 
       <div class="totals-wrap">
         <div class="totals-box">
-          <div class="noprint" style="display:flex;gap:8px;margin-bottom:6px;justify-content:flex-end;">
+          <div class="noprint" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px;justify-content:flex-end;">
             <button class="rabatt-btn" id="btnRabatt">+ Rabatt</button>
             <button class="rabatt-btn" id="btnMwst">+ MwSt</button>
             <button class="rabatt-btn" id="btnZahlung" title="Anzahlung oder Ratenzahlung vereinbaren">+ Zahlung</button>
+            <button class="rabatt-btn" id="btnBedingungen" title="Tabelle „Bedingungen und Hinweise“ einfügen – mit deinen Standard-Bedingungen, falls gespeichert">+ Bedingungen</button>
           </div>
           <div class="totals" id="totals"></div>
         </div>
@@ -1238,6 +1253,15 @@ vielen Dank für Ihre Anfrage. Gerne unterbreiten wir Ihnen folgendes Angebot:">
       <div class="zahlungsplan" id="zahlBlock" hidden></div>
 
       <div class="leistung" contenteditable="true" data-field="leistung"></div>
+
+      <div class="bedingungen leer" id="bedBlock" hidden>
+        <div class="bed-kopf">Bedingungen und Hinweise<button type="button" class="zp-x noprint" id="btnBedWeg" title="Tabelle „Bedingungen und Hinweise“ aus diesem Angebot entfernen">×</button></div>
+        <table class="bed-tab"><tbody id="bedRows"></tbody></table>
+        <div class="addrow noprint bed-tools">
+          <button type="button" id="btnBedAdd">+ Bedingung</button>
+          <button type="button" id="btnBedStandard" title="Diese Tabelle als Standard speichern – „+ Bedingungen“ fügt sie dann mit einem Klick ein">Als Standard speichern</button>
+        </div>
+      </div>
 
       <div class="ku-hinweis" id="kuHinweis" title="Fester Pflichthinweis zur Kleinunternehmerregelung – steht auf jedem Angebot und jeder Rechnung"></div>
       <div class="hinweis" contenteditable="true" data-field="hinweis" data-ph="Hinweis (optional)"></div>
@@ -2097,6 +2121,7 @@ const defaults = {
   // Zahlungsvereinbarung (Zahlungsziel / Anzahlung / Ratenplan) und Bezug zu einem Angebot
   zahlung:{art:"standard",ziel:"",anzahlung:{modus:"prozent",wert:"50"},raten:[],faelligstellung:false},
   bezug:{art:"normal",angebotNr:"",ref:"",abzuege:[]},
+  bedingungen:[],   // „Bedingungen und Hinweise“ (nur Angebote): [{titel, text}]
   settings:{lh:74,side:25,bottom:18,mode:"embed",financeChart:false,kopfbogen:"printline"}
 };
 // App-weite, dokumentübergreifende Daten (Nummern-Zähler, Verlauf, Ausgaben, Kunden)
@@ -2129,6 +2154,7 @@ const appDefaults = {
   textbausteine:[],
   auditArchiv:[],
   lastBearbeiter:"",
+  bedingungenVorlage:[],
   firma:{ name:"", rechtsform:"", strasse:"", hausnummer:"", plz:"", ort:"", land:"Deutschland", telefon:"", mobil:"", email:"", website:"", iban:"", bic:"", bank:"", steuernr:"", ustid:"", zahlungsbedingungen:"", stempel:null, unterschrift:null }
 };
 let state = load();
@@ -2153,6 +2179,7 @@ function load(){
       logo:s.logo||null,
       zahlung:normZahlung(s.zahlung),
       bezug:normBezug(s.bezug),
+      bedingungen:Array.isArray(s.bedingungen)?s.bedingungen:[],
       settings:Object.assign({},defaults.settings,s.settings||{})
     };
   }catch(e){ return structuredClone(defaults); }
@@ -2190,6 +2217,7 @@ function loadApp(){
       textbausteine:Array.isArray(s.textbausteine)?s.textbausteine:[],
       auditArchiv:Array.isArray(s.auditArchiv)?s.auditArchiv:[],
       lastBearbeiter:(typeof s.lastBearbeiter==="string"?s.lastBearbeiter:""),
+      bedingungenVorlage:Array.isArray(s.bedingungenVorlage)?s.bedingungenVorlage:[],
       firma:Object.assign({}, appDefaults.firma, s.firma||{})
     };
   }catch(e){ return structuredClone(appDefaults); }
@@ -2553,6 +2581,7 @@ function rowTemplate(r,i,g){
     return tr;
   }
   const hasRab=String(r.rabatt||"").trim()!=="";
+  const artOk=!!(r.artId&&(appData.artikel||[]).some(x=>x.id===r.artId));   // nur ein vorhandener Katalogartikel zählt als markiert
   tr.innerHTML=`
     <td class="c-pos">${nr}</td>
     <td class="c-bez">
@@ -2566,7 +2595,7 @@ function rowTemplate(r,i,g){
     <td class="rowtools noprint">${griff}
       <button class="rtog${r.matId?" on":""}" data-matpick="${i}" title="Material aus dem Lager wählen – füllt Bezeichnung, Einheit und Preis und bucht den Verbrauch">📦</button>
       <button class="rtog${hasRab?" on":""}" data-rabtoggle="${i}" title="Rabatt für diese Position">%</button>
-      <button class="rtog${r.artId?" on":""}" data-artsave="${i}" title="Diese Position im Artikelkatalog speichern">☆</button>
+      <button class="rtog${artOk?" on":""}" data-artsave="${i}" title="${artOk?"Steht im Artikelkatalog – erneut klicken, um den Artikel dort zu aktualisieren oder zu entfernen":"Diese Position im Artikelkatalog speichern"}">${artOk?"★":"☆"}</button>
       <button data-del="${i}" title="Position löschen">×</button>
     </td>`;
   tr.querySelector('[data-key="menge"]').textContent=r.menge||"";
@@ -2707,7 +2736,7 @@ function renderSignature(){
     (sigName?'<div class="sig-line">'+escapeHtml(sigName)+'</div>':'')+'</div>';
   el.innerHTML=html; el.style.display=html?"":"none";
 }
-function renderAll(){ applySettings(); renderDocType(); renderFields(); renderLogo(); renderRows(); renderNeukunde(); renderSignature(); if(typeof applyFestUI==="function") applyFestUI(); }
+function renderAll(){ applySettings(); renderDocType(); renderFields(); renderLogo(); renderRows(); renderBedingungen(); renderNeukunde(); renderSignature(); if(typeof applyFestUI==="function") applyFestUI(); }
 
 /* ---------- Ereignisse ---------- */
 // Textfelder
@@ -2733,6 +2762,68 @@ document.getElementById("selBearbeiter").addEventListener("change",e=>{
   state.fields.extra=e.target.value;
   if(BEARBEITER.includes(e.target.value)){ appData.lastBearbeiter=e.target.value; saveApp(); }
   renderFields(); save();
+});
+/* ---------- Bedingungen und Hinweise (nur Angebote) ----------
+   Optionale zweispaltige Tabelle unter „In diesem Angebot enthalten“. Erst „+ Bedingungen“ blendet sie ein und
+   übernimmt dabei die eigene Standardvorlage (appData.bedingungenVorlage); ohne Zeilen bleibt sie ausgeblendet. */
+function bedZeileLeer(b){ return !String((b&&b.titel)||"").trim() && !String((b&&b.text)||"").trim(); }
+function renderBedingungen(){
+  const bl=document.getElementById("bedBlock"), tb=document.getElementById("bedRows"); if(!bl||!tb) return;
+  if(!Array.isArray(state.bedingungen)) state.bedingungen=[];
+  const L=state.bedingungen, an=state.docType==="Angebot";
+  const bb=document.getElementById("btnBedingungen"); if(bb) bb.style.display=(an&&!L.length)?"":"none";
+  bl.hidden=!(an&&L.length); if(bl.hidden){ tb.innerHTML=""; return; }
+  tb.innerHTML=L.map((b,i)=>'<tr'+(bedZeileLeer(b)?' class="leer"':'')+'><td class="bk" contenteditable="true" data-bi="'+i+'" data-bk="titel" data-ph="z. B. Zahlung"></td>'+
+    '<td class="bv" contenteditable="true" data-bi="'+i+'" data-bk="text" data-ph="Text der Bedingung"></td>'+
+    '<td class="bx noprint"><button type="button" data-bup="'+i+'" title="nach oben"'+(i===0?" disabled":"")+'>▲</button>'+
+    '<button type="button" data-bdown="'+i+'" title="nach unten"'+(i===L.length-1?" disabled":"")+'>▼</button>'+
+    '<button type="button" data-bdel="'+i+'" title="Zeile löschen">×</button></td></tr>').join("");
+  tb.querySelectorAll("[data-bk]").forEach(td=>{ td.textContent=(L[+td.dataset.bi]||{})[td.dataset.bk]||""; });
+  bl.classList.toggle("leer", L.every(bedZeileLeer));
+}
+document.getElementById("bedRows").addEventListener("input",e=>{
+  const td=e.target.closest("[data-bk]"); if(!td) return;
+  const b=state.bedingungen[+td.dataset.bi]; if(!b) return;
+  b[td.dataset.bk]=td.innerText.replace(/\u00a0/g," ");
+  td.parentNode.classList.toggle("leer", bedZeileLeer(b));   // leere Zeilen werden nicht gedruckt
+  document.getElementById("bedBlock").classList.toggle("leer", state.bedingungen.every(bedZeileLeer));
+  save();
+});
+document.getElementById("bedRows").addEventListener("keydown",e=>{
+  const td=e.target.closest('[data-bk="titel"]');
+  if(td && e.key==="Enter"){ e.preventDefault(); const n=td.parentNode.querySelector('[data-bk="text"]'); if(n) n.focus(); }   // Bezeichnung einzeilig
+});
+document.getElementById("bedRows").addEventListener("click",e=>{
+  const up=e.target.closest("[data-bup]"), dn=e.target.closest("[data-bdown]"), del=e.target.closest("[data-bdel]"), L=state.bedingungen;
+  if(up){ const i=+up.dataset.bup; if(i>0){ [L[i-1],L[i]]=[L[i],L[i-1]]; renderBedingungen(); save(); } return; }
+  if(dn){ const i=+dn.dataset.bdown; if(i<L.length-1){ [L[i+1],L[i]]=[L[i],L[i+1]]; renderBedingungen(); save(); } return; }
+  if(del){ L.splice(+del.dataset.bdel,1); renderBedingungen(); save(); }
+});
+document.getElementById("btnBedAdd").addEventListener("click",()=>{
+  if(!Array.isArray(state.bedingungen)) state.bedingungen=[];
+  state.bedingungen.push({ titel:"", text:"" }); renderBedingungen(); save();
+  const z=document.querySelector('#bedRows tr:last-child [data-bk="titel"]'); if(z) z.focus();
+});
+document.getElementById("btnBedingungen").addEventListener("click",()=>{
+  const V=appData.bedingungenVorlage||[];
+  state.bedingungen=V.length?structuredClone(V):[{ titel:"", text:"" }];
+  renderBedingungen(); save();
+  const bl=document.getElementById("bedBlock"), z=bl.querySelector('[data-bk="titel"]');
+  if(!V.length&&z) z.focus(); else bl.scrollIntoView({block:"nearest"});
+});
+document.getElementById("btnBedWeg").addEventListener("click",()=>{
+  const V=appData.bedingungenVorlage||[];
+  if(!state.bedingungen.every(bedZeileLeer) && !confirm("Die Tabelle „Bedingungen und Hinweise“ aus diesem Angebot entfernen?"+(V.length?"\n\nDeine Standard-Bedingungen bleiben gespeichert.":""))) return;
+  state.bedingungen=[]; renderBedingungen(); save();
+});
+document.getElementById("btnBedStandard").addEventListener("click",()=>{
+  const L=(state.bedingungen||[]).filter(b=>!bedZeileLeer(b)).map(b=>({ titel:String(b.titel||"").trim(), text:String(b.text||"").trim() }));
+  const h=document.getElementById("saveHint");
+  if(!L.length && !(appData.bedingungenVorlage||[]).length){ if(h) h.textContent="Erst Bedingungen eintragen, dann als Standard speichern"; return; }
+  if(!confirm(L.length?"Diese "+L.length+(L.length===1?" Bedingung":" Bedingungen")+" als Standard speichern?\n\n„+ Bedingungen“ fügt sie dann mit einem Klick in ein Angebot ein. Bestehende Angebote ändern sich nicht."
+    :"Die Tabelle ist leer. Die gespeicherten Standard-Bedingungen löschen?")) return;
+  appData.bedingungenVorlage=L; saveApp();
+  if(h) h.textContent=L.length?"✓ Standard-Bedingungen gespeichert":"✓ Standard-Bedingungen gelöscht";
 });
 // Tabellenzellen
 document.getElementById("rows").addEventListener("input",e=>{
@@ -2946,7 +3037,7 @@ function trashItem(type,item,label){
   appData.trash.unshift({id:"t"+Date.now()+"_"+Math.round(Math.random()*1e6), ts:Date.now(), type, label, data:JSON.parse(JSON.stringify(item))});
   while(appData.trash.length>1000) trashBelegeLoeschen(appData.trash.pop());
 }
-const TRASH_LABELS={archive:"Dokument",customer:"Kunde",expense:"Ausgabe",fixkosten:"Fixkosten",kasse:"Kassenbuch",stunden:"Stundeneintrag",material:"Material",kalkulation:"Kalkulation",lieferant:"Lieferant",maschine:"Maschine",mitarbeiter:"Mitarbeiter",projekt:"Projekt"};
+const TRASH_LABELS={archive:"Dokument",customer:"Kunde",expense:"Ausgabe",fixkosten:"Fixkosten",kasse:"Kassenbuch",stunden:"Stundeneintrag",material:"Material",kalkulation:"Kalkulation",lieferant:"Lieferant",maschine:"Maschine",mitarbeiter:"Mitarbeiter",projekt:"Projekt",artikel:"Artikel",textbaustein:"Textbaustein"};
 function renderTrash(){
   const tb=document.getElementById("trashRows");
   if(!appData.trash.length){ tb.innerHTML='<tr><td colspan="5" class="empty">Der Papierkorb ist leer.</td></tr>'; return; }
@@ -2975,7 +3066,12 @@ function restoreTrash(id){
   else if(t.type==="maschine") appData.maschinen.push(t.data);
   else if(t.type==="mitarbeiter") appData.mitarbeiter.push(t.data);
   else if(t.type==="projekt") appData.projekte.push(t.data);
-  else if(t.type==="artikel") appData.artikel.push(t.data);
+  else if(t.type==="artikel"){
+    const nm=String((t.data&&t.data.name)||"").trim().toLowerCase();
+    if(appData.artikel.some(x=>x.id===t.data.id||(nm&&String(x.name||"").trim().toLowerCase()===nm))
+       && !confirm("„"+String(t.data.name||"").slice(0,60)+"“ steht inzwischen wieder im Artikelkatalog. Trotzdem wiederherstellen? Dann gibt es den Artikel doppelt.")) return;
+    appData.artikel.push(t.data);
+  }
   else if(t.type==="textbaustein") appData.textbausteine.push(t.data);
   appData.trash=appData.trash.filter(x=>x.id!==id); saveApp(); renderTrash();
 }
@@ -3198,7 +3294,7 @@ function archiveCurrent(skipCustomer){
     docType:state.docType, nummer:nr, datum:state.fields.datum||"",
     kunde:kundeName(), netto:currentNet(), brutto:currentGross(), neukunde:!!state.neukunde,
     snapshot:{docType:state.docType,fields:Object.assign({},state.fields),rows:structuredClone(state.rows),discount:Object.assign({},state.discount),vat:Object.assign({},state.vat),mahnstufe:state.mahnstufe,settings:Object.assign({},state.settings),logo:state.logo,neukunde:!!state.neukunde,
-      zahlung:structuredClone(state.zahlung), bezug:structuredClone(state.bezug)}
+      zahlung:structuredClone(state.zahlung), bezug:structuredClone(state.bezug), bedingungen:structuredClone(state.bedingungen||[])}
   };
   // Schlussrechnung: Archivbetrag = Restbetrag nach Abzug der Anzahlungen (sonst zählen sie doppelt)
   const abz=abzugSumme();
@@ -3349,6 +3445,9 @@ function layoutDocForExport(pageEl){
     if(ch.matches("table.pos")){
       const thead=ch.querySelector("thead"); if(thead) units.push({el:thead,kind:"thead"});
       Array.from(ch.querySelectorAll("#rows > tr")).forEach(tr=>units.push({el:tr,kind:"row"}));
+    } else if(ch.classList.contains("bedingungen")){
+      const kopf=ch.querySelector(".bed-kopf"); if(kopf) units.push({el:kopf,kind:"block",keepNext:true});
+      Array.from(ch.querySelectorAll("#bedRows > tr")).forEach(tr=>units.push({el:tr,kind:"row"}));
     } else {
       units.push({el:ch,kind:"block"});
     }
@@ -3378,7 +3477,10 @@ function layoutDocForExport(pageEl){
     const u=units[k];
     if(!visible(u.el)) continue;
     // Titelzeile zusammen mit der ersten Position darunter umbrechen, damit sie nicht allein am Seitenende steht
-    const nx=(u.kind==="row"&&u.el.classList.contains("row-titel"))?units[k+1]:null;
+    // (ausgeblendete Zeilen, z. B. leere Bedingungen, überspringen)
+    const halten=(u.kind==="row"&&u.el.classList.contains("row-titel"))||u.keepNext;
+    let j=k+1; if(halten) while(j<units.length&&!visible(units[j].el)) j++;
+    const nx=halten?units[j]:null;
     const top=topOf(u.el), bot=(nx&&nx.kind==="row"&&visible(nx.el))?botOf(nx.el):botOf(u.el), h=bot-top;
     const startPage=Math.floor((top+0.5)/PAGE_PX), endPage=Math.floor((bot-0.5)/PAGE_PX);
     if(endPage<=startPage) continue;                     // passt komplett auf eine Seite → nichts tun
@@ -3972,6 +4074,7 @@ function loadSnapshot(s){
   state.neukunde=!!s.neukunde;
   state.zahlung=normZahlung(s.zahlung);
   state.bezug=normBezug(s.bezug);
+  state.bedingungen=structuredClone(Array.isArray(s.bedingungen)?s.bedingungen:[]);
   state.settings=Object.assign({},defaults.settings,s.settings||{});
   state.logo=s.logo||null;
   renderAll(); save();
@@ -5467,8 +5570,29 @@ document.getElementById("tbPickList").addEventListener("click",e=>{
 // Position als Artikel speichern (☆ bei der Position)
 function zeileAlsArtikel(i){
   const r=state.rows[i]; if(!r) return;
-  const name=String(r.bez||"").trim(); if(!name){ alert("Bitte zuerst eine Bezeichnung eintragen."); return; }
   if(!Array.isArray(appData.artikel)) appData.artikel=[];
+  // Stern schon aktiv: zweiter Klick nimmt den Artikel wieder aus dem Katalog (in den Papierkorb, wiederherstellbar).
+  // Weichen Preis oder Einheit der Position ab, wird vorher das Aktualisieren des Katalogs angeboten.
+  const verkn=r.artId?appData.artikel.find(x=>x.id===r.artId):null;
+  if(verkn){
+    const preis=String(r.preis||"").trim(), einheit=String(r.einheit||"").trim();
+    const anders=(preis!=="" && Math.abs(parseNum(preis)-parseNum(verkn.preis))>0.004) || (einheit!=="" && einheit!==String(verkn.einheit||"").trim());
+    if(anders && confirm("Preis bzw. Einheit dieser Position weichen vom Artikelkatalog ab.\n\n„"+String(verkn.name||"").slice(0,60)+"“ dort mit dieser Position aktualisieren?\n\nAbbrechen: Danach fragt die App, ob der Artikel aus dem Katalog entfernt werden soll.")){
+      verkn.einheit=r.einheit||verkn.einheit||""; verkn.preis=preis;
+      saveApp(); save();
+      const h=document.getElementById("saveHint"); if(h) h.textContent="✓ „"+String(verkn.name||"").slice(0,40)+"“ im Artikelkatalog aktualisiert";
+      return;
+    }
+    if(!confirm("„"+String(verkn.name||"").slice(0,60)+"“ wieder aus dem Artikelkatalog entfernen?\n\nDer Artikel kommt in den Papierkorb und lässt sich von dort wiederherstellen. Die Position in diesem Beleg bleibt, wie sie ist.")) return;
+    trashItem("artikel", verkn, verkn.name||"");
+    appData.artikel=appData.artikel.filter(x=>x.id!==verkn.id);
+    state.rows.forEach(z=>{ if(z&&z.artId===verkn.id) delete z.artId; });
+    saveApp(); save();
+    const h=document.getElementById("saveHint"); if(h) h.textContent="✓ „"+String(verkn.name||"").slice(0,40)+"“ aus dem Artikelkatalog entfernt";
+    return;
+  }
+  if(r.artId) delete r.artId;   // Artikel gibt es nicht mehr (z. B. im Katalog gelöscht): neu speichern
+  const name=String(r.bez||"").trim(); if(!name){ alert("Bitte zuerst eine Bezeichnung eintragen."); return; }
   const vorh=appData.artikel.find(x=>String(x.name||"").trim().toLowerCase()===name.toLowerCase());
   if(vorh){
     if(!confirm("„"+name+"“ steht schon im Artikelkatalog. Einheit und Preis dort mit dieser Position überschreiben?")) return;
