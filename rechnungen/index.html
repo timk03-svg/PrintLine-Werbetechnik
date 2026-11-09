@@ -979,7 +979,7 @@ body.dark .mat-dubl-hinweis{background:#3a2f1a;color:#f0d9a8;border-color:#5c4a2
 
 <!-- Werkzeugleiste -->
 <div class="toolbar noprint">
-  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-11-02 · Update</span></div>
+  <div class="brand"><span class="dot"></span>PrintLine<span style="font-size:10px;font-weight:600;color:#9aa3b2;margin-left:8px;letter-spacing:.3px;" title="Programmstand – beim Neuladen muss diese Zahl steigen">Online · 2026-11-09 · Update</span></div>
   <button class="btn iconbtn" id="btnUndo" title="Rückgängig (Cmd+Z)" disabled>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-1"/></svg>Zurück
   </button>
@@ -2700,12 +2700,15 @@ function renderKuHinweis(){
   el.classList.toggle("an", KLEINUNTERNEHMER && !(state.vat&&state.vat.on) && !hatKuSatz(feld ? feld.textContent : state.fields.hinweis));
 }
 
+// auf volle Cent runden (kaufmännisch, auch bei negativen Beträgen; der Zuschlag fängt Gleitkomma-Reste wie 90,99499… ab)
+function cent(n){ n=+n||0; return Math.sign(n)*Math.round(Math.abs(n)*100+1e-6)/100; }
 // aktualisiert nur die Beträge (ohne die Prozent-Eingabefelder neu zu bauen)
 function updateTotalsAmounts(){
-  const rab=state.discount.on?lastNet*parseNum(state.discount.percent)/100:0;
-  const netAfter=lastNet-rab;
-  const mwst=state.vat.on?netAfter*parseNum(state.vat.rate)/100:0;
-  const brutto=netAfter+mwst;
+  // Rabatt erst auf Cent runden, dann abziehen: angezeigter Rabatt + Gesamtbetrag ergeben genau die Zwischensumme
+  const rab=state.discount.on?cent(lastNet*parseNum(state.discount.percent)/100):0;
+  const netAfter=state.discount.on?cent(lastNet-rab):lastNet;
+  const mwst=state.vat.on?cent(netAfter*parseNum(state.vat.rate)/100):0;
+  const brutto=cent(netAfter+mwst);
   const set=(id,v)=>{const el=document.getElementById(id); if(el) el.textContent=v;};
   set("zwiEur",euro.format(lastNet));
   set("rabEur",(rab<0?"+":"−")+euro.format(Math.abs(rab)));   // negative Summe (Storno/Korrektur): Rabatt mindert die Gutschrift
@@ -3280,8 +3283,8 @@ function renderNeukunde(){
 
 // Beim PDF-Speichern automatisch in den Verlauf legen
 function kundeName(){ return (state.fields.empfaenger||"").split("\n")[0].trim()||"—"; }
-function currentNet(){ const p=parseNum(state.discount.percent); return state.discount.on?lastNet-lastNet*p/100:lastNet; }
-function currentGross(){ const net=currentNet(); return state.vat.on ? net*(1+parseNum(state.vat.rate)/100) : net; }
+function currentNet(){ const p=parseNum(state.discount.percent); return state.discount.on?cent(lastNet-cent(lastNet*p/100)):lastNet; }
+function currentGross(){ const net=currentNet(); return state.vat.on ? cent(net+cent(net*parseNum(state.vat.rate)/100)) : net; }
 function archiveCurrent(skipCustomer){
   recalc();
   const nr=state.fields.nummer||"";
@@ -3436,7 +3439,8 @@ function layoutDocForExport(pageEl){
   const pageTop=()=>pageEl.getBoundingClientRect().top;
   const topOf=(el)=>el.getBoundingClientRect().top - pageTop();
   const botOf=(el)=>el.getBoundingClientRect().bottom - pageTop();
-  const visible=(el)=>getComputedStyle(el).display!=="none" && el.getBoundingClientRect().height>0;
+  const css=(el)=>el.ownerDocument.defaultView.getComputedStyle(el);   // läuft auch im html2canvas-Klon (eigenes Dokument)
+  const visible=(el)=>css(el).display!=="none" && el.getBoundingClientRect().height>0;
 
   // Zusammenhängende Blöcke in Fluss-Reihenfolge (Positionstabelle → Kopf + Einzelzeilen; .docfoot inkl.)
   const units=[];
@@ -3456,8 +3460,8 @@ function layoutDocForExport(pageEl){
   const addSpacer=(u,px)=>{
     px=Math.max(0,Math.round(px)); if(px<1) return;
     if(u.kind==="row"){
-      const tr=document.createElement("tr");
-      const td=document.createElement("td"); td.setAttribute("colspan","7");
+      const tr=u.el.ownerDocument.createElement("tr");
+      const td=u.el.ownerDocument.createElement("td"); td.setAttribute("colspan","7");
       td.style.cssText="padding:0;border:none;height:"+px+"px;";
       tr.appendChild(td); u.el.parentNode.insertBefore(tr,u.el);
       cleanups.push(()=>{ tr.remove(); });
@@ -3467,7 +3471,7 @@ function layoutDocForExport(pageEl){
       cleanups.push(()=>{ tbl.style.marginTop=prev; });
     } else {
       const el=u.el; const prev=el.style.marginTop;
-      const base=parseFloat(getComputedStyle(el).marginTop)||0;
+      const base=parseFloat(css(el).marginTop)||0;
       el.style.marginTop=(base+px)+"px";
       cleanups.push(()=>{ el.style.marginTop=prev; });
     }
@@ -3493,6 +3497,9 @@ function layoutDocForExport(pageEl){
   }
   return ()=>{ cleanups.reverse().forEach(fn=>{ try{fn();}catch(e){} }); };
 }
+// Umbruch im html2canvas-Klon setzen (onclone): Dort wird genau das gemessen, was gerastert wird. Live gemessen
+// wichen die Abstände ab, und html2pdfs eigene Umbruch-Vermeidung schob dann zusätzlich Lücken in die Tabellen.
+function layoutImKlon(ref){ const pg=ref&&ref.querySelector&&ref.querySelector("#page, .page"); if(pg) layoutDocForExport(pg); }
 function downloadPDF(){
   if(typeof html2pdf==="undefined"){ alert("PDF-Bibliothek nicht geladen."); return; }
   blurActive();
@@ -3518,10 +3525,11 @@ function downloadPDF(){
   }
   // onclone sorgt dafür, dass im gerenderten Klon die Export-Regeln WIRKLICH greifen
   // (leere Felder zusammenfallen, keine Platzhalter) – sonst rendert html2canvas zu hoch.
-  const onclone=(doc)=>{
+  const onclone=(doc,ref)=>{
     doc.body.classList.add("exporting");
     hideEmptyOptional(doc);
     doc.querySelectorAll("[data-ph]").forEach(e=>{ if(!e.textContent.trim()) e.removeAttribute("data-ph"); });
+    if(isDoc) layoutImKlon(ref);   // feste Seitenhöhe: Blöcke ganz auf die nächste Seite
   };
   const opt={
     margin,
@@ -3529,14 +3537,12 @@ function downloadPDF(){
     image:{type:"jpeg",quality:0.98},
     html2canvas:{scale:4,useCORS:true,backgroundColor:"#ffffff",windowWidth:el.scrollWidth,onclone},
     jsPDF:{unit:"mm",format:"a4",orientation:"portrait"},
-    // Dokument: Umbruch setzt layoutDocForExport() deterministisch VOR dem Rendern (Abstandshalter je
-    // Block), html2pdf rastert nur noch in gleich hohe Seiten. Listen-Ansichten: Zeilen/Panels vermeiden.
-    pagebreak: isDoc ? {mode:["css"]} : {mode:["css","legacy"],avoid:["tr",".head-row",".totals-box"]}
+    // Dokument: Umbruch setzt layoutDocForExport() im Klon (onclone), html2pdf rastert nur noch in gleich
+    // hohe Seiten – ohne eigene Umbruch-Logik. Listen-Ansichten: Zeilen/Panels vermeiden.
+    pagebreak: isDoc ? {mode:[]} : {mode:["css","legacy"],avoid:["tr",".head-row",".totals-box"]}
   };
-  let footCleanup=null;
-  const done=()=>{ if(footCleanup) footCleanup(); document.body.classList.remove("exporting"); if(restore) restore(); if(wasDark) document.body.classList.add("dark"); };
+  const done=()=>{ document.body.classList.remove("exporting"); if(restore) restore(); if(wasDark) document.body.classList.add("dark"); };
   setTimeout(()=>{
-    if(isDoc) footCleanup=layoutDocForExport(el);   // feste Seitenhöhe: Blöcke ganz auf die nächste Seite
     html2pdf().set(opt).from(el).save().then(done,done);
   },60);
 }
@@ -3618,7 +3624,7 @@ function zugferdXML(inv){
       </ram:SpecifiedLineTradeSettlement>
     </ram:IncludedSupplyChainTradeLineItem>`;
   });
-  const docRab=(inv.discount&&inv.discount.on)?Math.round(lineSum*zNum(inv.discount.percent)/100*100)/100:0;
+  const docRab=(inv.discount&&inv.discount.on)?cent(lineSum*zNum(inv.discount.percent)/100):0;   // wie in der Anzeige gerundet
   const basis=Math.round((lineSum-docRab)*100)/100;
   const steuer=klein?0:Math.round(basis*satz/100*100)/100;
   const gesamt=Math.round((basis+steuer)*100)/100;
@@ -3792,14 +3798,14 @@ function zRenderRechnungBytes(){
     blurActive(); const el=document.getElementById("page"); switchView("doc");
     const wasDark=document.body.classList.contains("dark"); if(wasDark) document.body.classList.remove("dark");
     document.body.classList.add("exporting");
-    const onclone=(d)=>{ d.body.classList.add("exporting"); hideEmptyOptional(d);
-      d.querySelectorAll("[data-ph]").forEach(e=>{ if(!e.textContent.trim()) e.removeAttribute("data-ph"); }); };
+    const onclone=(d,ref)=>{ d.body.classList.add("exporting"); hideEmptyOptional(d);
+      d.querySelectorAll("[data-ph]").forEach(e=>{ if(!e.textContent.trim()) e.removeAttribute("data-ph"); });
+      layoutImKlon(ref); };
     const opt={ margin:[DOC_MT,0,DOC_MB,0], filename:pdfFileName("doc")+".pdf", image:{type:"jpeg",quality:0.98},
       html2canvas:{scale:4,useCORS:true,backgroundColor:"#ffffff",windowWidth:el.scrollWidth,onclone},
-      jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}, pagebreak:{mode:["css"]} };
-    let footCleanup=null;
-    const restore=()=>{ if(footCleanup) footCleanup(); if(wasDark) document.body.classList.add("dark"); };
-    setTimeout(()=>{ footCleanup=layoutDocForExport(el);
+      jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}, pagebreak:{mode:[]} };
+    const restore=()=>{ if(wasDark) document.body.classList.add("dark"); };
+    setTimeout(()=>{
       html2pdf().set(opt).from(el).outputPdf("arraybuffer").then(buf=>{ restore(); resolve({buf,filename:opt.filename}); },
         e=>{ restore(); reject(e); });
     },60);
