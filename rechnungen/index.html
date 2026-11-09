@@ -12,7 +12,42 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" href="favicon.ico?v=2" sizes="any">
 <link rel="icon" type="image/png" href="favicon.png?v=2">
-<script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}</script>
+<script>
+/* Service Worker registrieren und neue Versionen von selbst übernehmen – auch wenn die App lange im Hintergrund
+   offen war (iPhone). Beim Zurückholen fragt sie nach einem neuen sw.js. Übernimmt der neue Service Worker, lädt
+   die Seite neu, sofern gerade nichts bearbeitet wird; sonst erscheint ein Hinweis mit „Jetzt neu laden“. */
+(function(){
+  if(!("serviceWorker" in navigator)) return;
+  var sw=navigator.serviceWorker, hatteVersion=!!sw.controller, neu=false, zuletzt=0;
+  window.addEventListener("load",function(){ sw.register("sw.js").catch(function(){}); });
+  function beschaeftigt(){
+    var a=document.activeElement;
+    if(a&&(a.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))) return true;   // es wird getippt
+    if(document.body&&document.body.classList.contains("exporting")) return true;            // PDF wird erstellt
+    return !!document.querySelector(".open, dialog[open], #plSyncBanner");                   // Dialog oder Sync-Hinweis offen
+  }
+  function hinweis(){
+    if(!document.body||document.getElementById("plUpdBanner")) return;
+    var b=document.createElement("div"); b.id="plUpdBanner"; b.className="noprint";
+    b.style.cssText="position:fixed;left:50%;top:14px;transform:translateX(-50%);z-index:99998;background:#1f2937;color:#fff;padding:10px 14px;border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.3);font:14px/1.3 system-ui,sans-serif;display:flex;gap:10px;align-items:center";
+    var t=document.createElement("span"); t.textContent="Neue Version der App verfügbar";
+    var k=document.createElement("button"); k.type="button"; k.textContent="Jetzt neu laden";
+    k.style.cssText="background:#22c55e;color:#03210f;border:0;border-radius:8px;padding:6px 10px;font-weight:600;cursor:pointer";
+    k.onclick=function(){ location.reload(); };
+    b.appendChild(t); b.appendChild(k); document.body.appendChild(b);
+  }
+  function anwenden(){ if(!neu) return; if(beschaeftigt()){ hinweis(); return; } neu=false; location.reload(); }
+  function pruefen(){
+    if(document.hidden) return;
+    var j=Date.now(); if(j-zuletzt<60000) return; zuletzt=j;   // höchstens einmal pro Minute nachfragen
+    sw.getRegistration().then(function(r){ if(r) return r.update(); }).catch(function(){});
+  }
+  sw.addEventListener("controllerchange",function(){ if(!hatteVersion){ hatteVersion=true; return; } neu=true; anwenden(); });   // Erstinstallation: nicht neu laden
+  document.addEventListener("visibilitychange",function(){ if(!document.hidden){ pruefen(); anwenden(); } });
+  window.addEventListener("focus",function(){ pruefen(); anwenden(); });
+  setInterval(function(){ pruefen(); anwenden(); }, 30*60*1000);
+})();
+</script>
 <title>Angebote &amp; Rechnungen</title>
 <style id="pageStyle">
   @page { size: A4; margin: 45mm 20mm 18mm 20mm; }
